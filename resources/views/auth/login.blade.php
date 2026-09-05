@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk &mdash; SIRA')
+@section('title', 'Masuk — SIRA')
 
 @section('content')
 <div class="max-w-md mx-auto py-16 sm:py-24 px-4 relative">

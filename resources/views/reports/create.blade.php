@@ -38,8 +38,8 @@
                     <input type="file" id="photoInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
                     
                     <div id="uploadPlaceholder" class="space-y-2">
-                        <div class="w-12 h-12 rounded-2xl bg-white dark:bg-[#222222] shadow-sm flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400 text-xl border border-slate-200 dark:border-[#333333]">
-                            📷
+                        <div class="w-12 h-12 rounded-2xl bg-white dark:bg-[#222222] shadow-sm flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400 border border-slate-200 dark:border-[#333333]">
+                            <flux:icon name="camera" class="w-6 h-6" />
                         </div>
                         <div class="text-sm font-semibold text-slate-800 dark:text-[#EDEDEC]">
                             Klik atau seret foto ke sini untuk mengunggah
@@ -99,7 +99,8 @@
                         <p class="text-xs text-slate-400 dark:text-[#787774]">Geser pin pada peta atau klik tombol deteksi GPS di bawah.</p>
                     </div>
                     <button type="button" id="btnGeolocate" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#282828] active:bg-slate-300 text-slate-700 dark:text-[#EDEDEC] font-semibold text-xs rounded-xl transition">
-                        <span>📍 Deteksi Lokasi Saya (GPS)</span>
+                        <flux:icon name="viewfinder-circle" class="w-3.5 h-3.5 text-slate-600 dark:text-[#EDEDEC] shrink-0" />
+                        <span id="btnGeolocateText">Deteksi Lokasi Saya (GPS)</span>
                     </button>
                 </div>
 
@@ -112,7 +113,7 @@
 
                 <!-- Tampilan Alamat Terdeteksi Otomatis -->
                 <div class="mt-3 p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs flex items-start space-x-3">
-                    <span class="text-emerald-700 dark:text-emerald-400 text-base">📌</span>
+                    <flux:icon name="map-pin" class="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
                     <div class="flex-1 min-w-0">
                         <div class="font-bold text-emerald-950 dark:text-emerald-200" id="displayAddress">
                             Mengambil data wilayah...
@@ -293,10 +294,11 @@
             return;
         }
 
-        this.innerText = '⏳ Mendeteksi lokasi GPS...';
+        const btnText = document.getElementById('btnGeolocateText');
+        if (btnText) btnText.innerText = 'Mendeteksi lokasi GPS...';
         navigator.geolocation.getCurrentPosition(
             (pos) => {
-                this.innerText = '📍 Deteksi Lokasi Saya (GPS)';
+                if (btnText) btnText.innerText = 'Deteksi Lokasi Saya (GPS)';
                 const lat = pos.coords.latitude;
                 const lng = pos.coords.longitude;
                 map.flyTo({ center: [lng, lat], zoom: 16 });
@@ -304,7 +306,7 @@
                 updateCoordinates(lat, lng);
             },
             (err) => {
-                this.innerText = '📍 Deteksi Lokasi Saya (GPS)';
+                if (btnText) btnText.innerText = 'Deteksi Lokasi Saya (GPS)';
                 alert('Gagal mengambil titik GPS: ' + err.message);
             },
             { enableHighAccuracy: true, timeout: 8000 }

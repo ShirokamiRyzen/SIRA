@@ -58,7 +58,7 @@
         <!-- Kontrol Lokasi Saya (Pojok Kanan Atas) -->
         <div class="absolute top-6 right-6 z-10">
             <button type="button" id="btnMyLoc" class="px-3.5 py-2 rounded-xl bg-white/90 hover:bg-white dark:bg-[#1E1E1E]/90 dark:hover:bg-[#252525] text-slate-800 dark:text-[#EDEDEC] font-bold text-xs shadow-md border border-slate-200 dark:border-[#333333] flex items-center space-x-1.5 backdrop-blur-md transition">
-                <span>🎯</span>
+                <flux:icon name="viewfinder-circle" class="w-3.5 h-3.5 text-slate-700 dark:text-[#EDEDEC] shrink-0" />
                 <span>Pusatkan Lokasi Saya</span>
             </button>
         </div>

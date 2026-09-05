@@ -126,65 +126,128 @@ class DummyDataSeeder extends Seeder
         // 4. Dataset 12 Template Masalah Satir
         // -------------------------------------------------------------
         $satiricalTemplates = [
+            // Kategori: Jalan Berlubang
             [
+                'category' => 'Jalan Berlubang',
                 'tag' => 'Wisata Aspal',
                 'title' => 'Wahana Wisata Kolam Lele Baru di Tengah Aspal Jalan',
                 'desc' => 'Pemerintah sangat visioner! Lubang jalan berdiameter 1 meter ini sengaja dibiarkan berbulan-bulan tanpa tambalan agar warga bisa budidaya ikan lele mandiri demi ketahanan pangan lokal. Terima kasih atas wahana rekreasi air gratisnya.',
+                'short_label' => 'Wahana Kolam Lele Aspal',
+                'theme' => '#ef4444',
+                'bg_dark' => '#18181b',
             ],
             [
-                'tag' => 'Monumen Gelap',
-                'title' => 'Monumen Tiang Lampu Estetik Futuristik Tanpa Aliran Listrik',
-                'desc' => 'Desain tiang lampunya sangat artistik bergaya victoria eropa, sayangnya tidak pernah menyala sekalipun sejak seremoni gunting pita 8 bulan lalu. Sangat cocok untuk menguji nyali uji keberanian warga di malam hari.',
-            ],
-            [
-                'tag' => 'Hak Pejalan Kaki',
-                'title' => 'Trotoar Khusus Parkir Mobil Mewah dan Gerobak Gorengan',
-                'desc' => 'Trotoar yang dibangun dengan anggaran miliaran rupiah ini sangat ramah pejalan kaki, asalkan pejalan kakinya mampu melompati kap mobil dan uap minyak panas gorengan. Pejalan kaki mohon tahu diri jangan mengganggu lapak parkir.',
-            ],
-            [
-                'tag' => 'Arung Jeram Gratis',
-                'title' => 'Wahana Waterboom Alami Setiap Hujan Turun Lebih dari 15 Menit',
-                'desc' => 'Sistem drainase dirancang istimewa agar air tidak lekas surut ke laut, melainkan memanjakan warga dengan sensasi arung jeram setinggi lutut di ruang tamu masing-masing.',
-            ],
-            [
+                'category' => 'Jalan Berlubang',
                 'tag' => 'Proyek Abadi',
                 'title' => 'Proyek Gali Tutup Gali Aspal Abadi Tiada Henti',
                 'desc' => 'Minggu lalu baru selesai diaspal mulus dengan bangga, minggu ini digali lagi buat kabel, minggu depan rencana digali pipa air. Sebuah siklus ekonomi sirkular tiada tara demi kelangsungan hidup para vendor tersayang.',
+                'short_label' => 'Proyek Gali Tutup Aspal',
+                'theme' => '#f97316',
+                'bg_dark' => '#18181b',
             ],
             [
-                'tag' => 'Uji Adrenalin',
-                'title' => 'Zebra Cross Khusus Pejalan Kaki yang Memiliki Nyawa Cadangan',
-                'desc' => 'Marka penyeberangan diletakkan tepat di tikungan buta tanpa rambu peringatan. Didedikasikan khusus untuk warga yang sudah siap menjemput ajal dan tidak takut ditabrak truk tronton.',
-            ],
-            [
-                'tag' => 'Pohon Keramat',
-                'title' => 'Pohon Rindang Penjaga Tradisi Belum Dipangkas Sejak Musim Lalu',
-                'desc' => 'Dahan pohon tua sudah melengkung anggun menyentuh kabel optik dan kepala sopir pick-up. Warga sengaja tidak memangkas karena masih menunggu dinas terkait menyelesaikan rapat koordinasi lintas sektoral jilid ke-4.',
-            ],
-            [
+                'category' => 'Jalan Berlubang',
                 'tag' => 'Kearifan Lokal',
                 'title' => 'Tutup Manhole Gorong-Gorong Diganti Ranting Pohon Beringin Estetik',
                 'desc' => 'Tutup besi gorong-gorong lenyap entah ke mana. Sebagai gantinya, warga gotong royong menancapkan ranting pohon lengkap dengan plastik kresek merah berkibar sebagai sensor peringatan ultra-canggih.',
+                'short_label' => 'Manhole Ditutup Ranting',
+                'theme' => '#eab308',
+                'bg_dark' => '#18181b',
             ],
+            // Kategori: Drainase & Banjir
             [
-                'tag' => 'Sauna Alam',
-                'title' => 'Jembatan Penyeberangan Orang (JPO) Konsep Sauna Tropis Terbuka',
-                'desc' => 'Atap jembatan penyeberangan sengaja dibiarkan bolong-bolong agar warga bisa berjemur menyerap vitamin D saat siang bolong dan menikmati mandi air hujan alami saat petang.',
+                'category' => 'Drainase & Banjir',
+                'tag' => 'Arung Jeram Gratis',
+                'title' => 'Wahana Waterboom Alami Setiap Hujan Turun Lebih dari 15 Menit',
+                'desc' => 'Sistem drainase dirancang istimewa agar air tidak lekas surut ke laut, melainkan memanjakan warga dengan sensasi arung jeram setinggi lutut di ruang tamu masing-masing.',
+                'short_label' => 'Waterboom Alami Depan Teras',
+                'theme' => '#0284c7',
+                'bg_dark' => '#0f172a',
             ],
+            // Kategori: Lampu Jalan Padam
             [
-                'tag' => 'Latihan Survival',
-                'title' => 'Taman Bermain Anak Berkonsep Survival Gladiator Extrim',
-                'desc' => 'Perosotan berkarat dengan ujung seng tajam dan ayunan rantai putus satu. Sangat mendidik karakter anak-anak sejak usia dini agar tangguh menghadapi kejamnya dunia nyata.',
+                'category' => 'Lampu Jalan Padam',
+                'tag' => 'Monumen Gelap',
+                'title' => 'Monumen Tiang Lampu Estetik Futuristik Tanpa Aliran Listrik',
+                'desc' => 'Desain tiang lampunya sangat artistik bergaya victoria eropa, sayangnya tidak pernah menyala sekalipun sejak seremoni gunting pita 8 bulan lalu. Sangat cocok untuk menguji nyali uji keberanian warga di malam hari.',
+                'short_label' => 'Penerangan Jalan Padam Total',
+                'theme' => '#eab308',
+                'bg_dark' => '#0b0f19',
             ],
+            // Kategori: Trotoar Rusak
             [
-                'tag' => 'Halte Ghaib',
-                'title' => 'Halte Bus Mewah Tempat Tidur Siang Nyaman Tanpa Ada Bus yang Lewat',
-                'desc' => 'Sebuah mahakarya infrastruktur transportasi publik: halte megah ber-AC alami tanpa ada satupun trayek bus yang melintas selama 2 tahun terakhir.',
+                'category' => 'Trotoar Rusak',
+                'tag' => 'Hak Pejalan Kaki',
+                'title' => 'Trotoar Khusus Parkir Mobil Mewah dan Gerobak Gorengan',
+                'desc' => 'Trotoar yang dibangun dengan anggaran miliaran rupiah ini sangat ramah pejalan kaki, asalkan pejalan kakinya mampu melompati kap mobil dan uap minyak panas gorengan. Pejalan kaki mohon tahu diri jangan mengganggu lapak parkir.',
+                'short_label' => 'Trotoar Beralih Fungsi Parkir',
+                'theme' => '#f97316',
+                'bg_dark' => '#1c1917',
             ],
+            // Kategori: Sampah Liar
             [
+                'category' => 'Sampah Liar',
                 'tag' => 'Sensasi Bromo',
                 'title' => 'Timbunan Debu Vulkanik Proyek yang Tak Kunjung Dibereskan',
                 'desc' => 'Warga sekitar kini tidak perlu jauh-jauh liburan ke Gunung Bromo untuk merasakan sensasi badai debu pasir. Cukup duduk manis di teras rumah sambil batuk berjamaah.',
+                'short_label' => 'Debu & Limbah Proyek Mangkrak',
+                'theme' => '#a8a29e',
+                'bg_dark' => '#141a15',
+            ],
+            [
+                'category' => 'Sampah Liar',
+                'tag' => 'Sampah Liar',
+                'title' => 'Gunung Sampah Liar Estetik Menghiasi Bahu Jalan Protokol',
+                'desc' => 'Tumpukan sampah plastik dan limbah rumah tangga setinggi 2 meter dibiarkan menumpuk berhari-hari hingga memakan separuh badan jalan utama dan menyebarkan bau busuk.',
+                'short_label' => 'Tumpukan Sampah Bahu Jalan',
+                'theme' => '#16a34a',
+                'bg_dark' => '#141a15',
+            ],
+            // Kategori: Fasilitas Umum
+            [
+                'category' => 'Fasilitas Umum',
+                'tag' => 'Uji Adrenalin',
+                'title' => 'Zebra Cross Khusus Pejalan Kaki yang Memiliki Nyawa Cadangan',
+                'desc' => 'Marka penyeberangan diletakkan tepat di tikungan buta tanpa rambu peringatan. Didedikasikan khusus untuk warga yang sudah siap menjemput ajal dan tidak takut ditabrak truk tronton.',
+                'short_label' => 'Zebra Cross Blind Spot',
+                'theme' => '#ef4444',
+                'bg_dark' => '#18181b',
+            ],
+            [
+                'category' => 'Fasilitas Umum',
+                'tag' => 'Pohon Keramat',
+                'title' => 'Pohon Rindang Penjaga Tradisi Belum Dipangkas Sejak Musim Lalu',
+                'desc' => 'Dahan pohon tua sudah melengkung anggun menyentuh kabel optik dan kepala sopir pick-up. Warga sengaja tidak memangkas karena masih menunggu dinas terkait menyelesaikan rapat koordinasi lintas sektoral jilid ke-4.',
+                'short_label' => 'Pohon Rindang Halangi Kabel',
+                'theme' => '#10b981',
+                'bg_dark' => '#141c16',
+            ],
+            [
+                'category' => 'Fasilitas Umum',
+                'tag' => 'Sauna Alam',
+                'title' => 'Jembatan Penyeberangan Orang (JPO) Konsep Sauna Tropis Terbuka',
+                'desc' => 'Atap jembatan penyeberangan sengaja dibiarkan bolong-bolong agar warga bisa berjemur menyerap vitamin D saat siang bolong dan menikmati mandi air hujan alami saat petang.',
+                'short_label' => 'JPO Rusak Tanpa Atap',
+                'theme' => '#f59e0b',
+                'bg_dark' => '#18181b',
+            ],
+            [
+                'category' => 'Fasilitas Umum',
+                'tag' => 'Latihan Survival',
+                'title' => 'Taman Bermain Anak Berkonsep Survival Gladiator Extrim',
+                'desc' => 'Perosotan berkarat dengan ujung seng tajam dan ayunan rantai putus satu. Sangat mendidik karakter anak-anak sejak usia dini agar tangguh menghadapi kejamnya dunia nyata.',
+                'short_label' => 'Fasilitas Bermain Rusak',
+                'theme' => '#ec4899',
+                'bg_dark' => '#1b141a',
+            ],
+            [
+                'category' => 'Fasilitas Umum',
+                'tag' => 'Halte Ghaib',
+                'title' => 'Halte Bus Mewah Tempat Tidur Siang Nyaman Tanpa Ada Bus yang Lewat',
+                'desc' => 'Sebuah mahakarya infrastruktur transportasi publik: halte megah ber-AC alami tanpa ada satupun trayek bus yang melintas selama 2 tahun terakhir.',
+                'short_label' => 'Halte Bus Mangkrak',
+                'theme' => '#6366f1',
+                'bg_dark' => '#141624',
             ],
         ];
 
@@ -336,6 +399,18 @@ class DummyDataSeeder extends Seeder
                     'rebuttal' => 'Disanksi administratif tapi tiap malam puluhan truk tanah tanpa terpal konvoi bebas di depan kantor dishub.',
                 ],
             ],
+            'Sampah Liar' => [
+                [
+                    'root' => 'Bau sampah menyengat sudah seminggu belum diangkut truk dinas kebersihan, lalat dan belatung sampai masuk warung makan warga.',
+                    'buzzer' => 'Warga jangan cuma bisa buang sampah tapi ga mau bayar retribusi! Armada truk sampah terbatas dan sudah dijadwalkan bergilir!',
+                    'rebuttal' => 'Retribusi iuran sampah tiap bulan ditarik bendahara RT/RW kok min! Giliran sampahnya numpuk berhari-hari malah nyalahin warga.',
+                ],
+                [
+                    'root' => 'Tumpukan sampah liar di bahu jalan udah makan separuh jalan raya, pengendara motor harus ngalah masuk ke jalur lawan arah.',
+                    'buzzer' => 'Satgas Kebersihan sudah memasang spanduk larangan membuang sampah! Perilaku oknum warga yang buang sampah sembarangan yang harus diperbaiki!',
+                    'rebuttal' => 'Spanduk larangannya malah ketimbun karung sampah min. Sediakan kontainer bak sampah di sini, jangan cuma modal spanduk!',
+                ],
+            ],
         ];
 
         // Kluster Wilayah Perkotaan (Padat untuk visualisasi Heatmap)
@@ -436,20 +511,9 @@ class DummyDataSeeder extends Seeder
         ];
 
         // -------------------------------------------------------------
-        // 6. Palette Gambar Base64
+        // 6. Generate 1.000 Laporan Dummy Satir Sinkron
         // -------------------------------------------------------------
-        $base64Images = [
-            'data:image/svg+xml;base64,'.base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%"><rect width="600" height="400" fill="#1e293b"/><path d="M50 300 Q150 250 300 290 T550 310" stroke="#334155" stroke-width="14" fill="none"/><circle cx="280" cy="270" r="50" fill="#0f172a" stroke="#ef4444" stroke-width="6"/><text x="280" y="370" fill="#f8fafc" font-family="monospace" font-size="18" font-weight="bold" text-anchor="middle">Wisata Kolam Aspal Bersejarah</text></svg>'),
-            'data:image/svg+xml;base64,'.base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%"><rect width="600" height="400" fill="#14532d"/><polygon points="200,320 250,220 350,220 400,320" fill="#166534"/><circle cx="300" cy="180" r="45" fill="#f59e0b"/><text x="300" y="370" fill="#ffffff" font-family="monospace" font-size="18" font-weight="bold" text-anchor="middle">Sampah Estetik Pembatas Jalan</text></svg>'),
-            'data:image/svg+xml;base64,'.base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%"><rect width="600" height="400" fill="#0f172a"/><line x1="300" y1="50" x2="300" y2="300" stroke="#475569" stroke-width="10"/><circle cx="300" cy="70" r="28" fill="#38bdf8" opacity="0.2"/><text x="300" y="370" fill="#cbd5e1" font-family="monospace" font-size="18" font-weight="bold" text-anchor="middle">Monumen Tiang Gelap Gulita</text></svg>'),
-            'data:image/svg+xml;base64,'.base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%"><rect width="600" height="400" fill="#1e3a8a"/><rect x="0" y="220" width="600" height="180" fill="#1d4ed8"/><text x="300" y="150" fill="#ffffff" font-family="monospace" font-size="22" font-weight="bold" text-anchor="middle">Waterboom Alami Depan Teras</text></svg>'),
-            'data:image/svg+xml;base64,'.base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%"><rect width="600" height="400" fill="#3b0764"/><path d="M100 350 L300 120 L500 350 Z" fill="#581c87"/><rect x="280" y="280" width="40" height="100" fill="#713f12"/><text x="300" y="80" fill="#f3e8ff" font-family="monospace" font-size="18" font-weight="bold" text-anchor="middle">Pohon Keramat Penunggu Kabel</text></svg>'),
-        ];
-
-        // -------------------------------------------------------------
-        // 7. Generate 1.000 Laporan Dummy Satir
-        // -------------------------------------------------------------
-        $this->command?->info('Menyiapkan 1.000 data laporan dummy satir...');
+        $this->command?->info('Menyiapkan 1.000 data laporan dummy satir sinkron...');
 
         $reportsData = [];
         $reportMeta = [];
@@ -459,7 +523,14 @@ class DummyDataSeeder extends Seeder
             $cluster = $clusters[array_rand($clusters)];
             $template = $satiricalTemplates[array_rand($satiricalTemplates)];
             $authorId = $allUserIds[array_rand($allUserIds)];
-            $image = $base64Images[array_rand($base64Images)];
+
+            // Gambar SVG dibuat 100% sinkron dan sesuai dengan kategori serta tema masalah
+            $image = $this->generateReportSvg(
+                $template['category'],
+                $template['short_label'],
+                $template['theme'],
+                $template['bg_dark']
+            );
 
             // Random Jitter koordinat di sekitar kluster
             $latJitter = (mt_rand(-1000, 1000) / 1000) * $cluster['spread'];
@@ -499,9 +570,18 @@ class DummyDataSeeder extends Seeder
             $statuses = ['active', 'active', 'active', 'in_progress', 'resolved'];
             $status = $statuses[array_rand($statuses)];
 
+            // Judul bervariasi secara natural berdasarkan area/wilayah tanpa repetisi #angka
+            $titleVariants = [
+                "{$template['title']} di {$cluster['subdistrict']}",
+                "{$template['title']} ({$cluster['district']})",
+                "{$template['title']} Area {$cluster['city']}",
+                "{$template['title']}",
+            ];
+            $title = $titleVariants[array_rand($titleVariants)];
+
             $reportsData[] = [
                 'user_id' => $authorId,
-                'title' => "{$template['title']} #{$i}",
+                'title' => $title,
                 'description' => "{$template['desc']} Titik koordinat terpantau di sekitar area {$cluster['subdistrict']}.",
                 'image_base64' => $image,
                 'latitude' => $latitude,
@@ -685,7 +765,7 @@ class DummyDataSeeder extends Seeder
                     'report_id' => $rep->id,
                     'user_id' => $siraBot->id,
                     'parent_id' => $userAiPrompt->id,
-                    'content' => "🤖 **Ringkasan SIRA AI:**\n\n• **Masalah Utama:** {$rep->title}.\n• **Status Aspirasi:** Masuk dalam kategori **{$rep->rank_tier} tier** dengan total **{$rep->upvotes_count} dukungan warga**.\n• **Sentimen Diskusi:** Warga menyoroti dampak langsung di lapangan dan lambatnya respon dinas terkait, sementara klarifikasi formal meminta warga bersabar menunggu siklus anggaran.\n• **Rekomendasi:** Perlu percepatan audit lapangan oleh dinas terkait serta transparansi jadwal pengerjaan perbaikan fisik di lokasi.",
+                    'content' => "**Ringkasan SIRA AI:**\n\n• **Masalah Utama:** {$rep->title}.\n• **Status Aspirasi:** Masuk dalam kategori **{$rep->rank_tier} tier** dengan total **{$rep->upvotes_count} dukungan warga**.\n• **Sentimen Diskusi:** Warga menyoroti dampak langsung di lapangan dan lambatnya respon dinas terkait, sementara klarifikasi formal meminta warga bersabar menunggu siklus anggaran.\n• **Rekomendasi:** Perlu percepatan audit lapangan oleh dinas terkait serta transparansi jadwal pengerjaan perbaikan fisik di lokasi.",
                     'created_at' => $userAiPrompt->created_at->copy()->addMinutes(1),
                 ]);
             }
@@ -741,5 +821,67 @@ class DummyDataSeeder extends Seeder
         }
 
         return $geohash;
+    }
+
+    private function generateReportSvg(string $category, string $shortLabel, string $accentColor, string $bgDark = '#121316'): string
+    {
+        $vectorArt = match ($category) {
+            'Jalan Berlubang' => '<path d="M100 350 L260 80 L340 80 L500 350" stroke="#374151" stroke-width="6" fill="none"/>
+                <line x1="300" y1="80" x2="300" y2="160" stroke="#f59e0b" stroke-width="8" stroke-dasharray="16,14"/>
+                <line x1="300" y1="220" x2="300" y2="350" stroke="#f59e0b" stroke-width="8" stroke-dasharray="16,14"/>
+                <ellipse cx="300" cy="275" rx="90" ry="38" fill="#090a0f" stroke="'.$accentColor.'" stroke-width="5"/>
+                <path d="M240 275 Q280 255 360 280" stroke="'.$accentColor.'" stroke-width="3" fill="none" opacity="0.8"/>',
+            'Drainase & Banjir' => '<rect x="0" y="240" width="600" height="160" fill="#0c4a6e" opacity="0.6"/>
+                <path d="M0 260 Q75 230 150 260 T300 260 T450 260 T600 260 L600 400 L0 400 Z" fill="#0284c7" opacity="0.5"/>
+                <path d="M0 290 Q75 270 150 290 T300 290 T450 290 T600 290" stroke="#38bdf8" stroke-width="6" fill="none"/>
+                <rect x="230" y="120" width="140" height="90" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="4"/>
+                <line x1="260" y1="120" x2="260" y2="210" stroke="#64748b" stroke-width="4"/>
+                <line x1="300" y1="120" x2="300" y2="210" stroke="#64748b" stroke-width="4"/>
+                <line x1="340" y1="120" x2="340" y2="210" stroke="#64748b" stroke-width="4"/>',
+            'Lampu Jalan Padam' => '<line x1="300" y1="60" x2="300" y2="330" stroke="#475569" stroke-width="8"/>
+                <path d="M260 100 Q300 50 340 100" stroke="#475569" stroke-width="6" fill="none"/>
+                <circle cx="300" cy="115" r="22" fill="#1e293b" stroke="#eab308" stroke-width="4" stroke-dasharray="6,4"/>
+                <polygon points="275,130 325,130 380,330 220,330" fill="#eab308" opacity="0.06"/>
+                <circle cx="300" cy="330" r="40" fill="#0f172a" stroke="#334155" stroke-width="4"/>',
+            'Sampah Liar' => '<polygon points="200,340 230,220 370,220 400,340" fill="#1c1917" stroke="#78716c" stroke-width="4"/>
+                <path d="M190 220 L410 220 L380 190 L220 190 Z" fill="#292524" stroke="#a8a29e" stroke-width="3"/>
+                <polygon points="240,320 270,250 330,250 360,320" fill="#15803d" opacity="0.7"/>
+                <circle cx="280" cy="200" r="16" fill="#ca8a04" opacity="0.8"/>
+                <polygon points="310,230 345,180 370,230" fill="#b91c1c" opacity="0.8"/>',
+            'Trotoar Rusak' => '<polygon points="80,350 200,100 400,100 520,350" fill="#1e1e24" stroke="#3f3f46" stroke-width="4"/>
+                <line x1="200" y1="180" x2="400" y2="180" stroke="#71717a" stroke-width="2"/>
+                <line x1="160" y1="240" x2="440" y2="240" stroke="#71717a" stroke-width="3"/>
+                <line x1="120" y1="300" x2="480" y2="300" stroke="#71717a" stroke-width="4"/>
+                <polygon points="260,250 320,220 360,270 310,310" fill="#09090b" stroke="#f97316" stroke-width="4"/>',
+            default => '<line x1="50" y1="320" x2="550" y2="320" stroke="#3f3f46" stroke-width="4"/>
+                <line x1="120" y1="280" x2="170" y2="340" stroke="#f8fafc" stroke-width="16"/>
+                <line x1="200" y1="280" x2="250" y2="340" stroke="#f8fafc" stroke-width="16"/>
+                <line x1="280" y1="280" x2="330" y2="340" stroke="#f8fafc" stroke-width="16"/>
+                <line x1="360" y1="280" x2="410" y2="340" stroke="#f8fafc" stroke-width="16"/>
+                <polygon points="300,90 350,180 250,180" fill="#18181b" stroke="'.$accentColor.'" stroke-width="5"/>
+                <line x1="300" y1="125" x2="300" y2="150" stroke="'.$accentColor.'" stroke-width="4"/>
+                <circle cx="300" cy="165" r="2.5" fill="'.$accentColor.'"/>',
+        };
+
+        $escapedLabel = htmlspecialchars($shortLabel, ENT_QUOTES, 'UTF-8');
+        $escapedCategory = htmlspecialchars(strtoupper($category), ENT_QUOTES, 'UTF-8');
+        $pillWidth = strlen($escapedCategory) * 9 + 24;
+
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+            <defs>
+                <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.04"/>
+                </pattern>
+            </defs>
+            <rect width="600" height="400" fill="'.$bgDark.'"/>
+            <rect width="600" height="400" fill="url(#grid)"/>
+            '.$vectorArt.'
+            <rect x="25" y="25" width="'.$pillWidth.'" height="26" rx="5" fill="#18181b" stroke="'.$accentColor.'" stroke-width="1.5"/>
+            <text x="37" y="42" fill="'.$accentColor.'" font-family="ui-monospace, monospace" font-size="11" font-weight="700" letter-spacing="1">'.$escapedCategory.'</text>
+            <rect x="20" y="340" width="560" height="38" rx="6" fill="#09090b" opacity="0.85"/>
+            <text x="300" y="364" fill="#f4f4f5" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" text-anchor="middle">'.$escapedLabel.'</text>
+        </svg>';
+
+        return 'data:image/svg+xml;base64,'.base64_encode($svg);
     }
 }

@@ -6,14 +6,14 @@
                 S
             </span>
             <span class="font-medium text-xs tracking-tight text-[#111111] dark:text-[#EDEDEC]">
-                SIRA &mdash; Sistem Informasi & Rekomendasi Aspirasi Publik
+                SIRA — Sistem Informasi &amp; Rekomendasi Aspirasi Publik
             </span>
         </div>
         <p class="text-xs text-[#787774] dark:text-[#888888]">
             Platform dokumentasi aspirasi warga berbasis OpenFreeMap, kompresi foto base64, dan validasi voting komunitas.
         </p>
-        <div class="text-[10px] font-mono text-[#999999] pt-2">
-            Dokumen Publik &bull; Versi 1.0 &bull; Arsip Terbuka
+        <div class="text-[10px] font-mono text-[#787774] dark:text-[#888888] pt-2">
+            Made with ❤️ by Ingfokan Nama Tim yang Bagus
         </div>
     </div>
 </footer>

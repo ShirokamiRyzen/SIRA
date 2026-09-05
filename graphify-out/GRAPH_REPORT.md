@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-05)
 
 ## Corpus Check
-- 109 files · ~50,416 words
+- 120 files · ~57,205 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 602 nodes · 710 edges · 88 communities (81 shown, 7 thin omitted)
+- 623 nodes · 738 edges · 97 communities (89 shown, 8 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b1731e6d`
+- Built from commit: `78ffa1d2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -65,9 +65,10 @@
 - stack-status.blade.php
 - _comment_item.blade.php
 - show.blade.php
+- OgImageController
 
 ## God Nodes (most connected - your core abstractions)
-1. `Report` - 26 edges
+1. `Report` - 29 edges
 2. `ReportComment` - 17 edges
 3. `User` - 16 edges
 4. `ReportVote` - 12 edges
@@ -79,6 +80,8 @@
 10. `scripts` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `OgImageController` --inherits--> `Controller`  [EXTRACTED]
+  app/Http/Controllers/OgImageController.php → app/Http/Controllers/Controller.php
 - `AuthController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/AuthController.php → app/Http/Controllers/Controller.php
 - `CommentController` --inherits--> `Controller`  [EXTRACTED]
@@ -87,13 +90,11 @@
   app/Http/Controllers/HeatmapController.php → app/Http/Controllers/Controller.php
 - `NotificationController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/NotificationController.php → app/Http/Controllers/Controller.php
-- `ReportController` --inherits--> `Controller`  [EXTRACTED]
-  app/Http/Controllers/ReportController.php → app/Http/Controllers/Controller.php
 
 ## Import Cycles
 - None detected.
 
-## Communities (88 total, 7 thin omitted)
+## Communities (97 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -101,7 +102,7 @@ Nodes (11): A. Validation & HTTP input, B. Controllers & routing, C. Authorizati
 
 ### Community 1 - "composer.json"
 Cohesion: 0.04
-Nodes (44): pestphp/pest-plugin, php-http/discovery, autoload, autoload-dev, psr-4, psr-4, config, allow-plugins (+36 more)
+Nodes (45): pestphp/pest-plugin, php-http/discovery, autoload, autoload-dev, psr-4, psr-4, config, allow-plugins (+37 more)
 
 ### Community 2 - "scripts"
 Cohesion: 0.08
@@ -116,7 +117,7 @@ Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
 ### Community 5 - "ReportComment"
-Cohesion: 0.08
+Cohesion: 0.07
 Nodes (17): ReportComment, ReportVote, User, UserFactory, DatabaseSeeder, DummyDataSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\Factory (+9 more)
 
 ### Community 6 - "Architecture Best Practices"
@@ -124,7 +125,7 @@ Cohesion: 0.18
 Nodes (11): Architecture Best Practices, Depend on Contracts at Boundaries, Extract Focused Business Operations, Follow Framework Conventions, Inject Required Dependencies, Specify a Deterministic Sort Order, Use Atomic Locks for Race Conditions, Use `Concurrency::run()` for Parallel Execution (+3 more)
 
 ### Community 7 - "Security Best Practices"
-Cohesion: 0.18
+Cohesion: 0.17
 Nodes (11): Apply Cross-Site Request Forgery Protection, Audit Dependencies, Authorize Protected Actions, Bind Query Parameters, Control Mass Assignment, Encrypt Sensitive Attributes When Appropriate, Escape Output in Its Context, Keep Secrets Out of Application Code (+3 more)
 
 ### Community 8 - "README.md"
@@ -136,7 +137,7 @@ Cohesion: 0.18
 Nodes (10): Basic Usage, Common Pitfalls, CSS-First Configuration, Dark Mode, Documentation, Import Syntax, Replaced Utilities, Spacing (+2 more)
 
 ### Community 10 - "Advanced Query Best Practices"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Advanced Query Best Practices, Combine Related Counts with Conditional Aggregates, Compare `whereHas()` with an `IN` Subquery, Consider a Correlated Subquery for Has-Many Ordering, Create Dynamic Relationships with a Subquery Foreign Key, Design Composite Indexes for the Query, Measure Two Simple Queries Against One Complex Query, Reuse Loaded Parent Models with `setRelation()` (+1 more)
 
 ### Community 11 - "Migration Best Practices"
@@ -160,7 +161,7 @@ Cohesion: 0.22
 Nodes (8): Add Indexes for Measured Query Patterns, Count Relationships Without Loading Them, Database Performance Best Practices, Eager Load Relationships Before Iterating, Keep Queries Out of Blade Templates, Prevent Lazy Loading in Development, Process Large Data Sets Incrementally, Select Only Needed Columns
 
 ### Community 16 - "Eloquent Best Practices"
-Cohesion: 0.22
+Cohesion: 0.25
 Nodes (8): Apply Global Scopes Sparingly, Cast Date and Time Attributes, Define Attribute Casts, Define Precise Relationship Types, Eloquent Best Practices, Keep Application Queries Model-Aware, Use Local Scopes for Reusable Queries, Use `whereBelongsTo()` for Relationship Queries
 
 ### Community 18 - "Laravel Boost Guidelines"
@@ -184,7 +185,7 @@ Cohesion: 0.22
 Nodes (8): Caching Best Practices, Configure Failover Cache Stores in Production, Consider `Cache::flexible()` for Stale-While-Revalidate, Use `Cache::add()` for Atomic Conditional Writes, Use `Cache::memo()` to Avoid Redundant Hits Within an Execution, Use `Cache::remember()` for Cache-Aside Reads, Use Cache Tags to Invalidate Related Groups, Use `once()` for In-Process Memoization
 
 ### Community 45 - "Error Handling Best Practices"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): Add Context to Exception Classes, Choose Where to Report and Render Exceptions, Define JSON Rendering for API Routes, Error Handling Best Practices, Mark Exceptions the Handler Should Not Report, Prevent Duplicate Reports of One Exception Instance, Throttle High-Volume Exception Reports
 
 ### Community 46 - "Task Scheduling Best Practices"
@@ -268,24 +269,24 @@ Cohesion: 0.40
 Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practices, Rule Index
 
 ## Knowledge Gaps
-- **305 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+300 more)
+- **306 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+301 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Report` connect `Report` to `OgImageController`, `ReportComment`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `Architecture Best Practices` connect `Architecture Best Practices` to `laravel-best-practices/SKILL.md`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `Security Best Practices` connect `Security Best Practices` to `laravel-best-practices/SKILL.md`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `scripts` connect `scripts` to `composer.json`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
   _`Report` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 4 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
   _`User` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `name`, `type` to the rest of the system?**
-  _305 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _306 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `composer.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected._
+- **Should `scripts` be split into smaller, more focused modules?**
+  _Cohesion score 0.08 - nodes in this community are weakly interconnected._

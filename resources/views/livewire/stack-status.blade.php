@@ -24,38 +24,38 @@ $copyCommand = function (string $key) {
             <span class="w-2.5 h-2.5 rounded-full bg-[#E0E0DE] dark:bg-[#333333] inline-block"></span>
             <span class="w-2.5 h-2.5 rounded-full bg-[#E0E0DE] dark:bg-[#333333] inline-block"></span>
             <span class="w-2.5 h-2.5 rounded-full bg-[#E0E0DE] dark:bg-[#333333] inline-block"></span>
-            <span class="ml-2 font-mono text-[11px] text-[#787774] dark:text-[#8E8D8A]">panduan-sistem-sira</span>
+            <span class="ml-2 font-mono text-[11px] text-[#787774] dark:text-[#8E8D8A] truncate max-w-[130px] sm:max-w-none">panduan-sistem-sira</span>
         </div>
         <div class="flex items-center gap-2">
             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-[0.05em] bg-[#EDF3EC] text-[#346538] dark:bg-[#1E2E20] dark:text-[#78C280]">
                 Sistem Siap
             </span>
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-[0.05em] bg-[#E1F3FE] text-[#1F6C9F] dark:bg-[#172B38] dark:text-[#6CB9E8]">
+            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-[0.05em] bg-[#E1F3FE] text-[#1F6C9F] dark:bg-[#172B38] dark:text-[#6CB9E8]">
                 Akses Terbuka
             </span>
         </div>
     </div>
 
     <!-- Workspace Body -->
-    <div class="p-6">
+    <div class="p-4 sm:p-6">
         <!-- Sub-Navigation / Tabs -->
-        <div class="flex items-center gap-1 pb-3 mb-5 border-b border-[#EAEAEA] dark:border-[#262626]">
+        <div class="flex items-center gap-1 pb-3 mb-5 border-b border-[#EAEAEA] dark:border-[#262626] overflow-x-auto">
             <button 
                 type="button" 
                 wire:click="selectTab('ledger')"
-                class="px-3 py-1 text-xs font-mono rounded-[4px] transition-colors {{ $activeTab === 'ledger' ? 'bg-[#111111] text-white dark:bg-[#EDEDED] dark:text-[#111111]' : 'text-[#787774] hover:text-[#111111] dark:text-[#8E8D8A] dark:hover:text-[#EDEDED]' }}">
+                class="px-3 py-1 text-xs font-mono rounded-[4px] whitespace-nowrap shrink-0 transition-colors {{ $activeTab === 'ledger' ? 'bg-[#111111] text-white dark:bg-[#EDEDED] dark:text-[#111111]' : 'text-[#787774] hover:text-[#111111] dark:text-[#8E8D8A] dark:hover:text-[#EDEDED]' }}">
                 01. Alur Konsensus &amp; Vote
             </button>
             <button 
                 type="button" 
                 wire:click="selectTab('ai')"
-                class="px-3 py-1 text-xs font-mono rounded-[4px] transition-colors {{ $activeTab === 'ai' ? 'bg-[#111111] text-white dark:bg-[#EDEDED] dark:text-[#111111]' : 'text-[#787774] hover:text-[#111111] dark:text-[#8E8D8A] dark:hover:text-[#EDEDED]' }}">
+                class="px-3 py-1 text-xs font-mono rounded-[4px] whitespace-nowrap shrink-0 transition-colors {{ $activeTab === 'ai' ? 'bg-[#111111] text-white dark:bg-[#EDEDED] dark:text-[#111111]' : 'text-[#787774] hover:text-[#111111] dark:text-[#8E8D8A] dark:hover:text-[#EDEDED]' }}">
                 02. Asisten Cerdas @Sira
             </button>
             <button 
                 type="button" 
                 wire:click="selectTab('geo')"
-                class="px-3 py-1 text-xs font-mono rounded-[4px] transition-colors {{ $activeTab === 'geo' ? 'bg-[#111111] text-white dark:bg-[#EDEDED] dark:text-[#111111]' : 'text-[#787774] hover:text-[#111111] dark:text-[#8E8D8A] dark:hover:text-[#EDEDED]' }}">
+                class="px-3 py-1 text-xs font-mono rounded-[4px] whitespace-nowrap shrink-0 transition-colors {{ $activeTab === 'geo' ? 'bg-[#111111] text-white dark:bg-[#EDEDED] dark:text-[#111111]' : 'text-[#787774] hover:text-[#111111] dark:text-[#8E8D8A] dark:hover:text-[#EDEDED]' }}">
                 03. Pemetaan &amp; Lokasi
             </button>
         </div>

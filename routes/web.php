@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HeatmapController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OgImageController;
 use App\Http\Controllers\ReportController;
 use App\Models\Report;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 // Feed Laporan & Detail Laporan Publik
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
+Route::get('/reports/{report}/og-image', [OgImageController::class, 'report'])->name('reports.ogImage');
+Route::get('/og-image/default', [OgImageController::class, 'default'])->name('og.default');
 
 // Fitur Laporan yang Membutuhkan Autentikasi
 Route::middleware('auth')->group(function () {

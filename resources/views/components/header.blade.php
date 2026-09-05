@@ -7,12 +7,7 @@
                 <span class="w-7 h-7 rounded-[4px] bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] flex items-center justify-center font-mono text-xs font-semibold">
                     S
                 </span>
-                <div class="flex items-center space-x-2">
-                    <span class="text-sm font-semibold tracking-tight text-[#111111] dark:text-[#EDEDEC]">SIRA</span>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] dark:bg-[#1C281E] dark:text-[#82C78A]">
-                        Pengawasan Warga
-                    </span>
-                </div>
+                <span class="text-sm font-semibold tracking-tight text-[#111111] dark:text-[#EDEDEC]">SIRA</span>
             </a>
 
             <!-- Navigation Links -->
@@ -42,17 +37,12 @@
                 aria-label="Ganti tema warna"
                 class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] font-mono text-[11px] cursor-pointer"
             >
-                <svg id="theme-toggle-light-icon" class="w-3.5 h-3.5 hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75">
-                    <circle cx="8" cy="8" r="3"/>
-                    <path d="M8 1.5v1.5M8 13v1.5M1.5 8h1.5M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke-linecap="square"/>
-                </svg>
-                <svg id="theme-toggle-dark-icon" class="w-3.5 h-3.5 hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75">
-                    <path d="M13.5 9.8A6 6 0 1 1 6.2 2.5a4.8 4.8 0 0 0 7.3 7.3z" stroke-linecap="square"/>
-                </svg>
-                <span id="theme-toggle-text">Tema</span>
+                <flux:icon id="theme-toggle-light-icon" name="sun" class="w-3.5 h-3.5 hidden" />
+                <flux:icon id="theme-toggle-dark-icon" name="moon" class="w-3.5 h-3.5 hidden" />
+                <span id="theme-toggle-text" class="hidden sm:inline">Tema</span>
             </button>
 
-            <a href="{{ route('reports.create') }}" class="inline-flex items-center space-x-1 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-medium px-3.5 py-1.5 rounded-[6px] transition duration-150 shrink-0">
+            <a href="{{ route('reports.create') }}" class="hidden md:inline-flex items-center space-x-1 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-medium px-3.5 py-1.5 rounded-[6px] transition duration-150 shrink-0">
                 <span>+ Buat Laporan</span>
             </a>
 
@@ -71,10 +61,7 @@
                         aria-label="Lihat notifikasi"
                         class="relative p-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center"
                     >
-                        <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75">
-                            <path d="M8 1.5A3.5 3.5 0 0 0 4.5 5v2.25L3 9.5v1h10v-1l-1.5-2.25V5A3.5 3.5 0 0 0 8 1.5Z" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M6.5 12.5a1.5 1.5 0 0 0 3 0" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <flux:icon name="bell" class="w-3.5 h-3.5" />
 
                         <!-- Notification Count Badge -->
                         <span id="notificationBadge" class="{{ $unreadCount > 0 ? '' : 'hidden' }} absolute -top-1.5 -right-1.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-[#9F2F2D] text-[9px] font-bold text-white shadow-xs font-mono">
@@ -118,11 +105,11 @@
                                        class="flex items-start space-x-2.5 flex-1 min-w-0 pr-2">
                                         <div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] {{ $isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold' : ($type === 'mention' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300') }}">
                                             @if ($isAi)
-                                                🤖
+                                                <flux:icon name="cpu-chip" class="w-3.5 h-3.5 text-indigo-700 dark:text-indigo-300" />
                                             @elseif ($type === 'mention')
-                                                @
+                                                <span class="font-bold text-[11px]">@</span>
                                             @else
-                                                💬
+                                                <flux:icon name="chat-bubble-left" class="w-3 h-3 text-emerald-800 dark:text-emerald-300" />
                                             @endif
                                         </div>
                                         <div class="flex-1 min-w-0 space-y-0.5">
@@ -149,9 +136,7 @@
                                             onclick="deleteSingleNotification(event, '{{ $notification->id }}')"
                                             title="Hapus notifikasi ini"
                                             class="opacity-0 group-hover:opacity-100 focus:opacity-100 p-1 text-[#999999] hover:text-[#9F2F2D] dark:text-[#666666] dark:hover:text-[#E88C8A] rounded transition-all shrink-0">
-                                        <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75">
-                                            <path d="M3 4.5h10M6 7v4.5M10 7v4.5M4.5 4.5V13a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V4.5M5.5 4.5V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
+                                        <flux:icon name="trash" class="w-3.5 h-3.5" />
                                     </button>
                                 </div>
                             @empty
@@ -166,7 +151,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828]">
+                <div class="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828]">
                     <span class="text-[#787774] dark:text-[#9B9B97] text-[11px] hidden sm:inline">@<span>{{ Auth::user()->username }}</span></span>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
@@ -356,7 +341,9 @@
                             const d = item.data || {};
                             const isAi = d.is_ai || false;
                             const type = d.type || 'reply';
-                            const icon = isAi ? '🤖' : (type === 'mention' ? '@' : '💬');
+                            const iconSvg = isAi
+                                ? '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>'
+                                : (type === 'mention' ? '<span class="font-bold text-[11px]">@</span>' : '<svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
                             const iconCls = isAi
                                 ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold'
                                 : (type === 'mention' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300');
@@ -369,7 +356,7 @@
                             div.innerHTML = `
                                 <a href="/notifications/${item.id}/read?redirect=1" class="flex items-start space-x-2.5 flex-1 min-w-0 pr-2">
                                     <div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] ${iconCls}">
-                                        ${icon}
+                                        ${iconSvg}
                                     </div>
                                     <div class="flex-1 min-w-0 space-y-0.5">
                                         <p class="text-xs text-[#111111] dark:text-[#EDEDEC] leading-snug font-medium">
@@ -404,14 +391,16 @@
                             const d = item.data || {};
                             const isAi = d.is_ai || false;
                             const type = d.type || 'reply';
-                            const icon = isAi ? '🤖' : (type === 'mention' ? '@' : '💬');
+                            const toastIconSvg = isAi
+                                ? '<svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>'
+                                : (type === 'mention' ? '<span class="font-bold text-xs">@</span>' : '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
 
                             const toast = document.createElement('div');
                             toast.className = 'pointer-events-auto flex items-start space-x-3 p-3.5 rounded-[8px] bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#282828] shadow-xl text-xs transform translate-y-4 opacity-0 transition-all duration-300 max-w-sm';
 
                             toast.innerHTML = `
                                 <div class="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300' : (type === 'mention' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300')}">
-                                    ${icon}
+                                    ${toastIconSvg}
                                 </div>
                                 <div class="flex-1 min-w-0 space-y-0.5">
                                     <div class="flex items-center justify-between">
@@ -491,7 +480,7 @@
                     })();
                 </script>
             @else
-                <div class="flex items-center space-x-1.5 sm:space-x-2 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828]">
+                <div class="hidden md:flex items-center space-x-1.5 sm:space-x-2 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828]">
                     <a href="{{ route('login') }}" class="text-[#787774] hover:text-[#111111] dark:text-[#9B9B97] dark:hover:text-[#EDEDEC] px-2 py-1.5 transition-colors">
                         Masuk
                     </a>
@@ -500,8 +489,157 @@
                     </a>
                 </div>
             @endauth
+
+            <!-- Tombol Toggle Menu Mobile (Layar kecil < md) -->
+            <button
+                id="mobileMenuBtn"
+                type="button"
+                aria-label="Menu navigasi utama"
+                aria-expanded="false"
+                class="md:hidden relative w-9 h-9 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
+            >
+                <flux:icon id="mobileMenuOpenIcon" name="bars-3" class="w-4 h-4 transition-all duration-200" />
+                <flux:icon id="mobileMenuCloseIcon" name="x-mark" class="w-4 h-4 transition-all duration-200 hidden" />
+            </button>
         </div>
     </div>
+
+    <!-- Backdrop Overlay Mobile (Mencegah pergeseran halaman & klik luar untuk tutup) -->
+    <div id="mobileMenuBackdrop"
+         class="fixed inset-0 top-16 bg-black/40 backdrop-blur-[2px] z-40 transition-opacity duration-300 opacity-0 pointer-events-none md:hidden"
+         aria-hidden="true"></div>
+
+    <!-- Panel Menu Navigasi Mobile (Floating Overlay - Tidak menggeser layout halaman) -->
+    <div id="mobileMenu"
+         class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/98 dark:bg-[#111111]/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none">
+        <div class="space-y-1">
+            <a href="{{ route('reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                <span>Dasbor Laporan</span>
+                <span class="text-[11px] text-[#787774]">&rarr;</span>
+            </a>
+            <a href="{{ route('heatmap.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('heatmap.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                <span class="flex items-center space-x-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
+                    <span>Peta Sebaran Masalah</span>
+                </span>
+                <span class="text-[11px] text-[#787774]">&rarr;</span>
+            </a>
+            <a href="{{ url('/#cara-kerja') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C] transition">
+                <span>Cara Kerja</span>
+            </a>
+            <a href="{{ url('/#fitur') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C] transition">
+                <span>Fitur Utama</span>
+            </a>
+        </div>
+
+        <div class="pt-2 border-t border-[#EAEAEA] dark:border-[#222222] space-y-2">
+            <a href="{{ route('reports.create') }}" class="w-full py-2.5 px-3 rounded-[6px] bg-[#111111] dark:bg-[#EDEDEC] text-white dark:text-[#111111] font-medium flex items-center justify-center space-x-1.5 shadow-xs">
+                <span>+ Buat Laporan Baru</span>
+            </a>
+
+            @auth
+                <div class="flex items-center justify-between px-2 pt-1 text-[#787774] dark:text-[#888888] text-xs">
+                    <span>Akun: <strong class="text-[#111111] dark:text-[#EDEDEC]">@<span>{{ Auth::user()->username }}</span></strong></span>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="text-[#9F2F2D] dark:text-[#E88C8A] hover:underline font-medium">
+                            [Keluar]
+                        </button>
+                    </form>
+                </div>
+            @else
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <a href="{{ route('login') }}" class="py-2.5 text-center rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E]">
+                        Masuk
+                    </a>
+                    <a href="{{ route('register') }}" class="py-2.5 text-center rounded-[6px] bg-[#EAEAEA] dark:bg-[#2A2A2A] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#DFDFDF] dark:hover:bg-[#333333] font-medium">
+                        Daftar
+                    </a>
+                </div>
+            @endauth
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileBackdrop = document.getElementById('mobileMenuBackdrop');
+            const openIcon = document.getElementById('mobileMenuOpenIcon');
+            const closeIcon = document.getElementById('mobileMenuCloseIcon');
+
+            if (!mobileBtn || !mobileMenu) return;
+
+            let isOpen = false;
+
+            function setMenuState(open) {
+                isOpen = open;
+                mobileBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+                if (isOpen) {
+                    // Animasi buka panel overlay ke bawah secara halus
+                    mobileMenu.classList.remove('-translate-y-2', 'opacity-0', 'pointer-events-none');
+                    mobileMenu.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+
+                    if (mobileBackdrop) {
+                        mobileBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                        mobileBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+                    }
+
+                    if (openIcon && closeIcon) {
+                        openIcon.classList.add('hidden');
+                        closeIcon.classList.remove('hidden');
+                    }
+
+                    // Kunci scroll halaman agar konten background tidak bergerak
+                    document.documentElement.classList.add('overflow-hidden');
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    // Animasi tutup panel overlay ke atas secara halus
+                    mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                    mobileMenu.classList.add('-translate-y-2', 'opacity-0', 'pointer-events-none');
+
+                    if (mobileBackdrop) {
+                        mobileBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                        mobileBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                    }
+
+                    if (openIcon && closeIcon) {
+                        closeIcon.classList.add('hidden');
+                        openIcon.classList.remove('hidden');
+                    }
+
+                    // Pulihkan scroll halaman
+                    document.documentElement.classList.remove('overflow-hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
+
+            mobileBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                setMenuState(!isOpen);
+            });
+
+            if (mobileBackdrop) {
+                mobileBackdrop.addEventListener('click', function () {
+                    setMenuState(false);
+                });
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isOpen) {
+                    setMenuState(false);
+                }
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    setMenuState(false);
+                });
+            });
+        })();
+    </script>
+
     <!-- Wadah Toast Notifikasi Realtime -->
     <div id="realtimeNotificationToastContainer" class="fixed bottom-5 right-5 z-[9999] flex flex-col space-y-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
 </header>

@@ -46,8 +46,8 @@
 
         <!-- Body Detail -->
         <div class="p-5 space-y-2.5">
-            <div class="flex items-center space-x-1 text-[11px] font-mono text-[#787774] truncate">
-                <span>📍</span>
+            <div class="flex items-center space-x-1.5 text-[11px] font-mono text-[#787774] truncate">
+                <flux:icon name="map-pin" class="w-3.5 h-3.5 text-[#787774] shrink-0" />
                 <span class="truncate">
                     {{ $report->district ?? $report->city ?? 'Lokasi Terdaftar' }}
                     @if ($report->city && $report->district) &bull; {{ $report->city }} @endif
@@ -74,11 +74,11 @@
 
         <div class="flex items-center space-x-3 text-[11px]">
             <div class="flex items-center space-x-1 font-bold text-[#111111] dark:text-[#EDEDEC]">
-                <span class="text-[#956400]">▲</span>
+                <flux:icon name="hand-thumb-up" class="w-3 h-3 text-[#956400] shrink-0" />
                 <span>{{ $report->vote_score }}</span>
             </div>
             <div class="flex items-center space-x-1 text-[#787774]">
-                <span>💬</span>
+                <flux:icon name="chat-bubble-left" class="w-3 h-3 text-[#787774] shrink-0" />
                 <span>{{ $report->comments_count }}</span>
             </div>
         </div>

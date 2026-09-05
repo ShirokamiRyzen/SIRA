@@ -2,14 +2,24 @@
 
 @section('title', $report->title . ' - SIRA')
 
+@section('og_title', $report->title . ' - SIRA')
+@section('og_description', \Illuminate\Support\Str::limit(strip_tags($report->description), 160))
+@section('og_type', 'article')
+@section('og_image', route('reports.ogImage', $report))
+@section('og_url', route('reports.show', $report))
+
 @section('content')
 <div class="max-w-5xl mx-auto space-y-8">
-    <!-- Breadcrumb -->
-    <div>
-        <a href="{{ route('reports.index') }}" class="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-emerald-700 transition space-x-1">
+    <!-- Breadcrumb & Aksi Bagikan Kartu -->
+    <div class="flex items-center justify-between">
+        <a href="{{ route('reports.index') }}" class="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition space-x-1">
             <span>&larr;</span>
             <span>Kembali ke Semua Laporan</span>
         </a>
+        <button type="button" onclick="openOgCanvasModal()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-[#282828] text-slate-700 dark:text-[#EDEDEC] hover:bg-slate-50 dark:hover:bg-[#222222] transition shadow-xs cursor-pointer">
+            <flux:icon name="share" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span>Bagikan Kartu (Canvas)</span>
+        </button>
     </div>
 
     <!-- Main Card Header & Grid -->
@@ -27,12 +37,14 @@
                             <span>CRITICAL TIER</span>
                         </span>
                     @elseif ($report->rank_tier === 'urgent')
-                        <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow-md">
-                            ⚠️ URGENT TIER
+                        <span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow-md">
+                            <flux:icon name="exclamation-triangle" class="w-3.5 h-3.5 text-white" />
+                            <span>URGENT TIER</span>
                         </span>
                     @elseif ($report->rank_tier === 'trending')
-                        <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold bg-teal-600 text-white shadow-md">
-                            🔥 TRENDING TIER
+                        <span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-teal-600 text-white shadow-md">
+                            <flux:icon name="arrow-trending-up" class="w-3.5 h-3.5 text-white" />
+                            <span>TRENDING TIER</span>
                         </span>
                     @else
                         <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">
@@ -57,12 +69,12 @@
                                     <div id="creatorStatusActions" class="inline-flex items-center">
                                         @if ($report->status === 'resolved')
                                             <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-slate-700 dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
-                                                <span>↩</span>
+                                                <svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5L2 7.5l4 4M2.5 7.5h8a3.5 3.5 0 0 1 3.5 3.5v1"/></svg>
                                                 <span>Buka Kembali</span>
                                             </button>
                                         @else
                                             <button type="button" onclick="updateReportStatus('resolved')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center space-x-1 shadow-xs" title="Tandai masalah telah terselesaikan">
-                                                <span>✓</span>
+                                                <flux:icon name="check" class="w-3 h-3 text-white" />
                                                 <span>Tandai Selesai (Resolved)</span>
                                             </button>
                                         @endif
@@ -98,8 +110,8 @@
 
                     <!-- Lokasi Administratif -->
                     <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-xs space-y-1">
-                        <div class="font-bold text-slate-800 dark:text-[#EDEDEC] flex items-center space-x-1">
-                            <span>📍</span>
+                        <div class="font-bold text-slate-800 dark:text-[#EDEDEC] flex items-center space-x-1.5">
+                            <flux:icon name="map-pin" class="w-3.5 h-3.5 text-slate-500 shrink-0" />
                             <span>{{ $report->district ? $report->district . ', ' : '' }}{{ $report->city ?? 'Lokasi Terdaftar' }}</span>
                         </div>
                         <p class="text-slate-500 dark:text-[#888888] text-[11px] leading-relaxed">
@@ -124,14 +136,14 @@
                                 <!-- Tombol Like (Upvote) -->
                                 <button type="button" onclick="castVote(1)" id="btnUpvote"
                                     class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === 1) ? 'bg-emerald-500 text-slate-950' : 'bg-white/10 hover:bg-white/20 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-white' }}">
-                                    <span>👍</span>
+                                    <flux:icon name="hand-thumb-up" class="w-3.5 h-3.5 shrink-0" />
                                     <span id="upvotesCount">{{ $report->upvotes_count }}</span>
                                 </button>
 
                                 <!-- Tombol Dislike (Downvote) -->
                                 <button type="button" onclick="castVote(-1)" id="btnDownvote"
                                     class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === -1) ? 'bg-rose-500 text-white' : 'bg-white/10 hover:bg-white/20 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-white' }}">
-                                    <span>👎</span>
+                                    <flux:icon name="hand-thumb-down" class="w-3.5 h-3.5 shrink-0" />
                                     <span id="downvotesCount">{{ $report->downvotes_count }}</span>
                                 </button>
                             </div>
@@ -147,6 +159,12 @@
                         Vote berfungsi menaikkan ranking postingan ke <strong>Urgent & Critical Tier</strong> agar segera diprioritaskan.
                     </p>
                 </div>
+
+                <!-- Tombol Bagikan Kartu OpenGraph Canvas -->
+                <button type="button" onclick="openOgCanvasModal()" class="w-full py-2.5 px-4 rounded-2xl text-xs font-bold border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:bg-slate-50 dark:hover:bg-[#202020] text-slate-800 dark:text-[#EDEDEC] transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer">
+                    <flux:icon name="share" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <span>Bagikan & Unduh Kartu (Canvas)</span>
+                </button>
             </div>
         </div>
     </div>
@@ -184,7 +202,7 @@
                 <!-- Pratinjau LaTeX jika terdapat formula matematika -->
                 <div class="latex-preview hidden px-4 py-3 bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/60 rounded-2xl text-xs text-slate-800 dark:text-[#EDEDEC] space-y-1.5 shadow-xs">
                     <div class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
-                        <span>📐</span>
+                        <flux:icon name="calculator" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         <span>Pratinjau Formula (LaTeX):</span>
                     </div>
                     <div class="latex-preview-content font-sans overflow-x-auto text-sm"></div>
@@ -192,7 +210,7 @@
 
                 <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
                     <div class="flex items-center space-x-1.5 text-xs text-indigo-700 dark:text-indigo-300 font-medium bg-indigo-50 dark:bg-indigo-950/40 px-3 py-1.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50">
-                        <span>🤖</span>
+                        <flux:icon name="sparkles" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
                         <span>Tip: Tag <strong>@Sira</strong> di komentar untuk meminta bantuan atau ringkasan AI</span>
                     </div>
                     <button type="submit" class="submit-btn px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center space-x-1.5">
@@ -215,6 +233,76 @@
                 @foreach ($report->rootComments as $comment)
                     @include('reports._comment_item', ['comment' => $comment])
                 @endforeach
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal OpenGraph Canvas Generator & Export -->
+    <div id="ogCanvasModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/70 backdrop-blur-xs flex items-center justify-center p-4" onclick="if (event.target === this) closeOgCanvasModal();">
+        <div class="relative w-full max-w-4xl bg-white dark:bg-[#141414] rounded-3xl border border-slate-200 dark:border-[#262626] shadow-2xl p-6 sm:p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200" onclick="event.stopPropagation()">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-[#222222]">
+                <div class="space-y-1">
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                            Dynamic OpenGraph
+                        </span>
+                        <span class="text-xs text-slate-400 dark:text-[#777777] font-mono">1200 &times; 630 px</span>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-slate-900 dark:text-[#EDEDEC]">
+                        Kartu Laporan Interaktif (HTML5 Canvas)
+                    </h3>
+                </div>
+                <button type="button" onclick="closeOgCanvasModal()" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white bg-slate-100 dark:bg-[#202020] transition cursor-pointer">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="space-y-3">
+                <div class="relative w-full bg-[#0E0E0E] rounded-2xl overflow-hidden border border-slate-200 dark:border-[#262626] shadow-inner flex items-center justify-center p-2 sm:p-4">
+                    <canvas id="ogCardCanvas" width="1200" height="630" class="w-full h-auto max-h-[480px] rounded-xl object-contain shadow-md"></canvas>
+                    <div id="canvasLoadingOverlay" class="absolute inset-0 bg-[#0E0E0E]/80 flex flex-col items-center justify-center space-y-2 text-white text-xs font-mono">
+                        <div class="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span>Merender Kartu Canvas...</span>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-[#888888] flex items-center justify-between">
+                    <span>Resolusi standar media sosial (1.91:1) siap dibagikan ke WhatsApp, Twitter/X, Telegram, atau Instagram.</span>
+                    <span id="canvasRenderStatus" class="text-emerald-600 dark:text-emerald-400 font-medium"></span>
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-100 dark:border-[#222222]">
+                <!-- Unduh PNG -->
+                <button type="button" onclick="downloadOgCanvas()" class="w-full py-3 px-4 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer">
+                    <flux:icon name="arrow-down-tray" class="w-4 h-4 text-white" />
+                    <span>Unduh Gambar (PNG)</span>
+                </button>
+
+                <!-- Salin Gambar ke Clipboard -->
+                <button type="button" onclick="copyOgCanvasToClipboard()" id="btnCopyImage" class="w-full py-3 px-4 rounded-xl text-xs font-bold bg-slate-900 hover:bg-black dark:bg-[#202020] dark:hover:bg-[#282828] text-white transition flex items-center justify-center space-x-2 cursor-pointer">
+                    <flux:icon name="clipboard-document" class="w-4 h-4 text-white" />
+                    <span id="copyImageText">Salin Gambar (Clipboard)</span>
+                </button>
+
+                <!-- Salin Tautan OpenGraph -->
+                <button type="button" onclick="copyReportUrl()" id="btnCopyUrl" class="w-full py-3 px-4 rounded-xl text-xs font-bold border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:bg-slate-50 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC] transition flex items-center justify-center space-x-2 cursor-pointer">
+                    <flux:icon name="share" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <span id="copyUrlText">Salin Tautan Laporan</span>
+                </button>
+            </div>
+
+            <!-- Direct URL Link & Crawler Info -->
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#242424] flex items-center justify-between text-xs">
+                <div class="flex items-center space-x-2 text-slate-600 dark:text-[#999999] truncate mr-2">
+                    <flux:icon name="photo" class="w-3.5 h-3.5 shrink-0 text-slate-400" />
+                    <span class="font-mono text-[11px] truncate">URL Server: {{ route('reports.ogImage', $report) }}</span>
+                </div>
+                <a href="{{ route('reports.ogImage', $report) }}" target="_blank" class="shrink-0 text-emerald-600 dark:text-emerald-400 hover:underline font-semibold text-[11px]">
+                    Buka Gambar Langsung &rarr;
+                </a>
             </div>
         </div>
     </div>
@@ -310,9 +398,9 @@
         if (tier === 'critical') {
             container.innerHTML = `<span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-rose-600 text-white shadow-lg"><span class="w-2 h-2 rounded-full bg-white animate-ping"></span><span>CRITICAL TIER</span></span>`;
         } else if (tier === 'urgent') {
-            container.innerHTML = `<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow-md">⚠️ URGENT TIER</span>`;
+            container.innerHTML = `<span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow-md"><svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M8 2l6.5 11.5H1.5L8 2zM8 6.5v3M8 12v.5"/></svg><span>URGENT TIER</span></span>`;
         } else if (tier === 'trending') {
-            container.innerHTML = `<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold bg-teal-600 text-white shadow-md">🔥 TRENDING TIER</span>`;
+            container.innerHTML = `<span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-teal-600 text-white shadow-md"><svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M8 1.5c.8 2-1 3.5-1 5 0 2 1.5 3 2.5 2 0 2-1 4-3 5 4 0 6-3 6-6 0-3-2-5-3-6-1.5 2-1.5-1-1.5 0z"/></svg><span>TRENDING TIER</span></span>`;
         } else {
             container.innerHTML = `<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">NORMAL TIER</span>`;
         }
@@ -344,7 +432,7 @@
                     if (actionsContainer) {
                         actionsContainer.innerHTML = `
                             <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
-                                <span>↩</span>
+                                <svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5L2 7.5l4 4M2.5 7.5h8a3.5 3.5 0 0 1 3.5 3.5v1"/></svg>
                                 <span>Buka Kembali</span>
                             </button>
                         `;
@@ -355,7 +443,7 @@
                     if (actionsContainer) {
                         actionsContainer.innerHTML = `
                             <button type="button" onclick="updateReportStatus('resolved')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center space-x-1 shadow-xs" title="Tandai masalah telah terselesaikan">
-                                <span>✓</span>
+                                <svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 8.5l3 3 6-6"/></svg>
                                 <span>Tandai Selesai (Resolved)</span>
                             </button>
                         `;
@@ -576,7 +664,7 @@
                     const indicatorHtml = `
                         <div id="${indicatorId}" class="flex items-start space-x-3 p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50/70 to-purple-50/70 border border-indigo-200/80 shadow-xs animate-pulse">
                             <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-bold flex items-center justify-center text-sm shrink-0 ring-2 ring-indigo-200">
-                                🤖
+                                <svg class="w-4 h-4 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center space-x-2">
@@ -640,7 +728,7 @@
                         const indicator = document.getElementById(indicatorId);
                         if (indicator) {
                             indicator.className = 'p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center space-x-2';
-                            indicator.innerHTML = `<span>⚠️</span><span>AI @Sira sedang tidak dapat merespons saat ini. Komentar Anda tetap tersimpan.</span>`;
+                            indicator.innerHTML = `<svg class="w-4 h-4 text-amber-600 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M8 2l6.5 11.5H1.5L8 2z"/><path d="M8 6.5v3M8 12v.5"/></svg><span>AI @Sira sedang tidak dapat merespons saat ini. Komentar Anda tetap tersimpan.</span>`;
                             setTimeout(() => indicator.remove(), 4500);
                         }
                     });
@@ -762,7 +850,7 @@
                 item.innerHTML = `
                     <div class="flex items-center space-x-2 min-w-0">
                         <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-xs' : 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 uppercase'}">
-                            ${isAi ? '🤖' : (user.username ? user.username.charAt(0) : 'U')}
+                            ${isAi ? '<svg class="w-3.5 h-3.5 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>' : (user.username ? user.username.charAt(0) : 'U')}
                         </div>
                         <div class="truncate">
                             <div class="truncate text-xs ${isAi ? 'text-indigo-900 dark:text-indigo-300 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium'}">${user.name}</div>
@@ -975,11 +1063,341 @@
         }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(scrollToTargetComment, 150);
+    // -------------------------------------------------------------
+    // OpenGraph Dynamic HTML5 Canvas Generator & Exporter
+    // -------------------------------------------------------------
+    function openOgCanvasModal() {
+        const modal = document.getElementById('ogCanvasModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            renderOgCanvas();
+        }
+    }
+
+    function closeOgCanvasModal() {
+        const modal = document.getElementById('ogCanvasModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeOgCanvasModal();
+        }
     });
-    window.addEventListener('load', () => {
-        setTimeout(scrollToTargetComment, 250);
-    });
+
+    function renderOgCanvas() {
+        const canvas = document.getElementById('ogCardCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const overlay = document.getElementById('canvasLoadingOverlay');
+        if (overlay) overlay.style.display = 'flex';
+
+        const width = 1200;
+        const height = 630;
+        canvas.width = width;
+        canvas.height = height;
+
+        const reportTitle = @json($report->title);
+        const reportDesc = @json(\Illuminate\Support\Str::limit(strip_tags($report->description), 140));
+        const reportTier = @json($report->rank_tier);
+        const reportStatus = @json(str_replace('_', ' ', $report->status));
+        const reportLocation = @json(($report->district ? $report->district . ', ' : '') . ($report->city ?? 'Indonesia'));
+        const reportReporter = @json('@' . ($report->user->username ?? 'anon'));
+        const reportVotes = @json($report->vote_score);
+        const reportDate = @json($report->created_at->translatedFormat('d M Y, H:i'));
+        const reportImageSrc = @json($report->image_base64);
+
+        const colors = {
+            bg: '#0E0E0E',
+            cardBg: '#141414',
+            border: '#262626',
+            innerBorder: '#303030',
+            textWhite: '#EDEDEC',
+            textMuted: '#969694',
+            textDim: '#6E6E6C',
+            emerald: '#10B981',
+            rose: '#E11D48',
+            amber: '#F59E0B',
+            teal: '#0D9488',
+            slate: '#475569'
+        };
+
+        const tierColor = reportTier === 'critical' ? colors.rose :
+                         (reportTier === 'urgent' ? colors.amber :
+                         (reportTier === 'trending' ? colors.teal : colors.emerald));
+
+        // Background
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, width, height);
+
+        // Grid pattern
+        ctx.strokeStyle = '#181818';
+        ctx.lineWidth = 1;
+        for (let x = 40; x < width; x += 60) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, height);
+            ctx.stroke();
+        }
+        for (let y = 40; y < height; y += 60) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(width, y);
+            ctx.stroke();
+        }
+
+        // Inner Card Box
+        ctx.fillStyle = colors.cardBg;
+        ctx.fillRect(40, 40, width - 80, height - 80);
+        ctx.strokeStyle = colors.border;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(40, 40, width - 80, height - 80);
+
+        // Top Accent Stripe
+        ctx.fillStyle = tierColor;
+        ctx.fillRect(40, 40, width - 80, 6);
+
+        // Brand Text
+        ctx.fillStyle = colors.emerald;
+        ctx.font = '600 18px "Geist Mono", monospace';
+        ctx.fillText('SIRA // LAPORAN PUBLIK #' + @json($report->id), 70, 95);
+
+        // Tier Badge
+        const tierBadgeWidth = 140;
+        const tierBadgeHeight = 32;
+        ctx.fillStyle = tierColor;
+        drawCanvasRoundRect(ctx, 70, 120, tierBadgeWidth, tierBadgeHeight, 6, true, false);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(reportTier.toUpperCase() + ' TIER', 86, 141);
+
+        // Status Badge
+        const statusBadgeWidth = 160;
+        ctx.fillStyle = '#1C281E';
+        drawCanvasRoundRect(ctx, 224, 120, statusBadgeWidth, tierBadgeHeight, 6, true, false);
+        ctx.strokeStyle = colors.emerald;
+        ctx.lineWidth = 1.5;
+        drawCanvasRoundRect(ctx, 224, 120, statusBadgeWidth, tierBadgeHeight, 6, false, true);
+        ctx.fillStyle = colors.emerald;
+        ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText('STATUS: ' + reportStatus.toUpperCase(), 238, 140);
+
+        // Title (wrapped max 2 lines)
+        ctx.fillStyle = colors.textWhite;
+        ctx.font = '800 28px "Plus Jakarta Sans", sans-serif';
+        const titleLines = wrapCanvasText(ctx, reportTitle, 610, 2);
+        let curY = 210;
+        titleLines.forEach(line => {
+            ctx.fillText(line, 70, curY);
+            curY += 42;
+        });
+
+        // Description (wrapped max 2 lines)
+        ctx.fillStyle = colors.textMuted;
+        ctx.font = '400 15px "Plus Jakarta Sans", sans-serif';
+        const descLines = wrapCanvasText(ctx, reportDesc, 610, 2);
+        curY += 10;
+        descLines.forEach(line => {
+            ctx.fillText(line, 70, curY);
+            curY += 26;
+        });
+
+        // Info Bar Bottom
+        const barY = 465;
+        ctx.strokeStyle = colors.border;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(70, barY);
+        ctx.lineTo(width - 70, barY);
+        ctx.stroke();
+
+        ctx.fillStyle = colors.textDim;
+        ctx.font = '600 11px "Geist Mono", monospace';
+        ctx.fillText('LOKASI KEJADIAN', 70, barY + 30);
+        ctx.fillText('DUKUNGAN WARGA', 380, barY + 30);
+        ctx.fillText('PELAPOR', 620, barY + 30);
+        ctx.fillText('TANGGAL DIBUAT', 850, barY + 30);
+
+        ctx.fillStyle = colors.textWhite;
+        ctx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(truncateCanvasText(reportLocation, 28), 70, barY + 60);
+
+        ctx.fillStyle = colors.emerald;
+        ctx.font = '800 16px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText('+' + reportVotes + ' Poin Vote', 380, barY + 60);
+
+        ctx.fillStyle = colors.textWhite;
+        ctx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(reportReporter, 620, barY + 60);
+
+        ctx.fillStyle = colors.textMuted;
+        ctx.fillText(reportDate, 850, barY + 60);
+
+        // Watermark Footer
+        ctx.fillStyle = colors.textDim;
+        ctx.font = '400 12px "Geist Mono", monospace';
+        ctx.fillText('sira.test // Sistem Informasi & Laporan Real-Time Komunitas', 70, height - 55);
+
+        // Photo Preview Box on Right
+        const photoX = 720;
+        const photoY = 95;
+        const photoW = 410;
+        const photoH = 340;
+
+        ctx.fillStyle = '#0A0A0A';
+        drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, true, false);
+        ctx.strokeStyle = colors.innerBorder;
+        ctx.lineWidth = 1.5;
+        drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, false, true);
+
+        const finishRender = () => {
+            if (overlay) overlay.style.display = 'none';
+            const statusEl = document.getElementById('canvasRenderStatus');
+            if (statusEl) statusEl.textContent = 'Siap Diunduh / Disalin';
+        };
+
+        if (reportImageSrc) {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function() {
+                ctx.save();
+                drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, false, false);
+                ctx.clip();
+
+                const scale = Math.max(photoW / img.naturalWidth, photoH / img.naturalHeight);
+                const cropW = photoW / scale;
+                const cropH = photoH / scale;
+                const cropX = (img.naturalWidth - cropW) / 2;
+                const cropY = (img.naturalHeight - cropH) / 2;
+
+                ctx.drawImage(img, cropX, cropY, cropW, cropH, photoX, photoY, photoW, photoH);
+                ctx.restore();
+
+                ctx.strokeStyle = colors.innerBorder;
+                ctx.lineWidth = 1.5;
+                drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, false, true);
+
+                finishRender();
+            };
+            img.onerror = function() {
+                ctx.fillStyle = colors.textDim;
+                ctx.font = '600 14px "Geist Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('FOTO BUKTI LAPORAN', photoX + (photoW / 2), photoY + (photoH / 2));
+                ctx.textAlign = 'start';
+                finishRender();
+            };
+            img.src = reportImageSrc;
+        } else {
+            ctx.fillStyle = colors.textDim;
+            ctx.font = '600 14px "Geist Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('FOTO BUKTI LAPORAN', photoX + (photoW / 2), photoY + (photoH / 2));
+            ctx.textAlign = 'start';
+            finishRender();
+        }
+    }
+
+    function drawCanvasRoundRect(ctx, x, y, width, height, radius, fill, stroke) {
+        if (typeof radius === 'undefined') radius = 6;
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        if (fill) ctx.fill();
+        if (stroke) ctx.stroke();
+    }
+
+    function wrapCanvasText(ctx, text, maxWidth, maxLines) {
+        if (!text) return [];
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+
+        for (let i = 0; i < words.length; i++) {
+            const testLine = currentLine ? currentLine + ' ' + words[i] : words[i];
+            const metrics = ctx.measureText(testLine);
+            if (metrics.width > maxWidth && currentLine) {
+                lines.push(currentLine);
+                currentLine = words[i];
+                if (lines.length === maxLines - 1) {
+                    break;
+                }
+            } else {
+                currentLine = testLine;
+            }
+        }
+        if (currentLine && lines.length < maxLines) {
+            lines.push(currentLine);
+        }
+        if (lines.length === maxLines && words.length > lines.join(' ').split(' ').length) {
+            lines[maxLines - 1] = lines[maxLines - 1].replace(/[\s.,]+$/, '') + '...';
+        }
+        return lines;
+    }
+
+    function truncateCanvasText(text, limit) {
+        if (!text) return '';
+        return text.length > limit ? text.substring(0, limit) + '...' : text;
+    }
+
+    function downloadOgCanvas() {
+        const canvas = document.getElementById('ogCardCanvas');
+        if (!canvas) return;
+        const link = document.createElement('a');
+        link.download = 'sira-laporan-' + @json($report->id) + '-opengraph.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }
+
+    async function copyOgCanvasToClipboard() {
+        const canvas = document.getElementById('ogCardCanvas');
+        const btnText = document.getElementById('copyImageText');
+        if (!canvas) return;
+
+        if (!navigator.clipboard || !window.ClipboardItem) {
+            downloadOgCanvas();
+            return;
+        }
+
+        try {
+            canvas.toBlob(async (blob) => {
+                if (!blob) return;
+                await navigator.clipboard.write([
+                    new ClipboardItem({ 'image/png': blob })
+                ]);
+                if (btnText) {
+                    const orig = btnText.textContent;
+                    btnText.textContent = 'Tersalin ke Clipboard!';
+                    setTimeout(() => { btnText.textContent = orig; }, 2500);
+                }
+            }, 'image/png');
+        } catch (err) {
+            console.error('Copy canvas to clipboard error:', err);
+            downloadOgCanvas();
+        }
+    }
+
+    function copyReportUrl() {
+        const btnText = document.getElementById('copyUrlText');
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                if (btnText) {
+                    const orig = btnText.textContent;
+                    btnText.textContent = 'Tautan Tersalin!';
+                    setTimeout(() => { btnText.textContent = orig; }, 2500);
+                }
+            });
+        }
+    }
 </script>
 @endpush

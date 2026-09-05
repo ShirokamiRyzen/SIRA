@@ -82,8 +82,9 @@
                    ● Diproses
                 </a>
                 <a href="{{ request()->fullUrlWithQuery(['status' => 'resolved']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ request('status') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
-                   ✔ Selesai
+                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 inline-flex items-center space-x-1 {{ request('status') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
+                   <flux:icon name="check" class="w-3 h-3 shrink-0" />
+                   <span>Selesai</span>
                 </a>
             </div>
 

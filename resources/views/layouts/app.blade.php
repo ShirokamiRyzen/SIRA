@@ -6,6 +6,22 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'SIRA - Sistem Informasi & Laporan Komunitas')</title>
 
+    <!-- OpenGraph & Twitter Card Dinamis -->
+    <meta property="og:site_name" content="SIRA - Sistem Informasi & Laporan Komunitas">
+    <meta property="og:title" content="@yield('og_title', 'SIRA - Sistem Informasi & Laporan Real-Time Komunitas')">
+    <meta property="og:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenFreeMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('og_url', url()->current())">
+    <meta property="og:image" content="@yield('og_image', route('og.default'))">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('og_title', 'SIRA - Sistem Informasi & Laporan Real-Time Komunitas')">
+    <meta name="twitter:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenFreeMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
+    <meta name="twitter:image" content="@yield('og_image', route('og.default'))">
+
     <!-- Tipografi: Plus Jakarta Sans, Geist Mono, Newsreader -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

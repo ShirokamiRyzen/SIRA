@@ -1,43 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'SIRA &mdash; Sistem Informasi & Rekomendasi Aspirasi Publik')
+@section('title', 'SIRA — Sistem Informasi & Rekomendasi Aspirasi Publik')
 
 @section('content')
 <div class="space-y-16 py-4">
     <!-- Bagian Hero & Metrik Laporan -->
-    <section class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] rounded-[8px] p-6 sm:p-12 relative overflow-hidden">
-        <div class="max-w-4xl space-y-5">
+    <section class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] rounded-[8px] p-5 sm:p-12 relative overflow-hidden">
+        <div class="max-w-4xl space-y-4 sm:space-y-5">
             <div class="inline-flex flex-wrap items-center gap-2">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] dark:bg-[#1C281E] dark:text-[#82C78A]">
-                    Sistem Informasi &amp; Rekomendasi Aspirasi Publik
+                    <span class="sm:hidden">SIRA &bull; Pengawasan Publik</span>
+                    <span class="hidden sm:inline">Sistem Informasi &amp; Rekomendasi Aspirasi Publik</span>
                 </span>
-                <span class="text-xs font-mono text-[#787774] dark:text-[#8E8D8A]">
+                <span class="hidden sm:inline text-xs font-mono text-[#787774] dark:text-[#8E8D8A]">
                     Platform Terbuka Pengawasan Fasilitas Kota
                 </span>
             </div>
 
-            <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#111111] dark:text-[#EDEDEC] leading-[1.12] tracking-tight font-normal">
+            <h1 class="font-serif text-2xl sm:text-5xl lg:text-6xl text-[#111111] dark:text-[#EDEDEC] leading-[1.18] sm:leading-[1.12] tracking-tight font-normal">
                 Kawal fasilitas publik dengan bukti nyata dan suara warga.
             </h1>
 
             <p class="text-[#2F3437] dark:text-[#A1A09A] text-xs sm:text-base leading-relaxed max-w-3xl font-sans">
-                SIRA adalah platform terbuka bagi masyarakat untuk mendokumentasikan jalan berlubang, saluran air tersumbat, lampu penerangan jalan mati, dan fasilitas terbengkalai. Dilengkapi pemetaan lokasi akurat, sistem voting dukungan warga, asisten cerdas <span class="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">@Sira</span>, serta visualisasi peta sebaran masalah kota.
+                <span class="sm:hidden">Dokumentasikan jalan rusak, lampu padam, dan saluran air tersumbat. Dukung laporan warga dan pantau penanganan kota secara transparan.</span>
+                <span class="hidden sm:inline">SIRA adalah platform terbuka bagi masyarakat untuk mendokumentasikan jalan berlubang, saluran air tersumbat, lampu penerangan jalan mati, dan fasilitas terbengkalai. Dilengkapi pemetaan lokasi akurat, sistem voting dukungan warga, asisten cerdas <span class="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">@Sira</span>, serta visualisasi peta sebaran masalah kota.</span>
             </p>
 
             <!-- Tombol Aksi Cepat -->
-            <div class="pt-2 flex flex-wrap items-center gap-3 font-mono text-xs">
-                <a href="{{ route('reports.create') }}" class="px-4 py-2.5 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white rounded-[6px] transition duration-150 font-medium inline-flex items-center gap-2">
-                    <span>+ Buat Laporan Baru</span>
-                </a>
+            <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 font-mono text-xs">
+                <div class="grid grid-cols-2 sm:flex items-center gap-2 sm:gap-3">
+                    <a href="{{ route('reports.create') }}" class="px-3.5 sm:px-4 py-2.5 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white rounded-[6px] transition duration-150 font-medium inline-flex items-center justify-center gap-1.5 text-center">
+                        <span>+ Buat Laporan</span>
+                    </a>
 
-                <a href="{{ route('reports.index') }}" class="px-4 py-2.5 bg-white dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#282828] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#202020] rounded-[6px] transition duration-150 font-medium inline-flex items-center gap-2">
-                    <span>Lihat Semua Laporan</span>
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75">
-                        <path d="M4 12L12 4M12 4H6M12 4V10" stroke-linecap="square"/>
-                    </svg>
-                </a>
+                    <a href="{{ route('reports.index') }}" class="px-3.5 sm:px-4 py-2.5 bg-white dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#282828] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#202020] rounded-[6px] transition duration-150 font-medium inline-flex items-center justify-center gap-1.5 text-center">
+                        <span>Semua Laporan</span>
+                        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <path d="M4 12L12 4M12 4H6M12 4V10" stroke-linecap="square"/>
+                        </svg>
+                    </a>
+                </div>
 
-                <a href="{{ route('heatmap.index') }}" class="px-4 py-2.5 bg-white dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#282828] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#202020] rounded-[6px] transition duration-150 font-medium inline-flex items-center gap-2">
+                <a href="{{ route('heatmap.index') }}" class="px-3.5 sm:px-4 py-2 sm:py-2.5 bg-[#FBFBFA] sm:bg-white dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#282828] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#202020] rounded-[6px] transition duration-150 font-medium inline-flex items-center justify-center gap-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
                     <span>Peta Sebaran Masalah</span>
                 </a>
@@ -45,37 +49,49 @@
         </div>
 
         <!-- Metric Ledger Bar -->
-        <div class="mt-10 pt-8 border-t border-[#EAEAEA] dark:border-[#222222] grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 font-mono">
-            <div class="p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
-                <div class="text-[10px] uppercase text-[#787774] dark:text-[#8E8D8A] tracking-wider">Total Laporan Warga</div>
+        <div class="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-[#EAEAEA] dark:border-[#222222] grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 font-mono">
+            <div class="p-3 sm:p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
+                <div class="text-[10px] uppercase text-[#787774] dark:text-[#8E8D8A] tracking-wider">
+                    <span class="sm:hidden">Total Laporan</span>
+                    <span class="hidden sm:inline">Total Laporan Warga</span>
+                </div>
                 <div class="text-xl sm:text-3xl font-bold text-[#111111] dark:text-[#EDEDEC] mt-0.5">
                     {{ number_format($totalReports) }}
                 </div>
-                <div class="text-[10px] text-[#787774] mt-0.5">Terdokumentasi</div>
+                <div class="text-[10px] text-[#787774] mt-0.5 hidden sm:block">Terdokumentasi</div>
             </div>
 
-            <div class="p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
-                <div class="text-[10px] uppercase text-[#9F2F2D] tracking-wider">Prioritas Kritis</div>
+            <div class="p-3 sm:p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
+                <div class="text-[10px] uppercase text-[#9F2F2D] tracking-wider">
+                    <span class="sm:hidden">Kritis</span>
+                    <span class="hidden sm:inline">Prioritas Kritis</span>
+                </div>
                 <div class="text-xl sm:text-3xl font-bold text-[#9F2F2D] mt-0.5">
                     {{ number_format($criticalCount) }}
                 </div>
-                <div class="text-[10px] text-[#9F2F2D]/80 mt-0.5">Dukungan &ge; 100 Suara</div>
+                <div class="text-[10px] text-[#9F2F2D]/80 mt-0.5 hidden sm:block">Dukungan &ge; 100 Suara</div>
             </div>
 
-            <div class="p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
-                <div class="text-[10px] uppercase text-[#956400] dark:text-[#E0BE69] tracking-wider">Laporan Mendesak</div>
+            <div class="p-3 sm:p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
+                <div class="text-[10px] uppercase text-[#956400] dark:text-[#E0BE69] tracking-wider">
+                    <span class="sm:hidden">Mendesak</span>
+                    <span class="hidden sm:inline">Laporan Mendesak</span>
+                </div>
                 <div class="text-xl sm:text-3xl font-bold text-[#956400] dark:text-[#E0BE69] mt-0.5">
                     {{ number_format($urgentCount) }}
                 </div>
-                <div class="text-[10px] text-[#787774] mt-0.5">Dukungan &ge; 50 Suara</div>
+                <div class="text-[10px] text-[#787774] mt-0.5 hidden sm:block">Dukungan &ge; 50 Suara</div>
             </div>
 
-            <div class="p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
-                <div class="text-[10px] uppercase text-[#346538] dark:text-[#82C78A] tracking-wider">Tuntas / Selesai</div>
+            <div class="p-3 sm:p-3.5 rounded-[6px] bg-[#FBFBFA] dark:bg-[#181818] border border-[#EAEAEA] dark:border-[#262626]">
+                <div class="text-[10px] uppercase text-[#346538] dark:text-[#82C78A] tracking-wider">
+                    <span class="sm:hidden">Selesai</span>
+                    <span class="hidden sm:inline">Tuntas / Selesai</span>
+                </div>
                 <div class="text-xl sm:text-3xl font-bold text-[#346538] dark:text-[#82C78A] mt-0.5">
                     {{ number_format($resolvedCount) }}
                 </div>
-                <div class="text-[10px] text-[#346538]/80 dark:text-[#82C78A]/80 mt-0.5">Masalah Tertangani</div>
+                <div class="text-[10px] text-[#346538]/80 dark:text-[#82C78A]/80 mt-0.5 hidden sm:block">Masalah Tertangani</div>
             </div>
         </div>
     </section>
@@ -116,7 +132,10 @@
                     </p>
 
                     <div class="p-3 bg-[#FBFBFA] dark:bg-[#111111] border border-[#EAEAEA] dark:border-[#262626] rounded-[6px] font-mono text-[11px] leading-relaxed text-[#111111] dark:text-[#EDEDED] space-y-1">
-                        <div class="text-[#787774]">📍 Contoh Wilayah Terdeteksi:</div>
+                        <div class="text-[#787774] flex items-center gap-1.5">
+                            <flux:icon name="map-pin" class="w-3.5 h-3.5 text-[#787774] shrink-0" />
+                            <span>Contoh Wilayah Terdeteksi:</span>
+                        </div>
                         <div class="text-[#1F6C9F] dark:text-[#76BBE8]">&bull; Jl. Kaliurang KM 5, Depok, Sleman</div>
                         <div class="text-[#787774]">&bull; Status: Titik Peta Tervalidasi</div>
                     </div>
@@ -288,38 +307,50 @@
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono text-xs">
-            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1">
-                <span class="text-base">🕳️</span>
+            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1.5">
+                <div class="w-7 h-7 rounded-[4px] bg-red-500/10 text-[#ef4444] flex items-center justify-center">
+                    <flux:icon name="wrench" class="w-4 h-4" />
+                </div>
                 <div class="font-semibold text-[#111111] dark:text-[#EDEDEC] text-[11px]">Jalan Berlubang</div>
                 <p class="text-[10px] text-[#787774] font-sans">Aspal amblas &amp; retak</p>
             </div>
 
-            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1">
-                <span class="text-base">🌊</span>
+            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1.5">
+                <div class="w-7 h-7 rounded-[4px] bg-sky-500/10 text-[#0284c7] flex items-center justify-center">
+                    <flux:icon name="cloud" class="w-4 h-4" />
+                </div>
                 <div class="font-semibold text-[#111111] dark:text-[#EDEDEC] text-[11px]">Drainase &amp; Banjir</div>
                 <p class="text-[10px] text-[#787774] font-sans">Saluran mampet &amp; genangan</p>
             </div>
 
-            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1">
-                <span class="text-base">💡</span>
+            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1.5">
+                <div class="w-7 h-7 rounded-[4px] bg-amber-500/10 text-[#eab308] flex items-center justify-center">
+                    <flux:icon name="light-bulb" class="w-4 h-4" />
+                </div>
                 <div class="font-semibold text-[#111111] dark:text-[#EDEDEC] text-[11px]">Lampu Jalan Padam</div>
                 <p class="text-[10px] text-[#787774] font-sans">Jalan gelap &amp; rawan begal</p>
             </div>
 
-            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1">
-                <span class="text-base">🗑️</span>
+            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1.5">
+                <div class="w-7 h-7 rounded-[4px] bg-emerald-500/10 text-[#16a34a] flex items-center justify-center">
+                    <flux:icon name="trash" class="w-4 h-4" />
+                </div>
                 <div class="font-semibold text-[#111111] dark:text-[#EDEDEC] text-[11px]">Sampah Liar</div>
                 <p class="text-[10px] text-[#787774] font-sans">Tempat pembuangan liar</p>
             </div>
 
-            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1">
-                <span class="text-base">🚶</span>
+            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1.5">
+                <div class="w-7 h-7 rounded-[4px] bg-orange-500/10 text-[#f97316] flex items-center justify-center">
+                    <flux:icon name="user" class="w-4 h-4" />
+                </div>
                 <div class="font-semibold text-[#111111] dark:text-[#EDEDEC] text-[11px]">Trotoar Rusak</div>
                 <p class="text-[10px] text-[#787774] font-sans">Akses pejalan kaki</p>
             </div>
 
-            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1">
-                <span class="text-base">🚧</span>
+            <div class="p-3 rounded-[6px] border border-[#EAEAEA] dark:border-[#262626] bg-[#FBFBFA] dark:bg-[#181818] space-y-1.5">
+                <div class="w-7 h-7 rounded-[4px] bg-purple-500/10 text-[#8b5cf6] flex items-center justify-center">
+                    <flux:icon name="shield-exclamation" class="w-4 h-4" />
+                </div>
                 <div class="font-semibold text-[#111111] dark:text-[#EDEDEC] text-[11px]">Fasilitas Umum</div>
                 <p class="text-[10px] text-[#787774] font-sans">Jembatan, halte, rambu</p>
             </div>

@@ -3,7 +3,7 @@
         <!-- User Initial Avatar / AI Robot Avatar -->
         @if ($comment->user && strtolower($comment->user->username) === 'sira')
             <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-bold flex items-center justify-center text-sm shrink-0 shadow-sm ring-2 ring-indigo-200 dark:ring-indigo-900/60">
-                🤖
+                <flux:icon name="cpu-chip" class="w-4 h-4 text-white" />
             </div>
         @else
             <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 font-bold flex items-center justify-center text-xs shrink-0 uppercase">
@@ -72,13 +72,17 @@
                         <!-- Pratinjau LaTeX jika terdapat formula matematika -->
                         <div class="latex-preview hidden px-3 py-2 bg-slate-100/80 dark:bg-[#1A1A1A] border border-slate-200 dark:border-[#282828] rounded-xl text-xs text-slate-800 dark:text-[#CCCCCC] space-y-1">
                             <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1">
-                                <span>📐 Pratinjau LaTeX:</span>
+                                <flux:icon name="calculator" class="w-3 h-3 text-slate-400" />
+                                <span>Pratinjau LaTeX:</span>
                             </div>
                             <div class="latex-preview-content font-sans overflow-x-auto"></div>
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <span class="text-[10px] text-slate-400 dark:text-[#787774] italic">💡 Tag @Sira untuk memanggil bot AI</span>
+                            <span class="flex items-center space-x-1 text-[10px] text-slate-400 dark:text-[#787774] italic">
+                                <flux:icon name="sparkles" class="w-3 h-3 text-amber-500 shrink-0" />
+                                <span>Tag @Sira untuk asisten AI</span>
+                            </span>
                             <div class="flex items-center space-x-2">
                                 <button type="button" onclick="toggleReplyForm({{ $comment->id }})" class="px-2.5 py-1 text-xs text-slate-500 hover:bg-slate-200 dark:text-[#888888] dark:hover:bg-[#252525] rounded-lg">
                                     Batal
