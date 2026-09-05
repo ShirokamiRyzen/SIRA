@@ -290,13 +290,13 @@
     "semantic_hash": ""
   },
   "resources/views/components/footer.blade.php": {
-    "mtime": 1788617884.7715378,
-    "ast_hash": "a6b843464f0c517d404d03a591af3f3e",
+    "mtime": 1788622725.445161,
+    "ast_hash": "f62ec0443e96cf74b16da059c9ee17b8",
     "semantic_hash": ""
   },
   "resources/views/components/header.blade.php": {
-    "mtime": 1788618204.442462,
-    "ast_hash": "0ac9880c8a0a27959c4a0d0ef0030d48",
+    "mtime": 1788623380.3844504,
+    "ast_hash": "12421d0880c1fdb7f3cf619843f443d2",
     "semantic_hash": ""
   },
   "resources/views/components/landing.blade.php": {
@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/create.blade.php": {
-    "mtime": 1788615406.6339908,
-    "ast_hash": "e08abe3c890aea226685209d0b2f99e1",
+    "mtime": 1788623100.3482213,
+    "ast_hash": "6edaa40d0b95e090e6e1c36b855f493d",
     "semantic_hash": ""
   },
   "resources/views/reports/heatmap.blade.php": {

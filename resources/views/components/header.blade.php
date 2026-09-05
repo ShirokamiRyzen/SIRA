@@ -35,10 +35,10 @@
                 id="theme-toggle"
                 type="button"
                 aria-label="Ganti tema warna"
-                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] font-mono text-[11px] cursor-pointer"
+                class="w-9 h-9 sm:w-auto sm:h-9 sm:px-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] font-mono text-[11px] cursor-pointer inline-flex items-center justify-center gap-1.5 shrink-0"
             >
-                <flux:icon id="theme-toggle-light-icon" name="sun" class="w-3.5 h-3.5 hidden" />
-                <flux:icon id="theme-toggle-dark-icon" name="moon" class="w-3.5 h-3.5 hidden" />
+                <flux:icon id="theme-toggle-light-icon" name="sun" class="w-4 h-4 hidden" />
+                <flux:icon id="theme-toggle-dark-icon" name="moon" class="w-4 h-4 hidden" />
                 <span id="theme-toggle-text" class="hidden sm:inline">Tema</span>
             </button>
 
@@ -59,9 +59,9 @@
                         type="button"
                         id="notificationBellBtn"
                         aria-label="Lihat notifikasi"
-                        class="relative p-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center"
+                        class="relative w-9 h-9 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center shrink-0"
                     >
-                        <flux:icon name="bell" class="w-3.5 h-3.5" />
+                        <flux:icon name="bell" class="w-4 h-4" />
 
                         <!-- Notification Count Badge -->
                         <span id="notificationBadge" class="{{ $unreadCount > 0 ? '' : 'hidden' }} absolute -top-1.5 -right-1.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-[#9F2F2D] text-[9px] font-bold text-white shadow-xs font-mono">
@@ -511,7 +511,7 @@
 
     <!-- Panel Menu Navigasi Mobile (Floating Overlay - Tidak menggeser layout halaman) -->
     <div id="mobileMenu"
-         class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/98 dark:bg-[#111111]/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none">
+         class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/98 dark:bg-[#111111]/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
         <div class="space-y-1">
             <a href="{{ route('reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
                 <span>Dasbor Laporan</span>
@@ -590,10 +590,6 @@
                         openIcon.classList.add('hidden');
                         closeIcon.classList.remove('hidden');
                     }
-
-                    // Kunci scroll halaman agar konten background tidak bergerak
-                    document.documentElement.classList.add('overflow-hidden');
-                    document.body.classList.add('overflow-hidden');
                 } else {
                     // Animasi tutup panel overlay ke atas secara halus
                     mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
@@ -608,10 +604,6 @@
                         closeIcon.classList.add('hidden');
                         openIcon.classList.remove('hidden');
                     }
-
-                    // Pulihkan scroll halaman
-                    document.documentElement.classList.remove('overflow-hidden');
-                    document.body.classList.remove('overflow-hidden');
                 }
             }
 
@@ -624,6 +616,14 @@
                 mobileBackdrop.addEventListener('click', function () {
                     setMenuState(false);
                 });
+
+                mobileBackdrop.addEventListener('touchmove', function (e) {
+                    e.preventDefault();
+                }, { passive: false });
+
+                mobileBackdrop.addEventListener('wheel', function (e) {
+                    e.preventDefault();
+                }, { passive: false });
             }
 
             document.addEventListener('keydown', function (e) {
