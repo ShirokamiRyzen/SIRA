@@ -218,7 +218,7 @@ class OgImageController extends Controller
         $this->drawText($img, 16, 80, 120, 'SIRA // SISTEM INFORMASI & LAPORAN KOMUNITAS', $emerald, $fontPath);
         $this->drawText($img, 32, 80, 200, 'Kawal Masalah Kota Anda Secara Real-Time', $textWhite, $fontPath);
 
-        $tagline1 = 'Platform pengaduan publik berbasis GIS OpenFreeMap dengan algoritma prioritas Wilson Score.';
+        $tagline1 = 'Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas Wilson Score.';
         $tagline2 = 'Transparan, akuntabel, dan mengutamakan masalah paling krusial di lingkungan Anda.';
         $this->drawText($img, 16, 80, 260, $tagline1, $textMuted, $regularFont);
         $this->drawText($img, 16, 80, 295, $tagline2, $textMuted, $regularFont);
@@ -232,7 +232,7 @@ class OgImageController extends Controller
             ['label' => 'TOTAL LAPORAN', 'val' => (string) $totalReports],
             ['label' => 'CRITICAL TIER', 'val' => (string) $criticalReports],
             ['label' => 'TERSELESAIKAN', 'val' => (string) $resolvedReports],
-            ['label' => 'PETA GIS', 'val' => 'OpenFreeMap'],
+            ['label' => 'PETA GIS', 'val' => 'OpenMap'],
         ];
 
         $statX = 80;

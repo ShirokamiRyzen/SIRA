@@ -550,8 +550,8 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/OgImageController.php": {
-    "mtime": 1788617391.8345191,
-    "ast_hash": "5d2f9ce9e66fdc20ed4d8e6344ad99ef",
+    "mtime": 1788617553.571872,
+    "ast_hash": "00ca66c8fd2335892558af9352d592f7",
     "semantic_hash": ""
   },
   "tests/Feature/OgImageTest.php": {
