@@ -44,6 +44,7 @@
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @fluxAppearance
     @livewireStyles
     @stack('styles')
 </head>
@@ -88,6 +89,7 @@
     <!-- Footer Component -->
     <x-footer />
 
+    @fluxScripts
     @livewireScripts
 
     <!-- Pengendali Pengalih Tema (Light/Dark Toggle Controller) -->

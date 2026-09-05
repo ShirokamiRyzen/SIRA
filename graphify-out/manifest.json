@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
-    "mtime": 1788614299.0132718,
-    "ast_hash": "ad3df3dde8653b1f6118038532b0fd72",
+    "mtime": 1788616725.7405143,
+    "ast_hash": "1ff8d4c4ee38373fbe1dc4e06d6460f2",
     "semantic_hash": ""
   },
   "resources/views/livewire/stack-status.blade.php": {
