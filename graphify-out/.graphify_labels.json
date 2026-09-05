@@ -28,7 +28,7 @@
   "26": "artisan",
   "27": "bootstrap/app.php",
   "28": "config/app.php",
-  "29": "cache.php",
+  "29": "HeatmapSearchTest.php",
   "30": "database.php",
   "31": "filesystems.php",
   "32": "logging.php",

@@ -194,7 +194,7 @@
       "label": "HeatmapController",
       "file_type": "code",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L10",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller",
       "community": 25,
@@ -205,7 +205,7 @@
       "label": ".index()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L15",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_index",
       "community": 25,
@@ -216,12 +216,23 @@
       "label": ".geojson()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L31",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_geojson",
       "community": 25,
       "community_name": "Report",
       "norm_label": ".geojson()"
+    },
+    {
+      "label": ".searchLocation()",
+      "file_type": "code",
+      "source_file": "app/Http/Controllers/HeatmapController.php",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".searchlocation()"
     },
     {
       "label": "NotificationController.php",
@@ -1858,8 +1869,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "config_cache",
-      "community": 29,
-      "community_name": "cache.php",
+      "community": 25,
+      "community_name": "Report",
       "norm_label": "cache.php"
     },
     {
@@ -3007,6 +3018,17 @@
       "norm_label": "feature/exampletest.php"
     },
     {
+      "label": "HeatmapSearchTest.php",
+      "file_type": "code",
+      "source_file": "tests/Feature/HeatmapSearchTest.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_feature_heatmapsearchtest",
+      "community": 29,
+      "community_name": "HeatmapSearchTest.php",
+      "norm_label": "heatmapsearchtest.php"
+    },
+    {
       "label": "OgImageTest.php",
       "file_type": "code",
       "source_file": "tests/Feature/OgImageTest.php",
@@ -3016,6 +3038,17 @@
       "community": 5,
       "community_name": "ReportComment",
       "norm_label": "ogimagetest.php"
+    },
+    {
+      "label": "ReportCreatePhotoTest.php",
+      "file_type": "code",
+      "source_file": "tests/Feature/ReportCreatePhotoTest.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_feature_reportcreatephototest",
+      "community": 5,
+      "community_name": "ReportComment",
+      "norm_label": "reportcreatephototest.php"
     },
     {
       "label": "ReportSystemTest.php",
@@ -3464,8 +3497,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_advanced_queries",
-      "community": 86,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 10,
+      "community_name": "Advanced Query Best Practices",
       "norm_label": "advanced-queries.md"
     },
     {
@@ -4036,8 +4069,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_db_performance",
-      "community": 15,
-      "community_name": "Database Performance Best Practices",
+      "community": 86,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "db-performance.md"
     },
     {
@@ -4135,8 +4168,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_eloquent",
-      "community": 86,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 16,
+      "community_name": "Eloquent Best Practices",
       "norm_label": "eloquent.md"
     },
     {
@@ -4234,8 +4267,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_error_handling",
-      "community": 45,
-      "community_name": "Error Handling Best Practices",
+      "community": 86,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "error-handling.md"
     },
     {
@@ -7603,7 +7636,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L10",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller",
@@ -7647,11 +7680,23 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L10",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller",
       "target": "app_http_controllers_heatmapcontroller_heatmapcontroller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/HeatmapController.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_heatmapcontroller",
+      "target": "config_cache",
       "confidence_score": 1.0
     },
     {
@@ -7683,7 +7728,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L8",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller",
@@ -7718,7 +7763,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller",
@@ -7729,11 +7774,22 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L15",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller",
       "target": "app_http_controllers_heatmapcontroller_heatmapcontroller_index",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/HeatmapController.php",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_heatmapcontroller_heatmapcontroller",
+      "target": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
       "confidence_score": 1.0
     },
     {
@@ -7742,7 +7798,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L17",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_index",
@@ -7752,7 +7808,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L15",
+      "source_location": "L17",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -7766,7 +7822,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L33",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_geojson",
@@ -7776,7 +7832,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -7788,11 +7844,35 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_geojson",
+      "target": "illuminate_http_request",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/HeatmapController.php",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
+      "target": "illuminate_http_jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/HeatmapController.php",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
       "target": "illuminate_http_request",
       "confidence_score": 1.0
     },
@@ -9733,6 +9813,18 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_feature_ogimagetest",
+      "target": "app_models_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/ReportCreatePhotoTest.php",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_reportcreatephototest",
       "target": "app_models_user",
       "confidence_score": 1.0
     },
@@ -15202,5 +15294,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4ea684a94eadcc3c73d0d2a2a18bb47eea7498a6"
+  "built_at_commit": "77d907c19033e4bf881b876129cc5aa11b4d7155"
 }

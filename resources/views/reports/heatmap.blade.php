@@ -55,12 +55,49 @@
             </div>
         </div>
 
-        <!-- Kontrol Lokasi Saya (Pojok Kanan Atas) -->
-        <div class="absolute top-6 right-6 z-10">
-            <button type="button" id="btnMyLoc" class="px-3.5 py-2 rounded-xl bg-white/90 hover:bg-white dark:bg-[#1E1E1E]/90 dark:hover:bg-[#252525] text-slate-800 dark:text-[#EDEDEC] font-bold text-xs shadow-md border border-slate-200 dark:border-[#333333] flex items-center space-x-1.5 backdrop-blur-md transition">
-                <flux:icon name="viewfinder-circle" class="w-3.5 h-3.5 text-slate-700 dark:text-[#EDEDEC] shrink-0" />
-                <span>Pusatkan Lokasi Saya</span>
-            </button>
+        <!-- Kontrol Pencarian Lokasi & GPS (Pojok Kanan Atas) -->
+        <div class="absolute top-4 right-4 left-14 sm:left-auto sm:w-96 max-w-[calc(100%-4.5rem)] z-10 font-sans text-xs">
+            <div class="relative flex items-center bg-white/95 dark:bg-[#161615]/95 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-[#282828] shadow-lg p-1.5 gap-1.5 transition-all focus-within:ring-2 focus-within:ring-emerald-500/30 dark:focus-within:ring-emerald-400/20">
+                <!-- Search Input Group -->
+                <div class="flex items-center flex-1 min-w-0 pl-2.5 pr-1 gap-2">
+                    <flux:icon name="magnifying-glass" class="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />
+                    <input
+                        type="text"
+                        id="locationSearchInput"
+                        placeholder="Cari kota, kecamatan, jalan..."
+                        autocomplete="off"
+                        class="w-full bg-transparent text-xs text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden py-1"
+                    >
+                    <!-- Clear Button -->
+                    <button type="button" id="clearSearchBtn" title="Hapus pencarian" class="hidden p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-md cursor-pointer transition">
+                        <flux:icon name="x-mark" class="w-3.5 h-3.5" />
+                    </button>
+                    <!-- Search Spinner -->
+                    <div id="searchSpinner" class="hidden w-3.5 h-3.5 border-2 border-emerald-600 dark:border-emerald-400 border-t-transparent rounded-full animate-spin shrink-0"></div>
+                </div>
+
+                <!-- Separator -->
+                <div class="w-px h-5 bg-slate-200 dark:bg-[#282828] shrink-0"></div>
+
+                <!-- GPS Button -->
+                <button
+                    type="button"
+                    id="btnMyLoc"
+                    title="Pusatkan ke Lokasi GPS Saya"
+                    class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-slate-800 dark:text-[#EDEDEC] text-xs font-semibold shrink-0 cursor-pointer transition active:scale-95"
+                >
+                    <flux:icon id="gpsIcon" name="viewfinder-circle" class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <div id="gpsLoading" class="hidden w-3.5 h-3.5 border-2 border-emerald-600 dark:border-emerald-400 border-t-transparent rounded-full animate-spin shrink-0"></div>
+                    <span id="gpsText" class="hidden sm:inline">GPS Saya</span>
+                </button>
+            </div>
+
+            <!-- Dropdown Hasil Pencarian -->
+            <div
+                id="searchResultsDropdown"
+                class="hidden absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#282828] rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-[#222222] overscroll-contain font-sans"
+            >
+            </div>
         </div>
     </div>
 </div>
@@ -218,25 +255,264 @@
         });
     });
 
-    // Kontrol Pusatkan Lokasi Pengguna
-    document.getElementById('btnMyLoc').addEventListener('click', () => {
-        if (!navigator.geolocation) {
-            alert('Browser tidak mendukung geolokasi');
+    // -------------------------------------------------------------
+    // Kontrol Pencarian Lokasi & GPS Pengguna
+    // -------------------------------------------------------------
+    const searchInput = document.getElementById('locationSearchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const searchSpinner = document.getElementById('searchSpinner');
+    const searchDropdown = document.getElementById('searchResultsDropdown');
+
+    const btnMyLoc = document.getElementById('btnMyLoc');
+    const gpsIcon = document.getElementById('gpsIcon');
+    const gpsLoading = document.getElementById('gpsLoading');
+    const gpsText = document.getElementById('gpsText');
+
+    let searchMarker = null;
+    let gpsMarker = null;
+    let searchDebounceTimer = null;
+    let activeResultIndex = -1;
+
+    function closeSearchDropdown() {
+        searchDropdown.classList.add('hidden');
+        searchDropdown.innerHTML = '';
+        activeResultIndex = -1;
+    }
+
+    function selectSearchResult(item) {
+        if (!item || isNaN(item.lat) || isNaN(item.lng)) return;
+
+        closeSearchDropdown();
+        searchInput.value = item.name;
+        clearSearchBtn.classList.remove('hidden');
+
+        // Pusatkan peta ke lokasi yang dipilih
+        map.flyTo({
+            center: [item.lng, item.lat],
+            zoom: 14,
+            essential: true
+        });
+
+        // Pasang marker titik pencarian
+        if (searchMarker) {
+            searchMarker.remove();
+        }
+
+        const popup = new maplibregl.Popup({ offset: 25 })
+            .setHTML(`
+                <div class="p-1 space-y-1 font-sans">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Hasil Pencarian</div>
+                    <div class="text-xs font-bold text-slate-900 leading-tight">${escapeHtml(item.name)}</div>
+                    <div class="text-[11px] text-slate-500 leading-snug">${escapeHtml(item.display_name)}</div>
+                </div>
+            `);
+
+        searchMarker = new maplibregl.Marker({ color: '#059669' })
+            .setLngLat([item.lng, item.lat])
+            .setPopup(popup)
+            .addTo(map);
+
+        popup.addTo(map);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function executeLocationSearch(query) {
+        if (!query || query.trim().length < 2) {
+            closeSearchDropdown();
             return;
         }
 
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                map.flyTo({
-                    center: [pos.coords.longitude, pos.coords.latitude],
-                    zoom: 14,
-                    essential: true
+        if (searchSpinner) searchSpinner.classList.remove('hidden');
+
+        fetch(`{{ route('api.geocode.search') }}?q=${encodeURIComponent(query.trim())}`)
+            .then(res => res.json())
+            .then(results => {
+                if (searchSpinner) searchSpinner.classList.add('hidden');
+
+                if (!results || results.length === 0) {
+                    searchDropdown.innerHTML = `
+                        <div class="p-3 text-center text-xs text-slate-500 dark:text-[#888888]">
+                            Lokasi tidak ditemukan. Coba gunakan nama kota, jalan, atau daerah lain.
+                        </div>
+                    `;
+                    searchDropdown.classList.remove('hidden');
+                    return;
+                }
+
+                searchDropdown.innerHTML = '';
+                results.forEach((item, index) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.setAttribute('data-index', index);
+                    btn.className = 'w-full text-left p-2.5 sm:p-3 hover:bg-slate-50 dark:hover:bg-[#1E1E1E] transition flex items-start gap-2.5 cursor-pointer search-item-btn';
+                    btn.innerHTML = `
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 21s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 7.2c0 7.3-8 11.8-8 11.8z" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] truncate">${escapeHtml(item.name)}</div>
+                            <div class="text-[11px] text-slate-500 dark:text-[#888888] truncate">${escapeHtml(item.display_name)}</div>
+                        </div>
+                    `;
+                    btn.addEventListener('click', () => selectSearchResult(item));
+                    searchDropdown.appendChild(btn);
                 });
-            },
-            (err) => {
-                alert('Tidak dapat mendeteksi lokasi: ' + err.message);
+
+                searchDropdown.classList.remove('hidden');
+            })
+            .catch(err => {
+                console.error('Pencarian lokasi gagal:', err);
+                if (searchSpinner) searchSpinner.classList.add('hidden');
+            });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (val.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
             }
-        );
+
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                executeLocationSearch(val);
+            }, 300);
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            const items = searchDropdown.querySelectorAll('.search-item-btn');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (items.length > 0) {
+                    activeResultIndex = (activeResultIndex + 1) % items.length;
+                    items[activeResultIndex].focus();
+                }
+            } else if (e.key === 'Escape') {
+                closeSearchDropdown();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (items.length > 0) {
+                    items[0].click();
+                } else if (searchInput.value.trim().length >= 2) {
+                    executeLocationSearch(searchInput.value.trim());
+                }
+            }
+        });
+    }
+
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearchBtn.classList.add('hidden');
+            closeSearchDropdown();
+            if (searchMarker) {
+                searchMarker.remove();
+                searchMarker = null;
+            }
+            searchInput.focus();
+        });
+    }
+
+    // Klik di luar dropdown untuk menutup
+    document.addEventListener('click', (e) => {
+        if (searchDropdown && !searchDropdown.contains(e.target) && searchInput && !searchInput.contains(e.target)) {
+            closeSearchDropdown();
+        }
     });
+
+    // Kontrol Pusatkan Lokasi GPS Pengguna
+    if (btnMyLoc) {
+        btnMyLoc.addEventListener('click', () => {
+            if (!navigator.geolocation) {
+                alert('Browser Anda tidak mendukung fitur deteksi lokasi GPS.');
+                return;
+            }
+
+            btnMyLoc.disabled = true;
+            if (gpsIcon) gpsIcon.classList.add('hidden');
+            if (gpsLoading) gpsLoading.classList.remove('hidden');
+            if (gpsText) gpsText.textContent = 'Mendeteksi...';
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    btnMyLoc.disabled = false;
+                    if (gpsIcon) gpsIcon.classList.remove('hidden');
+                    if (gpsLoading) gpsLoading.classList.add('hidden');
+                    if (gpsText) gpsText.textContent = 'GPS Saya';
+
+                    const lng = pos.coords.longitude;
+                    const lat = pos.coords.latitude;
+                    const accuracy = Math.round(pos.coords.accuracy || 0);
+
+                    map.flyTo({
+                        center: [lng, lat],
+                        zoom: 15,
+                        essential: true
+                    });
+
+                    if (gpsMarker) {
+                        gpsMarker.remove();
+                    }
+
+                    // Elemen kustom: Pulsing Blue Radar Marker
+                    const markerEl = document.createElement('div');
+                    markerEl.className = 'relative flex items-center justify-center';
+                    markerEl.innerHTML = `
+                        <span class="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-blue-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-4 w-4 bg-blue-600 border-2 border-white shadow-md"></span>
+                    `;
+
+                    const popup = new maplibregl.Popup({ offset: 15 })
+                        .setHTML(`
+                            <div class="p-1 space-y-0.5 font-sans">
+                                <div class="text-[10px] font-bold uppercase tracking-wider text-blue-600">Lokasi Anda</div>
+                                <div class="text-xs font-bold text-slate-900 leading-tight">Posisi GPS Saat Ini</div>
+                                <div class="text-[11px] text-slate-500 font-mono">Akurasi: &plusmn;${accuracy} meter</div>
+                            </div>
+                        `);
+
+                    gpsMarker = new maplibregl.Marker({ element: markerEl })
+                        .setLngLat([lng, lat])
+                        .setPopup(popup)
+                        .addTo(map);
+
+                    popup.addTo(map);
+                },
+                (err) => {
+                    btnMyLoc.disabled = false;
+                    if (gpsIcon) gpsIcon.classList.remove('hidden');
+                    if (gpsLoading) gpsLoading.classList.add('hidden');
+                    if (gpsText) gpsText.textContent = 'GPS Saya';
+
+                    let msg = 'Gagal mendeteksi lokasi GPS.';
+                    if (err.code === 1) {
+                        msg = 'Izin akses lokasi GPS ditolak oleh browser/pengguna.';
+                    } else if (err.code === 2) {
+                        msg = 'Informasi titik lokasi GPS tidak tersedia.';
+                    } else if (err.code === 3) {
+                        msg = 'Waktu permintaan deteksi GPS habis (timeout).';
+                    }
+                    alert(msg);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        });
+    }
 </script>
 @endpush

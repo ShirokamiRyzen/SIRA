@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
 // Visualisasi Heatmap OpenFreeMap
 Route::get('/heatmap', [HeatmapController::class, 'index'])->name('heatmap.index');
 Route::get('/api/reports/heatmap', [HeatmapController::class, 'geojson'])->name('api.reports.heatmap');
+Route::get('/api/geocode/search', [HeatmapController::class, 'searchLocation'])->name('api.geocode.search');
 
 // Pencarian Mention Pengguna (@) untuk Komentar
 Route::get('/api/users/mention', [CommentController::class, 'mentionSuggestions'])->name('api.users.mention');
