@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
-    "mtime": 1788616725.7405143,
-    "ast_hash": "1ff8d4c4ee38373fbe1dc4e06d6460f2",
+    "mtime": 1788617202.9412167,
+    "ast_hash": "ad3df3dde8653b1f6118038532b0fd72",
     "semantic_hash": ""
   },
   "resources/views/livewire/stack-status.blade.php": {
@@ -550,8 +550,8 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/OgImageController.php": {
-    "mtime": 1788614404.8075464,
-    "ast_hash": "a17b9318a0e4d953fb2649338625411a",
+    "mtime": 1788617214.4573948,
+    "ast_hash": "1b007953d200659e9cefb2eb958f4f1b",
     "semantic_hash": ""
   },
   "tests/Feature/OgImageTest.php": {

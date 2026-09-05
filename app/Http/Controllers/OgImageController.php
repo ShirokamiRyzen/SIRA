@@ -162,7 +162,7 @@ class OgImageController extends Controller
         $this->drawText($img, 14, 850, $barY + 60, $date, $textMuted, $fontPath);
 
         // Watermark URL Footer
-        $watermark = 'sira.test // Sistem Informasi & Laporan Real-Time Komunitas';
+        $watermark = parse_url(config('app.url'), PHP_URL_HOST) . ' // Sistem Informasi & Laporan Real-Time Komunitas';
         $this->drawText($img, 11, 70, $height - 55, $watermark, $textDim, $regularFont);
 
         ob_start();
@@ -246,7 +246,7 @@ class OgImageController extends Controller
             $statX += 250;
         }
 
-        $watermark = 'sira.test // Partisipasi Warga Untuk Perubahan Nyata';
+        $watermark = parse_url(config('app.url'), PHP_URL_HOST) . ' // Partisipasi Warga Untuk Perubahan Nyata';
         $this->drawText($img, 12, 80, $height - 60, $watermark, $textDim, $regularFont);
 
         ob_start();
