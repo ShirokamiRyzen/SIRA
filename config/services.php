@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'openai' => [
+        'api_url' => env('OPENAI_API', 'https://ai.rizuu.id/v1'),
+        'api_key' => env('OPENAI_KEY'),
+        'model' => env('OPENAI_MODEL', 'deepseek-v4-pro'),
+    ],
+
 ];

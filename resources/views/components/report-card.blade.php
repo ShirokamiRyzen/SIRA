@@ -13,11 +13,11 @@
             <div class="absolute top-3 left-3">
                 @if ($report->rank_tier === 'critical')
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#FDEBEC] text-[#9F2F2D] border border-[#9F2F2D]/20">
-                        Critical
+                        Kritis
                     </span>
                 @elseif ($report->rank_tier === 'urgent')
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#FBF3DB] text-[#956400] border border-[#956400]/20">
-                        Urgent
+                        Mendesak
                     </span>
                 @elseif ($report->rank_tier === 'trending')
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] border border-[#346538]/20">
@@ -25,7 +25,7 @@
                     </span>
                 @else
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#F7F6F3] text-[#787774] border border-[#EAEAEA]">
-                        Normal
+                        Biasa
                     </span>
                 @endif
             </div>
@@ -33,7 +33,13 @@
             <!-- Status Tag -->
             <div class="absolute top-3 right-3">
                 <span class="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[10px] font-mono tracking-wider uppercase bg-white/90 dark:bg-[#111111]/90 text-[#111111] dark:text-[#EDEDEC] border border-[#EAEAEA] dark:border-[#282828]">
-                    {{ str_replace('_', ' ', $report->status) }}
+                    @if ($report->status === 'resolved')
+                        Selesai
+                    @elseif ($report->status === 'in_progress')
+                        Diproses
+                    @else
+                        Aktif
+                    @endif
                 </span>
             </div>
         </div>

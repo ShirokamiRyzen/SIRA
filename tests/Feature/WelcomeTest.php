@@ -2,20 +2,25 @@
 
 use Livewire\Volt\Volt;
 
-test('welcome page renders successfully with livewire and volt telemetry', function () {
+test('welcome page renders successfully with sira context and telemetry', function () {
     $response = $this->get('/');
 
     $response->assertSuccessful();
-    $response->assertSee('Utilitarian simplicity for modern web applications.');
-    $response->assertSee('Volt Active');
+    $response->assertSee('SIRA');
+    $response->assertSee('Sistem Informasi &amp; Rekomendasi Aspirasi Publik', false);
+    $response->assertSee('Kawal fasilitas publik dengan bukti nyata dan suara warga.');
     $response->assertSee('theme-toggle');
+    $response->assertSee('Dasbor Laporan');
+    $response->assertSee('Peta Sebaran');
     $response->assertSee('localStorage.getItem(\'theme\')', false);
 });
 
 test('stack status volt component functions reactively', function () {
     Volt::test('stack-status')
-        ->assertSee('01. Framework')
-        ->assertSee('Livewire v4 Ready')
-        ->call('selectTab', 'livewire')
-        ->assertSee('Livewire Volt v1.x');
+        ->assertSee('01. Alur Konsensus &amp; Vote', false)
+        ->assertSee('Sistem Siap')
+        ->call('selectTab', 'ai')
+        ->assertSee('Asisten Cerdas @Sira')
+        ->call('selectTab', 'geo')
+        ->assertSee('Pemetaan &amp; Lokasi', false);
 });

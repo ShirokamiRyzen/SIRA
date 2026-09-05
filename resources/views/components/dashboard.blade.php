@@ -7,10 +7,10 @@
 ])
 
 <!-- Component: Dashboard Laporan & Feed Komunitas -->
-<div class="space-y-8">
+<div id="dashboard" class="space-y-8 scroll-mt-24 transition-opacity duration-200">
     <!-- Filter & Query Control Bar -->
     <div class="bg-white dark:bg-[#141414] p-4 sm:p-5 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222]">
-        <form method="GET" action="{{ route('reports.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <form method="GET" action="{{ route('reports.index', [], false) }}#dashboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
             <!-- Search Text Input -->
             <div class="lg:col-span-2">
                 <input type="text" name="search" value="{{ request('search') }}"
@@ -20,7 +20,7 @@
 
             <!-- Filter Kota Dropdown -->
             <div>
-                <select name="city" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
+                <select name="city" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
                     <option value="">Semua Kota/Kab</option>
                     @foreach ($availableCities as $city)
                         <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>{{ $city }}</option>
@@ -30,7 +30,7 @@
 
             <!-- Filter Kecamatan Dropdown -->
             <div>
-                <select name="district" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
+                <select name="district" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
                     <option value="">Semua Kecamatan</option>
                     @foreach ($availableDistricts as $dist)
                         <option value="{{ $dist }}" {{ request('district') == $dist ? 'selected' : '' }}>{{ $dist }}</option>
@@ -38,9 +38,19 @@
                 </select>
             </div>
 
+            <!-- Filter Status Dropdown -->
+            <div>
+                <select name="status" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
+                    <option value="">Semua Status</option>
+                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
+                    <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Sedang Ditangani</option>
+                    <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Selesai (Resolved)</option>
+                </select>
+            </div>
+
             <!-- Filter Tier & Submit Button -->
             <div class="flex items-center space-x-2">
-                <select name="rank_tier" class="w-full px-3 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
+                <select name="rank_tier" onchange="this.form.requestSubmit()" class="w-full px-3 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
                     <option value="">Semua Tier</option>
                     <option value="critical" {{ request('rank_tier') == 'critical' ? 'selected' : '' }}>Critical (100+)</option>
                     <option value="urgent" {{ request('rank_tier') == 'urgent' ? 'selected' : '' }}>Urgent (50+)</option>
@@ -54,19 +64,41 @@
             </div>
         </form>
 
-        <!-- Sorting Control Tabs -->
-        <div class="flex items-center justify-between mt-4 pt-3 border-t border-[#EAEAEA] dark:border-[#222222] text-xs font-mono">
-            <span class="text-[#787774]">Urutkan Data:</span>
-            <div class="flex items-center space-x-1">
-                <a href="{{ request()->fullUrlWithQuery(['sort' => 'trending']) }}"
+        <!-- Status Pills & Sorting Control Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 pt-3 border-t border-[#EAEAEA] dark:border-[#222222] text-xs font-mono">
+            <!-- Filter Status Quick Pills -->
+            <div class="flex items-center space-x-1.5 overflow-x-auto">
+                <span class="text-[#787774] shrink-0">Status:</span>
+                <a href="{{ request()->fullUrlWithQuery(['status' => null]) }}#dashboard"
+                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ !request('status') ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
+                   Semua
+                </a>
+                <a href="{{ request()->fullUrlWithQuery(['status' => 'active']) }}#dashboard"
+                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ request('status') === 'active' ? 'bg-amber-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
+                   ● Aktif
+                </a>
+                <a href="{{ request()->fullUrlWithQuery(['status' => 'in_progress']) }}#dashboard"
+                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ request('status') === 'in_progress' ? 'bg-indigo-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
+                   ● Diproses
+                </a>
+                <a href="{{ request()->fullUrlWithQuery(['status' => 'resolved']) }}#dashboard"
+                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ request('status') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
+                   ✔ Selesai
+                </a>
+            </div>
+
+            <!-- Sorting Control Tabs -->
+            <div class="flex items-center space-x-1 shrink-0">
+                <span class="text-[#787774] mr-1">Urutkan:</span>
+                <a href="{{ request()->fullUrlWithQuery(['sort' => 'trending']) }}#dashboard"
                    class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? 'trending') === 'trending' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/50' }}">
                    Trending
                 </a>
-                <a href="{{ request()->fullUrlWithQuery(['sort' => 'top_score']) }}"
+                <a href="{{ request()->fullUrlWithQuery(['sort' => 'top_score']) }}#dashboard"
                    class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? '') === 'top_score' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/50' }}">
                    Skor Tertinggi
                 </a>
-                <a href="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}"
+                <a href="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}#dashboard"
                    class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? '') === 'latest' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/50' }}">
                    Terbaru
                 </a>
@@ -113,3 +145,97 @@
         </div>
     </div>
 </div>
+
+<script>
+    (function () {
+        function initDashboardAjax() {
+            const dashboard = document.getElementById('dashboard');
+            if (!dashboard || dashboard.dataset.ajaxInitialized === 'true') return;
+            dashboard.dataset.ajaxInitialized = 'true';
+
+            function fetchDashboard(url) {
+                const targetUrl = url.includes('#') ? url : url + '#dashboard';
+                dashboard.classList.add('opacity-40', 'pointer-events-none');
+
+                fetch(targetUrl, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newDashboard = doc.getElementById('dashboard');
+                    if (newDashboard) {
+                        dashboard.innerHTML = newDashboard.innerHTML;
+                        window.history.pushState(null, '', targetUrl);
+
+                        const rect = dashboard.getBoundingClientRect();
+                        if (rect.top < -50 || rect.top > window.innerHeight) {
+                            dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+
+                        dashboard.dataset.ajaxInitialized = 'false';
+                        initDashboardAjax();
+                    } else {
+                        window.location.href = targetUrl;
+                    }
+                })
+                .catch(err => {
+                    console.error('AJAX Filter error:', err);
+                    window.location.href = targetUrl;
+                })
+                .finally(() => {
+                    dashboard.classList.remove('opacity-40', 'pointer-events-none');
+                });
+            }
+
+            // Form submit intercept
+            const form = dashboard.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    const params = new URLSearchParams();
+                    for (const [key, val] of formData.entries()) {
+                        if (val && val.trim() !== '') {
+                            params.append(key, val.trim());
+                        }
+                    }
+                    const baseUrl = form.action.split('?')[0].split('#')[0];
+                    const queryStr = params.toString();
+                    const finalUrl = baseUrl + (queryStr ? '?' + queryStr : '') + '#dashboard';
+                    fetchDashboard(finalUrl);
+                });
+            }
+
+            // Links intercept (status pills, sort tabs, pagination)
+            dashboard.querySelectorAll('a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#')) return;
+
+                if (link.pathname.includes('/report/new') || link.pathname.match(/\/reports\/\d+/)) {
+                    return;
+                }
+
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    fetchDashboard(link.href);
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDashboardAjax);
+        } else {
+            initDashboardAjax();
+        }
+
+        window.addEventListener('popstate', function () {
+            const dashboard = document.getElementById('dashboard');
+            if (dashboard) {
+                dashboard.dataset.ajaxInitialized = 'false';
+                initDashboardAjax();
+            }
+        });
+    })();
+</script>

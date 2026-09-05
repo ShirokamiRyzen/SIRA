@@ -4,12 +4,30 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HeatmapController;
 use App\Http\Controllers\ReportController;
+use App\Models\Report;
 use Illuminate\Support\Facades\Route;
 
-// Halaman Welcome
+// Halaman Welcome / Landing Page SIRA
 Route::get('/', function () {
-    return view('welcome');
-});
+    $totalReports = Report::count();
+    $criticalCount = Report::where('rank_tier', 'critical')->count();
+    $urgentCount = Report::where('rank_tier', 'urgent')->count();
+    $resolvedCount = Report::where('status', 'resolved')->count();
+    $criticalReports = Report::with(['user'])
+        ->withCount('comments')
+        ->where('rank_tier', '!=', 'normal')
+        ->orderByDesc('vote_score')
+        ->take(4)
+        ->get();
+
+    return view('welcome', compact(
+        'totalReports',
+        'criticalCount',
+        'urgentCount',
+        'resolvedCount',
+        'criticalReports'
+    ));
+})->name('home');
 
 // Autentikasi Pengguna (Username & Password)
 Route::middleware('guest')->group(function () {
@@ -31,11 +49,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
     Route::post('/reports/{report}/vote', [ReportController::class, 'vote'])->name('reports.vote');
 
+    // Update Status Laporan (Hanya untuk pembuat laporan)
+    Route::patch('/reports/{report}/status', [ReportController::class, 'updateStatus'])->name('reports.updateStatus');
+
     // Komentar Bertingkat (Nested Comments)
     Route::post('/reports/{report}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/reports/{report}/comments/{comment}/ai-reply', [CommentController::class, 'generateAiReply'])->name('comments.aiReply');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
 // Visualisasi Heatmap OpenFreeMap
 Route::get('/heatmap', [HeatmapController::class, 'index'])->name('heatmap.index');
 Route::get('/api/reports/heatmap', [HeatmapController::class, 'geojson'])->name('api.reports.heatmap');
+
+// Pencarian Mention Pengguna (@) untuk Komentar
+Route::get('/api/users/mention', [CommentController::class, 'mentionSuggestions'])->name('api.users.mention');

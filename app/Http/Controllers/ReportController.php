@@ -58,7 +58,7 @@ class ReportController extends Controller
             default => $query->orderByDesc('vote_score')->orderByDesc('created_at'), // Trending
         };
 
-        $reports = $query->paginate(9)->withQueryString();
+        $reports = $query->paginate(9)->withQueryString()->fragment('dashboard');
 
         // Ambil daftar unik kota & kecamatan untuk dropdown filter
         $availableCities = Report::whereNotNull('city')->distinct()->pluck('city')->sort()->values();
@@ -206,6 +206,40 @@ class ReportController extends Controller
         }
 
         return back()->with('success', 'Vote berhasil diperbarui!');
+    }
+
+    /**
+     * Perbarui status laporan (khusus hanya oleh pembuat laporan).
+     */
+    public function updateStatus(Request $request, Report $report): JsonResponse|RedirectResponse
+    {
+        if (Auth::id() !== $report->user_id) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hanya pembuat laporan yang dapat mengubah status laporan ini.',
+                ], 403);
+            }
+
+            abort(403, 'Hanya pembuat laporan yang dapat mengubah status laporan ini.');
+        }
+
+        $validated = $request->validate([
+            'status' => ['required', 'in:active,in_progress,resolved'],
+        ]);
+
+        $report->update(['status' => $validated['status']]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'status' => $report->status,
+                'status_label' => str_replace('_', ' ', $report->status),
+                'message' => 'Status laporan berhasil diperbarui menjadi '.str_replace('_', ' ', $report->status).'.',
+            ]);
+        }
+
+        return back()->with('success', 'Status laporan berhasil diperbarui!');
     }
 
     /**

@@ -92,7 +92,11 @@ class Report extends Model
             return null;
         }
 
-        return $this->votes->firstWhere('user_id', $user->id);
+        if ($this->relationLoaded('votes')) {
+            return $this->votes->firstWhere('user_id', $user->id);
+        }
+
+        return $this->votes()->where('user_id', $user->id)->first();
     }
 
     /**
