@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('report_comments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('report_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+
+            // Self-referencing foreign key untuk nested comments (balasan bertingkat)
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->constrained('report_comments')
+                ->cascadeOnDelete();
+
+            $table->text('content');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['report_id', 'parent_id']);
+            $table->index('created_at');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('report_comments');
+    }
+};
