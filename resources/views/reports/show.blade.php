@@ -1238,7 +1238,7 @@
         // Watermark Footer
         ctx.fillStyle = colors.textDim;
         ctx.font = '400 12px "Geist Mono", monospace';
-        ctx.fillText('sira.test // Sistem Informasi & Laporan Real-Time Komunitas', 70, height - 55);
+        ctx.fillText((window.location.host || 'sira') + ' // Sistem Informasi Ruang Aman', 70, height - 55);
 
         // Photo Preview Box on Right
         const photoX = 720;

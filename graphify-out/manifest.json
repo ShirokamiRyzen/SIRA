@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "resources/views/welcome.blade.php": {
-    "mtime": 1788615259.4480298,
-    "ast_hash": "7ae34e7bb517774bd9d3c343d4bb6b31",
+    "mtime": 1788617871.9033663,
+    "ast_hash": "bc6f79b8c6f9a217cf7719a37ce915f7",
     "semantic_hash": ""
   },
   "routes/console.php": {
@@ -290,13 +290,13 @@
     "semantic_hash": ""
   },
   "resources/views/components/footer.blade.php": {
-    "mtime": 1788615809.520882,
-    "ast_hash": "f912e25443dc33706315f4b400d26087",
+    "mtime": 1788617884.7715378,
+    "ast_hash": "a6b843464f0c517d404d03a591af3f3e",
     "semantic_hash": ""
   },
   "resources/views/components/header.blade.php": {
-    "mtime": 1788616036.646327,
-    "ast_hash": "e2aa2cffa90d93acf781d1ffc963aee2",
+    "mtime": 1788618204.442462,
+    "ast_hash": "0ac9880c8a0a27959c4a0d0ef0030d48",
     "semantic_hash": ""
   },
   "resources/views/components/landing.blade.php": {
@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
-    "mtime": 1788617202.9412167,
-    "ast_hash": "ad3df3dde8653b1f6118038532b0fd72",
+    "mtime": 1788618222.2627275,
+    "ast_hash": "639680d851d0f1f447ffa6b3a8ecf527",
     "semantic_hash": ""
   },
   "resources/views/livewire/stack-status.blade.php": {
@@ -340,13 +340,13 @@
     "semantic_hash": ""
   },
   "resources/views/reports/index.blade.php": {
-    "mtime": 1788614092.8600142,
-    "ast_hash": "783f46632205cb144d0b4d13957a7871",
+    "mtime": 1788617878.2666433,
+    "ast_hash": "384da45796e0c8b2250ce184c01d54f0",
     "semantic_hash": ""
   },
   "resources/views/reports/show.blade.php": {
-    "mtime": 1788615328.64908,
-    "ast_hash": "e04d9058e6be59645d62f26db447bc8d",
+    "mtime": 1788617905.1295934,
+    "ast_hash": "c14888df8d3ea3cb814838a2719b068a",
     "semantic_hash": ""
   },
   "tests/Feature/ReportSystemTest.php": {
@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/WelcomeTest.php": {
-    "mtime": 1788615500.5935776,
-    "ast_hash": "fd0a4785a85273bc71e50e28772bdbe4",
+    "mtime": 1788617910.6214979,
+    "ast_hash": "f2707ff02e290a6c1a351097401cafec",
     "semantic_hash": ""
   },
   ".agents/skills/infer-conventions/SKILL.md": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "app/Services/AiSummaryService.php": {
-    "mtime": 1788604699.1038418,
-    "ast_hash": "0ff383e01db4895867cfb7595554e926",
+    "mtime": 1788617898.5728261,
+    "ast_hash": "b769503029ea7bd8192bca416908270b",
     "semantic_hash": ""
   },
   "app/Http/Controllers/NotificationController.php": {
@@ -550,8 +550,8 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/OgImageController.php": {
-    "mtime": 1788617553.571872,
-    "ast_hash": "00ca66c8fd2335892558af9352d592f7",
+    "mtime": 1788617893.1006896,
+    "ast_hash": "216c9b9c172929c79644050588f46a3b",
     "semantic_hash": ""
   },
   "tests/Feature/OgImageTest.php": {

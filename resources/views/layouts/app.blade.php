@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'SIRA - Sistem Informasi & Laporan Komunitas')</title>
+    <title>@yield('title', 'SIRA — Sistem Informasi Ruang Aman')</title>
 
     <!-- OpenGraph & Twitter Card Dinamis -->
-    <meta property="og:site_name" content="SIRA - Sistem Informasi & Laporan Komunitas">
-    <meta property="og:title" content="@yield('og_title', 'SIRA - Sistem Informasi & Laporan Real-Time Komunitas')">
-    <meta property="og:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenFreeMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
+    <meta property="og:site_name" content="SIRA — Sistem Informasi Ruang Aman">
+    <meta property="og:title" content="@yield('og_title', 'SIRA — Sistem Informasi Ruang Aman')">
+    <meta property="og:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="@yield('og_url', url()->current())">
     <meta property="og:image" content="@yield('og_image', route('og.default'))">
@@ -18,8 +18,8 @@
     <meta property="og:image:type" content="image/png">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('og_title', 'SIRA - Sistem Informasi & Laporan Real-Time Komunitas')">
-    <meta name="twitter:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenFreeMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
+    <meta name="twitter:title" content="@yield('og_title', 'SIRA — Sistem Informasi Ruang Aman')">
+    <meta name="twitter:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
     <meta name="twitter:image" content="@yield('og_image', route('og.default'))">
 
     <!-- Tipografi: Plus Jakarta Sans, Geist Mono, Newsreader -->
@@ -128,6 +128,10 @@
             }
         });
     </script>
+
     @stack('scripts')
+
+    <!-- Wadah Toast Notifikasi Realtime Melayang -->
+    <div id="realtimeNotificationToastContainer" class="fixed bottom-5 right-5 z-[99999] flex flex-col space-y-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
 </body>
 </html>

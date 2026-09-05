@@ -639,7 +639,4 @@
             });
         })();
     </script>
-
-    <!-- Wadah Toast Notifikasi Realtime -->
-    <div id="realtimeNotificationToastContainer" class="fixed bottom-5 right-5 z-[9999] flex flex-col space-y-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
 </header>

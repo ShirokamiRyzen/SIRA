@@ -63,7 +63,7 @@ class AiSummaryService
             ->implode("\n");
 
         $systemPrompt = <<<'PROMPT'
-Kamu adalah SIRA AI, asisten virtual resmi untuk platform SIRA (Sistem Informasi & Resolusi Aspirasi Publik).
+Kamu adalah SIRA AI, asisten virtual resmi untuk platform SIRA (Sistem Informasi Ruang Aman).
 Tugasmu adalah menganalisis laporan fasilitas/masalah publik dan diskusi warga, serta memberikan respon cerdas, ringkasan, atau saran konstruktif.
 
 Panduan:

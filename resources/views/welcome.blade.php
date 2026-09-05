@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'SIRA — Sistem Informasi & Rekomendasi Aspirasi Publik')
+@section('title', 'SIRA — Sistem Informasi Ruang Aman')
 
 @section('content')
 <div class="space-y-16 py-4">
@@ -10,7 +10,7 @@
             <div class="inline-flex flex-wrap items-center gap-2">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] dark:bg-[#1C281E] dark:text-[#82C78A]">
                     <span class="sm:hidden">SIRA &bull; Pengawasan Publik</span>
-                    <span class="hidden sm:inline">Sistem Informasi &amp; Rekomendasi Aspirasi Publik</span>
+                    <span class="hidden sm:inline">Sistem Informasi Ruang Aman</span>
                 </span>
                 <span class="hidden sm:inline text-xs font-mono text-[#787774] dark:text-[#8E8D8A]">
                     Platform Terbuka Pengawasan Fasilitas Kota

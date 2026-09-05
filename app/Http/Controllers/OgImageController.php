@@ -162,7 +162,7 @@ class OgImageController extends Controller
         $this->drawText($img, 14, 850, $barY + 60, $date, $textMuted, $fontPath);
 
         // Watermark URL Footer
-        $watermark = parse_url(config('app.url'), PHP_URL_HOST).' // Sistem Informasi & Laporan Real-Time Komunitas';
+        $watermark = parse_url(config('app.url'), PHP_URL_HOST).' // Sistem Informasi Ruang Aman';
         $this->drawText($img, 11, 70, $height - 55, $watermark, $textDim, $regularFont);
 
         ob_start();
@@ -215,7 +215,7 @@ class OgImageController extends Controller
         $regularFont = $this->getFontPath('regular') ?? $fontPath;
 
         // Platform Brand
-        $this->drawText($img, 16, 80, 120, 'SIRA // SISTEM INFORMASI & LAPORAN KOMUNITAS', $emerald, $fontPath);
+        $this->drawText($img, 16, 80, 120, 'SIRA // SISTEM INFORMASI RUANG AMAN', $emerald, $fontPath);
         $this->drawText($img, 32, 80, 200, 'Kawal Masalah Kota Anda Secara Real-Time', $textWhite, $fontPath);
 
         $tagline1 = 'Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas Wilson Score.';
