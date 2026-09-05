@@ -162,7 +162,7 @@ class OgImageController extends Controller
         $this->drawText($img, 14, 850, $barY + 60, $date, $textMuted, $fontPath);
 
         // Watermark URL Footer
-        $watermark = parse_url(config('app.url'), PHP_URL_HOST) . ' // Sistem Informasi & Laporan Real-Time Komunitas';
+        $watermark = parse_url(config('app.url'), PHP_URL_HOST).' // Sistem Informasi & Laporan Real-Time Komunitas';
         $this->drawText($img, 11, 70, $height - 55, $watermark, $textDim, $regularFont);
 
         ob_start();
@@ -246,7 +246,7 @@ class OgImageController extends Controller
             $statX += 250;
         }
 
-        $watermark = parse_url(config('app.url'), PHP_URL_HOST) . ' // Partisipasi Warga Untuk Perubahan Nyata';
+        $watermark = parse_url(config('app.url'), PHP_URL_HOST).' // Partisipasi Warga Untuk Perubahan Nyata';
         $this->drawText($img, 12, 80, $height - 60, $watermark, $textDim, $regularFont);
 
         ob_start();
@@ -276,45 +276,52 @@ class OgImageController extends Controller
     }
 
     /**
-     * Locate TrueType font file on host system.
+     * Locate TrueType font file on host system or local resources.
      */
     protected function getFontPath(string $type = 'bold'): ?string
     {
-        $boldCandidates = [
+        $bundledFonts = $type === 'bold' ? [
             resource_path('fonts/PlusJakartaSans-Bold.ttf'),
+            resource_path('fonts/PlusJakartaSans.ttf'),
+            resource_path('fonts/Roboto.ttf'),
             resource_path('fonts/Inter-Bold.ttf'),
-            'C:/Windows/Fonts/arialbd.ttf',
-            'C:/Windows/Fonts/segoeuib.ttf',
-            'C:/Windows/Fonts/arial.ttf',
-            '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
-            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-            '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',
-            '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
-            '/usr/share/fonts/truetype/freefont/FreeSansBold.ttf',
-        ];
-
-        $regularCandidates = [
+        ] : [
             resource_path('fonts/PlusJakartaSans-Regular.ttf'),
+            resource_path('fonts/PlusJakartaSans.ttf'),
+            resource_path('fonts/Roboto.ttf'),
             resource_path('fonts/Inter-Regular.ttf'),
-            'C:/Windows/Fonts/arial.ttf',
-            'C:/Windows/Fonts/segoeui.ttf',
-            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-            '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
-            '/usr/share/fonts/truetype/freefont/FreeSans.ttf',
         ];
 
-        $list = $type === 'bold' ? $boldCandidates : $regularCandidates;
-
-        foreach ($list as $path) {
-            if (file_exists($path)) {
+        // 1. Check local project fonts first (always within open_basedir)
+        foreach ($bundledFonts as $path) {
+            if (@is_file($path) && @is_readable($path)) {
                 return $path;
             }
         }
 
-        // Secondary fallback
-        foreach (array_merge($boldCandidates, $regularCandidates) as $path) {
-            if (file_exists($path)) {
-                return $path;
+        // 2. Only check system fonts if open_basedir is not active to prevent ErrorException
+        $openBaseDir = ini_get('open_basedir');
+        if (empty($openBaseDir)) {
+            $systemCandidates = $type === 'bold' ? [
+                'C:/Windows/Fonts/arialbd.ttf',
+                'C:/Windows/Fonts/segoeuib.ttf',
+                'C:/Windows/Fonts/arial.ttf',
+                '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
+                '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+                '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',
+                '/usr/share/fonts/truetype/freefont/FreeSansBold.ttf',
+            ] : [
+                'C:/Windows/Fonts/arial.ttf',
+                'C:/Windows/Fonts/segoeui.ttf',
+                '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+                '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+                '/usr/share/fonts/truetype/freefont/FreeSans.ttf',
+            ];
+
+            foreach ($systemCandidates as $path) {
+                if (@file_exists($path)) {
+                    return $path;
+                }
             }
         }
 

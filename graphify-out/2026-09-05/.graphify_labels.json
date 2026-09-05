@@ -84,7 +84,16 @@
   "82": "create.blade.php",
   "83": "heatmap.blade.php",
   "84": "index.blade.php",
+  "85": "bootstrap-3.blade.php",
   "86": "laravel-best-practices/SKILL.md",
   "87": "2026_09_05_114247_create_notifications_table.php",
-  "89": "OgImageController"
+  "88": "bootstrap-4.blade.php",
+  "89": "OgImageController",
+  "90": "bootstrap-5.blade.php",
+  "91": "semantic-ui.blade.php",
+  "92": "simple-bootstrap-3.blade.php",
+  "93": "simple-bootstrap-4.blade.php",
+  "94": "simple-bootstrap-5.blade.php",
+  "95": "simple-tailwind.blade.php",
+  "96": "tailwind.blade.php"
 }

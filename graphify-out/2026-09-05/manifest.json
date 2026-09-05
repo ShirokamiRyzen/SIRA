@@ -290,13 +290,13 @@
     "semantic_hash": ""
   },
   "resources/views/components/footer.blade.php": {
-    "mtime": 1788614115.1639721,
-    "ast_hash": "e9d397f0481ef8b32488b3ce7706017c",
+    "mtime": 1788615809.520882,
+    "ast_hash": "f912e25443dc33706315f4b400d26087",
     "semantic_hash": ""
   },
   "resources/views/components/header.blade.php": {
-    "mtime": 1788615601.6634703,
-    "ast_hash": "b6523094b99a535008d59623a8b86c27",
+    "mtime": 1788616036.646327,
+    "ast_hash": "e2aa2cffa90d93acf781d1ffc963aee2",
     "semantic_hash": ""
   },
   "resources/views/components/landing.blade.php": {
@@ -315,7 +315,7 @@
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
-    "mtime": 1788614299.0132718,
+    "mtime": 1788617202.9412167,
     "ast_hash": "ad3df3dde8653b1f6118038532b0fd72",
     "semantic_hash": ""
   },
@@ -550,13 +550,58 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/OgImageController.php": {
-    "mtime": 1788614404.8075464,
-    "ast_hash": "a17b9318a0e4d953fb2649338625411a",
+    "mtime": 1788617214.4573948,
+    "ast_hash": "1b007953d200659e9cefb2eb958f4f1b",
     "semantic_hash": ""
   },
   "tests/Feature/OgImageTest.php": {
     "mtime": 1788614405.1298554,
     "ast_hash": "d82720b99b3bed551cd357c691d5cbe7",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/bootstrap-3.blade.php": {
+    "mtime": 1788615791.1547973,
+    "ast_hash": "aa877e8e08e3348d629241bfd8c05b4f",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/bootstrap-4.blade.php": {
+    "mtime": 1788615791.1547973,
+    "ast_hash": "4fd20df5ed3467dca137ab40cd220d84",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/bootstrap-5.blade.php": {
+    "mtime": 1788615791.1547973,
+    "ast_hash": "0c0b249f80ccefa25aeaf61e9e1dda93",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/semantic-ui.blade.php": {
+    "mtime": 1788615791.1588075,
+    "ast_hash": "941be36d04e537a7c76ce6278a4cb84e",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/simple-bootstrap-3.blade.php": {
+    "mtime": 1788615791.1598678,
+    "ast_hash": "74253b8008b3d57e932f867e8b20188e",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/simple-bootstrap-4.blade.php": {
+    "mtime": 1788615791.1610527,
+    "ast_hash": "9310d977bf202c0e62d742e4ecdcc802",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/simple-bootstrap-5.blade.php": {
+    "mtime": 1788615791.1623778,
+    "ast_hash": "d92abec015d249e89bac45bfc9fedbee",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/simple-tailwind.blade.php": {
+    "mtime": 1788615791.162854,
+    "ast_hash": "c8bdf8b397a5d290496cc8e520c4a165",
+    "semantic_hash": ""
+  },
+  "resources/views/vendor/pagination/tailwind.blade.php": {
+    "mtime": 1788615819.2618418,
+    "ast_hash": "fe4eeab9f2ae7a7b28642276ad0018e6",
     "semantic_hash": ""
   }
 }

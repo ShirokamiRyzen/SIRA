@@ -381,7 +381,7 @@
       "label": ".wordWrapLines()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/OgImageController.php",
-      "source_location": "L327",
+      "source_location": "L334",
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_wordwraplines",
       "community": 89,
@@ -392,7 +392,7 @@
       "label": ".truncate()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/OgImageController.php",
-      "source_location": "L343",
+      "source_location": "L350",
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_truncate",
       "community": 89,
@@ -8256,7 +8256,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/OgImageController.php",
-      "source_location": "L343",
+      "source_location": "L350",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_ogimagecontroller_ogimagecontroller",
@@ -8267,7 +8267,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/OgImageController.php",
-      "source_location": "L327",
+      "source_location": "L334",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_ogimagecontroller_ogimagecontroller",
@@ -15202,5 +15202,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "78ffa1d2d9af4e47226157463df89a116c96d308"
+  "built_at_commit": "4ea684a94eadcc3c73d0d2a2a18bb47eea7498a6"
 }

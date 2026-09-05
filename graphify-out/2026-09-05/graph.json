@@ -2853,6 +2853,105 @@
       "norm_label": "reports._comment_item"
     },
     {
+      "label": "bootstrap-3.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/bootstrap-3.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_bootstrap_3_blade",
+      "community": 85,
+      "community_name": "bootstrap-3.blade.php",
+      "norm_label": "bootstrap-3.blade.php"
+    },
+    {
+      "label": "bootstrap-4.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/bootstrap-4.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_bootstrap_4_blade",
+      "community": 88,
+      "community_name": "bootstrap-4.blade.php",
+      "norm_label": "bootstrap-4.blade.php"
+    },
+    {
+      "label": "bootstrap-5.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/bootstrap-5.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_bootstrap_5_blade",
+      "community": 90,
+      "community_name": "bootstrap-5.blade.php",
+      "norm_label": "bootstrap-5.blade.php"
+    },
+    {
+      "label": "semantic-ui.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/semantic-ui.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_semantic_ui_blade",
+      "community": 91,
+      "community_name": "semantic-ui.blade.php",
+      "norm_label": "semantic-ui.blade.php"
+    },
+    {
+      "label": "simple-bootstrap-3.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/simple-bootstrap-3.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_simple_bootstrap_3_blade",
+      "community": 92,
+      "community_name": "simple-bootstrap-3.blade.php",
+      "norm_label": "simple-bootstrap-3.blade.php"
+    },
+    {
+      "label": "simple-bootstrap-4.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/simple-bootstrap-4.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_simple_bootstrap_4_blade",
+      "community": 93,
+      "community_name": "simple-bootstrap-4.blade.php",
+      "norm_label": "simple-bootstrap-4.blade.php"
+    },
+    {
+      "label": "simple-bootstrap-5.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/simple-bootstrap-5.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_simple_bootstrap_5_blade",
+      "community": 94,
+      "community_name": "simple-bootstrap-5.blade.php",
+      "norm_label": "simple-bootstrap-5.blade.php"
+    },
+    {
+      "label": "simple-tailwind.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/simple-tailwind.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_simple_tailwind_blade",
+      "community": 95,
+      "community_name": "simple-tailwind.blade.php",
+      "norm_label": "simple-tailwind.blade.php"
+    },
+    {
+      "label": "tailwind.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/vendor/pagination/tailwind.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_vendor_pagination_tailwind_blade",
+      "community": 96,
+      "community_name": "tailwind.blade.php",
+      "norm_label": "tailwind.blade.php"
+    },
+    {
       "label": "welcome.blade.php",
       "file_type": "code",
       "source_file": "resources/views/welcome.blade.php",

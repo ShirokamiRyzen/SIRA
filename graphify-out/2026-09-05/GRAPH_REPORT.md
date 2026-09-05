@@ -1,11 +1,11 @@
 # Graph Report - SIRA  (2026-09-05)
 
 ## Corpus Check
-- 111 files · ~55,757 words
+- 120 files · ~57,205 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 614 nodes · 738 edges · 88 communities (80 shown, 8 thin omitted)
+- 623 nodes · 738 edges · 97 communities (89 shown, 8 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -94,7 +94,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (88 total, 8 thin omitted)
+## Communities (97 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -279,7 +279,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Report` connect `Report` to `OgImageController`, `ReportComment`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `Architecture Best Practices` connect `Architecture Best Practices` to `laravel-best-practices/SKILL.md`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
   _`Report` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 4 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
