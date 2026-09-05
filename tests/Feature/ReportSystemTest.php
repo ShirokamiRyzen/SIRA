@@ -505,3 +505,87 @@ test('endpoint mention suggestion mengembalikan saran akun termasuk bot @Sira sa
     $usernames = array_column($responseSlamet->json('users'), 'username');
     expect($usernames)->toContain('slamet_asphalt');
 });
+
+test('pengguna menerima notifikasi saat dimention atau dibalas oleh pengguna lain dan melihat badge di header', function () {
+    $userA = User::factory()->create(['username' => 'budi_santoso']);
+    $userB = User::factory()->create(['username' => 'andi_wijaya']);
+
+    $report = Report::create([
+        'user_id' => $userA->id,
+        'title' => 'Tumpukan Sampah Liar',
+        'description' => 'Sampah menumpuk di pinggir jalan.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'normal',
+        'status' => 'active',
+    ]);
+
+    // 1. User B menulis komentar yang menyebut @budi_santoso
+    $this->actingAs($userB)->postJson(route('comments.store', $report), [
+        'content' => 'Halo @budi_santoso tolong dicek kondisi jalan ini!',
+    ])->assertOk();
+
+    // Pastikan user A menerima notifikasi mention
+    expect($userA->unreadNotifications()->count())->toBe(1);
+    $notification = $userA->unreadNotifications()->first();
+    expect($notification->data['type'])->toBe('mention');
+    expect($notification->data['sender_username'])->toBe('andi_wijaya');
+
+    // 2. User A melihat badge notifikasi di header
+    $responseHeader = $this->actingAs($userA)->get(route('reports.index'));
+    $responseHeader->assertOk();
+    $responseHeader->assertSee('notificationBadge');
+    $responseHeader->assertSee('notificationBellBtn');
+
+    // 3. User A membalas komentar user B (reply)
+    $commentB = ReportComment::where('user_id', $userB->id)->first();
+    $this->actingAs($userA)->postJson(route('comments.store', $report), [
+        'content' => 'Siap, segera saya cek.',
+        'parent_id' => $commentB->id,
+    ])->assertOk();
+
+    // Pastikan user B menerima notifikasi reply
+    expect($userB->unreadNotifications()->count())->toBe(1);
+    $replyNotif = $userB->unreadNotifications()->first();
+    expect($replyNotif->data['type'])->toBe('reply');
+
+    // 4. Endpoint list notifikasi JSON & tandai dibaca
+    $notifListResponse = $this->actingAs($userA)->getJson(route('notifications.index'));
+    $notifListResponse->assertOk()
+        ->assertJsonPath('unread_count', 1);
+
+    // Tandai semua dibaca
+    $this->actingAs($userA)->postJson(route('notifications.markAllAsRead'))->assertOk();
+    expect($userA->fresh()->unreadNotifications()->count())->toBe(0);
+
+    // 5. User B mengklik notifikasi via GET link (mark as read & redirect ke laporan)
+    $notificationB = $userB->unreadNotifications()->first();
+    expect($notificationB)->not->toBeNull();
+    $readResponse = $this->actingAs($userB)->get(route('notifications.markAsRead', ['id' => $notificationB->id, 'redirect' => 1]));
+    $readResponse->assertRedirect();
+    expect($userB->fresh()->unreadNotifications()->count())->toBe(0);
+
+    // 6. Test delete per notifikasi (DELETE /notifications/{id})
+    $deleteResponse = $this->actingAs($userB)->deleteJson(route('notifications.destroy', $notificationB->id));
+    $deleteResponse->assertOk()
+        ->assertJson(['success' => true, 'total_count' => 0]);
+    expect($userB->fresh()->notifications()->count())->toBe(0);
+
+    // 7. Test clear-all notifikasi (POST /notifications/clear-all)
+    expect($userA->notifications()->count())->toBeGreaterThan(0);
+    $clearResponse = $this->actingAs($userA)->postJson(route('notifications.clearAll'));
+    $clearResponse->assertOk()
+        ->assertJson(['success' => true, 'total_count' => 0, 'unread_count' => 0]);
+    expect($userA->fresh()->notifications()->count())->toBe(0);
+});
+
+test('endpoint stream notifikasi realtime mengembalikan response text/event-stream untuk pengguna login', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get(route('notifications.stream'));
+    $response->assertOk();
+    expect($response->headers->get('Content-Type'))->toContain('text/event-stream');
+});

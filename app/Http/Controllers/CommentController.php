@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use App\Models\ReportComment;
 use App\Models\User;
+use App\Notifications\CommentNotification;
 use App\Services\AiSummaryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 class CommentController extends Controller
 {
@@ -47,6 +50,9 @@ class CommentController extends Controller
 
         $comment->load(['user', 'replies.user']);
 
+        // Kirim notifikasi mention dan balasan
+        $this->dispatchCommentNotifications($report, $comment, $validated['parent_id'] ?? null);
+
         $hasAiMention = $aiService->isAiMentioned($validated['content']);
 
         if ($request->wantsJson()) {
@@ -66,6 +72,17 @@ class CommentController extends Controller
             $aiComment = $aiService->generateAiResponse($report, $comment);
             if ($aiComment) {
                 $aiComment->load(['user', 'replies.user']);
+                if ($comment->user && strtolower($comment->user->username) !== 'sira') {
+                    Notification::send($comment->user, new CommentNotification(
+                        type: 'reply',
+                        senderUsername: 'Sira',
+                        senderName: 'SIRA AI Assistant',
+                        reportId: $report->id,
+                        reportTitle: $report->title,
+                        commentId: $aiComment->id,
+                        snippet: Str::limit($aiComment->content, 80),
+                    ));
+                }
             }
         }
 
@@ -95,6 +112,19 @@ class CommentController extends Controller
 
         $aiComment->load(['user', 'replies.user']);
 
+        // Kirim notifikasi balasan AI ke pembuat komentar asli
+        if ($comment->user && strtolower($comment->user->username) !== 'sira') {
+            Notification::send($comment->user, new CommentNotification(
+                type: 'reply',
+                senderUsername: 'Sira',
+                senderName: 'SIRA AI Assistant',
+                reportId: $report->id,
+                reportTitle: $report->title,
+                commentId: $aiComment->id,
+                snippet: Str::limit($aiComment->content, 80),
+            ));
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Balasan AI @Sira berhasil dibuat.',
@@ -102,6 +132,58 @@ class CommentController extends Controller
             'comments_count' => $report->fresh()->comments_count,
             'ai_comment_html' => view('reports._comment_item', ['comment' => $aiComment])->render(),
         ]);
+    }
+
+    /**
+     * Kirim notifikasi balasan dan mention ke pengguna terkait.
+     */
+    protected function dispatchCommentNotifications(Report $report, ReportComment $comment, ?int $parentId = null): void
+    {
+        $sender = Auth::user();
+        $senderUsername = $sender ? $sender->username : 'anon';
+        $senderName = $sender ? $sender->name : 'Warga';
+        $senderId = $sender ? $sender->id : null;
+
+        $notifiedUserIds = [];
+
+        // 1. Notifikasi Balasan (Reply)
+        if ($parentId) {
+            $parent = ReportComment::with('user')->find($parentId);
+            if ($parent && $parent->user && $parent->user_id !== $senderId) {
+                Notification::send($parent->user, new CommentNotification(
+                    type: 'reply',
+                    senderUsername: $senderUsername,
+                    senderName: $senderName,
+                    reportId: $report->id,
+                    reportTitle: $report->title,
+                    commentId: $comment->id,
+                    snippet: Str::limit($comment->content, 80),
+                ));
+                $notifiedUserIds[] = $parent->user_id;
+            }
+        }
+
+        // 2. Notifikasi Mention (@username)
+        if (preg_match_all('/@([a-zA-Z0-9_]{3,30})/', $comment->content, $matches)) {
+            $mentionedUsernames = array_unique($matches[1]);
+            $mentionedUsers = User::whereIn('username', $mentionedUsernames)
+                ->when($senderId, fn ($q) => $q->where('id', '!=', $senderId))
+                ->whereNotIn('id', $notifiedUserIds)
+                ->whereRaw('LOWER(username) != ?', ['sira'])
+                ->get();
+
+            if ($mentionedUsers->isNotEmpty()) {
+                Notification::send($mentionedUsers, new CommentNotification(
+                    type: 'mention',
+                    senderUsername: $senderUsername,
+                    senderName: $senderName,
+                    reportId: $report->id,
+                    reportTitle: $report->title,
+                    commentId: $comment->id,
+                    snippet: Str::limit($comment->content, 80),
+                ));
+            }
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HeatmapController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
 use App\Models\Report;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/reports/{report}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/reports/{report}/comments/{comment}/ai-reply', [CommentController::class, 'generateAiReply'])->name('comments.aiReply');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // Notifikasi Pengguna (Mention & Reply)
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/stream', [NotificationController::class, 'stream'])->name('notifications.stream');
+    Route::match(['get', 'post'], '/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::match(['get', 'post'], '/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::match(['post', 'delete'], '/notifications/clear-all', [NotificationController::class, 'clearAll'])->name('notifications.clearAll');
 });
 
 // Visualisasi Heatmap OpenFreeMap

@@ -13,7 +13,7 @@
     </div>
 
     <!-- Main Card Header & Grid -->
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="bg-white dark:bg-[#141414] rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
             <!-- Kolom Kiri: Foto Bukti Base64 -->
             <div class="lg:col-span-7 bg-slate-950 flex items-center justify-center p-2 relative min-h-[350px]">
@@ -35,7 +35,7 @@
                             🔥 TRENDING TIER
                         </span>
                     @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">
+                        <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">
                             NORMAL TIER
                         </span>
                     @endif
@@ -48,7 +48,7 @@
                     <!-- Status & Waktu & Aksi Khusus Pembuat Laporan -->
                     <div class="flex items-center justify-between text-xs flex-wrap gap-2 pb-1">
                         <div class="flex items-center space-x-2">
-                            <span id="reportStatusBadge" class="px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 {{ $report->status === 'resolved' ? 'bg-emerald-600 text-white shadow-xs' : ($report->status === 'in_progress' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-50 text-emerald-700 border border-emerald-200') }}">
+                            <span id="reportStatusBadge" class="px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 {{ $report->status === 'resolved' ? 'bg-emerald-600 text-white shadow-xs' : ($report->status === 'in_progress' ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60') }}">
                                 Status: {{ str_replace('_', ' ', $report->status) }}
                             </span>
 
@@ -56,7 +56,7 @@
                                 @if (Auth::id() === $report->user_id)
                                     <div id="creatorStatusActions" class="inline-flex items-center">
                                         @if ($report->status === 'resolved')
-                                            <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center space-x-1" title="Buka kembali laporan ini">
+                                            <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-slate-700 dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
                                                 <span>↩</span>
                                                 <span>Buka Kembali</span>
                                             </button>
@@ -70,21 +70,21 @@
                                 @endif
                             @endauth
                         </div>
-                        <span class="text-slate-400">{{ $report->created_at->translatedFormat('d M Y, H:i') }}</span>
+                        <span class="text-slate-400 dark:text-[#787774]">{{ $report->created_at->translatedFormat('d M Y, H:i') }}</span>
                     </div>
 
                     <!-- Judul Laporan -->
-                    <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-[#EDEDEC] leading-tight">
                         {{ $report->title }}
                     </h1>
 
                     <!-- Pelapor -->
-                    <div class="flex items-center space-x-2 text-xs text-slate-500 pb-2 border-b border-slate-100">
+                    <div class="flex items-center space-x-2 text-xs text-slate-500 dark:text-[#888888] pb-2 border-b border-slate-100 dark:border-[#222222]">
                         <span>Dilaporkan oleh</span>
-                        <span class="font-bold text-slate-800">@<span>{{ $report->user->username ?? 'anon' }}</span></span>
+                        <span class="font-bold text-slate-800 dark:text-[#EDEDEC]">@<span>{{ $report->user->username ?? 'anon' }}</span></span>
                         @auth
                             @if (Auth::id() === $report->user_id)
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800/60">
                                     Laporan Anda
                                 </span>
                             @endif
@@ -92,29 +92,29 @@
                     </div>
 
                     <!-- Deskripsi Lengkap -->
-                    <div class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                    <div class="text-xs sm:text-sm text-slate-700 dark:text-[#CCCCCC] leading-relaxed whitespace-pre-line">
                         {{ $report->description }}
                     </div>
 
                     <!-- Lokasi Administratif -->
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-1">
-                        <div class="font-bold text-slate-800 flex items-center space-x-1">
+                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-xs space-y-1">
+                        <div class="font-bold text-slate-800 dark:text-[#EDEDEC] flex items-center space-x-1">
                             <span>📍</span>
                             <span>{{ $report->district ? $report->district . ', ' : '' }}{{ $report->city ?? 'Lokasi Terdaftar' }}</span>
                         </div>
-                        <p class="text-slate-500 text-[11px] leading-relaxed">
+                        <p class="text-slate-500 dark:text-[#888888] text-[11px] leading-relaxed">
                             {{ $report->formatted_address ?? 'Koordinat: ' . $report->latitude . ', ' . $report->longitude }}
                         </p>
                     </div>
                 </div>
 
                 <!-- Box Voting (Like & Dislike) Interaktif -->
-                <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
+                <div class="p-4 rounded-2xl bg-slate-900 dark:bg-[#111111] dark:border dark:border-[#262626] text-white space-y-3">
                     <div class="flex items-center justify-between">
                         <div>
-                            <div class="text-xs text-slate-400 font-medium">Skor Dukungan Warga</div>
+                            <div class="text-xs text-slate-400 dark:text-[#888888] font-medium">Skor Dukungan Warga</div>
                             <div class="text-2xl font-extrabold text-emerald-400" id="voteScoreDisplay">
-                                {{ $report->vote_score }} <span class="text-xs text-slate-400 font-normal">poin</span>
+                                {{ $report->vote_score }} <span class="text-xs text-slate-400 dark:text-[#888888] font-normal">poin</span>
                             </div>
                         </div>
 
@@ -123,14 +123,14 @@
                             <div class="flex items-center space-x-2">
                                 <!-- Tombol Like (Upvote) -->
                                 <button type="button" onclick="castVote(1)" id="btnUpvote"
-                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === 1) ? 'bg-emerald-500 text-slate-950' : 'bg-white/10 hover:bg-white/20 text-white' }}">
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === 1) ? 'bg-emerald-500 text-slate-950' : 'bg-white/10 hover:bg-white/20 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-white' }}">
                                     <span>👍</span>
                                     <span id="upvotesCount">{{ $report->upvotes_count }}</span>
                                 </button>
 
                                 <!-- Tombol Dislike (Downvote) -->
                                 <button type="button" onclick="castVote(-1)" id="btnDownvote"
-                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === -1) ? 'bg-rose-500 text-white' : 'bg-white/10 hover:bg-white/20 text-white' }}">
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === -1) ? 'bg-rose-500 text-white' : 'bg-white/10 hover:bg-white/20 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-white' }}">
                                     <span>👎</span>
                                     <span id="downvotesCount">{{ $report->downvotes_count }}</span>
                                 </button>
@@ -143,7 +143,7 @@
                             </div>
                         @endauth
                     </div>
-                    <p class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+                    <p class="text-[11px] text-slate-400 dark:text-[#888888] border-t border-slate-800 dark:border-[#222222] pt-2">
                         Vote berfungsi menaikkan ranking postingan ke <strong>Urgent & Critical Tier</strong> agar segera diprioritaskan.
                     </p>
                 </div>
@@ -152,25 +152,25 @@
     </div>
 
     <!-- Peta Lokasi Masalah (OpenFreeMap) -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+    <div class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-4">
         <div class="flex items-center justify-between">
             <div>
-                <h3 class="text-base font-extrabold text-slate-900">Titik Koordinat Peta (OpenFreeMap)</h3>
-                <p class="text-xs text-slate-500">Koordinat: {{ $report->latitude }}, {{ $report->longitude }}</p>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">Titik Koordinat Peta (OpenFreeMap)</h3>
+                <p class="text-xs text-slate-500 dark:text-[#888888]">Koordinat: {{ $report->latitude }}, {{ $report->longitude }}</p>
             </div>
-            <a href="https://www.openstreetmap.org/?mlat={{ $report->latitude }}&mlon={{ $report->longitude }}#map=17/{{ $report->latitude }}/{{ $report->longitude }}" target="_blank" class="text-xs text-emerald-700 font-semibold hover:underline">
+            <a href="https://www.openstreetmap.org/?mlat={{ $report->latitude }}&mlon={{ $report->longitude }}#map=17/{{ $report->latitude }}/{{ $report->longitude }}" target="_blank" class="text-xs text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">
                 Buka di OSM &rarr;
             </a>
         </div>
-        <div id="reportMap" class="w-full h-72 rounded-2xl border border-slate-200 overflow-hidden"></div>
+        <div id="reportMap" class="w-full h-72 rounded-2xl border border-slate-200 dark:border-[#282828] overflow-hidden"></div>
     </div>
 
     <!-- Diskusi & Komentar Bertingkat (Nested Comments) -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+    <div class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-[#222222]">
             <div>
-                <h3 class="text-base font-extrabold text-slate-900">Diskusi & Respon Warga</h3>
-                <p class="text-xs text-slate-500">Ada <span id="commentsCountDisplay">{{ $report->comments_count }}</span> komentar pada laporan ini</p>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">Diskusi & Respon Warga</h3>
+                <p class="text-xs text-slate-500 dark:text-[#888888]">Ada <span id="commentsCountDisplay">{{ $report->comments_count }}</span> komentar pada laporan ini</p>
             </div>
         </div>
 
@@ -179,11 +179,11 @@
             <form id="mainCommentForm" action="{{ route('comments.store', $report, false) }}" method="POST" class="space-y-3" onsubmit="submitCommentAjax(event, this, null)">
                 @csrf
                 <textarea name="content" rows="3" required placeholder="Tulis komentar atau tanggapan terkait masalah ini (Tag @Sira untuk meminta bantuan AI)..."
-                    class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                    class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
 
                 <!-- Pratinjau LaTeX jika terdapat formula matematika -->
-                <div class="latex-preview hidden px-4 py-3 bg-emerald-50/60 border border-emerald-200/80 rounded-2xl text-xs text-slate-800 space-y-1.5 shadow-xs">
-                    <div class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider flex items-center space-x-1.5">
+                <div class="latex-preview hidden px-4 py-3 bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/60 rounded-2xl text-xs text-slate-800 dark:text-[#EDEDEC] space-y-1.5 shadow-xs">
+                    <div class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
                         <span>📐</span>
                         <span>Pratinjau Formula (LaTeX):</span>
                     </div>
@@ -191,7 +191,7 @@
                 </div>
 
                 <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
-                    <div class="flex items-center space-x-1.5 text-xs text-indigo-700 font-medium bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100">
+                    <div class="flex items-center space-x-1.5 text-xs text-indigo-700 dark:text-indigo-300 font-medium bg-indigo-50 dark:bg-indigo-950/40 px-3 py-1.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50">
                         <span>🤖</span>
                         <span>Tip: Tag <strong>@Sira</strong> di komentar untuk meminta bantuan atau ringkasan AI</span>
                     </div>
@@ -201,14 +201,14 @@
                 </div>
             </form>
         @else
-            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-600">
-                Silakan <a href="{{ route('login') }}" class="font-bold text-emerald-700 hover:underline">Masuk</a> untuk ikut berdiskusi dan memberikan tanggapan.
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-center text-xs text-slate-600 dark:text-[#999999]">
+                Silakan <a href="{{ route('login') }}" class="font-bold text-emerald-700 dark:text-emerald-400 hover:underline">Masuk</a> untuk ikut berdiskusi dan memberikan tanggapan.
             </div>
         @endauth
 
         <!-- Daftar Komentar (Pohon Bertingkat) -->
         <div class="space-y-5 pt-4" id="commentsContainer">
-            <p id="emptyCommentsMsg" class="text-xs text-slate-400 text-center py-6 {{ $report->rootComments->isEmpty() ? '' : 'hidden' }}">
+            <p id="emptyCommentsMsg" class="text-xs text-slate-400 dark:text-[#787774] text-center py-6 {{ $report->rootComments->isEmpty() ? '' : 'hidden' }}">
                 Belum ada komentar. Jadilah yang pertama berkomentar!
             </p>
             <div id="commentsList" class="space-y-5">
@@ -343,14 +343,14 @@
                     badge.innerText = 'Status: RESOLVED';
                     if (actionsContainer) {
                         actionsContainer.innerHTML = `
-                            <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center space-x-1" title="Buka kembali laporan ini">
+                            <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
                                 <span>↩</span>
                                 <span>Buka Kembali</span>
                             </button>
                         `;
                     }
                 } else {
-                    badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-emerald-50 text-emerald-700 border border-emerald-200';
+                    badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60';
                     badge.innerText = 'Status: ' + data.status_label.toUpperCase();
                     if (actionsContainer) {
                         actionsContainer.innerHTML = `
@@ -440,7 +440,7 @@
             html = text
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 bg-slate-200/70 text-slate-800 rounded font-mono text-[11px]">$1</code>')
+                .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 bg-slate-200/70 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded font-mono text-[11px]">$1</code>')
                 .replace(/\n/g, '<br>');
         }
 
@@ -453,8 +453,8 @@
         html = html.replace(/(^|[^a-zA-Z0-9_])\x40([a-zA-Z0-9_]+)/g, (match, prefix, username) => {
             const isAi = username.toLowerCase() === 'sira';
             const badge = isAi
-                ? `<span class="inline-flex items-center font-bold text-indigo-700 bg-indigo-50 border border-indigo-200/80 px-1.5 py-0.5 rounded-md mx-0.5">@${username}</span>`
-                : `<span class="inline-flex items-center font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-1.5 py-0.5 rounded-md mx-0.5">@${username}</span>`;
+                ? `<span class="inline-flex items-center font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800/60 px-1.5 py-0.5 rounded-md mx-0.5">@${username}</span>`
+                : `<span class="inline-flex items-center font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 px-1.5 py-0.5 rounded-md mx-0.5">@${username}</span>`;
             return prefix + badge;
         });
 
@@ -719,11 +719,11 @@
         const dropdown = document.createElement('div');
         dropdown.id = 'mentionDropdown';
         dropdown.style.zIndex = '99999';
-        dropdown.className = 'fixed hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden w-72 max-w-[90vw] transition-opacity duration-150 text-left';
+        dropdown.className = 'fixed hidden bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#262626] rounded-2xl shadow-2xl overflow-hidden w-72 max-w-[90vw] transition-opacity duration-150 text-left';
         dropdown.innerHTML = `
-            <div class="px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-100 dark:border-slate-700/60 text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <div class="px-3 py-2 bg-slate-50 dark:bg-[#1F1F1E] border-b border-slate-100 dark:border-[#282828] text-[10px] font-bold text-slate-400 dark:text-[#888888] uppercase tracking-wider flex items-center justify-between">
                 <span>Saran Akun & AI</span>
-                <span class="text-[9px] font-normal lowercase text-slate-400">Gunakan ↑↓ dan ↵</span>
+                <span class="text-[9px] font-normal lowercase text-slate-400 dark:text-[#777777]">Gunakan ↑↓ dan ↵</span>
             </div>
             <div id="mentionDropdownList" class="p-1 max-h-56 overflow-y-auto space-y-0.5"></div>
         `;
@@ -754,17 +754,19 @@
             currentUsers.forEach((user, index) => {
                 const item = document.createElement('div');
                 const isSelected = (index === highlightedIndex);
-                item.className = `px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition ${isSelected ? 'bg-indigo-50 text-indigo-950 font-semibold' : 'hover:bg-slate-50 text-slate-700'}`;
+                item.className = isSelected 
+                    ? 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-50 dark:bg-indigo-950/60 text-indigo-950 dark:text-indigo-200 font-semibold' 
+                    : 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-50 dark:hover:bg-[#202020] text-slate-700 dark:text-[#CCCCCC]';
                 
                 const isAi = user.is_ai;
                 item.innerHTML = `
                     <div class="flex items-center space-x-2 min-w-0">
-                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-xs' : 'bg-emerald-100 text-emerald-800 uppercase'}">
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-xs' : 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 uppercase'}">
                             ${isAi ? '🤖' : (user.username ? user.username.charAt(0) : 'U')}
                         </div>
                         <div class="truncate">
-                            <div class="truncate text-xs ${isAi ? 'text-indigo-900 font-bold' : 'text-slate-900 font-medium'}">${user.name}</div>
-                            <div class="text-[11px] text-slate-400 font-mono">@${user.username}</div>
+                            <div class="truncate text-xs ${isAi ? 'text-indigo-900 dark:text-indigo-300 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium'}">${user.name}</div>
+                            <div class="text-[11px] text-slate-400 dark:text-[#787774] font-mono">@${user.username}</div>
                         </div>
                     </div>
                     ${user.badge ? `<span class="ml-2 shrink-0 px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-indigo-600 text-white">${user.badge}</span>` : ''}
@@ -792,9 +794,9 @@
             const items = dropdownList.children;
             for (let i = 0; i < items.length; i++) {
                 if (i === highlightedIndex) {
-                    items[i].className = 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-50 text-indigo-950 font-semibold';
+                    items[i].className = 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-50 dark:bg-indigo-950/60 text-indigo-950 dark:text-indigo-200 font-semibold';
                 } else {
-                    items[i].className = 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-50 text-slate-700';
+                    items[i].className = 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-50 dark:hover:bg-[#202020] text-slate-700 dark:text-[#CCCCCC]';
                 }
             }
         }
@@ -940,5 +942,44 @@
             initCommentFormatting();
         }
     }, 120);
+
+    // -------------------------------------------------------------
+    // Auto-scroll ke komentar target saat tautan notifikasi dibuka (#comment-xxx)
+    // -------------------------------------------------------------
+    function scrollToTargetComment() {
+        if (window.location.hash && window.location.hash.startsWith('#comment-')) {
+            const targetEl = document.querySelector(window.location.hash);
+            if (targetEl) {
+                // Buka container balasan (parent replies) jika komentar berada di dalam percakapan bertingkat
+                let parentReplyContainer = targetEl.closest('[id^="replies-container-"]');
+                while (parentReplyContainer) {
+                    parentReplyContainer.classList.remove('hidden');
+                    parentReplyContainer = parentReplyContainer.parentElement?.closest('[id^="replies-container-"]');
+                }
+
+                // Scroll dengan posisi nyaman di tengah layar (tidak tertutup header sticky)
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Beri efek highlight border/ring lembut agar pengguna langsung fokus ke komentar
+                const card = targetEl.querySelector('div:first-child');
+                if (card) {
+                    card.classList.add('ring-2', 'ring-emerald-500', 'shadow-md', 'scale-[1.01]', 'transition-all', 'duration-300');
+                    setTimeout(() => {
+                        card.classList.remove('scale-[1.01]');
+                        setTimeout(() => {
+                            card.classList.remove('ring-2', 'ring-emerald-500', 'shadow-md');
+                        }, 3000);
+                    }, 400);
+                }
+            }
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(scrollToTargetComment, 150);
+    });
+    window.addEventListener('load', () => {
+        setTimeout(scrollToTargetComment, 250);
+    });
 </script>
 @endpush

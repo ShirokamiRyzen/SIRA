@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-05)
 
 ## Corpus Check
-- 106 files · ~47,371 words
+- 109 files · ~50,416 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 581 nodes · 661 edges · 81 communities (74 shown, 7 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
+- 602 nodes · 710 edges · 88 communities (81 shown, 7 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `64bd0813`
+- Built from commit: `b1731e6d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,7 +20,7 @@
 - scripts
 - Process
 - package.json
-- UserFactory
+- ReportComment
 - Architecture Best Practices
 - Security Best Practices
 - README.md
@@ -43,27 +43,33 @@
 - Caching Best Practices
 - Error Handling Best Practices
 - Task Scheduling Best Practices
-- testing-best-practices/SKILL.md
+- Assertions
 - Endpoint Tests
+- testing-best-practices/SKILL.md
 - Test Suite Performance
 - Blade and View Best Practices
-- .run
+- Fakes, Mocks, and Determinism
 - HTTP Client Best Practices
 - Mail Best Practices
 - Routing and Controller Best Practices
 - Convention and Style Best Practices
 - Validation and Forms Best Practices
+- Reviewing Tests
+- CommentNotification
 - Collection Best Practices
+- Naming and Structure
 - Configuration Best Practices
+- Factories and Test Data
+- Testing Best Practices
 - Laravel Best Practices
 - stack-status.blade.php
 - _comment_item.blade.php
 - show.blade.php
 
 ## God Nodes (most connected - your core abstractions)
-1. `Report` - 25 edges
-2. `ReportComment` - 16 edges
-3. `User` - 15 edges
+1. `Report` - 26 edges
+2. `ReportComment` - 17 edges
+3. `User` - 16 edges
 4. `ReportVote` - 12 edges
 5. `Detection Checklist` - 11 edges
 6. `Architecture Best Practices` - 11 edges
@@ -79,13 +85,15 @@
   app/Http/Controllers/CommentController.php → app/Http/Controllers/Controller.php
 - `HeatmapController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/HeatmapController.php → app/Http/Controllers/Controller.php
+- `NotificationController` --inherits--> `Controller`  [EXTRACTED]
+  app/Http/Controllers/NotificationController.php → app/Http/Controllers/Controller.php
 - `ReportController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/ReportController.php → app/Http/Controllers/Controller.php
 
 ## Import Cycles
 - None detected.
 
-## Communities (81 total, 7 thin omitted)
+## Communities (88 total, 7 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -107,9 +115,9 @@ Nodes (11): Edge cases, Glob mapping, Ground Rules (read before you start), Infe
 Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
-### Community 5 - "UserFactory"
-Cohesion: 0.32
-Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
+### Community 5 - "ReportComment"
+Cohesion: 0.08
+Nodes (17): ReportComment, ReportVote, User, UserFactory, DatabaseSeeder, DummyDataSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\Factory (+9 more)
 
 ### Community 6 - "Architecture Best Practices"
 Cohesion: 0.18
@@ -164,8 +172,8 @@ Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
 ### Community 25 - "Report"
-Cohesion: 0.07
-Nodes (21): AuthController, CommentController, Controller, HeatmapController, ReportController, Report, ReportComment, ReportVote (+13 more)
+Cohesion: 0.10
+Nodes (14): AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Report, AiSummaryService (+6 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.20
@@ -176,20 +184,24 @@ Cohesion: 0.22
 Nodes (8): Caching Best Practices, Configure Failover Cache Stores in Production, Consider `Cache::flexible()` for Stale-While-Revalidate, Use `Cache::add()` for Atomic Conditional Writes, Use `Cache::memo()` to Avoid Redundant Hits Within an Execution, Use `Cache::remember()` for Cache-Aside Reads, Use Cache Tags to Invalidate Related Groups, Use `once()` for In-Process Memoization
 
 ### Community 45 - "Error Handling Best Practices"
-Cohesion: 0.25
+Cohesion: 0.29
 Nodes (7): Add Context to Exception Classes, Choose Where to Report and Render Exceptions, Define JSON Rendering for API Routes, Error Handling Best Practices, Mark Exceptions the Handler Should Not Report, Prevent Duplicate Reports of One Exception Instance, Throttle High-Volume Exception Reports
 
 ### Community 46 - "Task Scheduling Best Practices"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): Bound Work Inside the Task, Group Shared Configuration, Prevent Unwanted Overlap, Restrict Tasks by Environment, Run a Task on One Server, Run Eligible Commands in the Background, Task Scheduling Best Practices
 
-### Community 47 - "testing-best-practices/SKILL.md"
-Cohesion: 0.04
-Nodes (37): Arrange, Act, Assert, Assert a Known Value, Assert the Complete Result, Assertions, Format Expectations, How to Find the Correct Assertion, Named Response Assertions, Built-in Laravel Assertion Methods (+29 more)
+### Community 47 - "Assertions"
+Cohesion: 0.25
+Nodes (7): Arrange, Act, Assert, Assert a Known Value, Assert the Complete Result, Assertions, Format Expectations, How to Find the Correct Assertion, Named Response Assertions
 
 ### Community 48 - "Endpoint Tests"
 Cohesion: 0.25
 Nodes (7): Endpoint Coverage, Endpoint Tests, How to Write the Test, Tenant Isolation, Test Authorization at the Policy Level, Testing Validation, Which Layer Owns Which Case
+
+### Community 49 - "testing-best-practices/SKILL.md"
+Cohesion: 0.25
+Nodes (3): Built-in Laravel Assertion Methods, How to Find Test Framework Features, Security Tests
 
 ### Community 50 - "Test Suite Performance"
 Cohesion: 0.25
@@ -199,9 +211,9 @@ Nodes (8): Common Errors, Global Fakes, How to Find a Slow Test, How to Run Fewe
 Cohesion: 0.25
 Nodes (7): Blade and View Best Practices, Prefer Components for Explicit Interfaces, Return Blade Fragments for Partial Rendering, Share Compatible View Data with a View Composer, Share Parent Component Props with `@aware`, Use `$attributes->merge()` in Component Templates, Use `@pushOnce` for Per-Component Scripts
 
-### Community 52 - ".run"
-Cohesion: 0.36
-Nodes (4): DatabaseSeeder, DummyDataSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Seeder
+### Community 52 - "Fakes, Mocks, and Determinism"
+Cohesion: 0.29
+Nodes (7): Database, Fakes, Mocks, and Determinism, Framework Fakes, How to Isolate a Dependency, Mocking, Outbound HTTP Testing, Time and Randomness
 
 ### Community 53 - "HTTP Client Best Practices"
 Cohesion: 0.29
@@ -223,13 +235,33 @@ Nodes (6): Convention and Style Best Practices, Follow Project Naming Convention
 Cohesion: 0.29
 Nodes (6): Add Cross-Field Validation After Base Rules, Express Conditional Rules Clearly, Extract Validation When It Improves the Boundary, Prefer Readable Rule Syntax, Use Only Intended Validated Data, Validation and Forms Best Practices
 
+### Community 58 - "Reviewing Tests"
+Cohesion: 0.29
+Nodes (6): Assertions, Coverage, Data and Determinism, Names and Structure, Reviewing Tests, Test Value
+
+### Community 59 - "CommentNotification"
+Cohesion: 0.38
+Nodes (3): CommentNotification, Illuminate\Bus\Queueable, Illuminate\Notifications\Notification
+
 ### Community 60 - "Collection Best Practices"
 Cohesion: 0.29
 Nodes (6): Choose Between `cursor()` and `lazy()`, Collection Best Practices, Use `#[CollectedBy]` for Custom Collection Classes, Use Higher-Order Messages for Simple Operations, Use `lazyById()` When Updating Records While Iterating, Use `toQuery()` for Bulk Operations on Collections
 
+### Community 61 - "Naming and Structure"
+Cohesion: 0.33
+Nodes (5): File Layout, Grouping, Naming and Structure, Naming Tests, Test Function
+
 ### Community 62 - "Configuration Best Practices"
 Cohesion: 0.33
 Nodes (5): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks
+
+### Community 63 - "Factories and Test Data"
+Cohesion: 0.40
+Nodes (4): Datasets, Each Test Makes Its Own Data, Factories and Test Data, Record Construction
+
+### Community 64 - "Testing Best Practices"
+Cohesion: 0.40
+Nodes (5): Consistency First, How to Apply, Rule Index, Testing Best Practices, What to Test
 
 ### Community 65 - "Laravel Best Practices"
 Cohesion: 0.40
@@ -244,15 +276,15 @@ Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practic
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Architecture Best Practices` connect `Architecture Best Practices` to `laravel-best-practices/SKILL.md`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Why does `Security Best Practices` connect `Security Best Practices` to `laravel-best-practices/SKILL.md`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Why does `scripts` connect `scripts` to `composer.json`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
   _`Report` has 3 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 3 inferred relationships involving `User` (e.g. with `.register()` and `.mentionSuggestions()`) actually correct?**
-  _`User` has 3 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 4 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
+  _`User` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `name`, `type` to the rest of the system?**
   _305 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `composer.json` be split into smaller, more focused modules?**

@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto my-6">
-    <div class="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm">
+    <div class="bg-white dark:bg-[#141414] p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm">
         <div class="mb-8">
-            <a href="{{ route('reports.index') }}" class="inline-flex items-center text-xs font-semibold text-emerald-700 hover:underline mb-2">
+            <a href="{{ route('reports.index') }}" class="inline-flex items-center text-xs font-semibold text-emerald-700 dark:text-emerald-400 hover:underline mb-2">
                 &larr; Kembali ke Feed Laporan
             </a>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Laporkan Masalah Baru</h1>
-            <p class="text-sm text-slate-500 mt-1">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#EDEDEC] tracking-tight">Laporkan Masalah Baru</h1>
+            <p class="text-sm text-slate-500 dark:text-[#888888] mt-1">
                 Unggah bukti foto dan tandai titik lokasi pada peta. Sistem akan otomatis mendeteksi nama daerah via OpenFreeMap.
             </p>
         </div>
@@ -31,28 +31,28 @@
 
             <!-- 1. Bagian Upload Foto dengan Kompresi 80% -->
             <div>
-                <label class="block text-sm font-bold text-slate-900 mb-2">
+                <label class="block text-sm font-bold text-slate-900 dark:text-[#EDEDEC] mb-2">
                     Foto Bukti Laporan <span class="text-rose-500">*</span>
                 </label>
-                <div class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-3xl p-6 text-center transition cursor-pointer relative bg-slate-50 hover:bg-emerald-50/20" id="dropZone">
+                <div class="border-2 border-dashed border-slate-300 dark:border-[#282828] hover:border-emerald-500 dark:hover:border-emerald-500 rounded-3xl p-6 text-center transition cursor-pointer relative bg-slate-50 dark:bg-[#181818] hover:bg-emerald-50/20 dark:hover:bg-emerald-950/20" id="dropZone">
                     <input type="file" id="photoInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
                     
                     <div id="uploadPlaceholder" class="space-y-2">
-                        <div class="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center mx-auto text-emerald-600 text-xl border border-slate-200">
+                        <div class="w-12 h-12 rounded-2xl bg-white dark:bg-[#222222] shadow-sm flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400 text-xl border border-slate-200 dark:border-[#333333]">
                             📷
                         </div>
-                        <div class="text-sm font-semibold text-slate-800">
+                        <div class="text-sm font-semibold text-slate-800 dark:text-[#EDEDEC]">
                             Klik atau seret foto ke sini untuk mengunggah
                         </div>
-                        <p class="text-xs text-slate-400">
+                        <p class="text-xs text-slate-400 dark:text-[#787774]">
                             Mendukung JPG, PNG, WebP. Foto akan dikompresi otomatis (kualitas 80%) di browser.
                         </p>
                     </div>
 
                     <!-- Preview Foto Terkompresi -->
                     <div id="previewContainer" class="hidden space-y-3">
-                        <img id="imagePreview" src="" alt="Preview" class="max-h-64 mx-auto rounded-2xl shadow-sm border border-slate-200 object-cover">
-                        <div class="text-xs font-semibold text-emerald-700 bg-emerald-100/80 inline-block px-3 py-1 rounded-full" id="compressionInfo">
+                        <img id="imagePreview" src="" alt="Preview" class="max-h-64 mx-auto rounded-2xl shadow-sm border border-slate-200 dark:border-[#282828] object-cover">
+                        <div class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-950/60 inline-block px-3 py-1 rounded-full" id="compressionInfo">
                             Kompresi 80% Berhasil
                         </div>
                     </div>
@@ -65,24 +65,24 @@
             <!-- 2. Informasi Pokok Masalah -->
             <div class="grid grid-cols-1 gap-6">
                 <div>
-                    <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-1.5">
                         Judul Masalah <span class="text-rose-500">*</span>
                     </label>
                     <input type="text" id="title" name="title" value="{{ old('title') }}" required
                         placeholder="Contoh: Lubang Jalan Dalam di Depan Halte Dago"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                     @error('title')
                         <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="description" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label for="description" class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-1.5">
                         Deskripsi Lengkap <span class="text-rose-500">*</span>
                     </label>
                     <textarea id="description" name="description" rows="4" required
                         placeholder="Jelaskan detail masalah, dampak, dan perkiraan sudah berapa lama terjadi..."
-                        class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">{{ old('description') }}</textarea>
+                        class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
                     @enderror
@@ -93,31 +93,31 @@
             <div>
                 <div class="flex flex-wrap items-center justify-between mb-3 gap-2">
                     <div>
-                        <label class="block text-sm font-bold text-slate-900">
+                        <label class="block text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">
                             Titik Lokasi (OpenFreeMap) <span class="text-rose-500">*</span>
                         </label>
-                        <p class="text-xs text-slate-400">Geser pin pada peta atau klik tombol deteksi GPS di bawah.</p>
+                        <p class="text-xs text-slate-400 dark:text-[#787774]">Geser pin pada peta atau klik tombol deteksi GPS di bawah.</p>
                     </div>
-                    <button type="button" id="btnGeolocate" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-semibold text-xs rounded-xl transition">
+                    <button type="button" id="btnGeolocate" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#282828] active:bg-slate-300 text-slate-700 dark:text-[#EDEDEC] font-semibold text-xs rounded-xl transition">
                         <span>📍 Deteksi Lokasi Saya (GPS)</span>
                     </button>
                 </div>
 
                 <!-- Kontainer Peta MapLibre -->
-                <div id="mapPicker" class="w-full h-80 rounded-2xl border border-slate-300 shadow-inner relative overflow-hidden">
-                    <div id="mapLoading" class="absolute inset-0 bg-white/70 backdrop-blur-sm z-10 flex items-center justify-center text-xs font-bold text-slate-600">
+                <div id="mapPicker" class="w-full h-80 rounded-2xl border border-slate-300 dark:border-[#282828] shadow-inner relative overflow-hidden">
+                    <div id="mapLoading" class="absolute inset-0 bg-white/70 dark:bg-[#141414]/80 backdrop-blur-sm z-10 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-[#CCCCCC]">
                         Memuat peta OpenFreeMap...
                     </div>
                 </div>
 
                 <!-- Tampilan Alamat Terdeteksi Otomatis -->
-                <div class="mt-3 p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 text-xs flex items-start space-x-3">
-                    <span class="text-emerald-700 text-base">📌</span>
+                <div class="mt-3 p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs flex items-start space-x-3">
+                    <span class="text-emerald-700 dark:text-emerald-400 text-base">📌</span>
                     <div class="flex-1 min-w-0">
-                        <div class="font-bold text-emerald-950" id="displayAddress">
+                        <div class="font-bold text-emerald-950 dark:text-emerald-200" id="displayAddress">
                             Mengambil data wilayah...
                         </div>
-                        <div class="text-emerald-800 text-[11px] mt-0.5" id="displayCoordinates">
+                        <div class="text-emerald-800 dark:text-emerald-300 text-[11px] mt-0.5" id="displayCoordinates">
                             Lat: -6.914744, Lng: 107.609810
                         </div>
                     </div>
@@ -125,8 +125,8 @@
             </div>
 
             <!-- Tombol Kirim Laporan -->
-            <div class="pt-4 border-t border-slate-200 flex items-center justify-end space-x-3">
-                <a href="{{ route('reports.index') }}" class="px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 text-sm font-semibold transition">
+            <div class="pt-4 border-t border-slate-200 dark:border-[#222222] flex items-center justify-end space-x-3">
+                <a href="{{ route('reports.index') }}" class="px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 dark:text-[#888888] dark:hover:bg-[#222222] text-sm font-semibold transition">
                     Batal
                 </a>
                 <button type="submit" id="submitBtn" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-bold rounded-xl shadow-sm transition">

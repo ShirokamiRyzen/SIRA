@@ -5,50 +5,50 @@
 @section('content')
 <div class="space-y-6">
     <!-- Header & Ringkasan Sebaran -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-[#141414] p-6 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm">
         <div>
-            <div class="inline-flex items-center space-x-1.5 text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200/80 px-2.5 py-0.5 rounded-full mb-1">
+            <div class="inline-flex items-center space-x-1.5 text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50 px-2.5 py-0.5 rounded-full mb-1">
                 <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
                 <span>Visualisasi Kepadatan Geospasial</span>
             </div>
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Peta Heatmap Laporan Komunitas</h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+            <h1 class="text-2xl font-extrabold text-slate-900 dark:text-[#EDEDEC] tracking-tight">Peta Heatmap Laporan Komunitas</h1>
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-[#888888] mt-0.5">
                 Area dengan warna merah membara menunjukkan konsentrasi laporan masalah dan dukungan voting yang tinggi.
             </p>
         </div>
 
         <!-- Tier Stats Badges -->
         <div class="flex flex-wrap items-center gap-2 text-xs">
-            <div class="px-3 py-1.5 rounded-xl bg-slate-900 text-white font-bold">
+            <div class="px-3 py-1.5 rounded-xl bg-slate-900 dark:bg-[#222222] text-white font-bold">
                 Total: {{ $totalReports }} Laporan
             </div>
-            <div class="px-3 py-1.5 rounded-xl bg-rose-100 text-rose-800 font-bold border border-rose-200">
+            <div class="px-3 py-1.5 rounded-xl bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 font-bold border border-rose-200 dark:border-rose-900/50">
                 Critical: {{ $tierCounts['critical'] }}
             </div>
-            <div class="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-800 font-bold border border-amber-200">
+            <div class="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 font-bold border border-amber-200 dark:border-amber-900/50">
                 Urgent: {{ $tierCounts['urgent'] }}
             </div>
-            <div class="px-3 py-1.5 rounded-xl bg-teal-100 text-teal-800 font-bold border border-teal-200">
+            <div class="px-3 py-1.5 rounded-xl bg-teal-100 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 font-bold border border-teal-200 dark:border-teal-900/50">
                 Trending: {{ $tierCounts['trending'] }}
             </div>
         </div>
     </div>
 
     <!-- Peta Heatmap Kontainer -->
-    <div class="relative w-full h-[650px] rounded-3xl border border-slate-300 shadow-md overflow-hidden bg-slate-100">
+    <div class="relative w-full h-[650px] rounded-3xl border border-slate-300 dark:border-[#282828] shadow-md overflow-hidden bg-slate-100 dark:bg-[#181818]">
         <div id="heatmapMap" class="w-full h-full"></div>
 
         <!-- Overlay Loading -->
-        <div id="heatmapLoading" class="absolute inset-0 bg-white/70 backdrop-blur-sm z-20 flex flex-col items-center justify-center space-y-2">
+        <div id="heatmapLoading" class="absolute inset-0 bg-white/70 dark:bg-[#141414]/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center space-y-2">
             <div class="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <span class="text-xs font-bold text-slate-700">Mengambil data titik sebaran OpenFreeMap...</span>
+            <span class="text-xs font-bold text-slate-700 dark:text-[#CCCCCC]">Mengambil data titik sebaran OpenFreeMap...</span>
         </div>
 
         <!-- Legend Panas (Pojok Kiri Bawah) -->
-        <div class="absolute bottom-6 left-6 z-10 bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-md text-xs space-y-2 max-w-xs">
-            <div class="font-extrabold text-slate-900">Intensitas Panas Masalah</div>
+        <div class="absolute bottom-6 left-6 z-10 bg-white/90 dark:bg-[#141414]/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 dark:border-[#282828] shadow-md text-xs space-y-2 max-w-xs">
+            <div class="font-extrabold text-slate-900 dark:text-[#EDEDEC]">Intensitas Panas Masalah</div>
             <div class="h-3 w-48 rounded-full bg-gradient-to-r from-blue-400 via-yellow-400 via-orange-500 to-rose-600 shadow-inner"></div>
-            <div class="flex justify-between text-[10px] font-bold text-slate-500">
+            <div class="flex justify-between text-[10px] font-bold text-slate-500 dark:text-[#888888]">
                 <span>Rendah (0-9)</span>
                 <span>Sedang (10-49)</span>
                 <span>Kritis (100+)</span>
@@ -57,7 +57,7 @@
 
         <!-- Kontrol Lokasi Saya (Pojok Kanan Atas) -->
         <div class="absolute top-6 right-6 z-10">
-            <button type="button" id="btnMyLoc" class="px-3.5 py-2 rounded-xl bg-white/90 hover:bg-white text-slate-800 font-bold text-xs shadow-md border border-slate-200 flex items-center space-x-1.5 backdrop-blur-md transition">
+            <button type="button" id="btnMyLoc" class="px-3.5 py-2 rounded-xl bg-white/90 hover:bg-white dark:bg-[#1E1E1E]/90 dark:hover:bg-[#252525] text-slate-800 dark:text-[#EDEDEC] font-bold text-xs shadow-md border border-slate-200 dark:border-[#333333] flex items-center space-x-1.5 backdrop-blur-md transition">
                 <span>🎯</span>
                 <span>Pusatkan Lokasi Saya</span>
             </button>

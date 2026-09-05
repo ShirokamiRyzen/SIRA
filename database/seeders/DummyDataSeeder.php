@@ -21,7 +21,7 @@ class DummyDataSeeder extends Seeder
         $defaultPassword = Hash::make('password123');
 
         // -------------------------------------------------------------
-        // 1. Akun Admin (username: admin, password: admin)
+        // 1. Akun Admin (username: admin, password: admin) & User (username: user, password: user)
         // -------------------------------------------------------------
         $admin = User::firstOrCreate(
             ['username' => 'admin'],
@@ -32,7 +32,17 @@ class DummyDataSeeder extends Seeder
             ]
         );
 
+        $userAccount = User::firstOrCreate(
+            ['username' => 'user'],
+            [
+                'name' => 'Pengguna Warga',
+                'email' => 'user@sira.local',
+                'password' => Hash::make('user'),
+            ]
+        );
+
         $this->command?->info('Akun Admin disiapkan: username [admin], password [admin]');
+        $this->command?->info('Akun User disiapkan: username [user], password [user]');
 
         // -------------------------------------------------------------
         // 2. Akun Bot SIRA AI Assistant
