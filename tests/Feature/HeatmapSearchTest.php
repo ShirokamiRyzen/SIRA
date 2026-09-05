@@ -35,13 +35,38 @@ test('api geocode search returns mapped results when location query is provided'
     $response = $this->getJson(route('api.geocode.search', ['q' => 'Bandung']));
 
     $response->assertOk();
-    $response->assertJson([
-        [
-            'name' => 'Bandung',
-            'display_name' => 'Kota Bandung, Jawa Barat, Indonesia',
-            'lat' => -6.9218,
-            'lng' => 107.6070,
-            'type' => 'city',
-        ],
+    $response->assertJsonFragment([
+        'name' => 'Bandung',
+        'type' => 'city',
+    ]);
+});
+
+test('api geocode search returns geocoded results for queries', function () {
+    Http::fake([
+        'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest*' => Http::response([
+            'suggestions' => [
+                [
+                    'text' => 'STT Wastukancana Purwakarta, Jawa Barat, IDN',
+                    'magicKey' => 'test-magic-key-stt',
+                ],
+            ],
+        ], 200),
+        'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates*' => Http::response([
+            'candidates' => [
+                [
+                    'address' => 'STT Wastukancana Purwakarta',
+                    'location' => ['x' => 107.4658, 'y' => -6.5135],
+                ],
+            ],
+        ], 200),
+    ]);
+
+    $response = $this->getJson(route('api.geocode.search', ['q' => 'STT Wastukancana']));
+
+    $response->assertOk();
+    $response->assertJsonFragment([
+        'name' => 'STT Wastukancana Purwakarta',
+        'lat' => -6.5135,
+        'lng' => 107.4658,
     ]);
 });

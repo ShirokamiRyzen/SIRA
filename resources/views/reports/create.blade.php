@@ -144,21 +144,42 @@
                 </div>
 
                 <!-- 3. Peta Interaktif OpenFreeMap & Koordinat -->
-                <div>
-                    <div class="flex flex-wrap items-center justify-between mb-3 gap-2">
+                <div class="space-y-4">
+                    <!-- Label & Tombol Deteksi Lokasi -->
+                    <div class="flex items-center justify-between">
                         <div>
                             <label class="block text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">
                                 Titik Lokasi <span class="text-rose-500">*</span>
                             </label>
-                            <p class="text-xs text-slate-400 dark:text-[#787774]">Geser pin pada peta atau klik tombol
-                                deteksi GPS di bawah.</p>
+                            <p class="text-xs text-slate-400 dark:text-[#787774]">Cari lokasi, geser pin pada peta, atau klik deteksi GPS.</p>
                         </div>
                         <button type="button" id="btnGeolocate"
-                            class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#282828] active:bg-slate-300 text-slate-700 dark:text-[#EDEDEC] font-semibold text-xs rounded-xl transition">
+                            class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#282828] active:bg-slate-300 text-slate-700 dark:text-[#EDEDEC] font-semibold text-xs rounded-xl transition cursor-pointer">
                             <flux:icon name="viewfinder-circle"
                                 class="w-3.5 h-3.5 text-slate-600 dark:text-[#EDEDEC] shrink-0" />
                             <span id="btnGeolocateText">Deteksi Lokasi Saya (GPS)</span>
                         </button>
+                    </div>
+
+                    <!-- Input Pencarian Lokasi Cepat -->
+                    <div class="relative">
+                        <div class="flex items-center bg-white dark:bg-[#1C1C1B] border border-slate-300 dark:border-[#2E2E2E] rounded-xl px-3 py-2 shadow-2xs focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500 transition">
+                            <flux:icon name="magnifying-glass" class="w-4 h-4 text-slate-400 dark:text-[#787774] shrink-0 mr-2" />
+                            <input type="text" id="reportLocationSearch"
+                                placeholder="Cari nama tempat, kampus, jalan, atau daerah (contoh: STT Wastukancana)..."
+                                class="w-full bg-transparent text-xs text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#787774] focus:outline-hidden"
+                                autocomplete="off" />
+                            <button type="button" id="clearReportSearchBtn" class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 cursor-pointer">
+                                <flux:icon name="x-mark" class="w-3.5 h-3.5" />
+                            </button>
+                            <div id="reportSearchSpinner" class="hidden shrink-0 ml-1.5">
+                                <div class="w-3.5 h-3.5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        </div>
+                        <!-- Dropdown Hasil Pencarian Lokasi -->
+                        <div id="reportSearchResultsDropdown"
+                            class="absolute top-full left-0 right-0 mt-1 max-h-56 overflow-y-auto bg-white dark:bg-[#1A1A19] border border-slate-200 dark:border-[#282828] rounded-xl shadow-xl z-30 hidden divide-y divide-slate-100 dark:divide-[#242424]">
+                        </div>
                     </div>
 
                     <!-- Kontainer Peta MapLibre -->
@@ -576,6 +597,137 @@
                 },
                 { enableHighAccuracy: true, timeout: 8000 }
             );
+        });
+
+        // -------------------------------------------------------------
+        // 5. Pencarian Lokasi Cepat untuk Penempatan Pin
+        // -------------------------------------------------------------
+        const reportLocationSearch = document.getElementById('reportLocationSearch');
+        const clearReportSearchBtn = document.getElementById('clearReportSearchBtn');
+        const reportSearchSpinner = document.getElementById('reportSearchSpinner');
+        const reportSearchResultsDropdown = document.getElementById('reportSearchResultsDropdown');
+        let reportSearchDebounce = null;
+
+        function closeReportSearchDropdown() {
+            if (reportSearchResultsDropdown) {
+                reportSearchResultsDropdown.classList.add('hidden');
+                reportSearchResultsDropdown.innerHTML = '';
+            }
+        }
+
+        function escapeReportHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function executeReportLocationSearch(query) {
+            if (!query || query.trim().length < 2) {
+                closeReportSearchDropdown();
+                return;
+            }
+
+            if (reportSearchSpinner) reportSearchSpinner.classList.remove('hidden');
+
+            fetch(`{{ route('api.geocode.search') }}?q=${encodeURIComponent(query.trim())}`)
+                .then(res => res.json())
+                .then(results => {
+                    if (reportSearchSpinner) reportSearchSpinner.classList.add('hidden');
+
+                    if (!results || results.length === 0) {
+                        reportSearchResultsDropdown.innerHTML = `
+                            <div class="p-3 text-center text-xs text-slate-500 dark:text-[#888888]">
+                                Lokasi tidak ditemukan. Coba gunakan nama kota, kampus, jalan, atau daerah lain.
+                            </div>
+                        `;
+                        reportSearchResultsDropdown.classList.remove('hidden');
+                        return;
+                    }
+
+                    reportSearchResultsDropdown.innerHTML = '';
+                    results.forEach(item => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'w-full text-left p-2.5 sm:p-3 hover:bg-slate-50 dark:hover:bg-[#1E1E1E] transition flex items-start gap-2.5 cursor-pointer';
+                        btn.innerHTML = `
+                            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 21s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 7.2c0 7.3-8 11.8-8 11.8z" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] truncate">${escapeReportHtml(item.name)}</div>
+                                <div class="text-[11px] text-slate-500 dark:text-[#888888] truncate">${escapeReportHtml(item.display_name)}</div>
+                            </div>
+                        `;
+                        btn.addEventListener('click', () => {
+                            closeReportSearchDropdown();
+                            reportLocationSearch.value = item.name;
+                            if (clearReportSearchBtn) clearReportSearchBtn.classList.remove('hidden');
+
+                            const lat = parseFloat(item.lat);
+                            const lng = parseFloat(item.lng);
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                map.flyTo({ center: [lng, lat], zoom: 16 });
+                                marker.setLngLat([lng, lat]);
+                                updateCoordinates(lat, lng);
+                            }
+                        });
+                        reportSearchResultsDropdown.appendChild(btn);
+                    });
+
+                    reportSearchResultsDropdown.classList.remove('hidden');
+                })
+                .catch(err => {
+                    console.error('Pencarian lokasi gagal:', err);
+                    if (reportSearchSpinner) reportSearchSpinner.classList.add('hidden');
+                });
+        }
+
+        if (reportLocationSearch) {
+            reportLocationSearch.addEventListener('input', (e) => {
+                const query = e.target.value;
+                if (clearReportSearchBtn) {
+                    if (query.trim().length > 0) {
+                        clearReportSearchBtn.classList.remove('hidden');
+                    } else {
+                        clearReportSearchBtn.classList.add('hidden');
+                    }
+                }
+
+                clearTimeout(reportSearchDebounce);
+                reportSearchDebounce = setTimeout(() => {
+                    executeReportLocationSearch(query);
+                }, 350);
+            });
+
+            reportLocationSearch.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    clearTimeout(reportSearchDebounce);
+                    executeReportLocationSearch(reportLocationSearch.value);
+                } else if (e.key === 'Escape') {
+                    closeReportSearchDropdown();
+                }
+            });
+        }
+
+        if (clearReportSearchBtn) {
+            clearReportSearchBtn.addEventListener('click', () => {
+                if (reportLocationSearch) reportLocationSearch.value = '';
+                clearReportSearchBtn.classList.add('hidden');
+                closeReportSearchDropdown();
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!reportLocationSearch || !reportSearchResultsDropdown) return;
+            if (!reportLocationSearch.contains(e.target) && !reportSearchResultsDropdown.contains(e.target)) {
+                closeReportSearchDropdown();
+            }
         });
 
         // Validasi form sebelum submit

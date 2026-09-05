@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/HeatmapController.php": {
-    "mtime": 1788624888.6454258,
-    "ast_hash": "9af70e13722e6c86b10162d8293fe5a4",
+    "mtime": 1788625855.837365,
+    "ast_hash": "ab4b084975dc5236fd0d73b5213b1109",
     "semantic_hash": ""
   },
   "app/Http/Controllers/ReportController.php": {
@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/create.blade.php": {
-    "mtime": 1788623100.3482213,
-    "ast_hash": "6edaa40d0b95e090e6e1c36b855f493d",
+    "mtime": 1788626080.5378182,
+    "ast_hash": "d130994e317ae9f1cab04551b6bd27a5",
     "semantic_hash": ""
   },
   "resources/views/reports/heatmap.blade.php": {
@@ -605,8 +605,13 @@
     "semantic_hash": ""
   },
   "tests/Feature/HeatmapSearchTest.php": {
-    "mtime": 1788624961.383213,
-    "ast_hash": "d269dac96de2ee8ab6b3b21ca547609e",
+    "mtime": 1788625900.281071,
+    "ast_hash": "e8b1528bd9c3aa15125e156d16e832e5",
+    "semantic_hash": ""
+  },
+  "tests/Feature/ReportCreatePhotoTest.php": {
+    "mtime": 1788625304.2569263,
+    "ast_hash": "757e04e465e5398dd95d43b94ca7dabf",
     "semantic_hash": ""
   }
 }

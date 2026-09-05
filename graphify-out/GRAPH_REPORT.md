@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-05)
 
 ## Corpus Check
-- 122 files · ~59,166 words
+- 122 files · ~60,252 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 626 nodes · 743 edges · 97 communities (89 shown, 8 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
+- 626 nodes · 744 edges · 98 communities (90 shown, 8 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `77d907c1`
+- Built from commit: `f9581d69`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,7 +20,7 @@
 - scripts
 - Process
 - package.json
-- ReportComment
+- Report
 - Architecture Best Practices
 - Security Best Practices
 - README.md
@@ -37,7 +37,7 @@
 - Laravel Application
 - rules/graphify.md
 - workflows/graphify.md
-- Report
+- Illuminate\Http\Request
 - welcome.blade.php
 - Events and Notifications Best Practices
 - Caching Best Practices
@@ -66,9 +66,10 @@
 - _comment_item.blade.php
 - show.blade.php
 - OgImageController
+- UserFactory
 
 ## God Nodes (most connected - your core abstractions)
-1. `Report` - 29 edges
+1. `Report` - 30 edges
 2. `ReportComment` - 17 edges
 3. `User` - 16 edges
 4. `ReportVote` - 12 edges
@@ -94,7 +95,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (97 total, 8 thin omitted)
+## Communities (98 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -116,9 +117,9 @@ Nodes (11): Edge cases, Glob mapping, Ground Rules (read before you start), Infe
 Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
-### Community 5 - "ReportComment"
-Cohesion: 0.07
-Nodes (17): ReportComment, ReportVote, User, UserFactory, DatabaseSeeder, DummyDataSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\Factory (+9 more)
+### Community 5 - "Report"
+Cohesion: 0.08
+Nodes (16): Report, ReportComment, ReportVote, User, AiSummaryService, DatabaseSeeder, DummyDataSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents (+8 more)
 
 ### Community 6 - "Architecture Best Practices"
 Cohesion: 0.18
@@ -172,9 +173,9 @@ Nodes (27): APIs & Eloquent Resources, Application Structure & Architecture, Art
 Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
-### Community 25 - "Report"
-Cohesion: 0.10
-Nodes (14): AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Report, AiSummaryService (+6 more)
+### Community 25 - "Illuminate\Http\Request"
+Cohesion: 0.11
+Nodes (12): AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Http\JsonResponse, Illuminate\Http\RedirectResponse (+4 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.20
@@ -268,6 +269,10 @@ Nodes (5): Consistency First, How to Apply, Rule Index, Testing Best Practices, 
 Cohesion: 0.40
 Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practices, Rule Index
 
+### Community 97 - "UserFactory"
+Cohesion: 0.32
+Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
+
 ## Knowledge Gaps
 - **306 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+301 more)
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -276,12 +281,12 @@ Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practic
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Report` connect `Report` to `OgImageController`, `ReportComment`?**
+- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `Architecture Best Practices` connect `Architecture Best Practices` to `laravel-best-practices/SKILL.md`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Are the 3 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
-  _`Report` has 3 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 4 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
+  _`Report` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 4 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
   _`User` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `name`, `type` to the rest of the system?**

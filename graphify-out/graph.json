@@ -11,7 +11,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "authcontroller.php"
     },
     {
@@ -22,7 +22,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "authcontroller"
     },
     {
@@ -33,7 +33,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_showlogin",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".showlogin()"
     },
     {
@@ -44,7 +44,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_login",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".login()"
     },
     {
@@ -55,7 +55,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_showregister",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".showregister()"
     },
     {
@@ -66,7 +66,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_register",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".register()"
     },
     {
@@ -77,7 +77,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_logout",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".logout()"
     },
     {
@@ -88,7 +88,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "commentcontroller.php"
     },
     {
@@ -99,7 +99,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "commentcontroller"
     },
     {
@@ -110,7 +110,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_store",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".store()"
     },
     {
@@ -121,7 +121,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_generateaireply",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".generateaireply()"
     },
     {
@@ -132,7 +132,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_dispatchcommentnotifications",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".dispatchcommentnotifications()"
     },
     {
@@ -143,7 +143,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_destroy",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".destroy()"
     },
     {
@@ -154,7 +154,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_mentionsuggestions",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".mentionsuggestions()"
     },
     {
@@ -165,7 +165,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_controller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "controller.php"
     },
     {
@@ -176,7 +176,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_controller_controller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "controller"
     },
     {
@@ -187,7 +187,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "heatmapcontroller.php"
     },
     {
@@ -198,7 +198,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "heatmapcontroller"
     },
     {
@@ -208,7 +208,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_index",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": ".index()"
     },
@@ -220,18 +220,18 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_geojson",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".geojson()"
     },
     {
       "label": ".searchLocation()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L98",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".searchlocation()"
     },
     {
@@ -242,7 +242,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "notificationcontroller.php"
     },
     {
@@ -253,7 +253,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "notificationcontroller"
     },
     {
@@ -264,7 +264,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_index",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".index()"
     },
     {
@@ -275,7 +275,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_stream",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".stream()"
     },
     {
@@ -286,7 +286,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_markasread",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".markasread()"
     },
     {
@@ -297,7 +297,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_markallasread",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".markallasread()"
     },
     {
@@ -308,7 +308,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_destroy",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".destroy()"
     },
     {
@@ -319,7 +319,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_clearall",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".clearall()"
     },
     {
@@ -418,7 +418,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "reportcontroller.php"
     },
     {
@@ -429,7 +429,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "reportcontroller"
     },
     {
@@ -440,7 +440,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_index",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".index()"
     },
     {
@@ -451,7 +451,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_create",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".create()"
     },
     {
@@ -462,7 +462,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_store",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".store()"
     },
     {
@@ -473,7 +473,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_show",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".show()"
     },
     {
@@ -484,7 +484,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_vote",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".vote()"
     },
     {
@@ -495,7 +495,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_updatestatus",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".updatestatus()"
     },
     {
@@ -506,7 +506,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_encodegeohash",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".encodegeohash()"
     },
     {
@@ -517,7 +517,7 @@
       "_origin": "ast",
       "id": "app_models_report",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "report.php"
     },
     {
@@ -527,7 +527,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_models_report_report",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": "report"
     },
@@ -538,7 +538,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_models_report_report_casts",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": ".casts()"
     },
@@ -550,7 +550,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".user()"
     },
     {
@@ -561,7 +561,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_votes",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".votes()"
     },
     {
@@ -572,7 +572,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_rootcomments",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".rootcomments()"
     },
     {
@@ -583,7 +583,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_comments",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".comments()"
     },
     {
@@ -594,7 +594,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_uservote",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".uservote()"
     },
     {
@@ -605,7 +605,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_recalculatevotestatsandtier",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".recalculatevotestatsandtier()"
     },
     {
@@ -616,7 +616,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "reportcomment.php"
     },
     {
@@ -627,7 +627,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "reportcomment"
     },
     {
@@ -638,7 +638,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_report",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".report()"
     },
     {
@@ -649,7 +649,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".user()"
     },
     {
@@ -660,7 +660,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_parent",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".parent()"
     },
     {
@@ -671,7 +671,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_replies",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".replies()"
     },
     {
@@ -681,8 +681,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_booted",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": ".booted()"
     },
     {
@@ -693,7 +693,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "reportvote.php"
     },
     {
@@ -704,7 +704,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "reportvote"
     },
     {
@@ -715,7 +715,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_casts",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".casts()"
     },
     {
@@ -726,7 +726,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_report",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".report()"
     },
     {
@@ -737,7 +737,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".user()"
     },
     {
@@ -747,8 +747,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_booted",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": ".booted()"
     },
     {
@@ -759,7 +759,7 @@
       "_origin": "ast",
       "id": "app_models_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "user.php"
     },
     {
@@ -770,7 +770,7 @@
       "_origin": "ast",
       "id": "app_models_user_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "user"
     },
     {
@@ -781,7 +781,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_casts",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".casts()"
     },
     {
@@ -792,7 +792,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_reports",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".reports()"
     },
     {
@@ -803,7 +803,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_votes",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".votes()"
     },
     {
@@ -814,7 +814,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_comments",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".comments()"
     },
     {
@@ -967,7 +967,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_aisummaryservice",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": "aisummaryservice.php"
     },
@@ -978,7 +978,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": "aisummaryservice"
     },
@@ -989,7 +989,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_isaimentioned",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": ".isaimentioned()"
     },
@@ -1000,7 +1000,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_getorcreatebotuser",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": ".getorcreatebotuser()"
     },
@@ -1011,7 +1011,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
-      "community": 25,
+      "community": 5,
       "community_name": "Report",
       "norm_label": ".generateairesponse()"
     },
@@ -1859,7 +1859,7 @@
       "_origin": "ast",
       "id": "config_auth",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "auth.php"
     },
     {
@@ -1870,7 +1870,7 @@
       "_origin": "ast",
       "id": "config_cache",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "cache.php"
     },
     {
@@ -1957,8 +1957,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_userfactory",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": "userfactory.php"
     },
     {
@@ -1968,8 +1968,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": "userfactory"
     },
     {
@@ -1979,8 +1979,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_definition",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": ".definition()"
     },
     {
@@ -1990,8 +1990,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_unverified",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": ".unverified()"
     },
     {
@@ -2001,8 +2001,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "static",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": "static"
     },
     {
@@ -2277,7 +2277,7 @@
       "_origin": "ast",
       "id": "database_seeders_databaseseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "databaseseeder.php"
     },
     {
@@ -2288,7 +2288,7 @@
       "_origin": "ast",
       "id": "database_seeders_databaseseeder_databaseseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "databaseseeder"
     },
     {
@@ -2299,7 +2299,7 @@
       "_origin": "ast",
       "id": "database_seeders_databaseseeder_databaseseeder_run",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".run()"
     },
     {
@@ -2310,7 +2310,7 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "dummydataseeder.php"
     },
     {
@@ -2321,7 +2321,7 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "dummydataseeder"
     },
     {
@@ -2332,7 +2332,7 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_run",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".run()"
     },
     {
@@ -2343,7 +2343,7 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_quickgeohash",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".quickgeohash()"
     },
     {
@@ -2354,7 +2354,7 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_generatereportsvg",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": ".generatereportsvg()"
     },
     {
@@ -3003,7 +3003,7 @@
       "_origin": "ast",
       "id": "routes_web",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "web.php"
     },
     {
@@ -3036,7 +3036,7 @@
       "_origin": "ast",
       "id": "tests_feature_ogimagetest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "ogimagetest.php"
     },
     {
@@ -3047,7 +3047,7 @@
       "_origin": "ast",
       "id": "tests_feature_reportcreatephototest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "reportcreatephototest.php"
     },
     {
@@ -3058,7 +3058,7 @@
       "_origin": "ast",
       "id": "tests_feature_reportsystemtest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "reportsystemtest.php"
     },
     {
@@ -3069,7 +3069,7 @@
       "_origin": "ast",
       "id": "tests_feature_welcometest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "welcometest.php"
     },
     {
@@ -6666,7 +6666,7 @@
       "_origin": "ast",
       "id": "illuminate_http_redirectresponse",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "illuminate\\http\\redirectresponse"
     },
     {
@@ -6677,7 +6677,7 @@
       "_origin": "ast",
       "id": "illuminate_http_request",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "illuminate\\http\\request"
     },
     {
@@ -6688,7 +6688,7 @@
       "_origin": "ast",
       "id": "illuminate_view_view",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "illuminate\\view\\view"
     },
     {
@@ -6699,7 +6699,7 @@
       "_origin": "ast",
       "id": "illuminate_http_jsonresponse",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "illuminate\\http\\jsonresponse"
     },
     {
@@ -6710,7 +6710,7 @@
       "_origin": "ast",
       "id": "illuminate_support_facades_notification",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "illuminate\\support\\facades\\notification"
     },
     {
@@ -6721,7 +6721,7 @@
       "_origin": "ast",
       "id": "symfony_component_httpfoundation_streamedresponse",
       "community": 25,
-      "community_name": "Report",
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "symfony\\component\\httpfoundation\\streamedresponse"
     },
     {
@@ -6743,7 +6743,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_factories_hasfactory",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\database\\eloquent\\factories\\hasfactory"
     },
     {
@@ -6754,7 +6754,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_model",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\database\\eloquent\\model"
     },
     {
@@ -6765,7 +6765,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_belongsto",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\database\\eloquent\\relations\\belongsto"
     },
     {
@@ -6776,7 +6776,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_hasmany",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\database\\eloquent\\relations\\hasmany"
     },
     {
@@ -6787,7 +6787,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_softdeletes",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\database\\eloquent\\softdeletes"
     },
     {
@@ -6798,7 +6798,7 @@
       "_origin": "ast",
       "id": "illuminate_notifications_notifiable",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\notifications\\notifiable"
     },
     {
@@ -6809,7 +6809,7 @@
       "_origin": "ast",
       "id": "illuminate_foundation_auth_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\foundation\\auth\\user"
     },
     {
@@ -6852,8 +6852,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_factories_factory",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 97,
+      "community_name": "UserFactory",
       "norm_label": "illuminate\\database\\eloquent\\factories\\factory"
     },
     {
@@ -6864,7 +6864,7 @@
       "_origin": "ast",
       "id": "illuminate_database_console_seeds_withoutmodelevents",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\database\\console\\seeds\\withoutmodelevents"
     },
     {
@@ -6875,7 +6875,7 @@
       "_origin": "ast",
       "id": "illuminate_database_seeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "Report",
       "norm_label": "illuminate\\database\\seeder"
     },
     {
@@ -7785,7 +7785,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L98",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller",
@@ -7853,10 +7853,22 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/Http/Controllers/HeatmapController.php",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
+      "target": "app_models_report_report"
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L98",
+      "source_location": "L102",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -7868,7 +7880,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L98",
+      "source_location": "L102",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -15294,5 +15306,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "77d907c19033e4bf881b876129cc5aa11b4d7155"
+  "built_at_commit": "f9581d69e98ccb67b3e58c162ed028acc8f5aa93"
 }
