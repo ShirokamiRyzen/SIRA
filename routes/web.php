@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HeatmapController;
@@ -53,8 +54,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
     Route::post('/reports/{report}/vote', [ReportController::class, 'vote'])->name('reports.vote');
 
-    // Update Status Laporan (Hanya untuk pembuat laporan)
+    // Update Status Laporan (Pembuat laporan atau Admin)
     Route::patch('/reports/{report}/status', [ReportController::class, 'updateStatus'])->name('reports.updateStatus');
+    Route::delete('/reports/{report}', [ReportController::class, 'destroy'])->name('reports.destroy');
+
+    // Manajemen Admin: Beri / Cabut Lencana Verifikasi Pengguna & Akun Lembaga Daerah
+    Route::post('/admin/users/{user}/toggle-verify', [AdminController::class, 'toggleVerify'])->name('admin.users.toggleVerify');
 
     // Komentar Bertingkat (Nested Comments)
     Route::post('/reports/{report}/comments', [CommentController::class, 'store'])->name('comments.store');

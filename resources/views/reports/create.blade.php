@@ -154,8 +154,15 @@
                             Deskripsi Lengkap <span class="text-rose-500">*</span>
                         </label>
                         <textarea id="description" name="description" rows="4" required
-                            placeholder="Jelaskan detail masalah, dampak, dan perkiraan sudah berapa lama terjadi..."
+                            placeholder="Jelaskan detail masalah, dampak, dan perkiraan sudah berapa lama terjadi... (Ketik @ untuk menandai akun instansi atau warga lain)"
                             class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">{{ old('description') }}</textarea>
+                        <div class="flex items-center justify-between mt-1.5 text-[11px] text-slate-500 dark:text-[#888888]">
+                            <span class="inline-flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block shrink-0"></span>
+                                <span>Fitur Tag: Ketik <strong class="text-emerald-600 dark:text-emerald-400">@username</strong> untuk menandai akun instansi atau warga</span>
+                            </span>
+                            <span class="font-mono text-[10px] text-slate-400">Notifikasi Otomatis</span>
+                        </div>
                         @error('description')
                             <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
                         @enderror
@@ -597,7 +604,7 @@
             }
             if (displayCoord) {
                 displayCoord.className = 'text-emerald-800 dark:text-emerald-300 text-[11px] mt-0.5 font-mono font-medium';
-                displayCoord.innerText = `✓ GPS Terkunci: Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)}`;
+                displayCoord.innerText = `GPS Terkunci: Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)}`;
             }
             if (btnText) {
                 btnText.innerText = 'Perbarui Lokasi GPS';
@@ -744,5 +751,163 @@
                 return;
             }
         });
+
+        // -------------------------------------------------------------
+        // Auto-Complete Mention (@) Sistem pada Form Laporan Baru
+        // -------------------------------------------------------------
+        (function initCreateMentionSystem() {
+            const dropdown = document.createElement('div');
+            dropdown.id = 'createMentionDropdown';
+            dropdown.style.zIndex = '99999';
+            dropdown.className = 'fixed hidden bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#262626] rounded-2xl shadow-2xl overflow-hidden w-72 max-w-[90vw] transition-opacity duration-150 text-left font-sans';
+            dropdown.innerHTML = `
+                <div class="px-3 py-2 bg-slate-50 dark:bg-[#1F1F1E] border-b border-slate-100 dark:border-[#282828] text-[10px] font-bold text-slate-400 dark:text-[#888888] uppercase tracking-wider flex items-center justify-between">
+                    <span>Saran Tag Akun</span>
+                    <span class="text-[9px] font-normal lowercase text-slate-400 dark:text-[#777777]">↑↓ dan ↵</span>
+                </div>
+                <div id="createMentionDropdownList" class="p-1 max-h-56 overflow-y-auto space-y-0.5"></div>
+            `;
+            document.body.appendChild(dropdown);
+
+            const dropdownList = document.getElementById('createMentionDropdownList');
+            const descTextarea = document.getElementById('description');
+            if (!descTextarea) return;
+
+            let mentionStartIndex = -1;
+            let mentionQuery = '';
+            let currentUsers = [];
+            let highlightedIndex = 0;
+
+            function closeMentionDropdown() {
+                dropdown.classList.add('hidden');
+                dropdown.style.display = 'none';
+                currentUsers = [];
+                highlightedIndex = 0;
+            }
+
+            function positionDropdown() {
+                if (dropdown.classList.contains('hidden')) return;
+                const rect = descTextarea.getBoundingClientRect();
+                dropdown.style.top = `${rect.bottom + 6}px`;
+                dropdown.style.left = `${rect.left}px`;
+            }
+
+            function renderSuggestions() {
+                if (!currentUsers || currentUsers.length === 0) {
+                    closeMentionDropdown();
+                    return;
+                }
+
+                dropdownList.innerHTML = '';
+                currentUsers.forEach((user, index) => {
+                    const item = document.createElement('div');
+                    const isSelected = (index === highlightedIndex);
+                    item.className = isSelected
+                        ? 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-emerald-600 text-white font-semibold shadow-xs'
+                        : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC]';
+
+                    const isAi = user.is_ai;
+                    let badgeMarkup = '';
+                    if (isAi) {
+                        badgeMarkup = `<span class="ml-2 shrink-0 px-2 py-0.5 rounded-full text-[9px] font-extrabold ${isSelected ? 'bg-white/20 text-white' : 'bg-indigo-600 text-white'}">SIRA AI</span>`;
+                    } else if (user.badge_type === 'admin') {
+                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-amber-400 text-slate-950' : 'bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300'}"><svg class="w-3 h-3 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg><span>ADMIN</span></span>`;
+                    } else if (user.badge_type === 'verified') {
+                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-sky-400 text-slate-950' : 'bg-sky-100 text-sky-900 dark:bg-sky-950/80 dark:text-sky-300'}"><svg class="w-3 h-3 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg><span>VERIFIED</span></span>`;
+                    }
+
+                    item.innerHTML = `
+                        <div class="flex items-center space-x-2 min-w-0">
+                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-white text-indigo-700 shadow-xs' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 uppercase'}">
+                                ${isAi ? '<svg class="w-3.5 h-3.5 text-indigo-600" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a2 2 0 0 1 2-2z"/></svg>' : (user.username ? user.username.charAt(0).toUpperCase() : 'U')}
+                            </div>
+                            <div class="truncate">
+                                <div class="truncate text-xs ${isSelected ? 'text-white' : (isAi ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium')}">${user.name}</div>
+                                <div class="text-[11px] ${isSelected ? 'text-emerald-100' : 'text-slate-400 dark:text-[#888888]'} font-mono">@${user.username}</div>
+                            </div>
+                        </div>
+                        ${badgeMarkup}
+                    `;
+
+                    item.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        selectUser(user);
+                    });
+
+                    dropdownList.appendChild(item);
+                });
+
+                dropdown.classList.remove('hidden');
+                dropdown.style.display = 'block';
+                positionDropdown();
+            }
+
+            function selectUser(user) {
+                const val = descTextarea.value;
+                const before = val.slice(0, mentionStartIndex);
+                const after = val.slice(descTextarea.selectionStart);
+                const insert = '@' + user.username + ' ';
+                descTextarea.value = before + insert + after;
+                const newPos = before.length + insert.length;
+                descTextarea.focus();
+                descTextarea.setSelectionRange(newPos, newPos);
+                closeMentionDropdown();
+            }
+
+            function handleMention() {
+                const cursorPos = descTextarea.selectionStart;
+                const textBefore = descTextarea.value.slice(0, cursorPos);
+                const match = textBefore.match(/(?:^|\s)@([a-zA-Z0-9_]*)$/);
+
+                if (match) {
+                    mentionQuery = match[1];
+                    mentionStartIndex = cursorPos - mentionQuery.length - 1;
+
+                    const mentionUrl = "{{ route('api.users.mention', [], false) }}";
+                    fetch(`${mentionUrl}?q=${encodeURIComponent(mentionQuery)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            currentUsers = data.users || [];
+                            highlightedIndex = 0;
+                            renderSuggestions();
+                        })
+                        .catch(() => closeMentionDropdown());
+                } else {
+                    closeMentionDropdown();
+                }
+            }
+
+            descTextarea.addEventListener('input', handleMention);
+            descTextarea.addEventListener('click', handleMention);
+            document.addEventListener('click', (e) => {
+                if (e.target !== descTextarea && !dropdown.contains(e.target)) {
+                    closeMentionDropdown();
+                }
+            });
+
+            descTextarea.addEventListener('keydown', (e) => {
+                if (dropdown.classList.contains('hidden') || currentUsers.length === 0) return;
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    highlightedIndex = (highlightedIndex + 1) % currentUsers.length;
+                    renderSuggestions();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    highlightedIndex = (highlightedIndex - 1 + currentUsers.length) % currentUsers.length;
+                    renderSuggestions();
+                } else if (e.key === 'Enter' || e.key === 'Tab') {
+                    if (currentUsers[highlightedIndex]) {
+                        e.preventDefault();
+                        selectUser(currentUsers[highlightedIndex]);
+                    }
+                } else if (e.key === 'Escape') {
+                    closeMentionDropdown();
+                }
+            });
+
+            window.addEventListener('resize', positionDropdown);
+            window.addEventListener('scroll', positionDropdown, true);
+        })();
     </script>
 @endpush

@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Notifiable
  */
-#[Fillable(['name', 'username', 'email', 'password'])]
+#[Fillable(['name', 'username', 'email', 'password', 'is_admin', 'is_verified'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -39,7 +39,41 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'is_verified' => 'boolean',
         ];
+    }
+
+    /**
+     * Determine if the user is an admin.
+     */
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin || $this->username === 'admin';
+    }
+
+    /**
+     * Determine if the user is verified.
+     */
+    public function isVerified(): bool
+    {
+        return $this->isAdmin() || (bool) $this->is_verified;
+    }
+
+    /**
+     * Get the badge type for the user: 'admin', 'verified', or null.
+     */
+    public function badgeType(): ?string
+    {
+        if ($this->isAdmin()) {
+            return 'admin';
+        }
+
+        if ($this->is_verified) {
+            return 'verified';
+        }
+
+        return null;
     }
 
     /**

@@ -14,23 +14,42 @@
         <div class="flex-1 min-w-0">
             <!-- Header: Username & Date -->
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
                     <span class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC]">@<span>{{ $comment->user->username ?? 'anon' }}</span></span>
+                    @if ($comment->user)
+                        <x-verified-badge :user="$comment->user" size="xs" />
+                    @endif
                     @if ($comment->user && strtolower($comment->user->username) === 'sira')
                         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-indigo-600 text-white shadow-xs">
                             SIRA AI ASSISTANT
                         </span>
                     @endif
                     <span class="text-[11px] text-slate-400 dark:text-[#787774]">&bull; {{ $comment->created_at->diffForHumans() }}</span>
+                    @auth
+                        @if (Auth::user()?->isAdmin() && $comment->user && ! $comment->user->isAdmin())
+                            <form action="{{ route('admin.users.toggleVerify', $comment->user) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit"
+                                    class="text-[9px] px-1.5 py-0.5 rounded font-semibold transition {{ $comment->user->is_verified ? 'bg-rose-100 hover:bg-rose-200 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-sky-100 hover:bg-sky-200 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300' }}"
+                                    title="{{ $comment->user->is_verified ? 'Cabut lencana verifikasi pengguna' : 'Beri lencana verifikasi resmi biru untuk pengguna/lembaga ini' }}">
+                                    {{ $comment->user->is_verified ? 'Cabut Verifikasi' : '+ Verifikasi' }}
+                                </button>
+                            </form>
+                        @endif
+                    @endauth
                 </div>
 
                 @auth
-                    @if (Auth::id() === $comment->user_id)
+                    @if (Auth::id() === $comment->user_id || Auth::user()?->isAdmin())
                         <form action="{{ route('comments.destroy', $comment, false) }}" method="POST" onsubmit="deleteCommentAjax(event, this, {{ $comment->id }})" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-[11px] text-slate-400 hover:text-rose-600 dark:text-[#787774] dark:hover:text-rose-400 transition" title="Hapus komentar">
-                                Hapus
+                            <button type="submit" class="text-[11px] text-slate-400 hover:text-rose-600 dark:text-[#787774] dark:hover:text-rose-400 transition flex items-center space-x-1" title="Hapus komentar">
+                                @if (Auth::user()?->isAdmin() && Auth::id() !== $comment->user_id)
+                                    <span class="text-[10px] font-semibold text-rose-500 hover:text-rose-700 dark:text-rose-400">[Hapus (Admin)]</span>
+                                @else
+                                    <span>Hapus</span>
+                                @endif
                             </button>
                         </form>
                     @endif

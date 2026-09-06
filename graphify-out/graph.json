@@ -4,6 +4,39 @@
   "graph": {},
   "nodes": [
     {
+      "label": "AdminController.php",
+      "file_type": "code",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_http_controllers_admincontroller",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": "admincontroller.php"
+    },
+    {
+      "label": "AdminController",
+      "file_type": "code",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "app_http_controllers_admincontroller_admincontroller",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": "admincontroller"
+    },
+    {
+      "label": ".toggleVerify()",
+      "file_type": "code",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "app_http_controllers_admincontroller_admincontroller_toggleverify",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".toggleverify()"
+    },
+    {
       "label": "AuthController.php",
       "file_type": "code",
       "source_file": "app/Http/Controllers/AuthController.php",
@@ -11,7 +44,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "authcontroller.php"
     },
     {
@@ -22,7 +55,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "authcontroller"
     },
     {
@@ -33,7 +66,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_showlogin",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".showlogin()"
     },
     {
@@ -44,7 +77,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_login",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".login()"
     },
     {
@@ -55,7 +88,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_showregister",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".showregister()"
     },
     {
@@ -66,7 +99,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_register",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".register()"
     },
     {
@@ -77,7 +110,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_logout",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".logout()"
     },
     {
@@ -88,7 +121,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "commentcontroller.php"
     },
     {
@@ -99,7 +132,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "commentcontroller"
     },
     {
@@ -110,7 +143,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_store",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".store()"
     },
     {
@@ -121,7 +154,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_generateaireply",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".generateaireply()"
     },
     {
@@ -132,7 +165,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_dispatchcommentnotifications",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".dispatchcommentnotifications()"
     },
     {
@@ -143,18 +176,18 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_destroy",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".destroy()"
     },
     {
       "label": ".mentionSuggestions()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/CommentController.php",
-      "source_location": "L217",
+      "source_location": "L224",
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_mentionsuggestions",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".mentionsuggestions()"
     },
     {
@@ -165,7 +198,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_controller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "controller.php"
     },
     {
@@ -176,7 +209,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_controller_controller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "controller"
     },
     {
@@ -187,7 +220,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "heatmapcontroller.php"
     },
     {
@@ -198,7 +231,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "heatmapcontroller"
     },
     {
@@ -209,7 +242,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_index",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".index()"
     },
     {
@@ -220,7 +253,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_geojson",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".geojson()"
     },
     {
@@ -231,7 +264,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".searchlocation()"
     },
     {
@@ -242,7 +275,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "notificationcontroller.php"
     },
     {
@@ -253,7 +286,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "notificationcontroller"
     },
     {
@@ -264,7 +297,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_index",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".index()"
     },
     {
@@ -275,7 +308,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_stream",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".stream()"
     },
     {
@@ -286,7 +319,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_markasread",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".markasread()"
     },
     {
@@ -297,7 +330,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_markallasread",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".markallasread()"
     },
     {
@@ -308,7 +341,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_destroy",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".destroy()"
     },
     {
@@ -319,7 +352,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_clearall",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".clearall()"
     },
     {
@@ -330,7 +363,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": "ogimagecontroller.php"
     },
     {
@@ -341,7 +374,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": "ogimagecontroller"
     },
     {
@@ -352,7 +385,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_report",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": ".report()"
     },
     {
@@ -363,7 +396,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_default",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": ".default()"
     },
     {
@@ -374,7 +407,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_drawtext",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": ".drawtext()"
     },
     {
@@ -385,7 +418,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_getfontpath",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": ".getfontpath()"
     },
     {
@@ -396,7 +429,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_wordwraplines",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": ".wordwraplines()"
     },
     {
@@ -407,7 +440,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_ogimagecontroller_ogimagecontroller_truncate",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": ".truncate()"
     },
     {
@@ -418,96 +451,118 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "reportcontroller.php"
     },
     {
       "label": "ReportController",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L14",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "reportcontroller"
     },
     {
       "label": ".index()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L57",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_index",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".index()"
     },
     {
       "label": ".create()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L223",
+      "source_location": "L227",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_create",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".create()"
     },
     {
       "label": ".store()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L233",
+      "source_location": "L237",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_store",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".store()"
     },
     {
       "label": ".show()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L290",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_show",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".show()"
     },
     {
       "label": ".vote()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L326",
+      "source_location": "L333",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_vote",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".vote()"
     },
     {
       "label": ".updateStatus()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L379",
+      "source_location": "L386",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_updatestatus",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".updatestatus()"
+    },
+    {
+      "label": ".destroy()",
+      "file_type": "code",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L420",
+      "_origin": "ast",
+      "id": "app_http_controllers_reportcontroller_reportcontroller_destroy",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".destroy()"
     },
     {
       "label": ".encodeGeohash()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L413",
+      "source_location": "L448",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_encodegeohash",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".encodegeohash()"
+    },
+    {
+      "label": ".dispatchReportMentionNotifications()",
+      "file_type": "code",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L496",
+      "_origin": "ast",
+      "id": "app_http_controllers_reportcontroller_reportcontroller_dispatchreportmentionnotifications",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".dispatchreportmentionnotifications()"
     },
     {
       "label": "Report.php",
@@ -517,7 +572,7 @@
       "_origin": "ast",
       "id": "app_models_report",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "report.php"
     },
     {
@@ -527,7 +582,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_models_report_report",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": "report"
     },
@@ -538,7 +593,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "app_models_report_report_casts",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".casts()"
     },
@@ -550,7 +605,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".user()"
     },
     {
@@ -560,8 +615,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "app_models_report_report_votes",
-      "community": 89,
-      "community_name": "Report",
+      "community": 5,
+      "community_name": "User",
       "norm_label": ".votes()"
     },
     {
@@ -572,7 +627,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_rootcomments",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".rootcomments()"
     },
     {
@@ -583,7 +638,7 @@
       "_origin": "ast",
       "id": "app_models_report_report_comments",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".comments()"
     },
     {
@@ -593,8 +648,8 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "app_models_report_report_uservote",
-      "community": 89,
-      "community_name": "Report",
+      "community": 5,
+      "community_name": "User",
       "norm_label": ".uservote()"
     },
     {
@@ -604,8 +659,8 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "app_models_report_report_recalculatevotestatsandtier",
-      "community": 89,
-      "community_name": "Report",
+      "community": 5,
+      "community_name": "User",
       "norm_label": ".recalculatevotestatsandtier()"
     },
     {
@@ -615,7 +670,7 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "app_models_report_report_getpendingdurationattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getpendingdurationattribute()"
     },
@@ -626,7 +681,7 @@
       "source_location": "L203",
       "_origin": "ast",
       "id": "app_models_report_report_getcategorymetaattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getcategorymetaattribute()"
     },
@@ -637,7 +692,7 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "app_models_report_report_getcategorylabelattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getcategorylabelattribute()"
     },
@@ -648,7 +703,7 @@
       "source_location": "L215",
       "_origin": "ast",
       "id": "app_models_report_report_getcategoryiconattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getcategoryiconattribute()"
     },
@@ -659,7 +714,7 @@
       "source_location": "L220",
       "_origin": "ast",
       "id": "app_models_report_report_getcategorycolorattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getcategorycolorattribute()"
     },
@@ -670,7 +725,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "app_models_report_report_getcategorysymbolattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getcategorysymbolattribute()"
     },
@@ -681,7 +736,7 @@
       "source_location": "L233",
       "_origin": "ast",
       "id": "app_models_report_report_scopewithmultiissuestatus",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".scopewithmultiissuestatus()"
     },
@@ -692,7 +747,7 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "app_models_report_report_scopeonlymultiissue",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".scopeonlymultiissue()"
     },
@@ -703,7 +758,7 @@
       "source_location": "L254",
       "_origin": "ast",
       "id": "app_models_report_report_scopeonlysingleissue",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".scopeonlysingleissue()"
     },
@@ -714,7 +769,7 @@
       "source_location": "L264",
       "_origin": "ast",
       "id": "app_models_report_report_getcolocatedreportscountattribute",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": ".getcolocatedreportscountattribute()"
     },
@@ -725,7 +780,7 @@
       "source_location": "L290",
       "_origin": "ast",
       "id": "app_models_report_report_getismultiissueattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getismultiissueattribute()"
     },
@@ -736,7 +791,7 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "app_models_report_report_gettotallocationissuesattribute",
-      "community": 89,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".gettotallocationissuesattribute()"
     },
@@ -748,7 +803,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "reportcomment.php"
     },
     {
@@ -759,7 +814,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "reportcomment"
     },
     {
@@ -770,7 +825,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_report",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".report()"
     },
     {
@@ -781,7 +836,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".user()"
     },
     {
@@ -792,7 +847,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_parent",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".parent()"
     },
     {
@@ -803,7 +858,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_replies",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".replies()"
     },
     {
@@ -813,7 +868,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_booted",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": ".booted()"
     },
@@ -825,7 +880,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "reportvote.php"
     },
     {
@@ -836,7 +891,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "reportvote"
     },
     {
@@ -847,7 +902,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_casts",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".casts()"
     },
     {
@@ -858,7 +913,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_report",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".report()"
     },
     {
@@ -869,7 +924,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".user()"
     },
     {
@@ -879,7 +934,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_booted",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": ".booted()"
     },
@@ -891,7 +946,7 @@
       "_origin": "ast",
       "id": "app_models_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "user.php"
     },
     {
@@ -902,7 +957,7 @@
       "_origin": "ast",
       "id": "app_models_user_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "user"
     },
     {
@@ -913,40 +968,73 @@
       "_origin": "ast",
       "id": "app_models_user_user_casts",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".casts()"
+    },
+    {
+      "label": ".isAdmin()",
+      "file_type": "code",
+      "source_file": "app/Models/User.php",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "app_models_user_user_isadmin",
+      "community": 5,
+      "community_name": "User",
+      "norm_label": ".isadmin()"
+    },
+    {
+      "label": ".isVerified()",
+      "file_type": "code",
+      "source_file": "app/Models/User.php",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "app_models_user_user_isverified",
+      "community": 5,
+      "community_name": "User",
+      "norm_label": ".isverified()"
+    },
+    {
+      "label": ".badgeType()",
+      "file_type": "code",
+      "source_file": "app/Models/User.php",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "app_models_user_user_badgetype",
+      "community": 5,
+      "community_name": "User",
+      "norm_label": ".badgetype()"
     },
     {
       "label": ".reports()",
       "file_type": "code",
       "source_file": "app/Models/User.php",
-      "source_location": "L48",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "app_models_user_user_reports",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".reports()"
     },
     {
       "label": ".votes()",
       "file_type": "code",
       "source_file": "app/Models/User.php",
-      "source_location": "L56",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "app_models_user_user_votes",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".votes()"
     },
     {
       "label": ".comments()",
       "file_type": "code",
       "source_file": "app/Models/User.php",
-      "source_location": "L64",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "app_models_user_user_comments",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".comments()"
     },
     {
@@ -1000,6 +1088,61 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "app_notifications_commentnotification_commentnotification_toarray",
+      "community": 59,
+      "community_name": "CommentNotification",
+      "norm_label": ".toarray()"
+    },
+    {
+      "label": "ReportMentionNotification.php",
+      "file_type": "code",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_notifications_reportmentionnotification",
+      "community": 59,
+      "community_name": "CommentNotification",
+      "norm_label": "reportmentionnotification.php"
+    },
+    {
+      "label": "ReportMentionNotification",
+      "file_type": "code",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "app_notifications_reportmentionnotification_reportmentionnotification",
+      "community": 59,
+      "community_name": "CommentNotification",
+      "norm_label": "reportmentionnotification"
+    },
+    {
+      "label": ".__construct()",
+      "file_type": "code",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "app_notifications_reportmentionnotification_reportmentionnotification_construct",
+      "community": 59,
+      "community_name": "CommentNotification",
+      "norm_label": ".__construct()"
+    },
+    {
+      "label": ".via()",
+      "file_type": "code",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "app_notifications_reportmentionnotification_reportmentionnotification_via",
+      "community": 59,
+      "community_name": "CommentNotification",
+      "norm_label": ".via()"
+    },
+    {
+      "label": ".toArray()",
+      "file_type": "code",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "app_notifications_reportmentionnotification_reportmentionnotification_toarray",
       "community": 59,
       "community_name": "CommentNotification",
       "norm_label": ".toarray()"
@@ -1099,8 +1242,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_aisummaryservice",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 25,
+      "community_name": "Report",
       "norm_label": "aisummaryservice.php"
     },
     {
@@ -1111,7 +1254,7 @@
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "aisummaryservice"
     },
     {
@@ -1122,7 +1265,7 @@
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_isaimentioned",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".isaimentioned()"
     },
     {
@@ -1132,8 +1275,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_getorcreatebotuser",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 25,
+      "community_name": "Report",
       "norm_label": ".getorcreatebotuser()"
     },
     {
@@ -1143,8 +1286,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
-      "community": 5,
-      "community_name": "ReportComment",
+      "community": 25,
+      "community_name": "Report",
       "norm_label": ".generateairesponse()"
     },
     {
@@ -1991,7 +2134,7 @@
       "_origin": "ast",
       "id": "config_auth",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "auth.php"
     },
     {
@@ -2002,7 +2145,7 @@
       "_origin": "ast",
       "id": "config_cache",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "cache.php"
     },
     {
@@ -2089,7 +2232,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_userfactory",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": "userfactory.php"
     },
@@ -2100,7 +2243,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": "userfactory"
     },
@@ -2111,7 +2254,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_definition",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": ".definition()"
     },
@@ -2122,7 +2265,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_unverified",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": ".unverified()"
     },
@@ -2133,7 +2276,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "static",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": "static"
     },
@@ -2435,6 +2578,39 @@
       "norm_label": "down()"
     },
     {
+      "label": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "file_type": "code",
+      "source_file": "database/migrations/2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "database_migrations_2026_09_06_123601_add_roles_and_verification_to_users_table",
+      "community": 98,
+      "community_name": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "norm_label": "2026_09_06_123601_add_roles_and_verification_to_users_table.php"
+    },
+    {
+      "label": "up()",
+      "file_type": "code",
+      "source_file": "database/migrations/2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "database_migrations_2026_09_06_123601_add_roles_and_verification_to_users_table_up",
+      "community": 98,
+      "community_name": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "norm_label": "up()"
+    },
+    {
+      "label": "down()",
+      "file_type": "code",
+      "source_file": "database/migrations/2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "database_migrations_2026_09_06_123601_add_roles_and_verification_to_users_table_down",
+      "community": 98,
+      "community_name": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "norm_label": "down()"
+    },
+    {
       "label": "DatabaseSeeder.php",
       "file_type": "code",
       "source_file": "database/seeders/DatabaseSeeder.php",
@@ -2442,7 +2618,7 @@
       "_origin": "ast",
       "id": "database_seeders_databaseseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "databaseseeder.php"
     },
     {
@@ -2453,7 +2629,7 @@
       "_origin": "ast",
       "id": "database_seeders_databaseseeder_databaseseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "databaseseeder"
     },
     {
@@ -2464,7 +2640,7 @@
       "_origin": "ast",
       "id": "database_seeders_databaseseeder_databaseseeder_run",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".run()"
     },
     {
@@ -2475,51 +2651,73 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "dummydataseeder.php"
     },
     {
       "label": "DummyDataSeeder",
       "file_type": "code",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L12",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "dummydataseeder"
     },
     {
       "label": ".run()",
       "file_type": "code",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L18",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_run",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".run()"
+    },
+    {
+      "label": ".buildLivelyCommentThread()",
+      "file_type": "code",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L325",
+      "_origin": "ast",
+      "id": "database_seeders_dummydataseeder_dummydataseeder_buildlivelycommentthread",
+      "community": 5,
+      "community_name": "User",
+      "norm_label": ".buildlivelycommentthread()"
+    },
+    {
+      "label": ".get100NaturalReports()",
+      "file_type": "code",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L448",
+      "_origin": "ast",
+      "id": "database_seeders_dummydataseeder_dummydataseeder_get100naturalreports",
+      "community": 5,
+      "community_name": "User",
+      "norm_label": ".get100naturalreports()"
     },
     {
       "label": ".quickGeohash()",
       "file_type": "code",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1063",
+      "source_location": "L951",
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_quickgeohash",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".quickgeohash()"
     },
     {
       "label": ".generateReportSvg()",
       "file_type": "code",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1108",
+      "source_location": "L996",
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_generatereportsvg",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".generatereportsvg()"
     },
     {
@@ -2530,7 +2728,7 @@
       "_origin": "ast",
       "id": "database_seeders_multiissuelocationseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "multiissuelocationseeder.php"
     },
     {
@@ -2541,7 +2739,7 @@
       "_origin": "ast",
       "id": "database_seeders_multiissuelocationseeder_multiissuelocationseeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "multiissuelocationseeder"
     },
     {
@@ -2552,7 +2750,7 @@
       "_origin": "ast",
       "id": "database_seeders_multiissuelocationseeder_multiissuelocationseeder_run",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".run()"
     },
     {
@@ -2563,7 +2761,7 @@
       "_origin": "ast",
       "id": "database_seeders_multiissuelocationseeder_multiissuelocationseeder_quickgeohash",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".quickgeohash()"
     },
     {
@@ -2574,7 +2772,7 @@
       "_origin": "ast",
       "id": "database_seeders_multiissuelocationseeder_multiissuelocationseeder_generatesvg",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": ".generatesvg()"
     },
     {
@@ -2974,6 +3172,28 @@
       "norm_label": "report-card.blade.php"
     },
     {
+      "label": "reward-modal.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/components/reward-modal.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_components_reward_modal_blade",
+      "community": 99,
+      "community_name": "reward-modal.blade.php",
+      "norm_label": "reward-modal.blade.php"
+    },
+    {
+      "label": "verified-badge.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/components/verified-badge.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_components_verified_badge_blade",
+      "community": 100,
+      "community_name": "verified-badge.blade.php",
+      "norm_label": "verified-badge.blade.php"
+    },
+    {
       "label": "app.blade.php",
       "file_type": "code",
       "source_file": "resources/views/layouts/app.blade.php",
@@ -3223,8 +3443,19 @@
       "_origin": "ast",
       "id": "routes_web",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "web.php"
+    },
+    {
+      "label": "AdminPrivilegesAndBadgesTest.php",
+      "file_type": "code",
+      "source_file": "tests/Feature/AdminPrivilegesAndBadgesTest.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_feature_adminprivilegesandbadgestest",
+      "community": 5,
+      "community_name": "User",
+      "norm_label": "adminprivilegesandbadgestest.php"
     },
     {
       "label": "Feature/ExampleTest.php",
@@ -3245,7 +3476,7 @@
       "_origin": "ast",
       "id": "tests_feature_heatmapcategorytest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "heatmapcategorytest.php"
     },
     {
@@ -3267,7 +3498,7 @@
       "_origin": "ast",
       "id": "tests_feature_ogimagetest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "ogimagetest.php"
     },
     {
@@ -3278,8 +3509,19 @@
       "_origin": "ast",
       "id": "tests_feature_reportcreatephototest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "reportcreatephototest.php"
+    },
+    {
+      "label": "ReportMentionTest.php",
+      "file_type": "code",
+      "source_file": "tests/Feature/ReportMentionTest.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_feature_reportmentiontest",
+      "community": 59,
+      "community_name": "CommentNotification",
+      "norm_label": "reportmentiontest.php"
     },
     {
       "label": "ReportSystemTest.php",
@@ -3289,7 +3531,7 @@
       "_origin": "ast",
       "id": "tests_feature_reportsystemtest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "reportsystemtest.php"
     },
     {
@@ -3300,7 +3542,7 @@
       "_origin": "ast",
       "id": "tests_feature_welcometest",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "welcometest.php"
     },
     {
@@ -4300,8 +4542,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_db_performance",
-      "community": 86,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 15,
+      "community_name": "Database Performance Best Practices",
       "norm_label": "db-performance.md"
     },
     {
@@ -4498,8 +4740,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_error_handling",
-      "community": 45,
-      "community_name": "Error Handling Best Practices",
+      "community": 86,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "error-handling.md"
     },
     {
@@ -4586,8 +4828,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_events_notifications",
-      "community": 40,
-      "community_name": "Events and Notifications Best Practices",
+      "community": 86,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "events-notifications.md"
     },
     {
@@ -4850,8 +5092,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_migrations",
-      "community": 86,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 11,
+      "community_name": "Migration Best Practices",
       "norm_label": "migrations.md"
     },
     {
@@ -4960,8 +5202,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_queue_jobs",
-      "community": 86,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 12,
+      "community_name": "Queue and Job Best Practices",
       "norm_label": "queue-jobs.md"
     },
     {
@@ -5147,8 +5389,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_skills_laravel_best_practices_rules_scheduling",
-      "community": 46,
-      "community_name": "Task Scheduling Best Practices",
+      "community": 86,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "scheduling.md"
     },
     {
@@ -6890,6 +7132,17 @@
       "norm_label": "license"
     },
     {
+      "label": "Illuminate\\Http\\JsonResponse",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "illuminate_http_jsonresponse",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": "illuminate\\http\\jsonresponse"
+    },
+    {
       "label": "Illuminate\\Http\\RedirectResponse",
       "file_type": "code",
       "source_file": "",
@@ -6897,7 +7150,7 @@
       "_origin": "ast",
       "id": "illuminate_http_redirectresponse",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\http\\redirectresponse"
     },
     {
@@ -6908,7 +7161,7 @@
       "_origin": "ast",
       "id": "illuminate_http_request",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\http\\request"
     },
     {
@@ -6919,19 +7172,8 @@
       "_origin": "ast",
       "id": "illuminate_view_view",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\view\\view"
-    },
-    {
-      "label": "Illuminate\\Http\\JsonResponse",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "id": "illuminate_http_jsonresponse",
-      "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
-      "norm_label": "illuminate\\http\\jsonresponse"
     },
     {
       "label": "Illuminate\\Support\\Facades\\Notification",
@@ -6941,7 +7183,7 @@
       "_origin": "ast",
       "id": "illuminate_support_facades_notification",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\support\\facades\\notification"
     },
     {
@@ -6952,7 +7194,7 @@
       "_origin": "ast",
       "id": "symfony_component_httpfoundation_streamedresponse",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "symfony\\component\\httpfoundation\\streamedresponse"
     },
     {
@@ -6963,7 +7205,7 @@
       "_origin": "ast",
       "id": "illuminate_http_response",
       "community": 89,
-      "community_name": "Report",
+      "community_name": "OgImageController",
       "norm_label": "illuminate\\http\\response"
     },
     {
@@ -6974,7 +7216,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_factories_hasfactory",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\database\\eloquent\\factories\\hasfactory"
     },
     {
@@ -6985,7 +7227,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_model",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\database\\eloquent\\model"
     },
     {
@@ -6996,7 +7238,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_belongsto",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\database\\eloquent\\relations\\belongsto"
     },
     {
@@ -7007,7 +7249,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_hasmany",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\database\\eloquent\\relations\\hasmany"
     },
     {
@@ -7018,7 +7260,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_softdeletes",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\database\\eloquent\\softdeletes"
     },
     {
@@ -7029,7 +7271,7 @@
       "_origin": "ast",
       "id": "illuminate_notifications_notifiable",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\notifications\\notifiable"
     },
     {
@@ -7040,7 +7282,7 @@
       "_origin": "ast",
       "id": "illuminate_foundation_auth_user",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\foundation\\auth\\user"
     },
     {
@@ -7083,7 +7325,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_factories_factory",
-      "community": 98,
+      "community": 101,
       "community_name": "static",
       "norm_label": "illuminate\\database\\eloquent\\factories\\factory"
     },
@@ -7095,7 +7337,7 @@
       "_origin": "ast",
       "id": "illuminate_database_console_seeds_withoutmodelevents",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\database\\console\\seeds\\withoutmodelevents"
     },
     {
@@ -7106,7 +7348,7 @@
       "_origin": "ast",
       "id": "illuminate_database_seeder",
       "community": 5,
-      "community_name": "ReportComment",
+      "community_name": "User",
       "norm_label": "illuminate\\database\\seeder"
     },
     {
@@ -7122,6 +7364,159 @@
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller",
+      "target": "app_http_controllers_admincontroller_admincontroller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller",
+      "target": "app_models_user_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller",
+      "target": "config_auth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller",
+      "target": "illuminate_http_jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller",
+      "target": "illuminate_http_redirectresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller",
+      "target": "illuminate_http_request",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/web.php",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "routes_web",
+      "target": "app_http_controllers_admincontroller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller_admincontroller",
+      "target": "app_http_controllers_admincontroller_admincontroller_toggleverify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller_admincontroller",
+      "target": "app_http_controllers_controller_controller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller_admincontroller_toggleverify",
+      "target": "app_models_user_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller_admincontroller_toggleverify",
+      "target": "illuminate_http_jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller_admincontroller_toggleverify",
+      "target": "illuminate_http_redirectresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/AdminController.php",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_admincontroller_admincontroller_toggleverify",
+      "target": "illuminate_http_request",
+      "confidence_score": 1.0
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -7198,7 +7593,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "routes/web.php",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "routes_web",
@@ -7515,7 +7910,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "routes/web.php",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "routes_web",
@@ -7559,7 +7954,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/CommentController.php",
-      "source_location": "L217",
+      "source_location": "L224",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_commentcontroller_commentcontroller",
@@ -7822,7 +8217,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "app/Http/Controllers/CommentController.php",
-      "source_location": "L225",
+      "source_location": "L232",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_commentcontroller_commentcontroller_mentionsuggestions",
@@ -7833,7 +8228,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/Http/Controllers/CommentController.php",
-      "source_location": "L227",
+      "source_location": "L234",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_commentcontroller_commentcontroller_mentionsuggestions",
@@ -7843,7 +8238,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/CommentController.php",
-      "source_location": "L217",
+      "source_location": "L224",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -7855,7 +8250,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/CommentController.php",
-      "source_location": "L217",
+      "source_location": "L224",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -7911,7 +8306,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L14",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -7994,7 +8389,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "routes/web.php",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "routes_web",
@@ -8218,7 +8613,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "routes/web.php",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "routes_web",
@@ -8535,7 +8930,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "routes/web.php",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "routes_web",
@@ -8732,7 +9127,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L14",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller",
@@ -8768,7 +9163,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L10",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller",
@@ -8780,7 +9175,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L7",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller",
@@ -8792,7 +9187,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L8",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller",
@@ -8804,7 +9199,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L9",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller",
@@ -8816,7 +9211,19 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L12",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller",
+      "target": "illuminate_support_facades_notification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller",
@@ -8827,8 +9234,32 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "routes/web.php",
+      "source_file": "app/Http/Controllers/ReportController.php",
       "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller",
+      "target": "app_notifications_reportmentionnotification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller",
+      "target": "app_models_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routes/web.php",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "routes_web",
@@ -8839,7 +9270,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L223",
+      "source_location": "L227",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8850,7 +9281,29 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L413",
+      "source_location": "L420",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller",
+      "target": "app_http_controllers_reportcontroller_reportcontroller_destroy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L496",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller",
+      "target": "app_http_controllers_reportcontroller_reportcontroller_dispatchreportmentionnotifications",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L448",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8861,7 +9314,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L57",
+      "source_location": "L61",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8872,7 +9325,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L290",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8883,7 +9336,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L233",
+      "source_location": "L237",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8894,7 +9347,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L379",
+      "source_location": "L386",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8905,7 +9358,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L326",
+      "source_location": "L333",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8917,7 +9370,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L59",
+      "source_location": "L63",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_index",
@@ -8928,7 +9381,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L57",
+      "source_location": "L61",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -8940,7 +9393,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L57",
+      "source_location": "L61",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8953,7 +9406,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L225",
+      "source_location": "L229",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_create",
@@ -8963,7 +9416,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L223",
+      "source_location": "L227",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8976,7 +9429,19 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L250",
+      "source_location": "L281",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_store",
+      "target": "app_http_controllers_reportcontroller_reportcontroller_dispatchreportmentionnotifications",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L254",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_store",
@@ -8988,7 +9453,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L237",
+      "source_location": "L241",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -8999,7 +9464,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L233",
+      "source_location": "L237",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9011,7 +9476,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L233",
+      "source_location": "L237",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -9024,7 +9489,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L290",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_show",
@@ -9035,7 +9500,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L290",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -9047,7 +9512,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L290",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9059,7 +9524,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L326",
+      "source_location": "L333",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -9073,7 +9538,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L336",
+      "source_location": "L343",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_vote",
@@ -9083,7 +9548,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L326",
+      "source_location": "L333",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9095,7 +9560,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L326",
+      "source_location": "L333",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9107,7 +9572,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L326",
+      "source_location": "L333",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -9119,7 +9584,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L379",
+      "source_location": "L386",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -9131,7 +9596,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L379",
+      "source_location": "L386",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9143,7 +9608,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L379",
+      "source_location": "L386",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9155,13 +9620,85 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L379",
+      "source_location": "L386",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_updatestatus",
       "target": "illuminate_http_request",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L420",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_destroy",
+      "target": "app_models_report_report",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L420",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_destroy",
+      "target": "illuminate_http_jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L420",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_destroy",
+      "target": "illuminate_http_redirectresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L420",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_destroy",
+      "target": "illuminate_http_request",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L496",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_dispatchreportmentionnotifications",
+      "target": "app_models_report_report",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L507",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_dispatchreportmentionnotifications",
+      "target": "app_models_user_user"
     },
     {
       "relation": "contains",
@@ -9263,10 +9800,22 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "routes/web.php",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "routes_web",
+      "target": "app_models_report",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/AdminPrivilegesAndBadgesTest.php",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_adminprivilegesandbadgestest",
       "target": "app_models_report",
       "confidence_score": 1.0
     },
@@ -9590,7 +10139,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L990",
+      "source_location": "L219",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -9837,6 +10386,18 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/AdminPrivilegesAndBadgesTest.php",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_adminprivilegesandbadgestest",
+      "target": "app_models_reportcomment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/Feature/ReportSystemTest.php",
       "source_location": "L4",
       "weight": 1.0,
@@ -9963,7 +10524,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1010",
+      "source_location": "L281",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -10158,6 +10719,30 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder",
+      "target": "app_models_reportvote_reportvote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L250",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder_dummydataseeder_run",
+      "target": "app_models_reportvote_reportvote"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "database/seeders/MultiIssueLocationSeeder.php",
       "source_location": "L7",
       "weight": 1.0,
@@ -10301,11 +10886,11 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L7",
+      "source_file": "database/seeders/MultiIssueLocationSeeder.php",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "database_seeders_dummydataseeder",
+      "source": "database_seeders_multiissuelocationseeder",
       "target": "app_models_user",
       "confidence_score": 1.0
     },
@@ -10313,11 +10898,11 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "database/seeders/MultiIssueLocationSeeder.php",
-      "source_location": "L8",
+      "source_file": "tests/Feature/AdminPrivilegesAndBadgesTest.php",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "database_seeders_multiissuelocationseeder",
+      "source": "tests_feature_adminprivilegesandbadgestest",
       "target": "app_models_user",
       "confidence_score": 1.0
     },
@@ -10361,6 +10946,18 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/ReportMentionTest.php",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_reportmentiontest",
+      "target": "app_models_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/Feature/ReportSystemTest.php",
       "source_location": "L6",
       "weight": 1.0,
@@ -10385,6 +10982,17 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/User.php",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_user_user",
+      "target": "app_models_user_user_badgetype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/User.php",
       "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast",
@@ -10396,7 +11004,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/User.php",
-      "source_location": "L64",
+      "source_location": "L98",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_user_user",
@@ -10407,7 +11015,29 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/User.php",
-      "source_location": "L48",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_user_user",
+      "target": "app_models_user_user_isadmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/User.php",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_user_user",
+      "target": "app_models_user_user_isverified",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/User.php",
+      "source_location": "L82",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_user_user",
@@ -10418,7 +11048,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/User.php",
-      "source_location": "L56",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_user_user",
@@ -10483,16 +11113,40 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder",
+      "target": "app_models_user_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L325",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder_dummydataseeder_buildlivelycommentthread",
+      "target": "app_models_user_user",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
+      "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L26",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
-      "target": "app_models_user_user"
+      "target": "app_models_user_user",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -10507,10 +11161,34 @@
       "target": "app_models_user_user"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/User.php",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_user_user_badgetype",
+      "target": "app_models_user_user_isadmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/User.php",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_user_user_isverified",
+      "target": "app_models_user_user_isadmin",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/User.php",
-      "source_location": "L48",
+      "source_location": "L82",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -10522,7 +11200,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/User.php",
-      "source_location": "L56",
+      "source_location": "L90",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -10534,7 +11212,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/User.php",
-      "source_location": "L64",
+      "source_location": "L98",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -10629,6 +11307,120 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_notifications_commentnotification_commentnotification",
+      "target": "illuminate_notifications_notification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification",
+      "target": "app_notifications_reportmentionnotification_reportmentionnotification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification",
+      "target": "illuminate_bus_queueable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification",
+      "target": "illuminate_notifications_notification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder",
+      "target": "app_notifications_reportmentionnotification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/ReportMentionTest.php",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_reportmentiontest",
+      "target": "app_notifications_reportmentionnotification",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification_reportmentionnotification",
+      "target": "app_notifications_reportmentionnotification_reportmentionnotification_construct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification_reportmentionnotification",
+      "target": "app_notifications_reportmentionnotification_reportmentionnotification_toarray",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification_reportmentionnotification",
+      "target": "app_notifications_reportmentionnotification_reportmentionnotification_via",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "mixes_in",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification_reportmentionnotification",
+      "target": "illuminate_bus_queueable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Notifications/ReportMentionNotification.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_notifications_reportmentionnotification_reportmentionnotification",
       "target": "illuminate_notifications_notification",
       "confidence_score": 1.0
     },
@@ -11928,6 +12720,28 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "database/migrations/2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_migrations_2026_09_06_123601_add_roles_and_verification_to_users_table",
+      "target": "database_migrations_2026_09_06_123601_add_roles_and_verification_to_users_table_down",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "database/migrations/2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_migrations_2026_09_06_123601_add_roles_and_verification_to_users_table",
+      "target": "database_migrations_2026_09_06_123601_add_roles_and_verification_to_users_table_up",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "database/seeders/DatabaseSeeder.php",
       "source_location": "L8",
       "weight": 1.0,
@@ -11997,7 +12811,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L12",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder",
@@ -12009,7 +12823,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L8",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder",
@@ -12020,7 +12834,18 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1108",
+      "source_location": "L325",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder_dummydataseeder",
+      "target": "database_seeders_dummydataseeder_dummydataseeder_buildlivelycommentthread",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L996",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder",
@@ -12031,7 +12856,18 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1063",
+      "source_location": "L448",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder_dummydataseeder",
+      "target": "database_seeders_dummydataseeder_dummydataseeder_get100naturalreports",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L951",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder",
@@ -12042,7 +12878,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L18",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder",
@@ -12053,7 +12889,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L12",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder",
@@ -12065,7 +12901,19 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L798",
+      "source_location": "L268",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder_dummydataseeder_run",
+      "target": "database_seeders_dummydataseeder_dummydataseeder_buildlivelycommentthread",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L209",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -12077,7 +12925,19 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L871",
+      "source_location": "L191",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_seeders_dummydataseeder_dummydataseeder_run",
+      "target": "database_seeders_dummydataseeder_dummydataseeder_get100naturalreports",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "database/seeders/DummyDataSeeder.php",
+      "source_location": "L207",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -12501,6 +13361,18 @@
       "_origin": "ast",
       "source": "resources_views_welcome_blade",
       "target": "stack_status"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/ReportMentionTest.php",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_reportmentiontest",
+      "target": "illuminate_support_facades_notification",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -15948,5 +16820,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3252c5f8fcd5fd0dae1e1d169d22c7f6c3dce654"
+  "built_at_commit": "b141e2a202fa4984cee14fc999e746b15f5d44ed"
 }

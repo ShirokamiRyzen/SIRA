@@ -88,16 +88,24 @@
                 </a>
             </h3>
 
+            @php
+                $cardDesc = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) {
+                    return $m[1] . '<span class="font-semibold text-emerald-600 dark:text-emerald-400 font-mono">@' . $m[2] . '</span>';
+                }, e($report->description));
+            @endphp
             <p class="text-xs text-[#787774] dark:text-[#9B9B97] line-clamp-2 leading-relaxed font-sans">
-                {{ $report->description }}
+                {!! $cardDesc !!}
             </p>
         </div>
     </div>
 
     <!-- Card Footer (Meta & Score) -->
     <div class="px-4 sm:px-5 py-2.5 sm:py-3 border-t border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/50 dark:bg-[#111111]/50 flex items-center justify-between text-xs font-mono">
-        <div class="text-[11px] text-[#787774]">
+        <div class="text-[11px] text-[#787774] flex items-center space-x-1">
             <span>@<span>{{ $report->user->username ?? 'anon' }}</span></span>
+            @if ($report->user)
+                <x-verified-badge :user="$report->user" size="xs" />
+            @endif
         </div>
 
         <div class="flex items-center space-x-3 text-[11px]">

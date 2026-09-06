@@ -100,10 +100,10 @@
                                      class="group relative flex items-start justify-between p-3 hover:bg-[#F7F6F3] dark:hover:bg-[#1C1C1C] transition duration-150 {{ $isUnread ? 'bg-[#F9F9F8] dark:bg-[#191918]' : '' }}">
                                     <a href="{{ route('notifications.markAsRead', ['id' => $notification->id, 'redirect' => 1]) }}"
                                        class="flex items-start space-x-2.5 flex-1 min-w-0 pr-2">
-                                        <div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] {{ $isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold' : ($type === 'mention' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300') }}">
+                                        <div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] {{ $isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold' : (in_array($type, ['mention', 'post_mention']) ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300') }}">
                                             @if ($isAi)
                                                 <flux:icon name="cpu-chip" class="w-3.5 h-3.5 text-indigo-700 dark:text-indigo-300" />
-                                            @elseif ($type === 'mention')
+                                            @elseif (in_array($type, ['mention', 'post_mention']))
                                                 <span class="font-bold text-[11px]">@</span>
                                             @else
                                                 <flux:icon name="chat-bubble-left" class="w-3 h-3 text-emerald-800 dark:text-emerald-300" />
@@ -149,7 +149,10 @@
                 </div>
 
                 <div class="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
-                    <span class="text-[#787774] dark:text-[#9B9B97] text-[11px] hidden sm:inline">@<span>{{ Auth::user()->username }}</span></span>
+                    <div class="inline-flex items-center space-x-1 text-[#787774] dark:text-[#9B9B97] text-[11px] hidden sm:inline-flex">
+                        <span>@<span>{{ Auth::user()->username }}</span></span>
+                        <x-verified-badge :user="Auth::user()" size="xs" />
+                    </div>
                     <form action="{{ route('logout') }}" method="POST" class="inline-flex items-center">
                         @csrf
                         <button type="submit" title="Keluar" class="text-[#787774] hover:text-[#9F2F2D] dark:hover:text-[#E88C8A] transition-colors cursor-pointer">
@@ -340,10 +343,10 @@
                             const type = d.type || 'reply';
                             const iconSvg = isAi
                                 ? '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>'
-                                : (type === 'mention' ? '<span class="font-bold text-[11px]">@</span>' : '<svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
+                                : ((type === 'mention' || type === 'post_mention') ? '<span class="font-bold text-[11px]">@</span>' : '<svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
                             const iconCls = isAi
                                 ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold'
-                                : (type === 'mention' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300');
+                                : ((type === 'mention' || type === 'post_mention') ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300');
 
                             const div = document.createElement('div');
                             div.id = 'notif-item-' + item.id;
@@ -402,13 +405,13 @@
                             const type = d.type || 'reply';
                             const toastIconSvg = isAi
                                 ? '<svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>'
-                                : (type === 'mention' ? '<span class="font-bold text-xs">@</span>' : '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
+                                : ((type === 'mention' || type === 'post_mention') ? '<span class="font-bold text-xs">@</span>' : '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
 
                             const toast = document.createElement('div');
                             toast.className = 'pointer-events-auto flex items-start space-x-3 p-3.5 rounded-[8px] bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#282828] shadow-xl text-xs transform translate-y-4 opacity-0 transition-all duration-300 max-w-sm';
 
                             toast.innerHTML = `
-                                <div class="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300' : (type === 'mention' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300')}">
+                                <div class="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300' : ((type === 'mention' || type === 'post_mention') ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300')}">
                                     ${toastIconSvg}
                                 </div>
                                 <div class="flex-1 min-w-0 space-y-0.5">
@@ -546,7 +549,10 @@
 
             @auth
                 <div class="flex items-center justify-between px-2 pt-1 text-[#787774] dark:text-[#888888] text-xs">
-                    <span>Akun: <strong class="text-[#111111] dark:text-[#EDEDEC]">@<span>{{ Auth::user()->username }}</span></strong></span>
+                    <span class="inline-flex items-center space-x-1">
+                        <span>Akun: <strong class="text-[#111111] dark:text-[#EDEDEC]">@<span>{{ Auth::user()->username }}</span></strong></span>
+                        <x-verified-badge :user="Auth::user()" size="xs" />
+                    </span>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="text-[#9F2F2D] dark:text-[#E88C8A] hover:underline font-medium">

@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use App\Models\ReportVote;
+use App\Models\User;
+use App\Notifications\ReportMentionNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ReportController extends Controller
@@ -273,6 +277,9 @@ class ReportController extends Controller
             'status' => 'active',
         ]);
 
+        // Kirim notifikasi mention (@) jika ada akun pengguna/lembaga yang ditandai dalam postingan
+        $this->dispatchReportMentionNotifications($report);
+
         return redirect()->route('reports.show', $report)
             ->with('success', 'Laporan berhasil dipublikasikan! Komunitas dapat segera memberikan vote.');
     }
@@ -374,19 +381,19 @@ class ReportController extends Controller
     }
 
     /**
-     * Perbarui status laporan (khusus hanya oleh pembuat laporan).
+     * Perbarui status laporan (oleh pembuat laporan atau admin).
      */
     public function updateStatus(Request $request, Report $report): JsonResponse|RedirectResponse
     {
-        if (Auth::id() !== $report->user_id) {
+        if (Auth::id() !== $report->user_id && ! Auth::user()?->isAdmin()) {
             if ($request->wantsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Hanya pembuat laporan yang dapat mengubah status laporan ini.',
+                    'message' => 'Hanya pembuat laporan atau administrator yang dapat mengubah status laporan ini.',
                 ], 403);
             }
 
-            abort(403, 'Hanya pembuat laporan yang dapat mengubah status laporan ini.');
+            abort(403, 'Hanya pembuat laporan atau administrator yang dapat mengubah status laporan ini.');
         }
 
         $validated = $request->validate([
@@ -405,6 +412,34 @@ class ReportController extends Controller
         }
 
         return back()->with('success', 'Status laporan berhasil diperbarui!');
+    }
+
+    /**
+     * Hapus laporan (oleh pembuat laporan atau admin).
+     */
+    public function destroy(Request $request, Report $report): JsonResponse|RedirectResponse
+    {
+        if (Auth::id() !== $report->user_id && ! Auth::user()?->isAdmin()) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki hak akses untuk menghapus laporan ini.',
+                ], 403);
+            }
+
+            abort(403, 'Anda tidak memiliki hak akses untuk menghapus laporan ini.');
+        }
+
+        $report->delete();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Laporan berhasil dihapus.',
+            ]);
+        }
+
+        return redirect()->route('reports.index')->with('success', 'Laporan berhasil dihapus.');
     }
 
     /**
@@ -453,5 +488,36 @@ class ReportController extends Controller
         }
 
         return $geohash;
+    }
+
+    /**
+     * Kirim notifikasi ke pengguna atau akun lembaga yang ditandai (@) dalam judul atau deskripsi laporan.
+     */
+    protected function dispatchReportMentionNotifications(Report $report): void
+    {
+        $sender = Auth::user();
+        $senderUsername = $sender ? $sender->username : 'anon';
+        $senderName = $sender ? $sender->name : 'Warga';
+        $senderId = $sender ? $sender->id : null;
+
+        $content = $report->title.' '.$report->description;
+
+        if (preg_match_all('/@([a-zA-Z0-9_]{3,30})/', $content, $matches)) {
+            $mentionedUsernames = array_unique($matches[1]);
+            $mentionedUsers = User::whereIn('username', $mentionedUsernames)
+                ->when($senderId, fn ($q) => $q->where('id', '!=', $senderId))
+                ->whereRaw('LOWER(username) != ?', ['sira'])
+                ->get();
+
+            if ($mentionedUsers->isNotEmpty()) {
+                Notification::send($mentionedUsers, new ReportMentionNotification(
+                    senderUsername: $senderUsername,
+                    senderName: $senderName,
+                    reportId: $report->id,
+                    reportTitle: $report->title,
+                    snippet: Str::limit($report->description, 100),
+                ));
+            }
+        }
     }
 }

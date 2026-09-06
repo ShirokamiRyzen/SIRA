@@ -4,7 +4,7 @@
   "2": "scripts",
   "3": "Process",
   "4": "package.json",
-  "5": "ReportComment",
+  "5": "User",
   "6": "Architecture Best Practices",
   "7": "Security Best Practices",
   "8": "README.md",
@@ -96,5 +96,9 @@
   "94": "simple-bootstrap-5.blade.php",
   "95": "simple-tailwind.blade.php",
   "96": "tailwind.blade.php",
-  "97": "2026_09_06_083719_add_category_to_reports_table.php"
+  "97": "2026_09_06_083719_add_category_to_reports_table.php",
+  "98": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+  "99": "reward-modal.blade.php",
+  "100": "verified-badge.blade.php",
+  "101": "static"
 }

@@ -193,16 +193,13 @@
                                 </span>
 
                                 @auth
-                                    @if (Auth::id() === $report->user_id)
-                                        <div id="creatorStatusActions" class="inline-flex items-center">
+                                    @if (Auth::id() === $report->user_id || Auth::user()?->isAdmin())
+                                        <div id="creatorStatusActions" class="inline-flex items-center gap-1.5">
                                             @if ($report->status === 'resolved')
                                                 <button type="button" onclick="updateReportStatus('active')"
                                                     class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-slate-700 dark:text-[#EDEDEC] transition flex items-center space-x-1"
                                                     title="Buka kembali laporan ini">
-                                                    <svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                                                        stroke-width="2">
-                                                        <path d="M6 3.5L2 7.5l4 4M2.5 7.5h8a3.5 3.5 0 0 1 3.5 3.5v1" />
-                                                    </svg>
+                                                    <flux:icon name="arrow-path" class="w-3 h-3" />
                                                     <span>Buka Kembali</span>
                                                 </button>
                                             @else
@@ -213,6 +210,17 @@
                                                     <span>Tandai Selesai (Resolved)</span>
                                                 </button>
                                             @endif
+
+                                            <form action="{{ route('reports.destroy', $report) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.');" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 transition flex items-center space-x-1 border border-rose-200/80 dark:border-rose-900/60"
+                                                    title="Hapus laporan ini">
+                                                    <flux:icon name="trash" class="w-3 h-3 text-rose-500" />
+                                                    <span>Hapus Laporan</span>
+                                                </button>
+                                            </form>
                                         </div>
                                     @endif
                                 @endauth
@@ -228,10 +236,14 @@
 
                         <!-- Pelapor -->
                         <div
-                            class="flex items-center space-x-2 text-xs text-slate-500 dark:text-[#888888] pb-2 border-b border-slate-100 dark:border-[#222222]">
+                            class="flex items-center space-x-2 text-xs text-slate-500 dark:text-[#888888] pb-2 border-b border-slate-100 dark:border-[#222222] flex-wrap gap-y-1.5">
                             <span>Dilaporkan oleh</span>
-                            <span
-                                class="font-bold text-slate-800 dark:text-[#EDEDEC]">@<span>{{ $report->user->username ?? 'anon' }}</span></span>
+                            <div class="inline-flex items-center space-x-1 font-bold text-slate-800 dark:text-[#EDEDEC]">
+                                <span>@<span>{{ $report->user->username ?? 'anon' }}</span></span>
+                                @if ($report->user)
+                                    <x-verified-badge :user="$report->user" size="sm" />
+                                @endif
+                            </div>
                             @auth
                                 @if (Auth::id() === $report->user_id)
                                     <span
@@ -239,13 +251,50 @@
                                         Laporan Anda
                                     </span>
                                 @endif
+                                @if (Auth::user()?->isAdmin() && $report->user && ! $report->user->isAdmin())
+                                    <form action="{{ route('admin.users.toggleVerify', $report->user) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit"
+                                            class="text-[10px] px-2 py-0.5 rounded-md font-semibold transition flex items-center space-x-1 {{ $report->user->is_verified ? 'bg-rose-100 hover:bg-rose-200 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-300 dark:border-rose-800' : 'bg-sky-100 hover:bg-sky-200 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 border border-sky-300 dark:border-sky-800' }}"
+                                            title="{{ $report->user->is_verified ? 'Cabut lencana verifikasi akun pelapor' : 'Beri lencana verifikasi resmi biru untuk akun pelapor' }}">
+                                            <span>{{ $report->user->is_verified ? 'Cabut Verifikasi' : '+ Beri Verifikasi' }}</span>
+                                        </button>
+                                    </form>
+                                @endif
                             @endauth
                         </div>
 
-                        <!-- Deskripsi Lengkap -->
+                        <!-- Deskripsi Lengkap (dengan Tag/Mention Formatting) -->
+                        @php
+                            $formattedDescription = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) {
+                                $u = $m[2];
+                                $isAi = strtolower($u) === 'sira';
+                                $targetUser = \App\Models\User::where('username', $u)->first();
+                                $badgeType = $isAi ? null : ($targetUser ? $targetUser->badgeType() : null);
+
+                                $badgeSvg = '';
+                                if ($badgeType === 'admin') {
+                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg>';
+                                } elseif ($badgeType === 'verified') {
+                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg>';
+                                }
+
+                                if ($isAi) {
+                                    $cls = 'font-bold text-indigo-700 dark:text-indigo-200 bg-indigo-100/90 dark:bg-indigo-900/60 border border-indigo-300/80 dark:border-indigo-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
+                                } elseif ($badgeType === 'admin') {
+                                    $cls = 'font-bold text-amber-900 dark:text-amber-200 bg-amber-100/90 dark:bg-amber-950/60 border border-amber-300/80 dark:border-amber-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
+                                } elseif ($badgeType === 'verified') {
+                                    $cls = 'font-bold text-sky-900 dark:text-sky-200 bg-sky-100/90 dark:bg-sky-950/60 border border-sky-300/80 dark:border-sky-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
+                                } else {
+                                    $cls = 'font-bold text-emerald-800 dark:text-emerald-200 bg-emerald-100/90 dark:bg-emerald-950/60 border border-emerald-300/80 dark:border-emerald-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
+                                }
+
+                                return $m[1] . '<span class="' . $cls . '">@' . $u . $badgeSvg . '</span>';
+                            }, e($report->description));
+                        @endphp
                         <div
                             class="text-xs sm:text-sm text-slate-700 dark:text-[#CCCCCC] leading-relaxed whitespace-pre-line">
-                            {{ $report->description }}
+                            {!! $formattedDescription !!}
                         </div>
 
                         <!-- Lokasi Administratif -->
@@ -759,26 +808,38 @@
                             badge.innerText = 'Status: RESOLVED';
                             if (pendingBadge) pendingBadge.classList.add('hidden');
                             if (imgPending) imgPending.classList.add('hidden');
-                            if (actionsContainer) {
-                                actionsContainer.innerHTML = `
-                                <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
-                                    <svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5L2 7.5l4 4M2.5 7.5h8a3.5 3.5 0 0 1 3.5 3.5v1"/></svg>
-                                    <span>Buka Kembali</span>
-                                </button>
-                            `;
-                            }
                         } else {
-                            badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60';
-                            badge.innerText = 'Status: ' + data.status_label.toUpperCase();
+                            badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-amber-500 text-white shadow-xs';
+                            badge.innerText = 'Status: ' + (data.status || 'ACTIVE').toUpperCase();
                             if (pendingBadge) pendingBadge.classList.remove('hidden');
                             if (imgPending) imgPending.classList.remove('hidden');
-                            if (actionsContainer) {
+                        }
+
+                        if (actionsContainer) {
+                            const deleteFormHtml = `
+                                <form action="{{ route('reports.destroy', $report) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.');" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 transition flex items-center space-x-1 border border-rose-200/80 dark:border-rose-900/60" title="Hapus laporan ini">
+                                        <flux:icon name="trash" class="w-3 h-3 text-rose-500" />
+                                        <span>Hapus Laporan</span>
+                                    </button>
+                                </form>
+                            `;
+                            if (data.status === 'resolved') {
+                                actionsContainer.innerHTML = `
+                                <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
+                                    <flux:icon name="arrow-path" class="w-3 h-3" />
+                                    <span>Buka Kembali</span>
+                                </button>
+                                ` + deleteFormHtml;
+                            } else {
                                 actionsContainer.innerHTML = `
                                 <button type="button" onclick="updateReportStatus('resolved')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center space-x-1 shadow-xs" title="Tandai masalah telah terselesaikan">
-                                    <svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 8.5l3 3 6-6"/></svg>
+                                    <flux:icon name="check" class="w-3 h-3" />
                                     <span>Tandai Selesai (Resolved)</span>
                                 </button>
-                            `;
+                                ` + deleteFormHtml;
                             }
                         }
                     } else {
@@ -1220,6 +1281,15 @@
                         : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC]';
 
                     const isAi = user.is_ai;
+                    let badgeMarkup = '';
+                    if (isAi) {
+                        badgeMarkup = `<span class="ml-2 shrink-0 px-2 py-0.5 rounded-full text-[9px] font-extrabold ${isSelected ? 'bg-white/20 text-white' : 'bg-indigo-600 text-white'}">SIRA AI</span>`;
+                    } else if (user.badge_type === 'admin') {
+                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-amber-400 text-slate-950' : 'bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300'}"><svg class="w-3 h-3 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg><span>ADMIN</span></span>`;
+                    } else if (user.badge_type === 'verified') {
+                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-sky-400 text-slate-950' : 'bg-sky-100 text-sky-900 dark:bg-sky-950/80 dark:text-sky-300'}"><svg class="w-3 h-3 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg><span>VERIFIED</span></span>`;
+                    }
+
                     item.innerHTML = `
                         <div class="flex items-center space-x-2 min-w-0">
                             <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-white text-indigo-700 shadow-xs' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 uppercase'}">
@@ -1230,7 +1300,7 @@
                                 <div class="text-[11px] ${isSelected ? 'text-indigo-100' : 'text-slate-400 dark:text-[#888888]'} font-mono">@${user.username}</div>
                             </div>
                         </div>
-                        ${user.badge ? `<span class="ml-2 shrink-0 px-2 py-0.5 rounded-full text-[9px] font-extrabold ${isSelected ? 'bg-white/20 text-white' : 'bg-indigo-600 text-white'}">${user.badge}</span>` : ''}
+                        ${badgeMarkup}
                     `;
 
                     item.addEventListener('mousedown', (e) => {

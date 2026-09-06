@@ -88,6 +88,9 @@
     <!-- Footer Component -->
     <x-footer />
 
+    <!-- Pop Up Poster Reward Top 5 Bulanan -->
+    <x-reward-modal />
+
     @livewireScripts
 
     <!-- Pengendali Pengalih Tema (Light/Dark Toggle Controller) -->

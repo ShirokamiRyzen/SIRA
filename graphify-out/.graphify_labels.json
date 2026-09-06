@@ -4,7 +4,7 @@
   "2": "scripts",
   "3": "Process",
   "4": "package.json",
-  "5": "ReportComment",
+  "5": "User",
   "6": "Architecture Best Practices",
   "7": "Security Best Practices",
   "8": "README.md",
@@ -24,7 +24,7 @@
   "22": "0001_01_01_000002_create_jobs_table.php",
   "23": "rules/graphify.md",
   "24": "workflows/graphify.md",
-  "25": "Illuminate\\Http\\Request",
+  "25": "Report",
   "26": "artisan",
   "27": "bootstrap/app.php",
   "28": "config/app.php",
@@ -88,7 +88,7 @@
   "86": "laravel-best-practices/SKILL.md",
   "87": "2026_09_05_114247_create_notifications_table.php",
   "88": "bootstrap-4.blade.php",
-  "89": "Report",
+  "89": "OgImageController",
   "90": "bootstrap-5.blade.php",
   "91": "semantic-ui.blade.php",
   "92": "simple-bootstrap-3.blade.php",
@@ -97,5 +97,8 @@
   "95": "simple-tailwind.blade.php",
   "96": "tailwind.blade.php",
   "97": "2026_09_06_083719_add_category_to_reports_table.php",
-  "98": "static"
+  "98": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
+  "99": "reward-modal.blade.php",
+  "100": "verified-badge.blade.php",
+  "101": "static"
 }

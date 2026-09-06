@@ -187,11 +187,18 @@ class CommentController extends Controller
     }
 
     /**
-     * Hapus komentar (hanya oleh pemilik komentar).
+     * Hapus komentar (oleh pemilik komentar atau admin).
      */
     public function destroy(Request $request, ReportComment $comment): JsonResponse|RedirectResponse
     {
-        if ($comment->user_id !== Auth::id()) {
+        if ($comment->user_id !== Auth::id() && ! Auth::user()?->isAdmin()) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses untuk menghapus komentar ini.',
+                ], 403);
+            }
+
             abort(403, 'Anda tidak memiliki akses untuk menghapus komentar ini.');
         }
 
@@ -239,7 +246,7 @@ class CommentController extends Controller
         // 2. Pengguna lain hanya dimunculkan jika mengetik minimal 3 karakter
         if (mb_strlen($q) >= 3) {
             $otherUsers = User::query()
-                ->select(['id', 'name', 'username'])
+                ->select(['id', 'name', 'username', 'is_admin', 'is_verified'])
                 ->whereRaw('LOWER(username) != ?', ['sira'])
                 ->where(function ($sub) use ($q) {
                     $sub->where('username', 'like', "%{$q}%")
@@ -273,7 +280,8 @@ class CommentController extends Controller
                 'name' => $u->name,
                 'username' => $u->username,
                 'is_ai' => $isAi,
-                'badge' => $isAi ? 'SIRA AI' : null,
+                'badge' => $isAi ? 'SIRA AI' : ($u->badgeType() === 'admin' ? 'ADMIN' : ($u->badgeType() === 'verified' ? 'TERVERIFIKASI' : null)),
+                'badge_type' => $isAi ? null : $u->badgeType(),
             ];
         });
 

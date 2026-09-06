@@ -15,8 +15,10 @@
             Platform terbuka bagi masyarakat untuk mendokumentasikan fasilitas rusak atau aspirasi untuk di tindak
             lanjuti oleh pemerintah.
         </p>
-        <div class="text-[10px] font-mono text-[#787774] dark:text-[#888888] pt-2">
-            Made with ❤️ by Ingfokan Nama Tim yang Bagus
+        <div class="text-[10px] font-mono text-[#787774] dark:text-[#888888] pt-2 flex items-center justify-center gap-1">
+            <span>Made with</span>
+            <flux:icon name="heart" class="w-3.5 h-3.5 text-rose-500 inline-block align-middle fill-rose-500" />
+            <span>by Ingfokan Nama Tim yang Bagus</span>
         </div>
     </div>
 </footer>
