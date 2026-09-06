@@ -56,7 +56,7 @@ class ReportController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = Report::query()->with(['user'])->withCount('comments');
+        $query = Report::query()->withMultiIssueStatus()->with(['user'])->withCount('comments');
 
         // Pastikan laporan lama yang memiliki subdistrict/city tetapi district masih null diperbarui secara otomatis
         Report::where(function ($q) {
@@ -125,6 +125,14 @@ class ReportController extends Controller
             $query->where('status', $status);
         }
 
+        // Filter tipe masalah (Multi Masalah vs Masalah Tunggal)
+        $issueType = $request->input('issue_type');
+        if ($issueType === 'multi' || $request->boolean('multi_issue')) {
+            $query->onlyMultiIssue();
+        } elseif ($issueType === 'single') {
+            $query->onlySingleIssue();
+        }
+
         // Pengurutan / Ranking
         $sort = $request->input('sort', 'trending');
         match ($sort) {
@@ -182,7 +190,8 @@ class ReportController extends Controller
         }
 
         // Top 5 Laporan Terkritis untuk leaderboard sidebar / widget
-        $criticalReports = Report::where('rank_tier', '!=', 'normal')
+        $criticalReports = Report::withMultiIssueStatus()
+            ->where('rank_tier', '!=', 'normal')
             ->orderByDesc('vote_score')
             ->take(5)
             ->get();
@@ -191,6 +200,7 @@ class ReportController extends Controller
         $totalReports = Report::count();
         $criticalCount = Report::where('rank_tier', 'critical')->count();
         $resolvedCount = Report::where('status', 'resolved')->count();
+        $multiIssueCount = Report::onlyMultiIssue()->count();
 
         return view('reports.index', compact(
             'reports',
@@ -200,7 +210,8 @@ class ReportController extends Controller
             'sort',
             'totalReports',
             'criticalCount',
-            'resolvedCount'
+            'resolvedCount',
+            'multiIssueCount'
         ));
     }
 
@@ -265,9 +276,9 @@ class ReportController extends Controller
     }
 
     /**
-     * Tampilkan detail laporan beserta peta lokasi dan thread komentar bertingkat.
+     * Tampilkan detail laporan, komentar bertingkat, dan laporan multi-masalah di lokasi yang sama.
      */
-    public function show(Report $report): View
+    public function show(Report $report, Request $request): View
     {
         $report->load([
             'user',
@@ -278,7 +289,33 @@ class ReportController extends Controller
 
         $userVote = Auth::check() ? $report->userVote(Auth::user()) : null;
 
-        return view('reports.show', compact('report', 'userVote'));
+        // Ambil laporan-laporan lain di titik lokasi/koordinat yang sama persis (Co-located Reports)
+        $coLocatedQuery = Report::where('latitude', $report->latitude)
+            ->where('longitude', $report->longitude)
+            ->where('id', '!=', $report->id)
+            ->with(['user'])
+            ->withCount('comments');
+
+        $totalCoLocatedCount = (clone $coLocatedQuery)->count();
+
+        // Filter scoped khusus lokasi ini (urgent, active, resolved)
+        $coFilter = $request->input('co_filter');
+        if ($coFilter) {
+            match ($coFilter) {
+                'urgent' => $coLocatedQuery->whereIn('rank_tier', ['urgent', 'critical']),
+                'active' => $coLocatedQuery->where('status', 'active'),
+                'resolved' => $coLocatedQuery->where('status', 'resolved'),
+                default => null,
+            };
+        }
+
+        // Paginasi khusus untuk daftar masalah di lokasi ini (4 per halaman)
+        $coLocatedReports = $coLocatedQuery->orderByDesc('vote_score')
+            ->paginate(4, ['*'], 'co_page')
+            ->withQueryString()
+            ->fragment('multi-issues');
+
+        return view('reports.show', compact('report', 'userVote', 'coLocatedReports', 'totalCoLocatedCount', 'coFilter'));
     }
 
     /**

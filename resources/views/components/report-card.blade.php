@@ -31,10 +31,20 @@
                         </span>
                     @endif
 
-                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium {{ $report->category_meta['badge_class'] }}">
-                        <flux:icon name="{{ $report->category_icon }}" class="w-3 h-3" />
-                        <span>{{ $report->category_label }}</span>
-                    </span>
+                    @if ($report->is_multi_issue)
+                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-violet-100 text-violet-900 dark:bg-violet-950/70 dark:text-violet-200 border border-violet-300/80 dark:border-violet-800/80 shadow-xs" title="Terdeteksi {{ $report->total_location_issues }} masalah berbeda di titik lokasi yang sama">
+                            <flux:icon name="squares-2x2" class="w-3 h-3 text-violet-700 dark:text-violet-300 shrink-0" />
+                            <span>Multi Masalah</span>
+                            <span class="inline-flex items-center justify-center min-w-3.5 h-3.5 px-1 rounded-full text-[9px] font-mono font-bold bg-violet-200 text-violet-900 dark:bg-violet-900 dark:text-violet-100">
+                                {{ $report->total_location_issues }}
+                            </span>
+                        </span>
+                    @else
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium {{ $report->category_meta['badge_class'] }}">
+                            <flux:icon name="{{ $report->category_icon }}" class="w-3 h-3" />
+                            <span>{{ $report->category_label }}</span>
+                        </span>
+                    @endif
                 </div>
 
                 <!-- Status & Pending Duration Tag -->

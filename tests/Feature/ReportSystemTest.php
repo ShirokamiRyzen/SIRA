@@ -701,3 +701,193 @@ test('halaman heatmap memproses parameter koordinat dan menampilkan elemen fokus
     $response->assertSee('focusReportBanner');
     $response->assertSee('btnResetFocus');
 });
+
+test('card menampilkan badge multi masalah menggantikan badge kategori awal saat di lokasi yang sama terdapat beberapa masalah', function () {
+    $user = User::factory()->create();
+
+    // Laporan tunggal di lokasi A
+    $singleReport = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Laporan Tunggal di Wilayah A',
+        'category' => 'kelistrikan',
+        'description' => 'Lampu jalan mati sendirian.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.90000000,
+        'longitude' => 107.60000000,
+        'city' => 'Kota Bandung',
+        'district' => 'Cicendo',
+        'rank_tier' => 'normal',
+        'status' => 'active',
+    ]);
+
+    // Dua laporan berbeda di lokasi B dengan koordinat identik
+    $multiReport1 = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Jalan Rusak di Simpang Ramai',
+        'category' => 'infrastruktur',
+        'description' => 'Lubang jalan parah.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.92000000,
+        'longitude' => 107.61000000,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'urgent',
+        'status' => 'active',
+    ]);
+
+    $multiReport2 = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Sampah Menumpuk di Simpang Ramai',
+        'category' => 'lingkungan',
+        'description' => 'Sampah meluber di simpang.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.92000000,
+        'longitude' => 107.61000000,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'urgent',
+        'status' => 'active',
+    ]);
+
+    expect($singleReport->is_multi_issue)->toBeFalse();
+    expect($multiReport1->is_multi_issue)->toBeTrue();
+    expect($multiReport1->total_location_issues)->toBe(2);
+    expect($multiReport2->is_multi_issue)->toBeTrue();
+    expect($multiReport2->total_location_issues)->toBe(2);
+
+    $response = $this->get(route('reports.index'));
+    $response->assertOk();
+
+    // Verifikasi badge Multi Masalah muncul di card laporan multi masalah
+    $response->assertSee('Multi Masalah');
+    $response->assertSee('Terdeteksi 2 masalah berbeda di titik lokasi yang sama');
+});
+
+test('filter issue_type multi hanya menampilkan laporan multi masalah', function () {
+    $user = User::factory()->create();
+
+    $single = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Laporan Tunggal Tanpa Teman',
+        'category' => 'kelistrikan',
+        'description' => 'Sendirian.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.85000000,
+        'longitude' => 107.55000000,
+        'city' => 'Kota Bandung',
+        'district' => 'Sukasari',
+        'rank_tier' => 'normal',
+        'status' => 'active',
+    ]);
+
+    $multiA = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Masalah Bersama Bagian 1',
+        'category' => 'infrastruktur',
+        'description' => 'Lubang jalan.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.93000000,
+        'longitude' => 107.62000000,
+        'city' => 'Kota Bandung',
+        'district' => 'Regol',
+        'rank_tier' => 'urgent',
+        'status' => 'active',
+    ]);
+
+    $multiB = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Masalah Bersama Bagian 2',
+        'category' => 'lingkungan',
+        'description' => 'Sampah liar.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.93000000,
+        'longitude' => 107.62000000,
+        'city' => 'Kota Bandung',
+        'district' => 'Regol',
+        'rank_tier' => 'urgent',
+        'status' => 'active',
+    ]);
+    // Request dengan filter multi
+    $filterMultiResponse = $this->get(route('reports.index', ['issue_type' => 'multi']));
+    $filterMultiResponse->assertOk();
+    $multiFeedTitles = $filterMultiResponse->viewData('reports')->pluck('title');
+    expect($multiFeedTitles)->toContain('Masalah Bersama Bagian 1');
+    expect($multiFeedTitles)->toContain('Masalah Bersama Bagian 2');
+    expect($multiFeedTitles)->not->toContain('Laporan Tunggal Tanpa Teman');
+
+    // Request dengan filter single
+    $filterSingleResponse = $this->get(route('reports.index', ['issue_type' => 'single']));
+    $filterSingleResponse->assertOk();
+    $singleFeedTitles = $filterSingleResponse->viewData('reports')->pluck('title');
+    expect($singleFeedTitles)->toContain('Laporan Tunggal Tanpa Teman');
+    expect($singleFeedTitles)->not->toContain('Masalah Bersama Bagian 1');
+    expect($singleFeedTitles)->not->toContain('Masalah Bersama Bagian 2');
+});
+
+test('halaman detail laporan menampilkan bagian multi masalah dengan filter scoped dan navigasi laporan se-lokasi', function () {
+    $user = User::factory()->create();
+
+    $mainReport = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Laporan Utama Jalan Amblas',
+        'category' => 'infrastruktur',
+        'description' => 'Jalan amblas di perempatan.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.92147100,
+        'longitude' => 107.61114200,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'critical',
+        'status' => 'active',
+    ]);
+
+    $coUrgent = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Lampu PJU Padam di Titik yang Sama',
+        'category' => 'kelistrikan',
+        'description' => 'Gelap gulita di malam hari.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.92147100,
+        'longitude' => 107.61114200,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'urgent',
+        'status' => 'active',
+    ]);
+
+    $coResolved = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Sampah Liar Sudah Dibersihkan',
+        'category' => 'lingkungan',
+        'description' => 'Pembersihan tuntas.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.92147100,
+        'longitude' => 107.61114200,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'normal',
+        'status' => 'resolved',
+    ]);
+
+    // Buka detail laporan utama
+    $response = $this->get(route('reports.show', $mainReport));
+    $response->assertOk();
+    $response->assertSee('Multi-Masalah Terdeteksi');
+    $response->assertSee('Permasalahan Lain di Lokasi yang Sama');
+    $response->assertSee('Lampu PJU Padam di Titik yang Sama');
+    $response->assertSee('Sampah Liar Sudah Dibersihkan');
+
+    // Filter scoped: urgent
+    $urgentResponse = $this->get(route('reports.show', ['report' => $mainReport, 'co_filter' => 'urgent']));
+    $urgentResponse->assertOk();
+    $urgentTitles = $urgentResponse->viewData('coLocatedReports')->pluck('title');
+    expect($urgentTitles)->toContain('Lampu PJU Padam di Titik yang Sama');
+    expect($urgentTitles)->not->toContain('Sampah Liar Sudah Dibersihkan');
+
+    // Filter scoped: resolved
+    $resolvedResponse = $this->get(route('reports.show', ['report' => $mainReport, 'co_filter' => 'resolved']));
+    $resolvedResponse->assertOk();
+    $resolvedTitles = $resolvedResponse->viewData('coLocatedReports')->pluck('title');
+    expect($resolvedTitles)->toContain('Sampah Liar Sudah Dibersihkan');
+    expect($resolvedTitles)->not->toContain('Lampu PJU Padam di Titik yang Sama');
+});

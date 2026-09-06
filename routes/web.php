@@ -15,7 +15,8 @@ Route::get('/', function () {
     $criticalCount = Report::where('rank_tier', 'critical')->count();
     $urgentCount = Report::where('rank_tier', 'urgent')->count();
     $resolvedCount = Report::where('status', 'resolved')->count();
-    $criticalReports = Report::with(['user'])
+    $criticalReports = Report::withMultiIssueStatus()
+        ->with(['user'])
         ->withCount('comments')
         ->where('rank_tier', '!=', 'normal')
         ->orderByDesc('vote_score')

@@ -26,3 +26,93 @@
         border-color: #EAEAEA;
     }
 }
+
+/* Mention Live Highlighter in Textarea - Pixel-perfect Alignment & Clean Tag Sizing */
+.mention-highlighter-wrapper {
+    position: relative;
+}
+
+.mention-backdrop,
+.mention-input {
+    font-family: var(--font-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+    line-height: 1.625 !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    tab-size: 4 !important;
+    -moz-tab-size: 4 !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Form Utama Komentar */
+.mention-highlighter-main .mention-backdrop,
+.mention-highlighter-main .mention-input {
+    font-size: 0.875rem !important; /* 14px */
+    padding: 12px 16px !important; /* px-4 py-3 */
+}
+
+/* Form Balasan Komentar (Reply) */
+.mention-highlighter-sm .mention-backdrop,
+.mention-highlighter-sm .mention-input {
+    font-size: 0.75rem !important; /* 12px */
+    padding: 8px 12px !important; /* px-3 py-2 */
+}
+
+.mention-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    color: transparent !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.mention-input {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    background-color: transparent !important;
+    outline: none !important;
+}
+
+/* Styling Tag Highlight: pas, rapi, dan proporsional */
+.mention-tag {
+    display: inline;
+    color: transparent !important;
+    font-weight: inherit !important;
+    font-family: inherit !important;
+    line-height: inherit !important;
+    border-radius: 4px;
+    padding: 1.5px 3px;
+    margin: 0 -3px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+/* Highlight untuk AI Bot @Sira */
+.mention-tag-sira {
+    background-color: rgba(99, 102, 241, 0.18) !important;
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.45) !important;
+}
+.dark .mention-tag-sira {
+    background-color: rgba(99, 102, 241, 0.28) !important;
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6) !important;
+}
+
+/* Highlight untuk User Mention (@username) */
+.mention-tag-user {
+    background-color: rgba(16, 185, 129, 0.18) !important;
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.45) !important;
+}
+.dark .mention-tag-user {
+    background-color: rgba(16, 185, 129, 0.28) !important;
+    box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.6) !important;
+}
+

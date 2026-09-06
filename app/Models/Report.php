@@ -226,4 +226,77 @@ class Report extends Model
     {
         return $this->category_meta['symbol'];
     }
+
+    /**
+     * Scope query untuk menambahkan counter laporan se-lokasi secara efisien tanpa N+1.
+     */
+    public function scopeWithMultiIssueStatus($query)
+    {
+        return $query->select('reports.*')
+            ->selectRaw(
+                '(SELECT COUNT(*) FROM reports r2 WHERE r2.latitude = reports.latitude AND r2.longitude = reports.longitude AND r2.id != reports.id AND r2.deleted_at IS NULL) as co_located_reports_count'
+            );
+    }
+
+    /**
+     * Scope query untuk memfilter laporan yang berada di titik multi-masalah (terdapat laporan lain di titik yang sama).
+     */
+    public function scopeOnlyMultiIssue($query)
+    {
+        return $query->whereRaw(
+            '(SELECT COUNT(*) FROM reports r2 WHERE r2.latitude = reports.latitude AND r2.longitude = reports.longitude AND r2.id != reports.id AND r2.deleted_at IS NULL) > 0'
+        );
+    }
+
+    /**
+     * Scope query untuk memfilter laporan tunggal (tidak ada laporan lain di titik yang sama).
+     */
+    public function scopeOnlySingleIssue($query)
+    {
+        return $query->whereRaw(
+            '(SELECT COUNT(*) FROM reports r2 WHERE r2.latitude = reports.latitude AND r2.longitude = reports.longitude AND r2.id != reports.id AND r2.deleted_at IS NULL) = 0'
+        );
+    }
+
+    /**
+     * Hitung jumlah laporan lain yang berada di titik lokasi/koordinat yang sama.
+     */
+    public function getCoLocatedReportsCountAttribute(): int
+    {
+        if (array_key_exists('co_located_reports_count', $this->attributes)) {
+            return (int) $this->attributes['co_located_reports_count'];
+        }
+
+        if (! $this->latitude || ! $this->longitude) {
+            return 0;
+        }
+
+        static $cache = [];
+        $key = ((string) $this->latitude).':'.((string) $this->longitude);
+
+        if (! array_key_exists($key, $cache)) {
+            $cache[$key] = static::where('id', '!=', $this->id)
+                ->where('latitude', $this->latitude)
+                ->where('longitude', $this->longitude)
+                ->count();
+        }
+
+        return $cache[$key];
+    }
+
+    /**
+     * Menentukan apakah laporan berada di titik lokasi yang terdeteksi memiliki multi-masalah.
+     */
+    public function getIsMultiIssueAttribute(): bool
+    {
+        return $this->co_located_reports_count > 0;
+    }
+
+    /**
+     * Total seluruh masalah yang tercatat pada titik lokasi/koordinat yang sama.
+     */
+    public function getTotalLocationIssuesAttribute(): int
+    {
+        return $this->co_located_reports_count + 1;
+    }
 }

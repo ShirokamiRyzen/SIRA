@@ -8,62 +8,100 @@
 @section('og_image', route('reports.ogImage', $report))
 @section('og_url', route('reports.show', $report))
 
-@section('content')
+@push('styles')
     <style>
-        /* Mention Live Highlighter in Textarea */
+        /* Mention Live Highlighter in Textarea - Pixel-perfect Alignment & Clean Tag Sizing */
         .mention-highlighter-wrapper {
             position: relative;
         }
+
+        .mention-backdrop,
+        .mention-input {
+            font-family: var(--font-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            letter-spacing: normal !important;
+            word-spacing: normal !important;
+            line-height: 1.625 !important; /* leading-relaxed (1.625) */
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            word-break: break-word !important;
+            tab-size: 4 !important;
+            -moz-tab-size: 4 !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        /* Form Utama Komentar */
+        .mention-highlighter-main .mention-backdrop,
+        .mention-highlighter-main .mention-input {
+            font-size: 0.875rem !important; /* 14px */
+            padding: 12px 16px !important; /* px-4 py-3 */
+        }
+
+        /* Form Balasan Komentar (Reply) */
+        .mention-highlighter-sm .mention-backdrop,
+        .mention-highlighter-sm .mention-input {
+            font-size: 0.75rem !important; /* 12px */
+            padding: 8px 12px !important; /* px-3 py-2 */
+        }
+
         .mention-backdrop {
             position: absolute;
             inset: 0;
             pointer-events: none;
             overflow: hidden;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            word-break: break-word;
-            box-sizing: border-box;
             color: transparent !important;
             user-select: none;
             -webkit-user-select: none;
         }
+
         .mention-input {
             position: relative;
             z-index: 10;
             width: 100%;
             background-color: transparent !important;
-            box-sizing: border-box;
-            font-family: inherit;
-            font-size: inherit;
-            line-height: inherit;
+            outline: none !important;
         }
+
+        /* Styling Tag Highlight: pas, rapi, dan proporsional */
         .mention-tag {
+            display: inline;
             color: transparent !important;
-            background-color: transparent;
+            font-weight: inherit !important;
+            font-family: inherit !important;
+            line-height: inherit !important;
             border-radius: 4px;
-            font-weight: inherit;
-            font-family: inherit;
-            line-height: inherit;
+            padding: 1.5px 3px;
+            margin: 0 -3px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
         }
+
         /* Highlight untuk AI Bot @Sira */
         .mention-tag-sira {
-            background-color: rgba(99, 102, 241, 0.35) !important;
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.7), 0 0 10px rgba(99, 102, 241, 0.35) !important;
+            background-color: rgba(99, 102, 241, 0.18) !important;
+            box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.45) !important;
         }
         .dark .mention-tag-sira {
-            background-color: rgba(99, 102, 241, 0.5) !important;
-            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.9), 0 0 12px rgba(99, 102, 241, 0.5) !important;
+            background-color: rgba(99, 102, 241, 0.3) !important;
+            box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6) !important;
         }
-        /* Highlight untuk User Mention */
+
+        /* Highlight untuk User Mention (@username) */
         .mention-tag-user {
-            background-color: rgba(16, 185, 129, 0.3) !important;
-            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.6) !important;
+            background-color: rgba(16, 185, 129, 0.18) !important;
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.45) !important;
         }
         .dark .mention-tag-user {
-            background-color: rgba(16, 185, 129, 0.4) !important;
-            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.8) !important;
+            background-color: rgba(16, 185, 129, 0.3) !important;
+            box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.6) !important;
         }
     </style>
+@endpush
+
+@section('content')
     <div class="max-w-5xl mx-auto space-y-8">
         <!-- Breadcrumb & Aksi Bagikan Kartu -->
         <div class="flex items-center justify-between">
@@ -277,6 +315,138 @@
             </div>
         </div>
 
+        <!-- Bagian Khusus: Multi-Masalah di Titik Koordinat yang Sama -->
+        @if (isset($totalCoLocatedCount) && $totalCoLocatedCount > 0)
+            <div id="multi-issues" class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-violet-200/80 dark:border-violet-900/60 shadow-sm space-y-6 scroll-mt-24">
+                <!-- Header Bagian Multi-Masalah -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-[#222222]">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-100 text-violet-900 dark:bg-violet-950/70 dark:text-violet-200 border border-violet-300/80 dark:border-violet-800/80 shadow-xs">
+                                <flux:icon name="squares-2x2" class="w-3.5 h-3.5 text-violet-700 dark:text-violet-300 shrink-0" />
+                                <span>Multi-Masalah Terdeteksi</span>
+                                <span class="inline-flex items-center justify-center px-1.5 rounded-full text-[10px] font-mono font-bold bg-violet-200 text-violet-900 dark:bg-violet-900 dark:text-violet-100">
+                                    {{ $report->total_location_issues }} Masalah
+                                </span>
+                            </span>
+                            <span class="text-xs font-mono text-slate-400 dark:text-[#787774]">
+                                Titik: {{ $report->latitude }}, {{ $report->longitude }}
+                            </span>
+                        </div>
+                        <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">
+                            Permasalahan Lain di Lokasi yang Sama
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-[#888888]">
+                            Terdapat {{ $totalCoLocatedCount }} laporan publik lainnya yang tercatat pada titik koordinat yang sama persis.
+                        </p>
+                    </div>
+
+                    <!-- Filter Khusus Di-Scope untuk Lokasi Ini -->
+                    <div class="flex items-center gap-1.5 flex-wrap font-mono text-xs">
+                        <span class="text-slate-400 dark:text-[#787774] text-[11px] mr-1">Filter Khusus:</span>
+                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => null, 'co_page' => null]) }}#multi-issues"
+                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 {{ !request('co_filter') ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
+                            Semua ({{ $totalCoLocatedCount }})
+                        </a>
+                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'urgent', 'co_page' => null]) }}#multi-issues"
+                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'urgent' ? 'bg-amber-600 text-white font-bold' : 'text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 hover:bg-amber-100' }}">
+                            <flux:icon name="exclamation-triangle" class="w-3 h-3 shrink-0" />
+                            <span>Mendesak / Urgent</span>
+                        </a>
+                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'active', 'co_page' => null]) }}#multi-issues"
+                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 {{ request('co_filter') === 'active' ? 'bg-indigo-600 text-white font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
+                            ● Aktif
+                        </a>
+                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'resolved', 'co_page' => null]) }}#multi-issues"
+                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100' }}">
+                            <flux:icon name="check" class="w-3 h-3 shrink-0" />
+                            <span>Selesai</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Daftar Laporan Lain di Lokasi Ini -->
+                @if ($coLocatedReports->isEmpty())
+                    <div class="py-8 text-center text-xs font-mono text-slate-400 dark:text-[#787774]">
+                        Tidak ada laporan lain dengan filter "{{ request('co_filter') }}" pada titik lokasi ini.
+                    </div>
+                @else
+                    <!-- Paginasi Atas (Jika lebih dari 1 halaman) -->
+                    @if ($coLocatedReports->hasPages())
+                        <div class="pb-2 text-xs font-mono">
+                            {{ $coLocatedReports->links() }}
+                        </div>
+                    @endif
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach ($coLocatedReports as $coReport)
+                            <div class="p-4 rounded-2xl border border-slate-200 dark:border-[#222222] bg-[#FBFBFA]/70 dark:bg-[#181818]/60 flex flex-col justify-between hover:border-violet-300 dark:hover:border-violet-700 transition space-y-3 group">
+                                <div class="space-y-2">
+                                    <!-- Foto thumbnail & Badges -->
+                                    <div class="flex items-start gap-3">
+                                        <img src="{{ $coReport->image_base64 }}" alt="{{ $coReport->title }}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-200 dark:border-[#282828] grayscale group-hover:grayscale-0 transition duration-200">
+                                        <div class="flex-1 min-w-0 space-y-1">
+                                            <div class="flex items-center gap-1.5 flex-wrap">
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium {{ $coReport->category_meta['badge_class'] }}">
+                                                    <flux:icon name="{{ $coReport->category_icon }}" class="w-2.5 h-2.5" />
+                                                    <span>{{ $coReport->category_label }}</span>
+                                                </span>
+                                                @if ($coReport->rank_tier === 'critical')
+                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300">
+                                                        Kritis
+                                                    </span>
+                                                @elseif ($coReport->rank_tier === 'urgent')
+                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
+                                                        Urgent
+                                                    </span>
+                                                @endif
+                                                @if ($coReport->status === 'resolved')
+                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                                        Selesai
+                                                    </span>
+                                                @else
+                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-500 dark:text-[#888888] bg-slate-100 dark:bg-[#252525]">
+                                                        Aktif
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] line-clamp-2 leading-snug group-hover:underline underline-offset-2">
+                                                <a href="{{ route('reports.show', $coReport) }}">
+                                                    {{ $coReport->title }}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 dark:text-[#888888] line-clamp-2 leading-relaxed">
+                                        {{ $coReport->description }}
+                                    </p>
+                                </div>
+
+                                <div class="pt-2.5 border-t border-slate-200/70 dark:border-[#282828] flex items-center justify-between text-[11px] font-mono">
+                                    <div class="flex items-center space-x-3 text-slate-500">
+                                        <span class="font-bold text-slate-800 dark:text-[#EDEDEC]">{{ $coReport->vote_score }} votes</span>
+                                        <span>&bull;</span>
+                                        <span>{{ $coReport->comments_count }} komentar</span>
+                                    </div>
+                                    <a href="{{ route('reports.show', $coReport) }}" class="inline-flex items-center gap-1 text-xs font-semibold text-violet-700 dark:text-violet-400 hover:underline">
+                                        <span>Buka Laporan</span>
+                                        <span>&rarr;</span>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Paginasi Bawah (Jika lebih dari 1 halaman) -->
+                    @if ($coLocatedReports->hasPages())
+                        <div class="pt-4 border-t border-slate-100 dark:border-[#222222] text-xs font-mono">
+                            {{ $coLocatedReports->links() }}
+                        </div>
+                    @endif
+                @endif
+            </div>
+        @endif
+
         <!-- Peta Lokasi Masalah (OpenFreeMap) -->
         <div
             class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-4">
@@ -320,11 +490,11 @@
                 <form id="mainCommentForm" action="{{ route('comments.store', $report, false) }}" method="POST"
                     class="space-y-3" onsubmit="submitCommentAjax(event, this, null)">
                     @csrf
-                    <div class="mention-highlighter-wrapper relative w-full rounded-2xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden transition">
-                        <div class="mention-backdrop absolute inset-0 pointer-events-none px-4 py-3 text-xs sm:text-sm font-sans leading-relaxed text-transparent overflow-hidden select-none whitespace-pre-wrap break-words" aria-hidden="true"></div>
+                    <div class="mention-highlighter-wrapper mention-highlighter-main relative w-full rounded-2xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden transition">
+                        <div class="mention-backdrop absolute inset-0 pointer-events-none px-4 py-3 text-sm font-sans leading-relaxed text-transparent overflow-hidden select-none whitespace-pre-wrap break-words" aria-hidden="true"></div>
                         <textarea name="content" rows="3" required
                             placeholder="Tulis komentar atau tanggapan terkait masalah ini (Tag @Sira untuk meminta bantuan AI)..."
-                            class="mention-input relative z-10 w-full px-4 py-3 bg-transparent text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm font-sans leading-relaxed focus:outline-none resize-y block border-0 ring-0 focus:ring-0"></textarea>
+                            class="mention-input relative z-10 w-full px-4 py-3 bg-transparent text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-sm font-sans leading-relaxed focus:outline-none resize-y block border-0 ring-0 focus:ring-0"></textarea>
                     </div>
 
                     <div class="flex items-center justify-between flex-wrap gap-2 pt-1">

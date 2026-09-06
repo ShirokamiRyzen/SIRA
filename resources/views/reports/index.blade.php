@@ -18,6 +18,7 @@
         :available-districts="$availableDistricts"
         :critical-reports="$criticalReports"
         :sort="$sort"
+        :multi-issue-count="$multiIssueCount"
     />
 </div>
 @endsection
