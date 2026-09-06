@@ -212,11 +212,11 @@
                 <textarea name="content" rows="3" required placeholder="Tulis komentar atau tanggapan terkait masalah ini (Tag @Sira untuk meminta bantuan AI)..."
                     class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
 
-                <!-- Pratinjau LaTeX jika terdapat formula matematika -->
+                <!-- Pratinjau LaTeX & Tag Mention -->
                 <div class="latex-preview hidden px-4 py-3 bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/60 rounded-2xl text-xs text-slate-800 dark:text-[#EDEDEC] space-y-1.5 shadow-xs">
                     <div class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
-                        <flux:icon name="calculator" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                        <span>Pratinjau Formula (LaTeX):</span>
+                        <flux:icon name="sparkles" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        <span>Pratinjau Format, Formula, &amp; Tag Mention:</span>
                     </div>
                     <div class="latex-preview-content font-sans overflow-x-auto text-sm"></div>
                 </div>
@@ -556,12 +556,26 @@
             html = html.replaceAll(`%%KATEX_TOKEN_${idx}%%`, tokenHtml);
         });
 
-        // 6. Highlight mention username (Sira bot atau user lain)
+        // 6. Highlight mention username (Sira bot atau user lain) dengan efek highlight mencolok
+        const currentAuthUser = "{{ Auth::user()?->username ?? '' }}";
         html = html.replace(/(^|[^a-zA-Z0-9_])\x40([a-zA-Z0-9_]+)/g, (match, prefix, username) => {
             const isAi = username.toLowerCase() === 'sira';
-            const badge = isAi
-                ? `<span class="inline-flex items-center font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800/60 px-1.5 py-0.5 rounded-md mx-0.5">@${username}</span>`
-                : `<span class="inline-flex items-center font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 px-1.5 py-0.5 rounded-md mx-0.5">@${username}</span>`;
+            const isMe = currentAuthUser && username.toLowerCase() === currentAuthUser.toLowerCase();
+            let badgeClass = '';
+            let iconSvg = '';
+
+            if (isAi) {
+                badgeClass = 'font-bold text-indigo-700 dark:text-indigo-200 bg-indigo-100/90 dark:bg-indigo-900/60 border border-indigo-300/80 dark:border-indigo-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-indigo-400/30 transition-all';
+                iconSvg = '<svg class="w-3 h-3 text-indigo-600 dark:text-indigo-300 inline mr-0.5" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a2 2 0 0 1 2-2z"/></svg>';
+            } else if (isMe) {
+                badgeClass = 'font-bold text-amber-900 dark:text-amber-100 bg-amber-200/90 dark:bg-amber-900/70 border border-amber-400 dark:border-amber-600 px-2 py-0.5 rounded-lg shadow-xs ring-2 ring-amber-400/60 transition-all';
+                iconSvg = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block mr-1"></span>';
+            } else {
+                badgeClass = 'font-bold text-emerald-700 dark:text-emerald-200 bg-emerald-100/90 dark:bg-emerald-900/60 border border-emerald-300/80 dark:border-emerald-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-emerald-400/30 transition-all';
+                iconSvg = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span>';
+            }
+
+            const badge = `<span class="inline-flex items-center mx-0.5 ${badgeClass}">${iconSvg}@${username}</span>`;
             return prefix + badge;
         });
 
@@ -581,7 +595,7 @@
         });
     }
 
-    // Live preview saat pengguna mengetik formula LaTeX atau Markdown
+    // Live preview saat pengguna mengetik formula LaTeX, Markdown, atau Mention (@)
     function handleLatexPreview(textarea) {
         if (!textarea) return;
         const form = textarea.closest('form');
@@ -591,8 +605,8 @@
         if (!previewBox || !previewContent) return;
 
         const text = textarea.value.trim();
-        // Deteksi apakah mengandung simbol LaTeX ($ / \ / ^ / _) atau Markdown (* / `)
-        if (text && (text.includes('$') || text.includes('\\') || text.includes('^') || text.includes('_') || text.includes('*') || text.includes('`'))) {
+        // Deteksi apakah mengandung simbol LaTeX ($ / \ / ^ / _) atau Markdown (* / `) atau Mention (@)
+        if (text && (text.includes('$') || text.includes('\\') || text.includes('^') || text.includes('_') || text.includes('*') || text.includes('`') || text.includes('@'))) {
             previewContent.innerHTML = formatCommentText(text);
             previewBox.classList.remove('hidden');
         } else {
@@ -862,21 +876,21 @@
                 const item = document.createElement('div');
                 const isSelected = (index === highlightedIndex);
                 item.className = isSelected 
-                    ? 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-50 dark:bg-indigo-950/60 text-indigo-950 dark:text-indigo-200 font-semibold' 
-                    : 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-50 dark:hover:bg-[#202020] text-slate-700 dark:text-[#CCCCCC]';
+                    ? 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-600 text-white font-semibold shadow-xs' 
+                    : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC]';
                 
                 const isAi = user.is_ai;
                 item.innerHTML = `
                     <div class="flex items-center space-x-2 min-w-0">
-                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-xs' : 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 uppercase'}">
-                            ${isAi ? '<svg class="w-3.5 h-3.5 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>' : (user.username ? user.username.charAt(0) : 'U')}
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-white text-indigo-700 shadow-xs' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 uppercase'}">
+                            ${isAi ? '<svg class="w-3.5 h-3.5 text-indigo-600" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a2 2 0 0 1 2-2z"/></svg>' : (user.username ? user.username.charAt(0).toUpperCase() : 'U')}
                         </div>
                         <div class="truncate">
-                            <div class="truncate text-xs ${isAi ? 'text-indigo-900 dark:text-indigo-300 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium'}">${user.name}</div>
-                            <div class="text-[11px] text-slate-400 dark:text-[#787774] font-mono">@${user.username}</div>
+                            <div class="truncate text-xs ${isSelected ? 'text-white' : (isAi ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium')}">${user.name}</div>
+                            <div class="text-[11px] ${isSelected ? 'text-indigo-100' : 'text-slate-400 dark:text-[#888888]'} font-mono">@${user.username}</div>
                         </div>
                     </div>
-                    ${user.badge ? `<span class="ml-2 shrink-0 px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-indigo-600 text-white">${user.badge}</span>` : ''}
+                    ${user.badge ? `<span class="ml-2 shrink-0 px-2 py-0.5 rounded-full text-[9px] font-extrabold ${isSelected ? 'bg-white/20 text-white' : 'bg-indigo-600 text-white'}">${user.badge}</span>` : ''}
                 `;
 
                 item.addEventListener('mousedown', (e) => {
@@ -900,11 +914,10 @@
         function updateHighlightStyles() {
             const items = dropdownList.children;
             for (let i = 0; i < items.length; i++) {
-                if (i === highlightedIndex) {
-                    items[i].className = 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-50 dark:bg-indigo-950/60 text-indigo-950 dark:text-indigo-200 font-semibold';
-                } else {
-                    items[i].className = 'px-2.5 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-50 dark:hover:bg-[#202020] text-slate-700 dark:text-[#CCCCCC]';
-                }
+                const isSelected = (i === highlightedIndex);
+                items[i].className = isSelected
+                    ? 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-600 text-white font-semibold shadow-xs'
+                    : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC]';
             }
         }
 
@@ -913,13 +926,13 @@
             const rect = currentTargetTextarea.getBoundingClientRect();
             const dropdownHeight = dropdown.offsetHeight || 220;
             
-            // Karena menggunakan fixed, koordinat relative langsung terhadap viewport (tanpa scrollY)
+            // Karena menggunakan fixed, koordinat relative langsung terhadap viewport
             let top = rect.bottom + 6;
             if (top + dropdownHeight > window.innerHeight && rect.top - dropdownHeight - 6 > 0) {
                 top = rect.top - dropdownHeight - 6;
             }
 
-            const left = Math.max(10, Math.min(rect.left, window.innerWidth - 300));
+            const left = Math.max(16, Math.min(rect.left, window.innerWidth - 320));
 
             dropdown.style.top = Math.round(top) + 'px';
             dropdown.style.left = Math.round(left) + 'px';
@@ -940,6 +953,7 @@
             currentTargetTextarea.focus();
 
             closeMentionDropdown();
+            handleLatexPreview(currentTargetTextarea);
         }
 
         function handleMentionTrigger(target) {
@@ -1047,11 +1061,12 @@
         if (window.katex || initAttempts > 25) {
             clearInterval(initInterval);
             initCommentFormatting();
+            scrollToTargetComment();
         }
     }, 120);
 
     // -------------------------------------------------------------
-    // Auto-scroll ke komentar target saat tautan notifikasi dibuka (#comment-xxx)
+    // Auto-scroll & Efek Highlight ke komentar target saat tautan notifikasi dibuka (#comment-xxx)
     // -------------------------------------------------------------
     function scrollToTargetComment() {
         if (window.location.hash && window.location.hash.startsWith('#comment-')) {
@@ -1067,20 +1082,29 @@
                 // Scroll dengan posisi nyaman di tengah layar (tidak tertutup header sticky)
                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                // Beri efek highlight border/ring lembut agar pengguna langsung fokus ke komentar
+                // Beri efek highlight border/ring lembut dan latar bercahaya agar pengguna langsung fokus ke komentar
                 const card = targetEl.querySelector('div:first-child');
                 if (card) {
-                    card.classList.add('ring-2', 'ring-emerald-500', 'shadow-md', 'scale-[1.01]', 'transition-all', 'duration-300');
+                    card.classList.add('ring-2', 'ring-emerald-500', 'bg-emerald-50/70', 'dark:bg-emerald-950/40', 'shadow-lg', 'scale-[1.01]', 'transition-all', 'duration-500');
                     setTimeout(() => {
                         card.classList.remove('scale-[1.01]');
                         setTimeout(() => {
-                            card.classList.remove('ring-2', 'ring-emerald-500', 'shadow-md');
-                        }, 3000);
-                    }, 400);
+                            card.classList.remove('ring-2', 'ring-emerald-500', 'bg-emerald-50/70', 'dark:bg-emerald-950/40', 'shadow-lg');
+                        }, 3500);
+                    }, 500);
                 }
             }
         }
     }
+
+    // Jalankan auto-scroll & highlight komentar saat DOM siap dan saat URL hash berganti
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(scrollToTargetComment, 150);
+    });
+    window.addEventListener('load', () => {
+        setTimeout(scrollToTargetComment, 250);
+    });
+    window.addEventListener('hashchange', scrollToTargetComment);
 
     // -------------------------------------------------------------
     // OpenGraph Dynamic HTML5 Canvas Generator & Exporter

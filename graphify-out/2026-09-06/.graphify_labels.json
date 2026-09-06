@@ -96,6 +96,5 @@
   "94": "simple-bootstrap-5.blade.php",
   "95": "simple-tailwind.blade.php",
   "96": "tailwind.blade.php",
-  "97": "UserFactory",
-  "98": "DatabaseSeeder"
+  "97": "UserFactory"
 }

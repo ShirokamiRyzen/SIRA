@@ -223,6 +223,9 @@ class CommentController extends Controller
 
         // 1. Cek apakah bot Sira cocok (saat @ saja atau @s, @si, @sira)
         $siraUser = User::whereRaw('LOWER(username) = ?', ['sira'])->first();
+        if (! $siraUser) {
+            $siraUser = app(AiSummaryService::class)->getOrCreateBotUser();
+        }
         $isSiraMatched = $siraUser && (
             $q === '' ||
             str_contains(strtolower($siraUser->username), $qLower) ||

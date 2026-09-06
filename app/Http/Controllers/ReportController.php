@@ -14,6 +14,44 @@ use Illuminate\View\View;
 class ReportController extends Controller
 {
     /**
+     * Daftar 30 kecamatan resmi di Kota Bandung.
+     *
+     * @var array<int, string>
+     */
+    public static array $officialBandungDistricts = [
+        'Andir',
+        'Antapani',
+        'Arcamanik',
+        'Astanaanyar',
+        'Babakan Ciparay',
+        'Bandung Kidul',
+        'Bandung Kulon',
+        'Bandung Wetan',
+        'Batununggal',
+        'Bojongloa Kaler',
+        'Bojongloa Kidul',
+        'Buahbatu',
+        'Cibeunying Kaler',
+        'Cibeunying Kidul',
+        'Cibiru',
+        'Cicendo',
+        'Cidadap',
+        'Cinambo',
+        'Coblong',
+        'Gedebage',
+        'Kiaracondong',
+        'Lengkong',
+        'Mandalajati',
+        'Panyileukan',
+        'Rancasari',
+        'Regol',
+        'Sukajadi',
+        'Sukasari',
+        'Sumur Bandung',
+        'Ujungberung',
+    ];
+
+    /**
      * Tampilkan daftar feed laporan & leaderboard dengan filter daerah.
      */
     public function index(Request $request): View
@@ -60,9 +98,37 @@ class ReportController extends Controller
 
         $reports = $query->paginate(9)->withQueryString()->fragment('dashboard');
 
-        // Ambil daftar unik kota & kecamatan untuk dropdown filter
-        $availableCities = Report::whereNotNull('city')->distinct()->pluck('city')->sort()->values();
-        $availableDistricts = Report::whereNotNull('district')->distinct()->pluck('district')->sort()->values();
+        // Ambil daftar unik kota & kecamatan untuk dropdown filter (disortir alfabetis A-Z)
+        $availableCities = Report::whereNotNull('city')
+            ->where('city', '!=', '')
+            ->distinct()
+            ->pluck('city')
+            ->filter()
+            ->unique()
+            ->sort(SORT_NATURAL | SORT_FLAG_CASE)
+            ->values();
+
+        $selectedCity = $request->input('city');
+        $dbDistrictsQuery = Report::whereNotNull('district')->where('district', '!=', '');
+        if ($selectedCity) {
+            $dbDistrictsQuery->where('city', $selectedCity);
+        }
+        $dbDistricts = $dbDistrictsQuery->distinct()->pluck('district');
+
+        if (empty($selectedCity) || str_contains(strtolower($selectedCity), 'bandung')) {
+            $availableDistricts = collect(self::$officialBandungDistricts)
+                ->merge($dbDistricts)
+                ->filter()
+                ->unique()
+                ->sort(SORT_NATURAL | SORT_FLAG_CASE)
+                ->values();
+        } else {
+            $availableDistricts = $dbDistricts
+                ->filter()
+                ->unique()
+                ->sort(SORT_NATURAL | SORT_FLAG_CASE)
+                ->values();
+        }
 
         // Top 5 Laporan Terkritis untuk leaderboard sidebar / widget
         $criticalReports = Report::where('rank_tier', '!=', 'normal')

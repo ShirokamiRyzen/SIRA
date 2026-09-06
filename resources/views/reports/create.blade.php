@@ -545,9 +545,12 @@
                     .then(data => {
                         if (data && data.address) {
                             const addr = data.address;
-                            const road = addr.road || addr.pedestrian || addr.footway || addr.suburb || '';
-                            const subdistrict = addr.village || addr.subdistrict || addr.neighbourhood || '';
-                            const district = addr.city_district || addr.municipality || addr.district || '';
+                            const road = addr.road || addr.pedestrian || addr.footway || addr.path || addr.residential || '';
+                            const subdistrict = addr.village || addr.quarter || addr.subdistrict || addr.neighbourhood || '';
+                            let district = addr.city_district || addr.district || addr.municipality || addr.suburb || addr.county || '';
+                            if (district.toLowerCase().startsWith('kecamatan ')) {
+                                district = district.substring(10).trim();
+                            }
                             const city = addr.city || addr.town || addr.county || addr.regency || '';
                             const province = addr.state || '';
 

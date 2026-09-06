@@ -1,16 +1,16 @@
-# Graph Report - SIRA  (2026-09-06)
+# Graph Report - SIRA  (2026-09-05)
 
 ## Corpus Check
-- 122 files · ~61,930 words
+- 122 files · ~60,252 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 627 nodes · 746 edges · 99 communities (91 shown, 8 thin omitted)
+- 626 nodes · 744 edges · 98 communities (90 shown, 8 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7a4411cd`
+- Built from commit: `f9581d69`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -67,10 +67,9 @@
 - show.blade.php
 - OgImageController
 - UserFactory
-- DatabaseSeeder
 
 ## God Nodes (most connected - your core abstractions)
-1. `Report` - 31 edges
+1. `Report` - 30 edges
 2. `ReportComment` - 17 edges
 3. `User` - 16 edges
 4. `ReportVote` - 12 edges
@@ -96,7 +95,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (99 total, 8 thin omitted)
+## Communities (98 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -119,8 +118,8 @@ Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
 ### Community 5 - "Report"
-Cohesion: 0.09
-Nodes (12): Report, ReportComment, ReportVote, User, DummyDataSeeder, Illuminate\Database\Eloquent\Factories\HasFactory, Illuminate\Database\Eloquent\Model, Illuminate\Database\Eloquent\Relations\BelongsTo (+4 more)
+Cohesion: 0.08
+Nodes (16): Report, ReportComment, ReportVote, User, AiSummaryService, DatabaseSeeder, DummyDataSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents (+8 more)
 
 ### Community 6 - "Architecture Best Practices"
 Cohesion: 0.18
@@ -176,7 +175,7 @@ Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
 ### Community 25 - "Illuminate\Http\Request"
 Cohesion: 0.11
-Nodes (13): AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, AiSummaryService, Illuminate\Http\JsonResponse (+5 more)
+Nodes (12): AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Http\JsonResponse, Illuminate\Http\RedirectResponse (+4 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.20
@@ -274,10 +273,6 @@ Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practic
 Cohesion: 0.32
 Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
 
-### Community 98 - "DatabaseSeeder"
-Cohesion: 0.60
-Nodes (3): DatabaseSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Seeder
-
 ## Knowledge Gaps
 - **306 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+301 more)
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -287,7 +282,7 @@ Nodes (3): DatabaseSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents,
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `Architecture Best Practices` connect `Architecture Best Practices` to `laravel-best-practices/SKILL.md`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**

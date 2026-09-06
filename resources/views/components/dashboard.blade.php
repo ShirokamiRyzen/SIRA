@@ -31,7 +31,7 @@
             <!-- Filter Kecamatan Dropdown -->
             <div>
                 <select name="district" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
-                    <option value="">Semua Kecamatan</option>
+                    <option value="">Semua Kecamatan (A-Z)</option>
                     @foreach ($availableDistricts as $dist)
                         <option value="{{ $dist }}" {{ request('district') == $dist ? 'selected' : '' }}>{{ $dist }}</option>
                     @endforeach

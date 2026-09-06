@@ -39,12 +39,24 @@
 
             <!-- Content -->
             @php
-                $formattedBladeContent = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) {
-                    $isAi = strtolower($m[2]) === 'sira';
-                    $cls = $isAi 
-                        ? 'font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800/60 px-1.5 py-0.5 rounded-md'
-                        : 'font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 px-1.5 py-0.5 rounded-md';
-                    return $m[1] . '<span class="inline-flex items-center ' . $cls . '">@' . $m[2] . '</span>';
+                $currentAuthUsername = Auth::user()?->username ?? '';
+                $formattedBladeContent = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) use ($currentAuthUsername) {
+                    $u = $m[2];
+                    $isAi = strtolower($u) === 'sira';
+                    $isMe = $currentAuthUsername && strcasecmp($u, $currentAuthUsername) === 0;
+
+                    if ($isAi) {
+                        $cls = 'font-bold text-indigo-700 dark:text-indigo-200 bg-indigo-100/90 dark:bg-indigo-900/60 border border-indigo-300/80 dark:border-indigo-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-indigo-400/30';
+                        $icon = '<svg class="w-3 h-3 text-indigo-600 dark:text-indigo-300 inline mr-0.5" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a2 2 0 0 1 2-2z"/></svg>';
+                    } elseif ($isMe) {
+                        $cls = 'font-bold text-amber-900 dark:text-amber-100 bg-amber-200/90 dark:bg-amber-900/70 border border-amber-400 dark:border-amber-600 px-2 py-0.5 rounded-lg shadow-xs ring-2 ring-amber-400/60';
+                        $icon = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block mr-1"></span>';
+                    } else {
+                        $cls = 'font-bold text-emerald-700 dark:text-emerald-200 bg-emerald-100/90 dark:bg-emerald-900/60 border border-emerald-300/80 dark:border-emerald-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-emerald-400/30';
+                        $icon = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span>';
+                    }
+
+                    return $m[1] . '<span class="inline-flex items-center mx-0.5 ' . $cls . '">' . $icon . '@' . $u . '</span>';
                 }, e($comment->content));
             @endphp
             <div class="comment-body text-xs {{ ($comment->user && strtolower($comment->user->username) === 'sira') ? 'text-indigo-950 dark:text-indigo-200 font-medium' : 'text-slate-700 dark:text-[#CCCCCC]' }} mt-1.5 leading-relaxed" data-raw-content="{{ e($comment->content) }}">{!! $formattedBladeContent !!}</div>
