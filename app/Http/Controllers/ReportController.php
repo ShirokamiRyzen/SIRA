@@ -209,7 +209,9 @@ class ReportController extends Controller
      */
     public function create(): View
     {
-        return view('reports.create');
+        $categories = Report::CATEGORIES;
+
+        return view('reports.create', compact('categories'));
     }
 
     /**
@@ -219,6 +221,7 @@ class ReportController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:200'],
+            'category' => ['nullable', 'string', 'in:'.implode(',', array_keys(Report::CATEGORIES))],
             'description' => ['required', 'string', 'max:3000'],
             'image_base64' => ['required', 'string'], // Hasil kompresi 80% dari canvas
             'latitude' => ['required', 'numeric', 'between:-90,90'],
@@ -241,6 +244,7 @@ class ReportController extends Controller
         $report = Report::create([
             'user_id' => Auth::id(),
             'title' => $validated['title'],
+            'category' => $validated['category'] ?? 'infrastruktur',
             'description' => $validated['description'],
             'image_base64' => $validated['image_base64'],
             'latitude' => $validated['latitude'],

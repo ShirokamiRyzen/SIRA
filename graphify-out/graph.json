@@ -11,7 +11,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "authcontroller.php"
     },
     {
@@ -22,7 +22,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "authcontroller"
     },
     {
@@ -33,7 +33,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_showlogin",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".showlogin()"
     },
     {
@@ -44,7 +44,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_login",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".login()"
     },
     {
@@ -55,7 +55,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_showregister",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".showregister()"
     },
     {
@@ -66,7 +66,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_register",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".register()"
     },
     {
@@ -77,7 +77,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_authcontroller_authcontroller_logout",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".logout()"
     },
     {
@@ -88,7 +88,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "commentcontroller.php"
     },
     {
@@ -99,7 +99,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "commentcontroller"
     },
     {
@@ -110,7 +110,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_store",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".store()"
     },
     {
@@ -121,7 +121,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_generateaireply",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".generateaireply()"
     },
     {
@@ -132,7 +132,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_dispatchcommentnotifications",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".dispatchcommentnotifications()"
     },
     {
@@ -143,7 +143,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_destroy",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".destroy()"
     },
     {
@@ -154,7 +154,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_commentcontroller_commentcontroller_mentionsuggestions",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".mentionsuggestions()"
     },
     {
@@ -165,7 +165,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_controller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "controller.php"
     },
     {
@@ -176,7 +176,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_controller_controller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "controller"
     },
     {
@@ -187,7 +187,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "heatmapcontroller.php"
     },
     {
@@ -198,7 +198,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "heatmapcontroller"
     },
     {
@@ -208,7 +208,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_index",
-      "community": 5,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".index()"
     },
@@ -216,22 +216,22 @@
       "label": ".geojson()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L33",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_geojson",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".geojson()"
     },
     {
       "label": ".searchLocation()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L102",
+      "source_location": "L127",
       "_origin": "ast",
       "id": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".searchlocation()"
     },
     {
@@ -242,7 +242,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "notificationcontroller.php"
     },
     {
@@ -253,7 +253,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "notificationcontroller"
     },
     {
@@ -264,7 +264,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_index",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".index()"
     },
     {
@@ -275,7 +275,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_stream",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".stream()"
     },
     {
@@ -286,7 +286,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_markasread",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".markasread()"
     },
     {
@@ -297,7 +297,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_markallasread",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".markallasread()"
     },
     {
@@ -308,7 +308,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_destroy",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".destroy()"
     },
     {
@@ -319,7 +319,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_notificationcontroller_notificationcontroller_clearall",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".clearall()"
     },
     {
@@ -418,7 +418,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "reportcontroller.php"
     },
     {
@@ -429,7 +429,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "reportcontroller"
     },
     {
@@ -440,7 +440,7 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_index",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".index()"
     },
     {
@@ -451,62 +451,62 @@
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_create",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".create()"
     },
     {
       "label": ".store()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L218",
+      "source_location": "L220",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_store",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".store()"
     },
     {
       "label": ".show()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L266",
+      "source_location": "L270",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_show",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".show()"
     },
     {
       "label": ".vote()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L287",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_vote",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".vote()"
     },
     {
       "label": ".updateStatus()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L336",
+      "source_location": "L340",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_updatestatus",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".updatestatus()"
     },
     {
       "label": ".encodeGeohash()",
       "file_type": "code",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L370",
+      "source_location": "L374",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_encodegeohash",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".encodegeohash()"
     },
     {
@@ -517,7 +517,7 @@
       "_origin": "ast",
       "id": "app_models_report",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "report.php"
     },
     {
@@ -527,7 +527,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_models_report_report",
-      "community": 5,
+      "community": 25,
       "community_name": "Report",
       "norm_label": "report"
     },
@@ -535,10 +535,10 @@
       "label": ".casts()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L43",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "app_models_report_report_casts",
-      "community": 5,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".casts()"
     },
@@ -546,78 +546,133 @@
       "label": ".user()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L58",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "app_models_report_report_user",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".user()"
     },
     {
       "label": ".votes()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L66",
+      "source_location": "L126",
       "_origin": "ast",
       "id": "app_models_report_report_votes",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".votes()"
     },
     {
       "label": ".rootComments()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L74",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "app_models_report_report_rootcomments",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".rootcomments()"
     },
     {
       "label": ".comments()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L82",
+      "source_location": "L142",
       "_origin": "ast",
       "id": "app_models_report_report_comments",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".comments()"
     },
     {
       "label": ".userVote()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L90",
+      "source_location": "L150",
       "_origin": "ast",
       "id": "app_models_report_report_uservote",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".uservote()"
     },
     {
       "label": ".recalculateVoteStatsAndTier()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L106",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "app_models_report_report_recalculatevotestatsandtier",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".recalculatevotestatsandtier()"
     },
     {
       "label": ".getPendingDurationAttribute()",
       "file_type": "code",
       "source_file": "app/Models/Report.php",
-      "source_location": "L131",
+      "source_location": "L191",
       "_origin": "ast",
       "id": "app_models_report_report_getpendingdurationattribute",
-      "community": 5,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getpendingdurationattribute()"
+    },
+    {
+      "label": ".getCategoryMetaAttribute()",
+      "file_type": "code",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L203",
+      "_origin": "ast",
+      "id": "app_models_report_report_getcategorymetaattribute",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".getcategorymetaattribute()"
+    },
+    {
+      "label": ".getCategoryLabelAttribute()",
+      "file_type": "code",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L210",
+      "_origin": "ast",
+      "id": "app_models_report_report_getcategorylabelattribute",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".getcategorylabelattribute()"
+    },
+    {
+      "label": ".getCategoryIconAttribute()",
+      "file_type": "code",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L215",
+      "_origin": "ast",
+      "id": "app_models_report_report_getcategoryiconattribute",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".getcategoryiconattribute()"
+    },
+    {
+      "label": ".getCategoryColorAttribute()",
+      "file_type": "code",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L220",
+      "_origin": "ast",
+      "id": "app_models_report_report_getcategorycolorattribute",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".getcategorycolorattribute()"
+    },
+    {
+      "label": ".getCategorySymbolAttribute()",
+      "file_type": "code",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L225",
+      "_origin": "ast",
+      "id": "app_models_report_report_getcategorysymbolattribute",
+      "community": 25,
+      "community_name": "Report",
+      "norm_label": ".getcategorysymbolattribute()"
     },
     {
       "label": "ReportComment.php",
@@ -627,7 +682,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "reportcomment.php"
     },
     {
@@ -638,7 +693,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "reportcomment"
     },
     {
@@ -649,7 +704,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_report",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".report()"
     },
     {
@@ -660,7 +715,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_user",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".user()"
     },
     {
@@ -671,7 +726,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_parent",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".parent()"
     },
     {
@@ -682,7 +737,7 @@
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_replies",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".replies()"
     },
     {
@@ -692,8 +747,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_booted",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": ".booted()"
     },
     {
@@ -704,7 +759,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "reportvote.php"
     },
     {
@@ -715,7 +770,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "reportvote"
     },
     {
@@ -726,7 +781,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_casts",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".casts()"
     },
     {
@@ -737,7 +792,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_report",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".report()"
     },
     {
@@ -748,7 +803,7 @@
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_user",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".user()"
     },
     {
@@ -758,8 +813,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_booted",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": ".booted()"
     },
     {
@@ -770,7 +825,7 @@
       "_origin": "ast",
       "id": "app_models_user",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "user.php"
     },
     {
@@ -781,7 +836,7 @@
       "_origin": "ast",
       "id": "app_models_user_user",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "user"
     },
     {
@@ -792,7 +847,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_casts",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".casts()"
     },
     {
@@ -803,7 +858,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_reports",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".reports()"
     },
     {
@@ -814,7 +869,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_votes",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".votes()"
     },
     {
@@ -825,7 +880,7 @@
       "_origin": "ast",
       "id": "app_models_user_user_comments",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".comments()"
     },
     {
@@ -978,7 +1033,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_aisummaryservice",
-      "community": 5,
+      "community": 25,
       "community_name": "Report",
       "norm_label": "aisummaryservice.php"
     },
@@ -990,7 +1045,7 @@
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "aisummaryservice"
     },
     {
@@ -1001,7 +1056,7 @@
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_isaimentioned",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": ".isaimentioned()"
     },
     {
@@ -1011,7 +1066,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_getorcreatebotuser",
-      "community": 5,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".getorcreatebotuser()"
     },
@@ -1022,7 +1077,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
-      "community": 5,
+      "community": 25,
       "community_name": "Report",
       "norm_label": ".generateairesponse()"
     },
@@ -1870,7 +1925,7 @@
       "_origin": "ast",
       "id": "config_auth",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "auth.php"
     },
     {
@@ -1881,7 +1936,7 @@
       "_origin": "ast",
       "id": "config_cache",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "cache.php"
     },
     {
@@ -1968,8 +2023,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_userfactory",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "userfactory.php"
     },
     {
@@ -1979,8 +2034,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "userfactory"
     },
     {
@@ -1990,8 +2045,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_definition",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": ".definition()"
     },
     {
@@ -2001,8 +2056,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_unverified",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": ".unverified()"
     },
     {
@@ -2012,8 +2067,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "static",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "static"
     },
     {
@@ -2281,14 +2336,47 @@
       "norm_label": "down()"
     },
     {
+      "label": "2026_09_06_083719_add_category_to_reports_table.php",
+      "file_type": "code",
+      "source_file": "database/migrations/2026_09_06_083719_add_category_to_reports_table.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "database_migrations_2026_09_06_083719_add_category_to_reports_table",
+      "community": 97,
+      "community_name": "2026_09_06_083719_add_category_to_reports_table.php",
+      "norm_label": "2026_09_06_083719_add_category_to_reports_table.php"
+    },
+    {
+      "label": "up()",
+      "file_type": "code",
+      "source_file": "database/migrations/2026_09_06_083719_add_category_to_reports_table.php",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "database_migrations_2026_09_06_083719_add_category_to_reports_table_up",
+      "community": 97,
+      "community_name": "2026_09_06_083719_add_category_to_reports_table.php",
+      "norm_label": "up()"
+    },
+    {
+      "label": "down()",
+      "file_type": "code",
+      "source_file": "database/migrations/2026_09_06_083719_add_category_to_reports_table.php",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "database_migrations_2026_09_06_083719_add_category_to_reports_table_down",
+      "community": 97,
+      "community_name": "2026_09_06_083719_add_category_to_reports_table.php",
+      "norm_label": "down()"
+    },
+    {
       "label": "DatabaseSeeder.php",
       "file_type": "code",
       "source_file": "database/seeders/DatabaseSeeder.php",
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_seeders_databaseseeder",
-      "community": 98,
-      "community_name": "DatabaseSeeder",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "databaseseeder.php"
     },
     {
@@ -2298,8 +2386,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "database_seeders_databaseseeder_databaseseeder",
-      "community": 98,
-      "community_name": "DatabaseSeeder",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "databaseseeder"
     },
     {
@@ -2309,8 +2397,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "database_seeders_databaseseeder_databaseseeder_run",
-      "community": 98,
-      "community_name": "DatabaseSeeder",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": ".run()"
     },
     {
@@ -2321,7 +2409,7 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "dummydataseeder.php"
     },
     {
@@ -2332,7 +2420,7 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "dummydataseeder"
     },
     {
@@ -2343,29 +2431,29 @@
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_run",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".run()"
     },
     {
       "label": ".quickGeohash()",
       "file_type": "code",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1041",
+      "source_location": "L1063",
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_quickgeohash",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".quickgeohash()"
     },
     {
       "label": ".generateReportSvg()",
       "file_type": "code",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1086",
+      "source_location": "L1108",
       "_origin": "ast",
       "id": "database_seeders_dummydataseeder_dummydataseeder_generatereportsvg",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": ".generatereportsvg()"
     },
     {
@@ -3014,7 +3102,7 @@
       "_origin": "ast",
       "id": "routes_web",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "web.php"
     },
     {
@@ -3027,6 +3115,17 @@
       "community": 41,
       "community_name": "Feature/ExampleTest.php",
       "norm_label": "feature/exampletest.php"
+    },
+    {
+      "label": "HeatmapCategoryTest.php",
+      "file_type": "code",
+      "source_file": "tests/Feature/HeatmapCategoryTest.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_feature_heatmapcategorytest",
+      "community": 5,
+      "community_name": "ReportComment",
+      "norm_label": "heatmapcategorytest.php"
     },
     {
       "label": "HeatmapSearchTest.php",
@@ -3047,7 +3146,7 @@
       "_origin": "ast",
       "id": "tests_feature_ogimagetest",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "ogimagetest.php"
     },
     {
@@ -3058,7 +3157,7 @@
       "_origin": "ast",
       "id": "tests_feature_reportcreatephototest",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "reportcreatephototest.php"
     },
     {
@@ -3069,7 +3168,7 @@
       "_origin": "ast",
       "id": "tests_feature_reportsystemtest",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "reportsystemtest.php"
     },
     {
@@ -3080,7 +3179,7 @@
       "_origin": "ast",
       "id": "tests_feature_welcometest",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "welcometest.php"
     },
     {
@@ -6677,7 +6776,7 @@
       "_origin": "ast",
       "id": "illuminate_http_redirectresponse",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\http\\redirectresponse"
     },
     {
@@ -6688,7 +6787,7 @@
       "_origin": "ast",
       "id": "illuminate_http_request",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\http\\request"
     },
     {
@@ -6699,7 +6798,7 @@
       "_origin": "ast",
       "id": "illuminate_view_view",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\view\\view"
     },
     {
@@ -6710,7 +6809,7 @@
       "_origin": "ast",
       "id": "illuminate_http_jsonresponse",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\http\\jsonresponse"
     },
     {
@@ -6721,7 +6820,7 @@
       "_origin": "ast",
       "id": "illuminate_support_facades_notification",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "illuminate\\support\\facades\\notification"
     },
     {
@@ -6732,7 +6831,7 @@
       "_origin": "ast",
       "id": "symfony_component_httpfoundation_streamedresponse",
       "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community_name": "Report",
       "norm_label": "symfony\\component\\httpfoundation\\streamedresponse"
     },
     {
@@ -6754,7 +6853,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_factories_hasfactory",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\eloquent\\factories\\hasfactory"
     },
     {
@@ -6765,7 +6864,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_model",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\eloquent\\model"
     },
     {
@@ -6776,7 +6875,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_belongsto",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\eloquent\\relations\\belongsto"
     },
     {
@@ -6787,7 +6886,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_hasmany",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\eloquent\\relations\\hasmany"
     },
     {
@@ -6798,7 +6897,7 @@
       "_origin": "ast",
       "id": "illuminate_database_eloquent_softdeletes",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\eloquent\\softdeletes"
     },
     {
@@ -6809,7 +6908,7 @@
       "_origin": "ast",
       "id": "illuminate_notifications_notifiable",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\notifications\\notifiable"
     },
     {
@@ -6820,7 +6919,7 @@
       "_origin": "ast",
       "id": "illuminate_foundation_auth_user",
       "community": 5,
-      "community_name": "Report",
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\foundation\\auth\\user"
     },
     {
@@ -6863,8 +6962,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_factories_factory",
-      "community": 97,
-      "community_name": "UserFactory",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\eloquent\\factories\\factory"
     },
     {
@@ -6874,8 +6973,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_console_seeds_withoutmodelevents",
-      "community": 98,
-      "community_name": "DatabaseSeeder",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\console\\seeds\\withoutmodelevents"
     },
     {
@@ -6885,8 +6984,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_seeder",
-      "community": 98,
-      "community_name": "DatabaseSeeder",
+      "community": 5,
+      "community_name": "ReportComment",
       "norm_label": "illuminate\\database\\seeder"
     },
     {
@@ -7785,7 +7884,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L33",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller",
@@ -7807,7 +7906,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L102",
+      "source_location": "L127",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller",
@@ -7844,7 +7943,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L35",
+      "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_geojson",
@@ -7854,7 +7953,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L33",
+      "source_location": "L44",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -7866,7 +7965,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L33",
+      "source_location": "L44",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -7880,7 +7979,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L117",
+      "source_location": "L142",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_heatmapcontroller_heatmapcontroller_searchlocation",
@@ -7890,7 +7989,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L102",
+      "source_location": "L127",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -7902,7 +8001,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/HeatmapController.php",
-      "source_location": "L102",
+      "source_location": "L127",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -8630,7 +8729,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L370",
+      "source_location": "L374",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8652,7 +8751,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L266",
+      "source_location": "L270",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8663,7 +8762,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L218",
+      "source_location": "L220",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8674,7 +8773,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L336",
+      "source_location": "L340",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8685,7 +8784,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L287",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller",
@@ -8729,6 +8828,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "references_constant",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/Http/Controllers/ReportController.php",
+      "source_location": "L212",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_http_controllers_reportcontroller_reportcontroller_create",
+      "target": "app_models_report_report"
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
@@ -8745,7 +8855,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L234",
+      "source_location": "L237",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_store",
@@ -8753,22 +8863,22 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "calls",
+      "relation": "references_constant",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L241",
+      "source_location": "L224",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "app_http_controllers_reportcontroller_reportcontroller_store",
-      "target": "app_models_report_report",
-      "confidence_score": 1.0
+      "target": "app_models_report_report"
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L218",
+      "source_location": "L220",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8780,7 +8890,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L218",
+      "source_location": "L220",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -8792,7 +8902,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L266",
+      "source_location": "L270",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -8804,7 +8914,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L266",
+      "source_location": "L270",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8816,7 +8926,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L287",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -8830,7 +8940,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L293",
+      "source_location": "L297",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_http_controllers_reportcontroller_reportcontroller_vote",
@@ -8840,7 +8950,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L287",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8852,7 +8962,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L287",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8864,7 +8974,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L283",
+      "source_location": "L287",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -8876,7 +8986,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L336",
+      "source_location": "L340",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -8888,7 +8998,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L336",
+      "source_location": "L340",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8900,7 +9010,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L336",
+      "source_location": "L340",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -8912,7 +9022,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Http/Controllers/ReportController.php",
-      "source_location": "L336",
+      "source_location": "L340",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -9019,6 +9129,18 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/HeatmapCategoryTest.php",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_heatmapcategorytest",
+      "target": "app_models_report",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/Feature/OgImageTest.php",
       "source_location": "L3",
       "weight": 1.0,
@@ -9055,7 +9177,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L43",
+      "source_location": "L103",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9066,7 +9188,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L82",
+      "source_location": "L142",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9077,7 +9199,62 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L131",
+      "source_location": "L220",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_report_report",
+      "target": "app_models_report_report_getcategorycolorattribute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L215",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_report_report",
+      "target": "app_models_report_report_getcategoryiconattribute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L210",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_report_report",
+      "target": "app_models_report_report_getcategorylabelattribute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L203",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_report_report",
+      "target": "app_models_report_report_getcategorymetaattribute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L225",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_models_report_report",
+      "target": "app_models_report_report_getcategorysymbolattribute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/Models/Report.php",
+      "source_location": "L191",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9088,7 +9265,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L106",
+      "source_location": "L166",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9099,7 +9276,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L74",
+      "source_location": "L134",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9110,7 +9287,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L58",
+      "source_location": "L118",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9121,7 +9298,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L90",
+      "source_location": "L150",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9132,7 +9309,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L66",
+      "source_location": "L126",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report",
@@ -9202,7 +9379,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L968",
+      "source_location": "L990",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -9213,7 +9390,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/Models/Report.php",
-      "source_location": "L60",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report_user",
@@ -9223,7 +9400,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L58",
+      "source_location": "L118",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9236,7 +9413,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L108",
+      "source_location": "L168",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report_recalculatevotestatsandtier",
@@ -9248,7 +9425,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L100",
+      "source_location": "L160",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report_uservote",
@@ -9260,7 +9437,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/Models/Report.php",
-      "source_location": "L68",
+      "source_location": "L128",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_models_report_report_votes",
@@ -9270,7 +9447,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L66",
+      "source_location": "L126",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9282,7 +9459,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L74",
+      "source_location": "L134",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9294,7 +9471,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L82",
+      "source_location": "L142",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9306,7 +9483,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L90",
+      "source_location": "L150",
       "weight": 1.0,
       "context": "return_type",
       "_origin": "ast",
@@ -9318,7 +9495,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Models/Report.php",
-      "source_location": "L90",
+      "source_location": "L150",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -9539,7 +9716,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L988",
+      "source_location": "L1010",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -9846,6 +10023,18 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder",
+      "target": "app_models_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/HeatmapCategoryTest.php",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_heatmapcategorytest",
       "target": "app_models_user",
       "confidence_score": 1.0
     },
@@ -11410,6 +11599,28 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "database/migrations/2026_09_06_083719_add_category_to_reports_table.php",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_migrations_2026_09_06_083719_add_category_to_reports_table",
+      "target": "database_migrations_2026_09_06_083719_add_category_to_reports_table_down",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "database/migrations/2026_09_06_083719_add_category_to_reports_table.php",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "database_migrations_2026_09_06_083719_add_category_to_reports_table",
+      "target": "database_migrations_2026_09_06_083719_add_category_to_reports_table_up",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "database/seeders/DatabaseSeeder.php",
       "source_location": "L8",
       "weight": 1.0,
@@ -11502,7 +11713,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1086",
+      "source_location": "L1108",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder",
@@ -11513,7 +11724,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L1041",
+      "source_location": "L1063",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder",
@@ -11547,7 +11758,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L788",
+      "source_location": "L798",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -11559,7 +11770,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "database/seeders/DummyDataSeeder.php",
-      "source_location": "L849",
+      "source_location": "L871",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_seeders_dummydataseeder_dummydataseeder_run",
@@ -15339,5 +15550,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "55ad7b6cf084d5a3a67b069eec9e1dae1d7c02b9"
+  "built_at_commit": "3a5ca45ab30a29e745db723ac671693a717458f7"
 }

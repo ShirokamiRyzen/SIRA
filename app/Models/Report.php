@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Carbon\CarbonInterface;
+use Carbon\Constants\DiffOptions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,9 +13,69 @@ class Report extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const CATEGORIES = [
+        'kebakaran' => [
+            'key' => 'kebakaran',
+            'label' => 'Kebakaran',
+            'icon' => 'fire',
+            'symbol' => 'fire',
+            'color' => '#ef4444',
+            'badge_class' => 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-900/50',
+        ],
+        'infrastruktur' => [
+            'key' => 'infrastruktur',
+            'label' => 'Infrastruktur Rusak',
+            'icon' => 'wrench',
+            'symbol' => 'wrench',
+            'color' => '#f97316',
+            'badge_class' => 'bg-orange-100 text-orange-800 dark:bg-orange-950/60 dark:text-orange-300 border-orange-200 dark:border-orange-900/50',
+        ],
+        'bencana_alam' => [
+            'key' => 'bencana_alam',
+            'label' => 'Bencana Alam',
+            'icon' => 'cloud',
+            'symbol' => 'cloud',
+            'color' => '#0284c7',
+            'badge_class' => 'bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300 border-sky-200 dark:border-sky-900/50',
+        ],
+        'kelistrikan' => [
+            'key' => 'kelistrikan',
+            'label' => 'Lampu & Kelistrikan',
+            'icon' => 'bolt',
+            'symbol' => 'bolt',
+            'color' => '#eab308',
+            'badge_class' => 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-900/50',
+        ],
+        'lingkungan' => [
+            'key' => 'lingkungan',
+            'label' => 'Sampah & Lingkungan',
+            'icon' => 'trash',
+            'symbol' => 'trash',
+            'color' => '#16a34a',
+            'badge_class' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900/50',
+        ],
+        'fasilitas_umum' => [
+            'key' => 'fasilitas_umum',
+            'label' => 'Fasilitas Umum',
+            'icon' => 'building-office',
+            'symbol' => 'building-office',
+            'color' => '#8b5cf6',
+            'badge_class' => 'bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200 dark:border-purple-900/50',
+        ],
+        'lainnya' => [
+            'key' => 'lainnya',
+            'label' => 'Lainnya',
+            'icon' => 'tag',
+            'symbol' => 'tag',
+            'color' => '#64748b',
+            'badge_class' => 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700',
+        ],
+    ];
+
     protected $fillable = [
         'user_id',
         'title',
+        'category',
         'description',
         'image_base64',
         'latitude',
@@ -131,7 +191,39 @@ class Report extends Model
     public function getPendingDurationAttribute(): string
     {
         return $this->created_at?->locale('id')->diffForHumans([
-            'syntax' => CarbonInterface::DIFF_ABSOLUTE,
+            'syntax' => DiffOptions::DIFF_ABSOLUTE,
         ]) ?? 'baru saja';
+    }
+
+    /**
+     * Dapatkan metadata kategori laporan (label, icon, color, symbol, badge_class).
+     *
+     * @return array<string, string>
+     */
+    public function getCategoryMetaAttribute(): array
+    {
+        $cat = $this->category ?: 'infrastruktur';
+
+        return self::CATEGORIES[$cat] ?? self::CATEGORIES['lainnya'];
+    }
+
+    public function getCategoryLabelAttribute(): string
+    {
+        return $this->category_meta['label'];
+    }
+
+    public function getCategoryIconAttribute(): string
+    {
+        return $this->category_meta['icon'];
+    }
+
+    public function getCategoryColorAttribute(): string
+    {
+        return $this->category_meta['color'];
+    }
+
+    public function getCategorySymbolAttribute(): string
+    {
+        return $this->category_meta['symbol'];
     }
 }

@@ -11,8 +11,8 @@
 
             <!-- Top Badges Overlay (Tier, Status, Pending Duration) -->
             <div class="absolute top-3 inset-x-3 flex items-start justify-between gap-2 pointer-events-none z-10">
-                <!-- Rank Tier Pill Tag (Muted Pastels) -->
-                <div class="pointer-events-auto">
+                <!-- Rank Tier & Category Pill Tag -->
+                <div class="pointer-events-auto flex items-center gap-1.5 flex-wrap">
                     @if ($report->rank_tier === 'critical')
                         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#FDEBEC] text-[#9F2F2D] border border-[#9F2F2D]/20">
                             Kritis
@@ -30,6 +30,11 @@
                             Biasa
                         </span>
                     @endif
+
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium {{ $report->category_meta['badge_class'] }}">
+                        <flux:icon name="{{ $report->category_icon }}" class="w-3 h-3" />
+                        <span>{{ $report->category_label }}</span>
+                    </span>
                 </div>
 
                 <!-- Status & Pending Duration Tag -->

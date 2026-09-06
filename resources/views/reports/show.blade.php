@@ -134,6 +134,11 @@
                         <!-- Status & Waktu & Aksi Khusus Pembuat Laporan -->
                         <div class="flex items-center justify-between text-xs flex-wrap gap-2 pb-1">
                             <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold text-xs {{ $report->category_meta['badge_class'] }}">
+                                    <flux:icon name="{{ $report->category_icon }}" class="w-3.5 h-3.5" />
+                                    <span>{{ $report->category_label }}</span>
+                                </span>
+
                                 <span id="reportStatusBadge"
                                     class="px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 {{ $report->status === 'resolved' ? 'bg-emerald-600 text-white shadow-xs' : ($report->status === 'in_progress' ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60') }}">
                                     Status: {{ str_replace('_', ' ', $report->status) }}

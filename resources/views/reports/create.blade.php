@@ -117,6 +117,26 @@
                 <!-- 2. Informasi Pokok Masalah -->
                 <div class="grid grid-cols-1 gap-6">
                     <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-2">
+                            Kategori Masalah <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                            @foreach($categories as $catKey => $cat)
+                                <label class="relative flex items-center gap-2.5 p-3 rounded-2xl border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:border-emerald-500/60 dark:hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-400 has-checked:bg-emerald-50/50 dark:has-checked:bg-emerald-950/30 has-checked:ring-2 has-checked:ring-emerald-500/30 shadow-2xs">
+                                    <input type="radio" name="category" value="{{ $catKey }}" {{ old('category', 'infrastruktur') === $catKey ? 'checked' : '' }} class="sr-only">
+                                    <div class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
+                                        <flux:icon name="{{ $cat['icon'] }}" class="w-4 h-4" />
+                                    </div>
+                                    <span class="text-xs font-bold text-slate-800 dark:text-[#EDEDEC] truncate">{{ $cat['label'] }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('category')
+                            <p class="text-xs text-rose-600 mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
                         <label for="title"
                             class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-1.5">
                             Judul Masalah <span class="text-rose-500">*</span>

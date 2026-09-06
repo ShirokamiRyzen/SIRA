@@ -249,6 +249,16 @@ class DummyDataSeeder extends Seeder
                 'theme' => '#6366f1',
                 'bg_dark' => '#141624',
             ],
+            // Kategori: Kebakaran
+            [
+                'category' => 'Kebakaran',
+                'tag' => 'Asap Berjamaah',
+                'title' => 'Wahana Asap Karbon Monoksida Gratis dari Pembakaran Lahan dan Semak',
+                'desc' => 'Setiap sore warga dimanjakan dengan aroma khas asap pembakaran lahan dan tumpukan sampah yang membubung tinggi ke langit tanpa tindakan tegas dari satgas lingkungan.',
+                'short_label' => 'Kebakaran Lahan & Semak',
+                'theme' => '#ef4444',
+                'bg_dark' => '#1a1010',
+            ],
         ];
 
         // -------------------------------------------------------------
@@ -839,9 +849,21 @@ class DummyDataSeeder extends Seeder
             ];
             $title = $titleVariants[array_rand($titleVariants)];
 
+            $catMapping = [
+                'Jalan Berlubang' => 'infrastruktur',
+                'Drainase & Banjir' => 'bencana_alam',
+                'Lampu Jalan Padam' => 'kelistrikan',
+                'Trotoar Rusak' => 'infrastruktur',
+                'Sampah Liar' => 'lingkungan',
+                'Fasilitas Umum' => 'fasilitas_umum',
+                'Kebakaran' => 'kebakaran',
+            ];
+            $catKey = $catMapping[$template['category']] ?? 'infrastruktur';
+
             $reportsData[] = [
                 'user_id' => $authorId,
                 'title' => $title,
+                'category' => $catKey,
                 'description' => "{$template['desc']} Titik koordinat terpantau di sekitar area {$cluster['subdistrict']}.",
                 'image_base64' => $image,
                 'latitude' => $latitude,

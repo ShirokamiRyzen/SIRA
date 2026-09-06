@@ -24,7 +24,18 @@ class HeatmapController extends Controller
             'normal' => Report::where('rank_tier', 'normal')->count(),
         ];
 
-        return view('reports.heatmap', compact('totalReports', 'tierCounts'));
+        $categories = Report::CATEGORIES;
+        $rawCategoryCounts = Report::selectRaw('category, count(*) as total')
+            ->groupBy('category')
+            ->pluck('total', 'category')
+            ->toArray();
+
+        $categoryCounts = [];
+        foreach ($categories as $key => $cat) {
+            $categoryCounts[$key] = $rawCategoryCounts[$key] ?? 0;
+        }
+
+        return view('reports.heatmap', compact('totalReports', 'tierCounts', 'categories', 'categoryCounts'));
     }
 
     /**
@@ -32,10 +43,11 @@ class HeatmapController extends Controller
      */
     public function geojson(Request $request): JsonResponse
     {
-        $reports = Report::query()
+        $query = Report::query()
             ->select([
                 'id',
                 'title',
+                'category',
                 'latitude',
                 'longitude',
                 'vote_score',
@@ -48,8 +60,13 @@ class HeatmapController extends Controller
                 'formatted_address',
                 'created_at',
             ])
-            ->where('status', '!=', 'archived')
-            ->get();
+            ->where('status', '!=', 'archived');
+
+        if ($request->filled('category') && $request->query('category') !== 'all') {
+            $query->where('category', $request->query('category'));
+        }
+
+        $reports = $query->get();
 
         $features = $reports->map(function (Report $report) {
             // Bobot intensitas panas (weight) minimal 1, ditambah vote_score
@@ -62,6 +79,7 @@ class HeatmapController extends Controller
             };
 
             $weight = max(1, ($report->vote_score + 1)) * $weightMultiplier;
+            $catKey = $report->category ?: 'infrastruktur';
 
             return [
                 'type' => 'Feature',
@@ -72,6 +90,13 @@ class HeatmapController extends Controller
                 'properties' => [
                     'id' => $report->id,
                     'title' => $report->title,
+                    'category' => $catKey,
+                    'category_label' => $report->category_label,
+                    'category_icon' => $report->category_icon,
+                    'category_symbol' => $report->category_symbol,
+                    'category_color' => $report->category_color,
+                    'category_icon_id' => 'cat-icon-'.$catKey,
+                    'category_badge_class' => $report->category_meta['badge_class'],
                     'weight' => round($weight, 1),
                     'vote_score' => $report->vote_score,
                     'upvotes_count' => $report->upvotes_count,
