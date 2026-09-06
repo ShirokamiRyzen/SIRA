@@ -227,6 +227,52 @@ class Report extends Model
         return $this->category_meta['symbol'];
     }
 
+    public function getStatusLabelAttribute(): string
+    {
+        return match ($this->status) {
+            'resolved' => 'Selesai',
+            'in_progress' => 'Sedang Diproses',
+            'archived' => 'Diarsipkan',
+            default => 'Menunggu Respon',
+        };
+    }
+
+    public function getTierLabelAttribute(): string
+    {
+        return match ($this->rank_tier) {
+            'critical' => 'Prioritas Kritis',
+            'urgent' => 'Prioritas Mendesak',
+            'trending' => 'Trending',
+            default => 'Reguler',
+        };
+    }
+
+    public function getLocationShortAttribute(): string
+    {
+        if ($this->district && $this->city) {
+            if ($this->district === $this->city) {
+                return $this->city;
+            }
+
+            return "{$this->district}, {$this->city}";
+        }
+
+        return $this->city ?? ($this->district ?? 'Indonesia');
+    }
+
+    public function getOgMetaDescriptionAttribute(): string
+    {
+        $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($this->description)));
+        $status = "Status: {$this->status_label}";
+        $location = "Lokasi: {$this->location_short}";
+        $category = "Kategori: {$this->category_label}";
+        $votes = "Dukungan: +{$this->vote_score} Suara";
+        $comments = "Komentar: {$this->comments_count} Tanggapan";
+        $reporter = 'Pelapor: @'.($this->user->username ?? 'anon');
+
+        return "{$cleanDesc} — [{$status} | {$location} | {$category} | {$votes} | {$comments} | {$reporter}]";
+    }
+
     /**
      * Scope query untuk menambahkan counter laporan se-lokasi secara efisien tanpa N+1.
      */

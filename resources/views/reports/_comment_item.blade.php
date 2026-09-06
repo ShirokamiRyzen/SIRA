@@ -25,18 +25,6 @@
                         </span>
                     @endif
                     <span class="text-[11px] text-slate-400 dark:text-[#787774]">&bull; {{ $comment->created_at->diffForHumans() }}</span>
-                    @auth
-                        @if (Auth::user()?->isAdmin() && $comment->user && ! $comment->user->isAdmin())
-                            <form action="{{ route('admin.users.toggleVerify', $comment->user) }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit"
-                                    class="text-[9px] px-1.5 py-0.5 rounded font-semibold transition {{ $comment->user->is_verified ? 'bg-rose-100 hover:bg-rose-200 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-sky-100 hover:bg-sky-200 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300' }}"
-                                    title="{{ $comment->user->is_verified ? 'Cabut lencana verifikasi pengguna' : 'Beri lencana verifikasi resmi biru untuk pengguna/lembaga ini' }}">
-                                    {{ $comment->user->is_verified ? 'Cabut Verifikasi' : '+ Verifikasi' }}
-                                </button>
-                            </form>
-                        @endif
-                    @endauth
                 </div>
 
                 @auth
@@ -45,11 +33,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-[11px] text-slate-400 hover:text-rose-600 dark:text-[#787774] dark:hover:text-rose-400 transition flex items-center space-x-1" title="Hapus komentar">
-                                @if (Auth::user()?->isAdmin() && Auth::id() !== $comment->user_id)
-                                    <span class="text-[10px] font-semibold text-rose-500 hover:text-rose-700 dark:text-rose-400">[Hapus (Admin)]</span>
-                                @else
-                                    <span>Hapus</span>
-                                @endif
+                                <span>Hapus</span>
                             </button>
                         </form>
                     @endif
@@ -83,10 +67,8 @@
             <!-- Reply Button -->
             @auth
                 <div class="mt-2">
-                    <button type="button" onclick="toggleReplyForm({{ $comment->id }})" class="text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 hover:underline inline-flex items-center space-x-1">
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
-                        </svg>
+                    <button type="button" onclick="toggleReplyForm({{ $comment->id }}, '{{ $comment->user->username ?? '' }}')" class="text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 hover:underline inline-flex items-center space-x-1 cursor-pointer">
+                        <flux:icon name="arrow-uturn-left" class="w-3 h-3" />
                         <span>Balas</span>
                     </button>
                 </div>
@@ -99,8 +81,9 @@
 
                         <div class="mention-highlighter-wrapper mention-highlighter-sm relative w-full rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#121212] focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden transition">
                             <div class="mention-backdrop absolute inset-0 pointer-events-none px-3 py-2 text-xs font-sans leading-relaxed text-transparent overflow-hidden select-none whitespace-pre-wrap break-words" aria-hidden="true"></div>
-                            <textarea name="content" rows="2" required placeholder="Tulis balasan untuk @<span>{{ $comment->user->username }}</span> (Tag @Sira untuk bantuan AI)..."
-                                class="mention-input relative z-10 w-full px-3 py-2 bg-transparent text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs font-sans leading-relaxed focus:outline-none resize-y block border-0 ring-0 focus:ring-0"></textarea>
+                            <textarea name="content" rows="2" required placeholder="Tulis balasan untuk @<span>{{ $comment->user->username ?? 'pengguna' }}</span>..."
+                                data-target-user="{{ $comment->user->username ?? '' }}"
+                                class="mention-input relative z-10 w-full px-3 py-2 bg-transparent text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs font-sans leading-relaxed focus:outline-none resize-y block border-0 ring-0 focus:ring-0">@if($comment->user){{ '@' . $comment->user->username . ' ' }}@endif</textarea>
                         </div>
 
                         <div class="flex items-center justify-between">

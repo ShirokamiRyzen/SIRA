@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-06)
 
 ## Corpus Check
-- 132 files · ~78,250 words
+- 133 files · ~80,860 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 669 nodes · 834 edges · 102 communities (94 shown, 8 thin omitted)
+- 676 nodes · 849 edges · 102 communities (96 shown, 6 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 15 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b141e2a2`
+- Built from commit: `37915eeb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -37,8 +37,7 @@
 - Laravel Application
 - rules/graphify.md
 - workflows/graphify.md
-- Report
-- welcome.blade.php
+- Illuminate\Http\Request
 - Events and Notifications Best Practices
 - Caching Best Practices
 - Error Handling Best Practices
@@ -61,16 +60,16 @@
 - Configuration Best Practices
 - Factories and Test Data
 - Testing Best Practices
-- Laravel Best Practices
+- laravel-best-practices/SKILL.md
 - stack-status.blade.php
 - _comment_item.blade.php
 - show.blade.php
-- OgImageController
+- Report
 - static
 
 ## God Nodes (most connected - your core abstractions)
-1. `Report` - 46 edges
-2. `User` - 25 edges
+1. `Report` - 50 edges
+2. `User` - 27 edges
 3. `ReportComment` - 18 edges
 4. `ReportVote` - 16 edges
 5. `ReportController` - 11 edges
@@ -78,7 +77,7 @@
 7. `Architecture Best Practices` - 11 edges
 8. `Security Best Practices` - 11 edges
 9. `require-dev` - 10 edges
-10. `scripts` - 9 edges
+10. `OgImageController` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `OgImageController` --inherits--> `Controller`  [EXTRACTED]
@@ -95,7 +94,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (102 total, 8 thin omitted)
+## Communities (102 total, 6 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -173,9 +172,9 @@ Nodes (27): APIs & Eloquent Resources, Application Structure & Architecture, Art
 Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
-### Community 25 - "Report"
-Cohesion: 0.07
-Nodes (15): AdminController, AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Report (+7 more)
+### Community 25 - "Illuminate\Http\Request"
+Cohesion: 0.10
+Nodes (14): AdminController, AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, AiSummaryService (+6 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.22
@@ -186,11 +185,11 @@ Cohesion: 0.22
 Nodes (8): Caching Best Practices, Configure Failover Cache Stores in Production, Consider `Cache::flexible()` for Stale-While-Revalidate, Use `Cache::add()` for Atomic Conditional Writes, Use `Cache::memo()` to Avoid Redundant Hits Within an Execution, Use `Cache::remember()` for Cache-Aside Reads, Use Cache Tags to Invalidate Related Groups, Use `once()` for In-Process Memoization
 
 ### Community 45 - "Error Handling Best Practices"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): Add Context to Exception Classes, Choose Where to Report and Render Exceptions, Define JSON Rendering for API Routes, Error Handling Best Practices, Mark Exceptions the Handler Should Not Report, Prevent Duplicate Reports of One Exception Instance, Throttle High-Volume Exception Reports
 
 ### Community 46 - "Task Scheduling Best Practices"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): Bound Work Inside the Task, Group Shared Configuration, Prevent Unwanted Overlap, Restrict Tasks by Environment, Run a Task on One Server, Run Eligible Commands in the Background, Task Scheduling Best Practices
 
 ### Community 47 - "Assertions"
@@ -210,7 +209,7 @@ Cohesion: 0.25
 Nodes (8): Common Errors, Global Fakes, How to Find a Slow Test, How to Run Fewer Tests, How to Run the Suite in Parallel, How to Split Tests Across CI, Test Environment, Test Suite Performance
 
 ### Community 51 - "Blade and View Best Practices"
-Cohesion: 0.25
+Cohesion: 0.29
 Nodes (7): Blade and View Best Practices, Prefer Components for Explicit Interfaces, Return Blade Fragments for Partial Rendering, Share Compatible View Data with a View Composer, Share Parent Component Props with `@aware`, Use `$attributes->merge()` in Component Templates, Use `@pushOnce` for Per-Component Scripts
 
 ### Community 52 - "Fakes, Mocks, and Determinism"
@@ -265,32 +264,36 @@ Nodes (4): Datasets, Each Test Makes Its Own Data, Factories and Test Data, Reco
 Cohesion: 0.40
 Nodes (5): Consistency First, How to Apply, Rule Index, Testing Best Practices, What to Test
 
-### Community 65 - "Laravel Best Practices"
-Cohesion: 0.40
+### Community 65 - "laravel-best-practices/SKILL.md"
+Cohesion: 0.25
 Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practices, Rule Index
+
+### Community 89 - "Report"
+Cohesion: 0.10
+Nodes (3): OgImageController, Report, Illuminate\Http\Response
 
 ### Community 101 - "static"
 Cohesion: 0.28
 Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
 
 ## Knowledge Gaps
-- **306 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+301 more)
+- **305 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+300 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Report` connect `Report` to `OgImageController`, `static`, `User`?**
-  _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **Why does `User` connect `User` to `Report`?**
+- **Why does `Report` connect `Report` to `Illuminate\Http\Request`, `static`, `User`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `User` connect `User` to `Report`, `Illuminate\Http\Request`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Are the 5 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
   _`Report` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 5 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
   _`User` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `name`, `type` to the rest of the system?**
-  _306 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _305 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `composer.json` be split into smaller, more focused modules?**
   _Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected._
 - **Should `scripts` be split into smaller, more focused modules?**

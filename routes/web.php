@@ -58,8 +58,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/reports/{report}/status', [ReportController::class, 'updateStatus'])->name('reports.updateStatus');
     Route::delete('/reports/{report}', [ReportController::class, 'destroy'])->name('reports.destroy');
 
-    // Manajemen Admin: Beri / Cabut Lencana Verifikasi Pengguna & Akun Lembaga Daerah
+    // Manajemen Admin: Daftar Pengguna, Verifikasi Lencana, & Hapus Akun
+    Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users.index');
     Route::post('/admin/users/{user}/toggle-verify', [AdminController::class, 'toggleVerify'])->name('admin.users.toggleVerify');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
 
     // Komentar Bertingkat (Nested Comments)
     Route::post('/reports/{report}/comments', [CommentController::class, 'store'])->name('comments.store');

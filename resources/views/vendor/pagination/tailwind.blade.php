@@ -12,7 +12,7 @@
             @endif
             dari
             <span class="font-semibold text-[#111111] dark:text-[#EDEDEC]">{{ number_format($paginator->total(), 0, ',', '.') }}</span>
-            laporan
+            data
         </div>
 
         <!-- Tombol Kontrol Halaman -->

@@ -24,7 +24,7 @@
   "22": "0001_01_01_000002_create_jobs_table.php",
   "23": "rules/graphify.md",
   "24": "workflows/graphify.md",
-  "25": "Report",
+  "25": "Illuminate\\Http\\Request",
   "26": "artisan",
   "27": "bootstrap/app.php",
   "28": "config/app.php",
@@ -64,7 +64,7 @@
   "62": "Configuration Best Practices",
   "63": "Factories and Test Data",
   "64": "Testing Best Practices",
-  "65": "Laravel Best Practices",
+  "65": "laravel-best-practices/SKILL.md",
   "66": "2026_09_05_093021_add_username_to_users_table.php",
   "67": "2026_09_05_093049_create_reports_table.php",
   "68": "2026_09_05_093101_create_report_votes_table.php",
@@ -85,10 +85,9 @@
   "83": "heatmap.blade.php",
   "84": "index.blade.php",
   "85": "bootstrap-3.blade.php",
-  "86": "laravel-best-practices/SKILL.md",
   "87": "2026_09_05_114247_create_notifications_table.php",
   "88": "bootstrap-4.blade.php",
-  "89": "OgImageController",
+  "89": "Report",
   "90": "bootstrap-5.blade.php",
   "91": "semantic-ui.blade.php",
   "92": "simple-bootstrap-3.blade.php",
@@ -100,5 +99,6 @@
   "98": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
   "99": "reward-modal.blade.php",
   "100": "verified-badge.blade.php",
-  "101": "static"
+  "101": "static",
+  "102": "users/index.blade.php"
 }

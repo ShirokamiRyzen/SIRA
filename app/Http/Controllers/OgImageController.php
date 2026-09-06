@@ -25,6 +25,7 @@ class OgImageController extends Controller
         $cardBg = imagecolorallocate($img, 20, 20, 20); // #141414
         $borderColor = imagecolorallocate($img, 38, 38, 38); // #262626
         $innerBorder = imagecolorallocate($img, 48, 48, 48); // #303030
+        $panelBg = imagecolorallocate($img, 24, 24, 24); // #181818
         $textWhite = imagecolorallocate($img, 237, 237, 236); // #EDEDEC
         $textMuted = imagecolorallocate($img, 150, 150, 148); // #969694
         $textDim = imagecolorallocate($img, 110, 110, 108); // #6E6E6C
@@ -32,7 +33,8 @@ class OgImageController extends Controller
         $rose = imagecolorallocate($img, 225, 29, 72); // #E11D48
         $amber = imagecolorallocate($img, 245, 158, 11); // #F59E0B
         $teal = imagecolorallocate($img, 13, 148, 136); // #0D9488
-        $slate = imagecolorallocate($img, 71, 85, 105); // #475569
+        $slate = imagecolorallocate($img, 100, 116, 139); // #64748B
+        $sky = imagecolorallocate($img, 56, 189, 248); // #38BDF8
 
         // Fill background
         imagefill($img, 0, 0, $bg);
@@ -50,76 +52,91 @@ class OgImageController extends Controller
         imagefilledrectangle($img, 40, 40, $width - 40, $height - 40, $cardBg);
         imagerectangle($img, 40, 40, $width - 40, $height - 40, $borderColor);
 
-        // Accent top bar (depends on rank tier)
+        // Status & Tier mappings
+        $statusLabel = strtoupper($report->status_label);
+        $statusColor = match ($report->status) {
+            'resolved' => $emerald,
+            'in_progress' => $amber,
+            'archived' => $slate,
+            default => $sky,
+        };
+
+        $statusBg = match ($report->status) {
+            'resolved' => imagecolorallocate($img, 18, 38, 26),
+            'in_progress' => imagecolorallocate($img, 45, 30, 10),
+            'archived' => imagecolorallocate($img, 30, 36, 44),
+            default => imagecolorallocate($img, 14, 32, 50),
+        };
+
+        $tierLabel = strtoupper($report->tier_label);
         $tierColor = match ($report->rank_tier) {
             'critical' => $rose,
             'urgent' => $amber,
             'trending' => $teal,
             default => $emerald,
         };
-        imagefilledrectangle($img, 40, 40, $width - 40, 46, $tierColor);
+
+        // Accent top bar (color of status or urgency)
+        imagefilledrectangle($img, 40, 40, $width - 40, 46, $statusColor);
 
         $fontPath = $this->getFontPath('bold');
         $regularFont = $this->getFontPath('regular') ?? $fontPath;
 
         // Brand header: SIRA // LAPORAN PUBLIK
         $brandText = 'SIRA // LAPORAN PUBLIK #'.$report->id;
-        $this->drawText($img, 18, 70, 95, $brandText, $emerald, $fontPath);
+        $this->drawText($img, 16, 70, 92, $brandText, $emerald, $fontPath);
 
-        // Tier badge
-        $tierLabel = strtoupper($report->rank_tier).' TIER';
-        $badgeX = 70;
-        $badgeY = 120;
-        $badgeWidth = 140;
-        $badgeHeight = 32;
-        imagefilledrectangle($img, $badgeX, $badgeY, $badgeX + $badgeWidth, $badgeY + $badgeHeight, $tierColor);
-        $this->drawText($img, 12, $badgeX + 16, $badgeY + 22, $tierLabel, imagecolorallocate($img, 255, 255, 255), $fontPath);
+        // Dynamically sized badges
+        $badgeY = 114;
+        $currentBadgeX = 70;
 
-        // Status badge
-        $statusLabel = 'STATUS: '.strtoupper(str_replace('_', ' ', $report->status));
-        $statusX = $badgeX + $badgeWidth + 14;
-        $statusWidth = 160;
-        imagefilledrectangle($img, $statusX, $badgeY, $statusX + $statusWidth, $badgeY + $badgeHeight, imagecolorallocate($img, 28, 40, 30));
-        imagerectangle($img, $statusX, $badgeY, $statusX + $statusWidth, $badgeY + $badgeHeight, $emerald);
-        $this->drawText($img, 11, $statusX + 14, $badgeY + 21, $statusLabel, $emerald, $fontPath);
+        // 1. Status badge
+        $w1 = $this->drawBadge($img, $currentBadgeX, $badgeY, $statusLabel, $statusColor, $statusBg, $statusColor, $fontPath);
+        $currentBadgeX += $w1 + 10;
+
+        // 2. Category badge
+        $catLabel = strtoupper($report->category_label);
+        $w2 = $this->drawBadge($img, $currentBadgeX, $badgeY, $catLabel, $textWhite, imagecolorallocate($img, 28, 28, 28), $innerBorder, $fontPath);
+        $currentBadgeX += $w2 + 10;
+
+        // 3. Urgency / Tier badge
+        $this->drawBadge($img, $currentBadgeX, $badgeY, $tierLabel, $tierColor, imagecolorallocate($img, 26, 26, 26), $tierColor, $fontPath);
 
         // Report Title (wrapped, max 2 lines)
         $title = $report->title;
-        $wrappedTitle = $this->wordWrapLines($title, 34, 2);
-        $titleY = 205;
+        $wrappedTitle = $this->wordWrapLines($title, 36, 2);
+        $titleY = 190;
         foreach ($wrappedTitle as $line) {
-            $this->drawText($img, 24, 70, $titleY, $line, $textWhite, $fontPath);
-            $titleY += 42;
+            $this->drawText($img, 22, 70, $titleY, $line, $textWhite, $fontPath);
+            $titleY += 38;
         }
 
-        // Description preview (wrapped, max 2 lines)
+        // Post Content / Description (wrapped, up to 4 lines)
         $desc = preg_replace('/\s+/', ' ', strip_tags($report->description));
-        $wrappedDesc = $this->wordWrapLines($desc, 55, 2);
+        $wrappedDesc = $this->wordWrapLines($desc, 54, 4);
         $descY = $titleY + 10;
         foreach ($wrappedDesc as $dline) {
-            $this->drawText($img, 14, 70, $descY, $dline, $textMuted, $regularFont);
-            $descY += 26;
+            $this->drawText($img, 13, 70, $descY, $dline, $textMuted, $regularFont);
+            $descY += 24;
         }
 
-        // Report Photo Preview on Right Side
-        $photoX = 720;
-        $photoY = 95;
-        $photoW = 410;
-        $photoH = 340;
+        // Right-Side Visual: Real Photo Preview OR Rich GIS Radar / Data Card
+        $photoX = 705;
+        $photoY = 88;
+        $photoW = 425;
+        $photoH = 355;
 
-        imagefilledrectangle($img, $photoX, $photoY, $photoX + $photoW, $photoY + $photoH, imagecolorallocate($img, 10, 10, 10));
-        imagerectangle($img, $photoX, $photoY, $photoX + $photoW, $photoY + $photoH, $innerBorder);
-
+        $hasRasterImage = false;
         if ($report->image_base64 && str_contains($report->image_base64, 'base64,')) {
             $rawBase64 = explode('base64,', $report->image_base64)[1] ?? '';
             $photoData = base64_decode($rawBase64);
             if ($photoData) {
                 $photoRes = @imagecreatefromstring($photoData);
                 if ($photoRes) {
+                    $hasRasterImage = true;
                     $origW = imagesx($photoRes);
                     $origH = imagesy($photoRes);
 
-                    // Cover calculation
                     $scale = max($photoW / $origW, $photoH / $origH);
                     $cropW = (int) ($photoW / $scale);
                     $cropH = (int) ($photoH / $scale);
@@ -129,40 +146,72 @@ class OgImageController extends Controller
                     imagecopyresampled($img, $photoRes, $photoX, $photoY, $cropX, $cropY, $photoW, $photoH, $cropW, $cropH);
                     imagedestroy($photoRes);
 
-                    // Inner border frame over image
+                    // Overlay bottom pill on image
+                    imagefilledrectangle($img, $photoX, $photoY + $photoH - 45, $photoX + $photoW, $photoY + $photoH, imagecolorallocatealpha($img, 10, 10, 10, 30));
+                    $this->drawText($img, 11, $photoX + 16, $photoY + $photoH - 18, 'FOTO BUKTI LAPORAN // '.$report->category_label, $textWhite, $fontPath);
+
+                    // Inner border over photo
                     imagerectangle($img, $photoX, $photoY, $photoX + $photoW, $photoY + $photoH, $innerBorder);
                 }
             }
-        } else {
-            // Placeholder watermark
-            $this->drawText($img, 16, $photoX + 110, $photoY + 175, 'FOTO BUKTI LAPORAN', $textDim, $fontPath);
         }
 
-        // Bottom Info Bar inside Card
+        if (! $hasRasterImage) {
+            // Elegant Editorial GIS Data & Status Panel
+            imagefilledrectangle($img, $photoX, $photoY, $photoX + $photoW, $photoY + $photoH, $panelBg);
+            imagerectangle($img, $photoX, $photoY, $photoX + $photoW, $photoY + $photoH, $innerBorder);
+
+            // Panel Header
+            $this->drawText($img, 12, $photoX + 22, $photoY + 36, 'DATA & VERIFIKASI SISTEM', $emerald, $fontPath);
+            imageline($img, $photoX + 22, $photoY + 50, $photoX + $photoW - 22, $photoY + 50, $borderColor);
+
+            // Status Row in Panel
+            $this->drawText($img, 11, $photoX + 22, $photoY + 80, 'STATUS PENANGANAN', $textDim, $fontPath);
+            $this->drawText($img, 15, $photoX + 22, $photoY + 106, $report->status_label, $statusColor, $fontPath);
+
+            // Coordinates & Area
+            $this->drawText($img, 11, $photoX + 22, $photoY + 140, 'WILAYAH & KOORDINAT GIS', $textDim, $fontPath);
+            $this->drawText($img, 13, $photoX + 22, $photoY + 164, $this->truncate($report->location_short, 34), $textWhite, $fontPath);
+            $coordText = 'Lat: '.number_format($report->latitude ?? 0, 4).' | Lng: '.number_format($report->longitude ?? 0, 4);
+            $this->drawText($img, 11, $photoX + 22, $photoY + 188, $coordText, $textMuted, $regularFont);
+
+            // Support & Engagement
+            $this->drawText($img, 11, $photoX + 22, $photoY + 222, 'DUKUNGAN & TANGGAPAN WARGA', $textDim, $fontPath);
+            $supportText = '+'.$report->vote_score.' Suara Warga  •  '.$report->comments_count.' Tanggapan Diskusi';
+            $this->drawText($img, 13, $photoX + 22, $photoY + 246, $supportText, $emerald, $fontPath);
+
+            // Urgency & Priority Score
+            $this->drawText($img, 11, $photoX + 22, $photoY + 280, 'PRIORITAS ALGORITMA WILSON', $textDim, $fontPath);
+            $this->drawText($img, 13, $photoX + 22, $photoY + 304, $report->tier_label.' (ID #'.$report->id.')', $tierColor, $fontPath);
+
+            // Panel Footer Tag
+            $this->drawText($img, 10, $photoX + 22, $photoY + 338, 'OPENMAP GIS RADAR // TERVERIFIKASI SISTEM', $textDim, $regularFont);
+        }
+
+        // Bottom Info Bar inside Card (4 spacious columns to prevent any overlap)
         $barY = 465;
         imageline($img, 70, $barY, $width - 70, $barY, $borderColor);
 
-        // Location Info
-        $location = ($report->district ? $report->district.', ' : '').($report->city ?? 'Indonesia');
-        $this->drawText($img, 11, 70, $barY + 30, 'LOKASI KEJADIAN', $textDim, $fontPath);
-        $this->drawText($img, 14, 70, $barY + 60, $this->truncate($location, 30), $textWhite, $fontPath);
+        // 1. Lokasi Kejadian
+        $this->drawText($img, 11, 70, $barY + 28, 'LOKASI KEJADIAN', $textDim, $fontPath);
+        $this->drawText($img, 13, 70, $barY + 54, $this->truncate($report->location_short, 26), $textWhite, $fontPath);
 
-        // Vote Score
-        $this->drawText($img, 11, 380, $barY + 30, 'DUKUNGAN WARGA', $textDim, $fontPath);
-        $this->drawText($img, 16, 380, $barY + 60, '+'.$report->vote_score.' Poin Vote', $emerald, $fontPath);
+        // 2. Dukungan & Respon
+        $this->drawText($img, 11, 350, $barY + 28, 'DUKUNGAN & RESPON', $textDim, $fontPath);
+        $this->drawText($img, 13, 350, $barY + 54, '+'.$report->vote_score.' Suara • '.$report->comments_count.' Diskusi', $emerald, $fontPath);
 
-        // Pelapor Info
+        // 3. Pelapor
         $reporter = '@'.($report->user->username ?? 'anon');
-        $this->drawText($img, 11, 620, $barY + 30, 'PELAPOR', $textDim, $fontPath);
-        $this->drawText($img, 14, 620, $barY + 60, $reporter, $textWhite, $fontPath);
+        $this->drawText($img, 11, 620, $barY + 28, 'PELAPOR', $textDim, $fontPath);
+        $this->drawText($img, 13, 620, $barY + 54, $this->truncate($reporter, 24), $textWhite, $fontPath);
 
-        // Tanggal
-        $date = $report->created_at->format('d M Y, H:i');
-        $this->drawText($img, 11, 850, $barY + 30, 'TANGGAL DIBUAT', $textDim, $fontPath);
-        $this->drawText($img, 14, 850, $barY + 60, $date, $textMuted, $fontPath);
+        // 4. Tanggal Dibuat
+        $dateText = $report->created_at->format('d M Y, H:i');
+        $this->drawText($img, 11, 880, $barY + 28, 'TANGGAL DIBUAT', $textDim, $fontPath);
+        $this->drawText($img, 13, 880, $barY + 54, $dateText, $textMuted, $fontPath);
 
         // Watermark URL Footer
-        $watermark = parse_url(config('app.url'), PHP_URL_HOST).' // Sistem Informasi Ruang Aman';
+        $watermark = parse_url(config('app.url'), PHP_URL_HOST).' // Sistem Informasi Ruang Aman — Partisipasi Warga Untuk Perubahan Nyata';
         $this->drawText($img, 11, 70, $height - 55, $watermark, $textDim, $regularFont);
 
         ob_start();
@@ -350,5 +399,31 @@ class OgImageController extends Controller
     protected function truncate(string $text, int $limit): string
     {
         return mb_strlen($text) > $limit ? mb_substr($text, 0, $limit).'...' : $text;
+    }
+
+    /**
+     * Draw dynamically sized rounded/bordered badge.
+     */
+    protected function drawBadge($img, int $x, int $y, string $text, int $textColor, int $bgColor, int $borderColor, ?string $fontPath): int
+    {
+        $fontSize = 10;
+        $paddingX = 12;
+        $height = 28;
+
+        if ($fontPath && function_exists('imagettfbbox')) {
+            $box = imagettfbbox($fontSize, 0, $fontPath, $text);
+            $textWidth = abs($box[4] - $box[0]);
+        } else {
+            $textWidth = strlen($text) * 7;
+        }
+
+        $badgeWidth = $textWidth + ($paddingX * 2);
+
+        imagefilledrectangle($img, $x, $y, $x + $badgeWidth, $y + $height, $bgColor);
+        imagerectangle($img, $x, $y, $x + $badgeWidth, $y + $height, $borderColor);
+
+        $this->drawText($img, $fontSize, $x + $paddingX, $y + 19, $text, $textColor, $fontPath);
+
+        return $badgeWidth;
     }
 }

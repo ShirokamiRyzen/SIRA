@@ -200,3 +200,73 @@ test('non-admin cannot toggle verification badges', function () {
     $this->actingAs($regularUser)->post(route('admin.users.toggleVerify', $target))
         ->assertStatus(403);
 });
+
+test('admin can view user management page with user list and stats', function () {
+    $admin = User::factory()->create([
+        'username' => 'admin_super',
+        'is_admin' => true,
+    ]);
+
+    User::factory()->create(['username' => 'warga_satu', 'name' => 'Warga Satu']);
+    User::factory()->create(['username' => 'warga_dua', 'is_verified' => true]);
+
+    $response = $this->actingAs($admin)->get(route('admin.users.index'));
+
+    $response->assertOk()
+        ->assertSee('Manajemen Akun Pengguna')
+        ->assertSee('@warga_satu')
+        ->assertSee('@warga_dua');
+});
+
+test('non-admin cannot access user management page', function () {
+    $user = User::factory()->create(['username' => 'user_biasa', 'is_admin' => false]);
+
+    $this->actingAs($user)->get(route('admin.users.index'))
+        ->assertStatus(403);
+
+    $this->get(route('admin.users.index'))
+        ->assertStatus(403);
+});
+
+test('admin can delete regular user account', function () {
+    $admin = User::factory()->create(['username' => 'admin_boss', 'is_admin' => true]);
+    $user = User::factory()->create(['username' => 'user_dihapus']);
+
+    $response = $this->actingAs($admin)->delete(route('admin.users.destroy', $user));
+
+    $response->assertRedirect()
+        ->assertSessionHas('success');
+
+    expect(User::find($user->id))->toBeNull();
+});
+
+test('admin cannot delete own account or bot Sira', function () {
+    $admin = User::factory()->create(['username' => 'admin_boss2', 'is_admin' => true]);
+    $sira = User::factory()->create(['username' => 'Sira']);
+
+    // Coba hapus akun sendiri
+    $this->actingAs($admin)->delete(route('admin.users.destroy', $admin))
+        ->assertRedirect()
+        ->assertSessionHas('error');
+    expect(User::find($admin->id))->not->toBeNull();
+
+    // Coba hapus akun Sira
+    $this->actingAs($admin)->delete(route('admin.users.destroy', $sira))
+        ->assertRedirect()
+        ->assertSessionHas('error');
+    expect(User::find($sira->id))->not->toBeNull();
+});
+
+test('header displays Manajemen User only for admin and hides Dasbor Laporan for regular users', function () {
+    $admin = User::factory()->create(['username' => 'admin_nav', 'is_admin' => true]);
+    $regularUser = User::factory()->create(['username' => 'user_nav', 'is_admin' => false]);
+
+    // Admin view
+    $responseAdmin = $this->actingAs($admin)->get(route('reports.index'));
+    $responseAdmin->assertSee('Manajemen User');
+
+    // Regular user view
+    $responseUser = $this->actingAs($regularUser)->get(route('reports.index'));
+    $responseUser->assertDontSee('Manajemen User')
+        ->assertDontSee('Dasbor Laporan');
+});

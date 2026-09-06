@@ -2,8 +2,8 @@
 
 @section('title', $report->title . ' - SIRA')
 
-@section('og_title', $report->title . ' - SIRA')
-@section('og_description', \Illuminate\Support\Str::limit(strip_tags($report->description), 160))
+@section('og_title', '[' . strtoupper($report->status_label) . '] ' . $report->title . ' — SIRA')
+@section('og_description', \Illuminate\Support\Str::limit($report->og_meta_description, 295))
 @section('og_type', 'article')
 @section('og_image', route('reports.ogImage', $report))
 @section('og_url', route('reports.show', $report))
@@ -251,16 +251,6 @@
                                         Laporan Anda
                                     </span>
                                 @endif
-                                @if (Auth::user()?->isAdmin() && $report->user && ! $report->user->isAdmin())
-                                    <form action="{{ route('admin.users.toggleVerify', $report->user) }}" method="POST" class="inline">
-                                        @csrf
-                                        <button type="submit"
-                                            class="text-[10px] px-2 py-0.5 rounded-md font-semibold transition flex items-center space-x-1 {{ $report->user->is_verified ? 'bg-rose-100 hover:bg-rose-200 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-300 dark:border-rose-800' : 'bg-sky-100 hover:bg-sky-200 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 border border-sky-300 dark:border-sky-800' }}"
-                                            title="{{ $report->user->is_verified ? 'Cabut lencana verifikasi akun pelapor' : 'Beri lencana verifikasi resmi biru untuk akun pelapor' }}">
-                                            <span>{{ $report->user->is_verified ? 'Cabut Verifikasi' : '+ Beri Verifikasi' }}</span>
-                                        </button>
-                                    </form>
-                                @endif
                             @endauth
                         </div>
 
@@ -274,9 +264,9 @@
 
                                 $badgeSvg = '';
                                 if ($badgeType === 'admin') {
-                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg>';
+                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
                                 } elseif ($badgeType === 'verified') {
-                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg>';
+                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
                                 }
 
                                 if ($isAi) {
@@ -705,15 +695,22 @@
         // -------------------------------------------------------------
         // Fungsi Toggle Balas Komentar
         // -------------------------------------------------------------
-        function toggleReplyForm(commentId) {
+        function toggleReplyForm(commentId, targetUsername = '') {
             const form = document.getElementById('reply-form-' + commentId);
             if (form) {
                 form.classList.toggle('hidden');
                 if (!form.classList.contains('hidden')) {
                     const ta = form.querySelector('textarea');
                     if (ta) {
+                        const target = targetUsername || ta.getAttribute('data-target-user') || '';
+                        if (target && !ta.value.trim()) {
+                            ta.value = `@${target} `;
+                        }
                         ta.focus();
-                        updateMentionHighlights(ta);
+                        ta.setSelectionRange(ta.value.length, ta.value.length);
+                        if (typeof updateMentionHighlights === 'function') {
+                            updateMentionHighlights(ta);
+                        }
                     }
                 }
             }
@@ -1072,6 +1069,11 @@
                                 repliesContainer.insertAdjacentHTML('beforeend', data.comment_html);
                             }
                             form.reset();
+                            const ta = form.querySelector('textarea');
+                            const targetUser = ta ? ta.getAttribute('data-target-user') : '';
+                            if (ta && targetUser) {
+                                ta.value = `@${targetUser} `;
+                            }
                             const replyBackdrop = form.querySelector('.mention-backdrop');
                             if (replyBackdrop) replyBackdrop.innerHTML = '';
                             toggleReplyForm(parentId);
@@ -1285,9 +1287,9 @@
                     if (isAi) {
                         badgeMarkup = `<span class="ml-2 shrink-0 px-2 py-0.5 rounded-full text-[9px] font-extrabold ${isSelected ? 'bg-white/20 text-white' : 'bg-indigo-600 text-white'}">SIRA AI</span>`;
                     } else if (user.badge_type === 'admin') {
-                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-amber-400 text-slate-950' : 'bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300'}"><svg class="w-3 h-3 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg><span>ADMIN</span></span>`;
+                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-amber-400 text-slate-950' : 'bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300'}"><svg class="w-3 h-3 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg><span>ADMIN</span></span>`;
                     } else if (user.badge_type === 'verified') {
-                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-sky-400 text-slate-950' : 'bg-sky-100 text-sky-900 dark:bg-sky-950/80 dark:text-sky-300'}"><svg class="w-3 h-3 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.8-2.95-2-3.77.54-1.51.16-3.22-1-4.38-1.16-1.16-2.87-1.54-4.38-1-1.03-1.44-2.73-2.35-4.62-2.35s-3.59.91-4.62 2.35c-1.51-.54-3.22-.16-4.38 1-1.16 1.16-1.54 2.87-1 4.38-1.2 1.03-2 2.4-2 3.77 0 1.58.8 2.95 2 3.77-.54 1.51-.16 3.22 1 4.38 1.16 1.16 2.87 1.54 4.38 1 1.03 1.44 2.73 2.35 4.62 2.35s3.59-.91 4.62-2.35c1.51.54 3.22.16 4.38-1 1.16-1.16 1.54-2.87 1-4.38 1.2-1.03 2-2.4 2-3.77zm-12.03 4.5L6 12.53l1.41-1.41 3.06 3.06 6.06-6.06 1.41 1.41-7.47 7.47z"/></svg><span>VERIFIED</span></span>`;
+                        badgeMarkup = `<span class="ml-2 shrink-0 inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${isSelected ? 'bg-sky-400 text-slate-950' : 'bg-sky-100 text-sky-900 dark:bg-sky-950/80 dark:text-sky-300'}"><svg class="w-3 h-3 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg><span>VERIFIED</span></span>`;
                     }
 
                     item.innerHTML = `
@@ -1561,18 +1563,25 @@
             canvas.height = height;
 
             const reportTitle = @json($report->title);
-            const reportDesc = @json(\Illuminate\Support\Str::limit(strip_tags($report->description), 140));
-            const reportTier = @json($report->rank_tier);
-            const reportStatus = @json(str_replace('_', ' ', $report->status));
-            const reportLocation = @json(($report->district ? $report->district . ', ' : '') . ($report->city ?? 'Indonesia'));
+            const reportDesc = @json(preg_replace('/\s+/', ' ', strip_tags($report->description)));
+            const reportTier = @json(strtoupper($report->tier_label));
+            const reportCategory = @json(strtoupper($report->category_label));
+            const reportStatus = @json(strtoupper($report->status_label));
+            const reportLocation = @json($report->location_short);
             const reportReporter = @json('@' . ($report->user->username ?? 'anon'));
             const reportVotes = @json($report->vote_score);
-            const reportDate = @json($report->created_at->translatedFormat('d M Y, H:i'));
+            const reportComments = @json($report->comments_count);
+            const reportDate = @json($report->created_at->translatedFormat('d M Y'));
             const reportImageSrc = @json($report->image_base64);
+            const reportLat = @json(number_format($report->latitude ?? 0, 4));
+            const reportLng = @json(number_format($report->longitude ?? 0, 4));
+            const rawStatus = @json($report->status);
+            const rawTier = @json($report->rank_tier);
 
             const colors = {
                 bg: '#0E0E0E',
                 cardBg: '#141414',
+                panelBg: '#181818',
                 border: '#262626',
                 innerBorder: '#303030',
                 textWhite: '#EDEDEC',
@@ -1582,12 +1591,21 @@
                 rose: '#E11D48',
                 amber: '#F59E0B',
                 teal: '#0D9488',
-                slate: '#475569'
+                slate: '#64748B',
+                sky: '#38BDF8'
             };
 
-            const tierColor = reportTier === 'critical' ? colors.rose :
-                (reportTier === 'urgent' ? colors.amber :
-                    (reportTier === 'trending' ? colors.teal : colors.emerald));
+            const statusColor = rawStatus === 'resolved' ? colors.emerald :
+                (rawStatus === 'in_progress' ? colors.amber :
+                    (rawStatus === 'archived' ? colors.slate : colors.sky));
+
+            const statusBg = rawStatus === 'resolved' ? '#12261A' :
+                (rawStatus === 'in_progress' ? '#2D1E0A' :
+                    (rawStatus === 'archived' ? '#1E242C' : '#0E2032'));
+
+            const tierColor = rawTier === 'critical' ? colors.rose :
+                (rawTier === 'urgent' ? colors.amber :
+                    (rawTier === 'trending' ? colors.teal : colors.emerald));
 
             // Background
             ctx.fillStyle = colors.bg;
@@ -1617,52 +1635,61 @@
             ctx.strokeRect(40, 40, width - 80, height - 80);
 
             // Top Accent Stripe
-            ctx.fillStyle = tierColor;
+            ctx.fillStyle = statusColor;
             ctx.fillRect(40, 40, width - 80, 6);
 
             // Brand Text
             ctx.fillStyle = colors.emerald;
-            ctx.font = '600 18px "Geist Mono", monospace';
-            ctx.fillText('SIRA // LAPORAN PUBLIK #' + @json($report->id), 70, 95);
+            ctx.font = '600 16px "Geist Mono", monospace';
+            ctx.fillText('SIRA // LAPORAN PUBLIK #' + @json($report->id), 70, 92);
 
-            // Tier Badge
-            const tierBadgeWidth = 140;
-            const tierBadgeHeight = 32;
-            ctx.fillStyle = tierColor;
-            drawCanvasRoundRect(ctx, 70, 120, tierBadgeWidth, tierBadgeHeight, 6, true, false);
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
-            ctx.fillText(reportTier.toUpperCase() + ' TIER', 86, 141);
+            // Dynamically sized Badges
+            let badgeX = 70;
+            const badgeY = 114;
+            const badgeHeight = 28;
 
-            // Status Badge
-            const statusBadgeWidth = 160;
-            ctx.fillStyle = '#1C281E';
-            drawCanvasRoundRect(ctx, 224, 120, statusBadgeWidth, tierBadgeHeight, 6, true, false);
-            ctx.strokeStyle = colors.emerald;
-            ctx.lineWidth = 1.5;
-            drawCanvasRoundRect(ctx, 224, 120, statusBadgeWidth, tierBadgeHeight, 6, false, true);
-            ctx.fillStyle = colors.emerald;
-            ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
-            ctx.fillText('STATUS: ' + reportStatus.toUpperCase(), 238, 140);
+            // Helper to draw pill badge
+            const drawPillBadge = (text, textColor, fillBg, strokeColor) => {
+                ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+                const textWidth = ctx.measureText(text).width;
+                const pillWidth = textWidth + 24;
+                ctx.fillStyle = fillBg;
+                drawCanvasRoundRect(ctx, badgeX, badgeY, pillWidth, badgeHeight, 6, true, false);
+                ctx.strokeStyle = strokeColor;
+                ctx.lineWidth = 1;
+                drawCanvasRoundRect(ctx, badgeX, badgeY, pillWidth, badgeHeight, 6, false, true);
+                ctx.fillStyle = textColor;
+                ctx.fillText(text, badgeX + 12, badgeY + 18);
+                badgeX += pillWidth + 10;
+            };
+
+            // 1. Status badge
+            drawPillBadge(reportStatus, statusColor, statusBg, statusColor);
+
+            // 2. Category badge
+            drawPillBadge(reportCategory, colors.textWhite, '#1C1C1C', colors.innerBorder);
+
+            // 3. Urgency / Tier badge
+            drawPillBadge(reportTier, tierColor, '#1A1A1A', tierColor);
 
             // Title (wrapped max 2 lines)
             ctx.fillStyle = colors.textWhite;
-            ctx.font = '800 28px "Plus Jakarta Sans", sans-serif';
-            const titleLines = wrapCanvasText(ctx, reportTitle, 610, 2);
-            let curY = 210;
+            ctx.font = '800 24px "Plus Jakarta Sans", sans-serif';
+            const titleLines = wrapCanvasText(ctx, reportTitle, 600, 2);
+            let curY = 192;
             titleLines.forEach(line => {
                 ctx.fillText(line, 70, curY);
-                curY += 42;
+                curY += 38;
             });
 
-            // Description (wrapped max 2 lines)
+            // Post Content / Description (wrapped, up to 4 lines)
             ctx.fillStyle = colors.textMuted;
-            ctx.font = '400 15px "Plus Jakarta Sans", sans-serif';
-            const descLines = wrapCanvasText(ctx, reportDesc, 610, 2);
+            ctx.font = '400 13px "Plus Jakarta Sans", sans-serif';
+            const descLines = wrapCanvasText(ctx, reportDesc, 600, 4);
             curY += 10;
             descLines.forEach(line => {
                 ctx.fillText(line, 70, curY);
-                curY += 26;
+                curY += 24;
             });
 
             // Info Bar Bottom
@@ -1676,42 +1703,34 @@
 
             ctx.fillStyle = colors.textDim;
             ctx.font = '600 11px "Geist Mono", monospace';
-            ctx.fillText('LOKASI KEJADIAN', 70, barY + 30);
-            ctx.fillText('DUKUNGAN WARGA', 380, barY + 30);
-            ctx.fillText('PELAPOR', 620, barY + 30);
-            ctx.fillText('TANGGAL DIBUAT', 850, barY + 30);
+            ctx.fillText('LOKASI KEJADIAN', 70, barY + 28);
+            ctx.fillText('DUKUNGAN & RESPON', 350, barY + 28);
+            ctx.fillText('PELAPOR', 620, barY + 28);
+            ctx.fillText('TANGGAL DIBUAT', 880, barY + 28);
 
             ctx.fillStyle = colors.textWhite;
-            ctx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
-            ctx.fillText(truncateCanvasText(reportLocation, 28), 70, barY + 60);
+            ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText(truncateCanvasText(reportLocation, 26), 70, barY + 54);
 
             ctx.fillStyle = colors.emerald;
-            ctx.font = '800 16px "Plus Jakarta Sans", sans-serif';
-            ctx.fillText('+' + reportVotes + ' Poin Vote', 380, barY + 60);
+            ctx.fillText('+' + reportVotes + ' Suara • ' + reportComments + ' Diskusi', 350, barY + 54);
 
             ctx.fillStyle = colors.textWhite;
-            ctx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
-            ctx.fillText(reportReporter, 620, barY + 60);
+            ctx.fillText(truncateCanvasText(reportReporter, 24), 620, barY + 54);
 
             ctx.fillStyle = colors.textMuted;
-            ctx.fillText(reportDate, 850, barY + 60);
+            ctx.fillText(reportDate, 880, barY + 54);
 
             // Watermark Footer
             ctx.fillStyle = colors.textDim;
-            ctx.font = '400 12px "Geist Mono", monospace';
-            ctx.fillText((window.location.host || 'sira') + ' // Sistem Informasi Ruang Aman', 70, height - 55);
+            ctx.font = '400 11px "Geist Mono", monospace';
+            ctx.fillText((window.location.host || 'sira.test') + ' // Sistem Informasi Ruang Aman — Partisipasi Warga Untuk Perubahan Nyata', 70, height - 55);
 
-            // Photo Preview Box on Right
-            const photoX = 720;
-            const photoY = 95;
-            const photoW = 410;
-            const photoH = 340;
-
-            ctx.fillStyle = '#0A0A0A';
-            drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, true, false);
-            ctx.strokeStyle = colors.innerBorder;
-            ctx.lineWidth = 1.5;
-            drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, false, true);
+            // Right-Side Visual: Real Photo Preview OR Rich GIS Radar / Data Card
+            const photoX = 705;
+            const photoY = 88;
+            const photoW = 425;
+            const photoH = 355;
 
             const finishRender = () => {
                 if (overlay) overlay.style.display = 'none';
@@ -1719,12 +1738,76 @@
                 if (statusEl) statusEl.textContent = 'Siap Diunduh / Disalin';
             };
 
-            if (reportImageSrc) {
+            const drawGisFallbackCard = () => {
+                ctx.fillStyle = colors.panelBg;
+                drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 8, true, false);
+                ctx.strokeStyle = colors.innerBorder;
+                ctx.lineWidth = 1;
+                drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 8, false, true);
+
+                // Header
+                ctx.fillStyle = colors.emerald;
+                ctx.font = '600 12px "Geist Mono", monospace';
+                ctx.fillText('DATA & VERIFIKASI SISTEM', photoX + 22, photoY + 36);
+
+                ctx.strokeStyle = colors.border;
+                ctx.beginPath();
+                ctx.moveTo(photoX + 22, photoY + 48);
+                ctx.lineTo(photoX + photoW - 22, photoY + 48);
+                ctx.stroke();
+
+                // Rows
+                ctx.fillStyle = colors.textDim;
+                ctx.font = '600 10px "Geist Mono", monospace';
+                ctx.fillText('STATUS PENANGANAN', photoX + 22, photoY + 76);
+
+                ctx.fillStyle = statusColor;
+                ctx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(reportStatus, photoX + 22, photoY + 98);
+
+                ctx.fillStyle = colors.textDim;
+                ctx.font = '600 10px "Geist Mono", monospace';
+                ctx.fillText('WILAYAH & KOORDINAT GIS', photoX + 22, photoY + 132);
+
+                ctx.fillStyle = colors.textWhite;
+                ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(truncateCanvasText(reportLocation, 34), photoX + 22, photoY + 154);
+
+                ctx.fillStyle = colors.textMuted;
+                ctx.font = '11px "Geist Mono", monospace';
+                ctx.fillText('Lat: ' + reportLat + ' | Lng: ' + reportLng, photoX + 22, photoY + 176);
+
+                ctx.fillStyle = colors.textDim;
+                ctx.font = '600 10px "Geist Mono", monospace';
+                ctx.fillText('DUKUNGAN & TANGGAPAN WARGA', photoX + 22, photoY + 210);
+
+                ctx.fillStyle = colors.emerald;
+                ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText('+' + reportVotes + ' Suara Warga • ' + reportComments + ' Tanggapan', photoX + 22, photoY + 232);
+
+                ctx.fillStyle = colors.textDim;
+                ctx.font = '600 10px "Geist Mono", monospace';
+                ctx.fillText('PRIORITAS ALGORITMA WILSON', photoX + 22, photoY + 266);
+
+                ctx.fillStyle = tierColor;
+                ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(reportTier + ' (ID #' + @json($report->id) + ')', photoX + 22, photoY + 288);
+
+                ctx.fillStyle = colors.textDim;
+                ctx.font = '400 10px "Geist Mono", monospace';
+                ctx.fillText('OPENMAP GIS RADAR // TERVERIFIKASI SISTEM', photoX + 22, photoY + 332);
+
+                finishRender();
+            };
+
+            // If image is raster (PNG/JPEG), load in Image(), else draw GIS fallback directly
+            const isSvg = reportImageSrc && reportImageSrc.includes('svg');
+            if (reportImageSrc && !isSvg) {
                 const img = new Image();
                 img.crossOrigin = 'anonymous';
                 img.onload = function () {
                     ctx.save();
-                    drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, false, false);
+                    drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 8, false, false);
                     ctx.clip();
 
                     const scale = Math.max(photoW / img.naturalWidth, photoH / img.naturalHeight);
@@ -1736,28 +1819,26 @@
                     ctx.drawImage(img, cropX, cropY, cropW, cropH, photoX, photoY, photoW, photoH);
                     ctx.restore();
 
+                    // Overlay bottom pill on image
+                    ctx.fillStyle = 'rgba(10, 10, 10, 0.75)';
+                    ctx.fillRect(photoX, photoY + photoH - 40, photoW, 40);
+
+                    ctx.fillStyle = colors.textWhite;
+                    ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+                    ctx.fillText('FOTO BUKTI LAPORAN // ' + reportCategory, photoX + 16, photoY + photoH - 15);
+
                     ctx.strokeStyle = colors.innerBorder;
-                    ctx.lineWidth = 1.5;
-                    drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 12, false, true);
+                    ctx.lineWidth = 1;
+                    drawCanvasRoundRect(ctx, photoX, photoY, photoW, photoH, 8, false, true);
 
                     finishRender();
                 };
                 img.onerror = function () {
-                    ctx.fillStyle = colors.textDim;
-                    ctx.font = '600 14px "Geist Mono", monospace';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('FOTO BUKTI LAPORAN', photoX + (photoW / 2), photoY + (photoH / 2));
-                    ctx.textAlign = 'start';
-                    finishRender();
+                    drawGisFallbackCard();
                 };
                 img.src = reportImageSrc;
             } else {
-                ctx.fillStyle = colors.textDim;
-                ctx.font = '600 14px "Geist Mono", monospace';
-                ctx.textAlign = 'center';
-                ctx.fillText('FOTO BUKTI LAPORAN', photoX + (photoW / 2), photoY + (photoH / 2));
-                ctx.textAlign = 'start';
-                finishRender();
+                drawGisFallbackCard();
             }
         }
 

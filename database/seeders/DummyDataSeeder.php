@@ -23,6 +23,11 @@ class DummyDataSeeder extends Seeder
         $now = now();
         $defaultPassword = Hash::make('password123');
 
+        // Bersihkan data laporan lama agar tepat 100 laporan
+        ReportComment::query()->delete();
+        ReportVote::query()->delete();
+        Report::query()->delete();
+
         // -------------------------------------------------------------
         // 1. Akun Admin Pusat (admin / admin)
         // -------------------------------------------------------------
@@ -293,9 +298,10 @@ class DummyDataSeeder extends Seeder
 
             // Tambahkan SIRA AI pada 15% laporan
             if ($idx % 7 === 0) {
+                $userAiAuthor = $citizenUsers->random();
                 $userAiPrompt = ReportComment::create([
                     'report_id' => $report->id,
-                    'user_id' => $citizenUsers->random()->id,
+                    'user_id' => $userAiAuthor->id,
                     'parent_id' => null,
                     'content' => 'Tolong @Sira buatkan rangkuman dan poin inti dari keluhan di laporan ini.',
                     'created_at' => $report->created_at->copy()->addMinutes(300),
@@ -305,7 +311,7 @@ class DummyDataSeeder extends Seeder
                     'report_id' => $report->id,
                     'user_id' => $siraBot->id,
                     'parent_id' => $userAiPrompt->id,
-                    'content' => "**Ringkasan SIRA AI:**\n\n• **Keluhan Warga:** Terjadi masalah {$report->category} pada lokasi {$report->title} ({$report->city}).\n• **Dinamika Aspirasi:** Warga mengeluhkan dampak keselamatan dan kerugian kendaraan, sementara ada masukan agar penanganan segera diprioritaskan oleh {$tagPemda}.\n• **Rekomendasi:** Diperlukan tindak lanjut nyata dan inspeksi lapangan dari pihak terkait guna menjamin keselamatan bersama.",
+                    'content' => "@{$userAiAuthor->username} **Ringkasan SIRA AI:**\n\n• **Keluhan Warga:** Terjadi masalah {$report->category} pada lokasi {$report->title} ({$report->city}).\n• **Dinamika Aspirasi:** Warga mengeluhkan dampak keselamatan dan kerugian kendaraan, sementara ada masukan agar penanganan segera diprioritaskan oleh {$tagPemda}.\n• **Rekomendasi:** Diperlukan tindak lanjut nyata dan inspeksi lapangan dari pihak terkait guna menjamin keselamatan bersama.",
                     'created_at' => $userAiPrompt->created_at->copy()->addMinutes(2),
                 ]);
             }
@@ -412,29 +418,29 @@ class DummyDataSeeder extends Seeder
             'content' => $chosen['c1'],
         ];
 
-        // 2. Reply dari buzzer yang nyalahin warga / bela pemerintah
+        // 2. Reply dari buzzer yang nyalahin warga / bela pemerintah (reply ke citizenA)
         $thread[] = [
             'user_id' => $buzzer->id,
-            'content' => $chosen['buzz'],
+            'content' => "@{$citizenA->username} ".$chosen['buzz'],
         ];
 
-        // 3. Counter-attack dari warga kedua yang ngegas
+        // 3. Counter-attack dari warga kedua yang ngegas (reply ke buzzer)
         $thread[] = [
             'user_id' => $citizenB->id,
-            'content' => $chosen['c2'],
+            'content' => "@{$buzzer->username} ".$chosen['c2'],
         ];
 
-        // 4. Balasan resmi khas akun Pemda
+        // 4. Balasan resmi khas akun Pemda (reply ke citizenA)
         $thread[] = [
             'user_id' => $pemdaUser->id,
-            'content' => $chosen['pemda'],
+            'content' => "@{$citizenA->username} ".$chosen['pemda'],
         ];
 
-        // 5. Opsi warga skeptis terhadap respon pemda
+        // 5. Opsi warga skeptis terhadap respon pemda (reply ke pemdaUser)
         if (isset($chosen['c3']) && mt_rand(1, 10) <= 7) {
             $thread[] = [
                 'user_id' => $citizenA->id,
-                'content' => $chosen['c3'],
+                'content' => "@{$pemdaUser->username} ".$chosen['c3'],
             ];
         }
 

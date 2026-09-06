@@ -12,16 +12,27 @@
 
             <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-1 font-mono text-xs">
-                <a href="{{ route('reports.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors {{ request()->routeIs('reports.index') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
-                    Dasbor Laporan
+                <a href="{{ route('reports.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('reports.*') && !request()->routeIs('reports.create') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
+                    <flux:icon name="document-text" class="w-3.5 h-3.5 shrink-0 text-[#787774] dark:text-[#9B9B97]" />
+                    <span>Laporan</span>
                 </a>
                 <a href="{{ route('heatmap.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('heatmap.index') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
                     <span>Peta Sebaran</span>
                 </a>
-                <a href="{{ route('home') }}#cara-kerja-fitur" class="px-3 py-1.5 rounded-[6px] transition-colors {{ request()->routeIs('home') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }} hidden lg:inline-block">
-                    Cara Kerja &amp; Fitur
-                </a>
+                @auth
+                    @if (Auth::user()->isAdmin())
+                        <a href="{{ route('admin.users.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('admin.users.*') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
+                            <flux:icon name="users" class="w-3.5 h-3.5 shrink-0 text-amber-500" />
+                            <span>Manajemen User</span>
+                        </a>
+                    @endif
+                @endauth
+                @if (request()->routeIs('home'))
+                    <a href="#cara-kerja-fitur" class="px-3 py-1.5 rounded-[6px] transition-colors text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E] hidden lg:inline-block">
+                        Cara Kerja &amp; Fitur
+                    </a>
+                @endif
             </nav>
         </div>
 
@@ -525,8 +536,11 @@
     <div id="mobileMenu"
          class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/98 dark:bg-[#111111]/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
         <div class="space-y-1">
-            <a href="{{ route('reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
-                <span>Dasbor Laporan</span>
+            <a href="{{ route('reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.*') && !request()->routeIs('reports.create') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                <span class="flex items-center space-x-2">
+                    <flux:icon name="document-text" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
+                    <span>Laporan</span>
+                </span>
                 <span class="text-[11px] text-[#787774]">&rarr;</span>
             </a>
             <a href="{{ route('heatmap.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('heatmap.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
@@ -536,10 +550,23 @@
                 </span>
                 <span class="text-[11px] text-[#787774]">&rarr;</span>
             </a>
-            <a href="{{ route('home') }}#cara-kerja-fitur" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] {{ request()->routeIs('home') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] text-[#111111] dark:text-[#EDEDEC] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
-                <span>Cara Kerja &amp; Fitur</span>
-                <span class="text-[11px] text-[#787774]">&rarr;</span>
-            </a>
+            @auth
+                @if (Auth::user()->isAdmin())
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.users.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                        <span class="flex items-center space-x-2">
+                            <flux:icon name="users" class="w-3.5 h-3.5 text-amber-500" />
+                            <span>Manajemen User</span>
+                        </span>
+                        <span class="text-[11px] text-[#787774]">&rarr;</span>
+                    </a>
+                @endif
+            @endauth
+            @if (request()->routeIs('home'))
+                <a href="#cara-kerja-fitur" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C] transition">
+                    <span>Cara Kerja &amp; Fitur</span>
+                    <span class="text-[11px] text-[#787774]">&rarr;</span>
+                </a>
+            @endif
         </div>
 
         <div class="pt-2 border-t border-[#EAEAEA] dark:border-[#222222] space-y-2">

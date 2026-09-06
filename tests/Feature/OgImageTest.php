@@ -74,7 +74,12 @@ test('report detail page renders dynamic opengraph meta tags and canvas modal tr
     $response = $this->get(route('reports.show', $report));
 
     $response->assertOk();
-    $response->assertSee('property="og:title" content="Lampu PJU Padam di Jalan Riau - SIRA"', false);
+    $response->assertSee('property="og:title" content="[MENUNGGU RESPON] Lampu PJU Padam di Jalan Riau — SIRA"', false);
+    $response->assertSee('property="og:description"', false);
+    $response->assertSee('Sudah 1 minggu lampu penerangan jalan umum mati total', false);
+    $response->assertSee('Status: Menunggu Respon', false);
+    $response->assertSee('Lokasi: Bandung Wetan, Kota Bandung', false);
+    $response->assertSee('Dukungan: +20 Suara', false);
     $response->assertSee('property="og:type" content="article"', false);
     $response->assertSee('property="og:image" content="'.route('reports.ogImage', $report).'"', false);
     $response->assertSee('name="twitter:image" content="'.route('reports.ogImage', $report).'"', false);
