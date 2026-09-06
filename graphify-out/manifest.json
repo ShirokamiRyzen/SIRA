@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/ReportController.php": {
-    "mtime": 1788676810.9708512,
-    "ast_hash": "45951eaf7da7918f2a44af15030256c3",
+    "mtime": 1788677164.7506418,
+    "ast_hash": "47940ab496a32ceb9f03126623480917",
     "semantic_hash": ""
   },
   "app/Models/Report.php": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/dashboard.blade.php": {
-    "mtime": 1788676311.7628071,
-    "ast_hash": "926a6dfcb039840c4bca401581c1aeab",
+    "mtime": 1788677169.8610754,
+    "ast_hash": "76a27685a25ff2beaf287d784a006c1b",
     "semantic_hash": ""
   },
   "resources/views/components/footer.blade.php": {
@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/report-card.blade.php": {
-    "mtime": 1788675851.0253727,
-    "ast_hash": "99de04e0273282d727e9c8e3346270c0",
+    "mtime": 1788677174.6819422,
+    "ast_hash": "4ca8bc5f76d12686f594410444aac3bc",
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/create.blade.php": {
-    "mtime": 1788676772.3522148,
-    "ast_hash": "cebafa5d3a2680e9fd06800a8d563432",
+    "mtime": 1788677190.602168,
+    "ast_hash": "c2eacb1da9d5a37c6f42af81e4b8ee0c",
     "semantic_hash": ""
   },
   "resources/views/reports/heatmap.blade.php": {
@@ -345,8 +345,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/show.blade.php": {
-    "mtime": 1788676886.321182,
-    "ast_hash": "99223e82dd781cd6946b76acbe3a4d8f",
+    "mtime": 1788677180.012288,
+    "ast_hash": "f71a304ffb5e8c09704efc9dcd164527",
     "semantic_hash": ""
   },
   "tests/Feature/ReportSystemTest.php": {

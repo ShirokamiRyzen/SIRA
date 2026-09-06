@@ -11,6 +11,7 @@
     <!-- Filter & Query Control Bar -->
     <div class="bg-white dark:bg-[#141414] p-4 sm:p-5 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222]">
         <form method="GET" action="{{ route('reports.index', [], false) }}#dashboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+            <input type="hidden" name="sort" value="{{ request('sort', 'trending') }}">
             <!-- Search Text Input -->
             <div class="lg:col-span-2">
                 <input type="text" name="search" value="{{ request('search') }}"

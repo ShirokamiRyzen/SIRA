@@ -60,7 +60,7 @@
                 <flux:icon name="map-pin" class="w-3.5 h-3.5 text-[#787774] shrink-0" />
                 <span class="truncate">
                     {{ $report->district ?? $report->city ?? 'Lokasi Terdaftar' }}
-                    @if ($report->city && $report->district) &bull; {{ $report->city }} @endif
+                    @if ($report->city && $report->district && strcasecmp($report->city, $report->district) !== 0) &bull; {{ $report->city }} @endif
                 </span>
             </div>
 

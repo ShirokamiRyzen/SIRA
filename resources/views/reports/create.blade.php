@@ -553,8 +553,13 @@
                             }
                             if (district.toLowerCase().startsWith('kecamatan ')) {
                                 district = district.substring(10).trim();
+                            } else if (district.toLowerCase().startsWith('kabupaten ')) {
+                                district = district.substring(10).trim();
                             }
-                            const city = addr.city || addr.town || addr.county || addr.regency || '';
+                            let city = addr.city || addr.town || addr.county || addr.regency || '';
+                            if (city.toLowerCase().startsWith('kabupaten ')) {
+                                city = city.substring(10).trim();
+                            }
                             const province = addr.state || '';
 
                             document.getElementById('inputProvince').value = province;

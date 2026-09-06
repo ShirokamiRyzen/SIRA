@@ -71,6 +71,19 @@ class ReportController extends Controller
             'district' => DB::raw('city'),
         ]);
 
+        // Khusus laporan Purwakarta, sinkronkan district agar 'Purwakarta' muncul sebagai wilayah/kecamatan
+        Report::where(function ($q) {
+            $q->where('city', 'like', '%Purwakarta%')
+                ->orWhere('formatted_address', 'like', '%Purwakarta%');
+        })->where(function ($q) {
+            $q->where('district', 'Cikopak')
+                ->orWhereNull('district')
+                ->orWhere('district', '');
+        })->update([
+            'district' => 'Purwakarta',
+            'city' => 'Purwakarta',
+        ]);
+
         // Filter pencarian teks
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -92,12 +105,13 @@ class ReportController extends Controller
             });
         }
 
-        // Filter kecamatan
+        // Filter kecamatan / wilayah
         if ($district = $request->input('district')) {
             $query->where(function ($q) use ($district) {
                 $q->where('district', $district)
                     ->orWhere('subdistrict', $district)
-                    ->orWhere('city', $district);
+                    ->orWhere('city', $district)
+                    ->orWhere('formatted_address', 'like', "%{$district}%");
             });
         }
 
@@ -143,23 +157,28 @@ class ReportController extends Controller
         }
         $dbDistricts = $dbDistrictsQuery->distinct()->pluck('district');
 
+        // Ambil juga daftar wilayah/kota non-Bandung (misalnya Purwakarta) agar user dapat langsung memilihnya dari dropdown kecamatan
+        $otherLocations = Report::whereNotNull('city')
+            ->where('city', '!=', '')
+            ->where('city', 'not like', '%Bandung%')
+            ->distinct()
+            ->pluck('city');
+
         if (empty($selectedCity) || str_contains(strtolower($selectedCity), 'bandung')) {
             $availableDistricts = collect(self::$officialBandungDistricts)
                 ->merge($dbDistricts)
+                ->merge($otherLocations)
                 ->filter()
                 ->unique()
                 ->sort(SORT_NATURAL | SORT_FLAG_CASE)
                 ->values();
         } else {
             $availableDistricts = $dbDistricts
+                ->push($selectedCity)
                 ->filter()
                 ->unique()
                 ->sort(SORT_NATURAL | SORT_FLAG_CASE)
                 ->values();
-
-            if ($availableDistricts->isEmpty()) {
-                $availableDistricts = collect([$selectedCity]);
-            }
         }
 
         // Top 5 Laporan Terkritis untuk leaderboard sidebar / widget

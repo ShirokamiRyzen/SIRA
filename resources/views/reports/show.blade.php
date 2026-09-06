@@ -153,7 +153,7 @@
                             class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-xs space-y-1">
                             <div class="font-bold text-slate-800 dark:text-[#EDEDEC] flex items-center space-x-1.5">
                                 <flux:icon name="map-pin" class="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                                <span>{{ $report->district ? $report->district . ', ' : '' }}{{ $report->city ?? 'Lokasi Terdaftar' }}</span>
+                                <span>{{ $report->district && strcasecmp($report->district, $report->city ?? '') !== 0 ? $report->district . ', ' : '' }}{{ $report->city ?? $report->district ?? 'Lokasi Terdaftar' }}</span>
                             </div>
                             <p class="text-slate-500 dark:text-[#888888] text-[11px] leading-relaxed">
                                 {{ $report->formatted_address ?? 'Koordinat: ' . $report->latitude . ', ' . $report->longitude }}
