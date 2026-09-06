@@ -8,6 +8,7 @@
     <x-landing
         :total-reports="$totalReports"
         :critical-count="$criticalCount"
+        :urgent-count="$urgentCount"
         :resolved-count="$resolvedCount"
         :critical-reports="$criticalReports"
     />

@@ -199,6 +199,7 @@ class ReportController extends Controller
         // Statistik Agregat untuk Komponen Landing
         $totalReports = Report::count();
         $criticalCount = Report::where('rank_tier', 'critical')->count();
+        $urgentCount = Report::where('rank_tier', 'urgent')->count();
         $resolvedCount = Report::where('status', 'resolved')->count();
         $multiIssueCount = Report::onlyMultiIssue()->count();
 
@@ -210,6 +211,7 @@ class ReportController extends Controller
             'sort',
             'totalReports',
             'criticalCount',
+            'urgentCount',
             'resolvedCount',
             'multiIssueCount'
         ));

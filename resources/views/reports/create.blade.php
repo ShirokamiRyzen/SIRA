@@ -3,7 +3,7 @@
 @section('title', 'Buat Laporan Baru - SIRA')
 
 @section('content')
-    <div class="max-w-4xl mx-auto my-6">
+    <div class="max-w-4xl mx-auto my-6 space-y-6">
         <div
             class="bg-white dark:bg-[#141414] p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm">
             <div class="mb-8">
@@ -238,6 +238,42 @@
                     </button>
                 </div>
             </form>
+        </div>
+
+        <!-- 3 Card Tutorial Singkat Alur Pelaporan SIRA -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-sans">
+            <!-- Bento 1 -->
+            <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
+                <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>01. OpenFreeMap &amp; Reverse Geocode</span>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
+                    Pilih titik lokasi pada peta terbuka. Nama jalan, kelurahan, dan kecamatan teridentifikasi otomatis tanpa dependensi API komersial berbayar.
+                </p>
+            </div>
+
+            <!-- Bento 2 -->
+            <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
+                <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-[#9F2F2D]"></span>
+                    <span>02. Crowdsourced Voting Tier</span>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
+                    Laporan tidak diverifikasi oleh birokrat tunggal. Dukungan vote komunitas yang menentukan apakah suatu masalah naik ke status Trending, Urgent, atau Critical.
+                </p>
+            </div>
+
+            <!-- Bento 3 -->
+            <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
+                <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-[#1F6C9F]"></span>
+                    <span>03. WebGL Heatmap GPU</span>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
+                    Visualisasi titik-titik panas masalah kota secara menyeluruh. Semakin tinggi skor vote laporan, semakin pekat intensitas warna panas yang terpancar.
+                </p>
+            </div>
         </div>
     </div>
 

@@ -10,7 +10,7 @@ test('welcome page renders successfully with sira context and telemetry', functi
     $response->assertSuccessful();
     $response->assertSee('SIRA');
     $response->assertSee('Sistem Informasi Ruang Aman', false);
-    $response->assertSee('Kawal fasilitas publik dengan bukti nyata dan suara warga.');
+    $response->assertSee('Cara Kerja &amp; Fitur Utama', false);
     $response->assertSee('theme-toggle');
     $response->assertSee('Dasbor Laporan');
     $response->assertSee('Peta Sebaran');

@@ -19,11 +19,8 @@
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
                     <span>Peta Sebaran</span>
                 </a>
-                <a href="{{ url('/#cara-kerja') }}" class="px-3 py-1.5 rounded-[6px] transition-colors text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E] hidden lg:inline-block">
-                    Cara Kerja
-                </a>
-                <a href="{{ url('/#fitur') }}" class="px-3 py-1.5 rounded-[6px] transition-colors text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E] hidden lg:inline-block">
-                    Fitur Utama
+                <a href="{{ route('home') }}#cara-kerja-fitur" class="px-3 py-1.5 rounded-[6px] transition-colors {{ request()->routeIs('home') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }} hidden lg:inline-block">
+                    Cara Kerja &amp; Fitur
                 </a>
             </nav>
         </div>
@@ -536,11 +533,9 @@
                 </span>
                 <span class="text-[11px] text-[#787774]">&rarr;</span>
             </a>
-            <a href="{{ url('/#cara-kerja') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C] transition">
-                <span>Cara Kerja</span>
-            </a>
-            <a href="{{ url('/#fitur') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C] transition">
-                <span>Fitur Utama</span>
+            <a href="{{ route('home') }}#cara-kerja-fitur" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] {{ request()->routeIs('home') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] text-[#111111] dark:text-[#EDEDEC] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                <span>Cara Kerja &amp; Fitur</span>
+                <span class="text-[11px] text-[#787774]">&rarr;</span>
             </a>
         </div>
 
