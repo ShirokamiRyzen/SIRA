@@ -19,7 +19,7 @@
                 </span>
             </div>
 
-            <h1 class="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-[#111111] dark:text-[#EDEDEC] leading-tight">
+            <h1 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-[#111111] dark:text-[#EDEDEC] leading-tight">
                 Buat akun warga
             </h1>
             <p class="text-xs text-[#787774] dark:text-[#9B9B97] mt-1.5 leading-relaxed font-sans">

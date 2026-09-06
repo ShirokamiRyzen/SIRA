@@ -23,7 +23,7 @@
                         </span>
                     </div>
 
-                    <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#111111] dark:text-[#EDEDEC] leading-[1.15]">
+                    <h1 class="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111111] dark:text-[#EDEDEC] leading-[1.15]">
                         Suarakan realitas fasilitas publik tanpa birokrasi berbelit.
                     </h1>
 

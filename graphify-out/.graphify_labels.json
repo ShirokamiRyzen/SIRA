@@ -24,7 +24,7 @@
   "22": "0001_01_01_000002_create_jobs_table.php",
   "23": "rules/graphify.md",
   "24": "workflows/graphify.md",
-  "25": "Report",
+  "25": "Illuminate\\Http\\Request",
   "26": "artisan",
   "27": "bootstrap/app.php",
   "28": "config/app.php",
@@ -88,7 +88,7 @@
   "86": "laravel-best-practices/SKILL.md",
   "87": "2026_09_05_114247_create_notifications_table.php",
   "88": "bootstrap-4.blade.php",
-  "89": "OgImageController",
+  "89": "Report",
   "90": "bootstrap-5.blade.php",
   "91": "semantic-ui.blade.php",
   "92": "simple-bootstrap-3.blade.php",
@@ -96,5 +96,6 @@
   "94": "simple-bootstrap-5.blade.php",
   "95": "simple-tailwind.blade.php",
   "96": "tailwind.blade.php",
-  "97": "2026_09_06_083719_add_category_to_reports_table.php"
+  "97": "2026_09_06_083719_add_category_to_reports_table.php",
+  "98": "static"
 }

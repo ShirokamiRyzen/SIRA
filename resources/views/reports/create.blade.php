@@ -24,8 +24,8 @@
 
                 <!-- Hidden input untuk Base64 dan Data Koordinat / Wilayah -->
                 <input type="hidden" name="image_base64" id="imageBase64">
-                <input type="hidden" name="latitude" id="inputLatitude" value="{{ old('latitude', '-6.914744') }}">
-                <input type="hidden" name="longitude" id="inputLongitude" value="{{ old('longitude', '107.609810') }}">
+                <input type="hidden" name="latitude" id="inputLatitude" value="{{ old('latitude', '') }}">
+                <input type="hidden" name="longitude" id="inputLongitude" value="{{ old('longitude', '') }}">
                 <input type="hidden" name="province" id="inputProvince" value="{{ old('province') }}">
                 <input type="hidden" name="city" id="inputCity" value="{{ old('city') }}">
                 <input type="hidden" name="district" id="inputDistrict" value="{{ old('district') }}">
@@ -53,29 +53,28 @@
                         <div id="uploadPlaceholder" class="space-y-4">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
                                 <!-- Tombol Buka Kamera -->
-                                <button
-                                    type="button"
-                                    id="btnTriggerCamera"
-                                    class="flex flex-col items-center justify-center p-5 rounded-2xl border border-slate-200 dark:border-[#2A2A2A] bg-white dark:bg-[#141414] hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 active:scale-[0.98] transition cursor-pointer group shadow-xs"
-                                >
-                                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
+                                <button type="button" id="btnTriggerCamera"
+                                    class="flex flex-col items-center justify-center p-5 rounded-2xl border border-slate-200 dark:border-[#2A2A2A] bg-white dark:bg-[#141414] hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 active:scale-[0.98] transition cursor-pointer group shadow-xs">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
                                         <flux:icon name="camera" class="w-6 h-6" />
                                     </div>
                                     <span class="text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">Gunakan Kamera</span>
-                                    <span class="text-[11px] text-slate-400 dark:text-[#787774] mt-0.5">Ambil foto langsung</span>
+                                    <span class="text-[11px] text-slate-400 dark:text-[#787774] mt-0.5">Ambil foto
+                                        langsung</span>
                                 </button>
 
                                 <!-- Tombol Buka Galeri -->
-                                <button
-                                    type="button"
-                                    id="btnTriggerGallery"
-                                    class="flex flex-col items-center justify-center p-5 rounded-2xl border border-slate-200 dark:border-[#2A2A2A] bg-white dark:bg-[#141414] hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 active:scale-[0.98] transition cursor-pointer group shadow-xs"
-                                >
-                                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
+                                <button type="button" id="btnTriggerGallery"
+                                    class="flex flex-col items-center justify-center p-5 rounded-2xl border border-slate-200 dark:border-[#2A2A2A] bg-white dark:bg-[#141414] hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 active:scale-[0.98] transition cursor-pointer group shadow-xs">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
                                         <flux:icon name="photo" class="w-6 h-6" />
                                     </div>
-                                    <span class="text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">Pilih dari Galeri</span>
-                                    <span class="text-[11px] text-slate-400 dark:text-[#787774] mt-0.5">Berkas JPG, PNG, WebP</span>
+                                    <span class="text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">Pilih dari
+                                        Galeri</span>
+                                    <span class="text-[11px] text-slate-400 dark:text-[#787774] mt-0.5">Berkas JPG, PNG,
+                                        WebP</span>
                                 </button>
                             </div>
 
@@ -92,17 +91,13 @@
                             </div>
 
                             <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
-                                <div class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-950/60 px-3 py-1.5 rounded-full"
-                                    id="compressionInfo">
-                                    Kompresi 80% Berhasil
-                                </div>
                                 <button type="button" id="btnChangePhoto"
-                                    class="px-3 py-1.5 text-xs font-semibold rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-[#282828] dark:hover:bg-[#333333] text-slate-800 dark:text-[#EDEDEC] transition cursor-pointer inline-flex items-center gap-1.5">
+                                    class="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-[#282828] dark:hover:bg-[#333333] text-slate-800 dark:text-[#EDEDEC] transition cursor-pointer inline-flex items-center gap-1.5">
                                     <flux:icon name="arrow-path" class="w-3.5 h-3.5" />
                                     <span>Ganti Foto</span>
                                 </button>
                                 <button type="button" id="btnRemovePhoto"
-                                    class="px-3 py-1.5 text-xs font-semibold rounded-full bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/60 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 transition cursor-pointer inline-flex items-center gap-1.5">
+                                    class="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/60 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 transition cursor-pointer inline-flex items-center gap-1.5">
                                     <flux:icon name="trash" class="w-3.5 h-3.5" />
                                     <span>Hapus</span>
                                 </button>
@@ -117,17 +112,21 @@
                 <!-- 2. Informasi Pokok Masalah -->
                 <div class="grid grid-cols-1 gap-6">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-2">
+                        <label
+                            class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-2">
                             Kategori Masalah <span class="text-rose-500">*</span>
                         </label>
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
                             @foreach($categories as $catKey => $cat)
-                                <label class="relative flex items-center gap-2.5 p-3 rounded-2xl border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:border-emerald-500/60 dark:hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-400 has-checked:bg-emerald-50/50 dark:has-checked:bg-emerald-950/30 has-checked:ring-2 has-checked:ring-emerald-500/30 shadow-2xs">
+                                <label
+                                    class="relative flex items-center gap-2.5 p-3 rounded-2xl border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:border-emerald-500/60 dark:hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-400 has-checked:bg-emerald-50/50 dark:has-checked:bg-emerald-950/30 has-checked:ring-2 has-checked:ring-emerald-500/30 shadow-2xs">
                                     <input type="radio" name="category" value="{{ $catKey }}" {{ old('category', 'infrastruktur') === $catKey ? 'checked' : '' }} class="sr-only">
-                                    <div class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
+                                    <div class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0"
+                                        style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
                                         <flux:icon name="{{ $cat['icon'] }}" class="w-4 h-4" />
                                     </div>
-                                    <span class="text-xs font-bold text-slate-800 dark:text-[#EDEDEC] truncate">{{ $cat['label'] }}</span>
+                                    <span
+                                        class="text-xs font-bold text-slate-800 dark:text-[#EDEDEC] truncate">{{ $cat['label'] }}</span>
                                 </label>
                             @endforeach
                         </div>
@@ -163,64 +162,61 @@
                     </div>
                 </div>
 
-                <!-- 3. Peta Interaktif OpenFreeMap & Koordinat -->
+                <!-- 3. Titik Lokasi GPS Terverifikasi (GPS Only) -->
                 <div class="space-y-4">
-                    <!-- Label & Tombol Deteksi Lokasi -->
-                    <div class="flex items-center justify-between">
+                    <!-- Label & Tombol Deteksi Lokasi GPS -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828]">
                         <div>
-                            <label class="block text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">
-                                Titik Lokasi <span class="text-rose-500">*</span>
-                            </label>
-                            <p class="text-xs text-slate-400 dark:text-[#787774]">Cari lokasi, geser pin pada peta, atau klik deteksi GPS.</p>
+                            <div class="flex items-center gap-2">
+                                <label class="block text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">
+                                    Titik Lokasi (GPS Only) <span class="text-rose-500">*</span>
+                                </label>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                    Sensor Otomatis
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-[#787774] mt-0.5">
+                                Lokasi wajib diambil langsung melalui sensor GPS perangkat saat berada di tempat kejadian. Pin lokasi manual dinonaktifkan.
+                            </p>
                         </div>
                         <button type="button" id="btnGeolocate"
-                            class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#282828] active:bg-slate-300 text-slate-700 dark:text-[#EDEDEC] font-semibold text-xs rounded-xl transition cursor-pointer">
-                            <flux:icon name="viewfinder-circle"
-                                class="w-3.5 h-3.5 text-slate-600 dark:text-[#EDEDEC] shrink-0" />
-                            <span id="btnGeolocateText">Deteksi Lokasi Saya (GPS)</span>
+                            class="inline-flex items-center justify-center space-x-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer shrink-0">
+                            <flux:icon name="viewfinder-circle" class="w-4 h-4 text-white shrink-0" />
+                            <span id="btnGeolocateText">Ambil Titik Lokasi GPS</span>
                         </button>
                     </div>
 
-                    <!-- Input Pencarian Lokasi Cepat -->
+                    <!-- Kontainer Peta MapLibre (Read-Only GPS Visualization) -->
                     <div class="relative">
-                        <div class="flex items-center bg-white dark:bg-[#1C1C1B] border border-slate-300 dark:border-[#2E2E2E] rounded-xl px-3 py-2 shadow-2xs focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500 transition">
-                            <flux:icon name="magnifying-glass" class="w-4 h-4 text-slate-400 dark:text-[#787774] shrink-0 mr-2" />
-                            <input type="text" id="reportLocationSearch"
-                                placeholder="Cari nama tempat, kampus, jalan, atau daerah (contoh: STT Wastukancana)..."
-                                class="w-full bg-transparent text-xs text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#787774] focus:outline-hidden"
-                                autocomplete="off" />
-                            <button type="button" id="clearReportSearchBtn" class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 cursor-pointer">
-                                <flux:icon name="x-mark" class="w-3.5 h-3.5" />
-                            </button>
-                            <div id="reportSearchSpinner" class="hidden shrink-0 ml-1.5">
-                                <div class="w-3.5 h-3.5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                        <div id="mapPicker"
+                            class="w-full h-80 rounded-2xl border border-slate-300 dark:border-[#282828] shadow-inner relative overflow-hidden">
+                            <div id="mapLoading"
+                                class="absolute inset-0 bg-white/70 dark:bg-[#141414]/80 backdrop-blur-sm z-10 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-[#CCCCCC]">
+                                Memuat peta OpenFreeMap...
                             </div>
                         </div>
-                        <!-- Dropdown Hasil Pencarian Lokasi -->
-                        <div id="reportSearchResultsDropdown"
-                            class="absolute top-full left-0 right-0 mt-1 max-h-56 overflow-y-auto bg-white dark:bg-[#1A1A19] border border-slate-200 dark:border-[#282828] rounded-xl shadow-xl z-30 hidden divide-y divide-slate-100 dark:divide-[#242424]">
-                        </div>
-                    </div>
 
-                    <!-- Kontainer Peta MapLibre -->
-                    <div id="mapPicker"
-                        class="w-full h-80 rounded-2xl border border-slate-300 dark:border-[#282828] shadow-inner relative overflow-hidden">
-                        <div id="mapLoading"
-                            class="absolute inset-0 bg-white/70 dark:bg-[#141414]/80 backdrop-blur-sm z-10 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-[#CCCCCC]">
-                            Memuat peta OpenFreeMap...
+                        <!-- Overlay Badge: Pin Terkunci Sesuai GPS -->
+                        <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium bg-slate-900/90 text-white dark:bg-black/90 shadow-md backdrop-blur-xs">
+                                <flux:icon name="lock-closed" class="w-3 h-3 text-emerald-400" />
+                                <span>Pin Terkunci Sesuai GPS</span>
+                            </span>
                         </div>
                     </div>
 
                     <!-- Tampilan Alamat Terdeteksi Otomatis -->
-                    <div
-                        class="mt-3 p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs flex items-start space-x-3">
-                        <flux:icon name="map-pin" class="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <div id="gpsStatusContainer"
+                        class="p-4 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-xs flex items-start space-x-3 transition">
+                        <div id="gpsStatusIcon" class="mt-0.5 shrink-0 text-slate-400 dark:text-[#787774]">
+                            <flux:icon name="map-pin" class="w-4 h-4" />
+                        </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-bold text-emerald-950 dark:text-emerald-200" id="displayAddress">
-                                Mengambil data wilayah...
+                            <div class="font-bold text-slate-800 dark:text-[#EDEDEC]" id="displayAddress">
+                                Sinyal GPS belum diambil. Klik tombol "Ambil Titik Lokasi GPS" di atas.
                             </div>
-                            <div class="text-emerald-800 dark:text-emerald-300 text-[11px] mt-0.5" id="displayCoordinates">
-                                Lat: -6.914744, Lng: 107.609810
+                            <div class="text-slate-500 dark:text-[#888888] text-[11px] mt-0.5 font-mono" id="displayCoordinates">
+                                Koordinat: Belum terkunci
                             </div>
                         </div>
                     </div>
@@ -243,49 +239,58 @@
         <!-- 3 Card Tutorial Singkat Alur Pelaporan SIRA -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-sans">
             <!-- Bento 1 -->
-            <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
+            <div
+                class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
                 <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                     <span>01. OpenFreeMap &amp; Reverse Geocode</span>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Pilih titik lokasi pada peta terbuka. Nama jalan, kelurahan, dan kecamatan teridentifikasi otomatis tanpa dependensi API komersial berbayar.
+                    Pilih titik lokasi pada peta terbuka. Nama jalan, kelurahan, dan kecamatan teridentifikasi otomatis
+                    tanpa dependensi API komersial berbayar.
                 </p>
             </div>
 
             <!-- Bento 2 -->
-            <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
+            <div
+                class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
                 <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
                     <span class="w-2 h-2 rounded-full bg-[#9F2F2D]"></span>
                     <span>02. Crowdsourced Voting Tier</span>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Laporan tidak diverifikasi oleh birokrat tunggal. Dukungan vote komunitas yang menentukan apakah suatu masalah naik ke status Trending, Urgent, atau Critical.
+                    Laporan tidak diverifikasi oleh birokrat tunggal. Dukungan vote komunitas yang menentukan apakah suatu
+                    masalah naik ke status Trending, Urgent, atau Critical.
                 </p>
             </div>
 
             <!-- Bento 3 -->
-            <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
+            <div
+                class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
                 <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
                     <span class="w-2 h-2 rounded-full bg-[#1F6C9F]"></span>
                     <span>03. WebGL Heatmap GPU</span>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Visualisasi titik-titik panas masalah kota secara menyeluruh. Semakin tinggi skor vote laporan, semakin pekat intensitas warna panas yang terpancar.
+                    Visualisasi titik-titik panas masalah kota secara menyeluruh. Semakin tinggi skor vote laporan, semakin
+                    pekat intensitas warna panas yang terpancar.
                 </p>
             </div>
         </div>
     </div>
 
     <!-- Modal Webcam Kamera Langsung (Desktop / Browser) -->
-    <div id="webcamModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#282828] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl p-5 space-y-4">
+    <div id="webcamModal"
+        class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+        <div
+            class="bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#282828] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl p-5 space-y-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <flux:icon name="camera" class="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                     <span class="text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">Ambil Foto dari Kamera</span>
                 </div>
-                <button type="button" id="closeWebcamBtn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer">
+                <button type="button" id="closeWebcamBtn"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer">
                     <flux:icon name="x-mark" class="w-5 h-5" />
                 </button>
             </div>
@@ -293,7 +298,8 @@
             <!-- Video Container -->
             <div class="relative bg-black rounded-2xl overflow-hidden aspect-video flex items-center justify-center">
                 <video id="webcamVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
-                <div id="webcamLoading" class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-xs space-x-2">
+                <div id="webcamLoading"
+                    class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-xs space-x-2">
                     <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     <span>Menghubungkan ke kamera...</span>
                 </div>
@@ -332,7 +338,6 @@
         const imageBase64Input = document.getElementById('imageBase64');
         const uploadPlaceholder = document.getElementById('uploadPlaceholder');
         const previewContainer = document.getElementById('previewContainer');
-        const compressionInfo = document.getElementById('compressionInfo');
 
         // Modal Webcam Elements
         const webcamModal = document.getElementById('webcamModal');
@@ -381,10 +386,6 @@
                     imagePreview.src = compressedBase64;
                     uploadPlaceholder.classList.add('hidden');
                     previewContainer.classList.remove('hidden');
-
-                    const origKb = (file.size / 1024).toFixed(1);
-                    const compKb = (compressedBase64.length * 0.75 / 1024).toFixed(1);
-                    compressionInfo.innerText = `Kompresi 80% Berhasil: ${origKb} KB → ~${compKb} KB`;
                 };
                 img.src = e.target.result;
             };
@@ -409,7 +410,7 @@
         // Buka Kamera (Deteksi Mobile vs Desktop Webcam)
         function isMobileDevice() {
             return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-                   (navigator.maxTouchPoints > 0 && window.innerWidth < 768);
+                (navigator.maxTouchPoints > 0 && window.innerWidth < 768);
         }
 
         function stopWebcam() {
@@ -540,50 +541,76 @@
         }
 
         // -------------------------------------------------------------
-        // 2. OpenFreeMap MapLibre GL JS Interactive Picker
+        // 2. OpenFreeMap MapLibre GL JS GPS-Only Viewer & Lock
         // -------------------------------------------------------------
-        let currentLat = parseFloat(document.getElementById('inputLatitude').value) || -6.914744;
-        let currentLng = parseFloat(document.getElementById('inputLongitude').value) || 107.609810;
+        const latInput = document.getElementById('inputLatitude');
+        const lngInput = document.getElementById('inputLongitude');
+        let currentLat = parseFloat(latInput?.value);
+        let currentLng = parseFloat(lngInput?.value);
+        let hasGpsLocation = !isNaN(currentLat) && !isNaN(currentLng) && currentLat !== 0;
+
+        // Koordinat inisial (Gunakan posisi tersimpan atau default Bandung center sebagai titik pandang awal)
+        const initialCenter = hasGpsLocation ? [currentLng, currentLat] : [107.609810, -6.914744];
+        const initialZoom = hasGpsLocation ? 16 : 13;
 
         const map = new maplibregl.Map({
             container: 'mapPicker',
             style: 'https://tiles.openfreemap.org/styles/bright',
-            center: [currentLng, currentLat],
-            zoom: 14
+            center: initialCenter,
+            zoom: initialZoom
         });
 
-        // Marker yang dapat digeser
+        // Marker TIDAK BISA DIGESER (draggable: false) - Khusus GPS Saja
         const marker = new maplibregl.Marker({
-            draggable: true,
+            draggable: false,
             color: '#059669'
-        })
-            .setLngLat([currentLng, currentLat])
-            .addTo(map);
+        });
+
+        if (hasGpsLocation) {
+            marker.setLngLat([currentLng, currentLat]).addTo(map);
+        }
 
         map.on('load', () => {
             const loading = document.getElementById('mapLoading');
             if (loading) loading.style.display = 'none';
-            reverseGeocode(currentLat, currentLng);
+
+            if (hasGpsLocation) {
+                reverseGeocode(currentLat, currentLng);
+                setGpsStatusLocked(currentLat, currentLng);
+            } else {
+                // Coba ambil GPS secara otomatis saat halaman dibuka
+                requestGpsLocation(true);
+            }
         });
 
-        // Event ketika marker selesai digeser
-        marker.on('dragend', () => {
-            const lngLat = marker.getLngLat();
-            updateCoordinates(lngLat.lat, lngLat.lng);
-        });
+        function setGpsStatusLocked(lat, lng) {
+            const container = document.getElementById('gpsStatusContainer');
+            const icon = document.getElementById('gpsStatusIcon');
+            const displayCoord = document.getElementById('displayCoordinates');
+            const btnText = document.getElementById('btnGeolocateText');
 
-        // Event klik di area peta untuk memindahkan marker
-        map.on('click', (e) => {
-            marker.setLngLat(e.lngLat);
-            updateCoordinates(e.lngLat.lat, e.lngLat.lng);
-        });
+            if (container) {
+                container.className = 'p-4 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300/80 dark:border-emerald-800/80 text-xs flex items-start space-x-3 transition';
+            }
+            if (icon) {
+                icon.className = 'mt-0.5 shrink-0 text-emerald-600 dark:text-emerald-400';
+            }
+            if (displayCoord) {
+                displayCoord.className = 'text-emerald-800 dark:text-emerald-300 text-[11px] mt-0.5 font-mono font-medium';
+                displayCoord.innerText = `✓ GPS Terkunci: Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)}`;
+            }
+            if (btnText) {
+                btnText.innerText = 'Perbarui Lokasi GPS';
+            }
+        }
 
         function updateCoordinates(lat, lng) {
             currentLat = lat;
             currentLng = lng;
-            document.getElementById('inputLatitude').value = lat.toFixed(8);
-            document.getElementById('inputLongitude').value = lng.toFixed(8);
-            document.getElementById('displayCoordinates').innerText = `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
+            hasGpsLocation = true;
+            if (latInput) latInput.value = lat.toFixed(8);
+            if (lngInput) lngInput.value = lng.toFixed(8);
+            setGpsStatusLocked(lat, lng);
             reverseGeocode(lat, lng);
         }
 
@@ -628,7 +655,7 @@
                             const formattedText = [road, subdistrict, district, city].filter(Boolean).join(', ');
                             document.getElementById('displayAddress').innerText = formattedText || data.display_name;
                         } else {
-                            document.getElementById('displayAddress').innerText = 'Alamat tidak ditemukan, silakan gunakan titik peta.';
+                            document.getElementById('displayAddress').innerText = 'Alamat pada titik GPS teridentifikasi.';
                         }
                     })
                     .catch(err => {
@@ -639,169 +666,82 @@
         }
 
         // -------------------------------------------------------------
-        // 4. Deteksi GPS Pengguna (Geolocation API)
+        // 4. Deteksi GPS Pengguna (Geolocation API Only)
         // -------------------------------------------------------------
-        document.getElementById('btnGeolocate').addEventListener('click', function () {
+        function requestGpsLocation(isAuto = false) {
             if (!navigator.geolocation) {
-                alert('Browser Anda tidak mendukung geolokasi.');
+                if (!isAuto) alert('Browser atau perangkat Anda tidak mendukung sensor geolokasi GPS.');
                 return;
             }
 
+            const btn = document.getElementById('btnGeolocate');
             const btnText = document.getElementById('btnGeolocateText');
-            if (btnText) btnText.innerText = 'Mendeteksi lokasi GPS...';
+            if (btnText) btnText.innerText = 'Mengunci sinyal GPS...';
+            if (btn) btn.disabled = true;
+
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
-                    if (btnText) btnText.innerText = 'Deteksi Lokasi Saya (GPS)';
+                    if (btn) btn.disabled = false;
                     const lat = pos.coords.latitude;
                     const lng = pos.coords.longitude;
-                    map.flyTo({ center: [lng, lat], zoom: 16 });
+
                     marker.setLngLat([lng, lat]);
+                    if (!marker.getElement().parentElement) {
+                        marker.addTo(map);
+                    }
+                    map.flyTo({ center: [lng, lat], zoom: 16 });
                     updateCoordinates(lat, lng);
                 },
                 (err) => {
-                    if (btnText) btnText.innerText = 'Deteksi Lokasi Saya (GPS)';
-                    alert('Gagal mengambil titik GPS: ' + err.message);
+                    if (btn) btn.disabled = false;
+                    if (btnText) {
+                        btnText.innerText = hasGpsLocation ? 'Perbarui Lokasi GPS' : 'Ambil Titik Lokasi GPS';
+                    }
+
+                    if (!isAuto) {
+                        let errorMsg = 'Gagal mengambil titik GPS: ';
+                        switch (err.code) {
+                            case err.PERMISSION_DENIED:
+                                errorMsg += 'Izin akses lokasi ditolak. Harap izinkan akses lokasi (GPS) pada pengaturan peramban atau perangkat Anda.';
+                                break;
+                            case err.POSITION_UNAVAILABLE:
+                                errorMsg += 'Sinyal lokasi perangkat tidak tersedia atau GPS sedang tidak aktif.';
+                                break;
+                            case err.TIMEOUT:
+                                errorMsg += 'Waktu permintaan lokasi habis. Silakan coba kembali.';
+                                break;
+                            default:
+                                errorMsg += err.message;
+                        }
+                        alert(errorMsg);
+                    }
                 },
-                { enableHighAccuracy: true, timeout: 8000 }
+                { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
             );
+        }
+
+        document.getElementById('btnGeolocate').addEventListener('click', function () {
+            requestGpsLocation(false);
         });
 
-        // -------------------------------------------------------------
-        // 5. Pencarian Lokasi Cepat untuk Penempatan Pin
-        // -------------------------------------------------------------
-        const reportLocationSearch = document.getElementById('reportLocationSearch');
-        const clearReportSearchBtn = document.getElementById('clearReportSearchBtn');
-        const reportSearchSpinner = document.getElementById('reportSearchSpinner');
-        const reportSearchResultsDropdown = document.getElementById('reportSearchResultsDropdown');
-        let reportSearchDebounce = null;
-
-        function closeReportSearchDropdown() {
-            if (reportSearchResultsDropdown) {
-                reportSearchResultsDropdown.classList.add('hidden');
-                reportSearchResultsDropdown.innerHTML = '';
-            }
-        }
-
-        function escapeReportHtml(str) {
-            if (!str) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function executeReportLocationSearch(query) {
-            if (!query || query.trim().length < 2) {
-                closeReportSearchDropdown();
-                return;
-            }
-
-            if (reportSearchSpinner) reportSearchSpinner.classList.remove('hidden');
-
-            fetch(`{{ route('api.geocode.search') }}?q=${encodeURIComponent(query.trim())}`)
-                .then(res => res.json())
-                .then(results => {
-                    if (reportSearchSpinner) reportSearchSpinner.classList.add('hidden');
-
-                    if (!results || results.length === 0) {
-                        reportSearchResultsDropdown.innerHTML = `
-                            <div class="p-3 text-center text-xs text-slate-500 dark:text-[#888888]">
-                                Lokasi tidak ditemukan. Coba gunakan nama kota, kampus, jalan, atau daerah lain.
-                            </div>
-                        `;
-                        reportSearchResultsDropdown.classList.remove('hidden');
-                        return;
-                    }
-
-                    reportSearchResultsDropdown.innerHTML = '';
-                    results.forEach(item => {
-                        const btn = document.createElement('button');
-                        btn.type = 'button';
-                        btn.className = 'w-full text-left p-2.5 sm:p-3 hover:bg-slate-50 dark:hover:bg-[#1E1E1E] transition flex items-start gap-2.5 cursor-pointer';
-                        btn.innerHTML = `
-                            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 21s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 7.2c0 7.3-8 11.8-8 11.8z" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                            <div class="flex-1 min-w-0">
-                                <div class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] truncate">${escapeReportHtml(item.name)}</div>
-                                <div class="text-[11px] text-slate-500 dark:text-[#888888] truncate">${escapeReportHtml(item.display_name)}</div>
-                            </div>
-                        `;
-                        btn.addEventListener('click', () => {
-                            closeReportSearchDropdown();
-                            reportLocationSearch.value = item.name;
-                            if (clearReportSearchBtn) clearReportSearchBtn.classList.remove('hidden');
-
-                            const lat = parseFloat(item.lat);
-                            const lng = parseFloat(item.lng);
-                            if (!isNaN(lat) && !isNaN(lng)) {
-                                map.flyTo({ center: [lng, lat], zoom: 16 });
-                                marker.setLngLat([lng, lat]);
-                                updateCoordinates(lat, lng);
-                            }
-                        });
-                        reportSearchResultsDropdown.appendChild(btn);
-                    });
-
-                    reportSearchResultsDropdown.classList.remove('hidden');
-                })
-                .catch(err => {
-                    console.error('Pencarian lokasi gagal:', err);
-                    if (reportSearchSpinner) reportSearchSpinner.classList.add('hidden');
-                });
-        }
-
-        if (reportLocationSearch) {
-            reportLocationSearch.addEventListener('input', (e) => {
-                const query = e.target.value;
-                if (clearReportSearchBtn) {
-                    if (query.trim().length > 0) {
-                        clearReportSearchBtn.classList.remove('hidden');
-                    } else {
-                        clearReportSearchBtn.classList.add('hidden');
-                    }
-                }
-
-                clearTimeout(reportSearchDebounce);
-                reportSearchDebounce = setTimeout(() => {
-                    executeReportLocationSearch(query);
-                }, 350);
-            });
-
-            reportLocationSearch.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    clearTimeout(reportSearchDebounce);
-                    executeReportLocationSearch(reportLocationSearch.value);
-                } else if (e.key === 'Escape') {
-                    closeReportSearchDropdown();
-                }
-            });
-        }
-
-        if (clearReportSearchBtn) {
-            clearReportSearchBtn.addEventListener('click', () => {
-                if (reportLocationSearch) reportLocationSearch.value = '';
-                clearReportSearchBtn.classList.add('hidden');
-                closeReportSearchDropdown();
-            });
-        }
-
-        document.addEventListener('click', (e) => {
-            if (!reportLocationSearch || !reportSearchResultsDropdown) return;
-            if (!reportLocationSearch.contains(e.target) && !reportSearchResultsDropdown.contains(e.target)) {
-                closeReportSearchDropdown();
-            }
-        });
-
-        // Validasi form sebelum submit
+        // Validasi form sebelum submit (Foto & Wajib GPS)
         document.getElementById('reportForm').addEventListener('submit', function (e) {
             if (!imageBase64Input.value) {
                 e.preventDefault();
                 alert('Harap unggah foto bukti laporan terlebih dahulu!');
+                return;
+            }
+
+            if (!latInput.value || !lngInput.value) {
+                e.preventDefault();
+                alert('Titik lokasi wajib diambil menggunakan GPS perangkat Anda saat berada di lokasi kejadian. Silakan klik tombol "Ambil Titik Lokasi GPS"!');
+                const btnGeolocate = document.getElementById('btnGeolocate');
+                if (btnGeolocate) {
+                    btnGeolocate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    btnGeolocate.classList.add('ring-4', 'ring-emerald-400');
+                    setTimeout(() => btnGeolocate.classList.remove('ring-4', 'ring-emerald-400'), 2000);
+                }
+                return;
             }
         });
     </script>

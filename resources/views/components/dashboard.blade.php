@@ -169,7 +169,7 @@
         @if ($reports->isEmpty())
             <div class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] p-12 rounded-[8px] text-center space-y-2">
                 <span class="font-mono text-xs text-[#787774] block">[KOSONG]</span>
-                <h3 class="font-serif text-lg font-medium text-[#111111] dark:text-[#EDEDEC]">
+                <h3 class="font-sans text-lg font-semibold text-[#111111] dark:text-[#EDEDEC]">
                     Tidak ditemukan laporan yang sesuai kriteria pencarian
                 </h3>
                 <p class="text-xs text-[#787774] max-w-sm mx-auto font-sans">

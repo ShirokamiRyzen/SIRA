@@ -18,8 +18,7 @@ Route::get('/', function () {
     $criticalReports = Report::withMultiIssueStatus()
         ->with(['user'])
         ->withCount('comments')
-        ->where('rank_tier', '!=', 'normal')
-        ->orderByDesc('vote_score')
+        ->inRandomOrder()
         ->take(4)
         ->get();
 

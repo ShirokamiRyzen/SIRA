@@ -4,7 +4,7 @@
 <div class="border border-[#EAEAEA] dark:border-[#282828] bg-[#FAFAFA] dark:bg-[#1A1A1A] rounded-[8px] p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5 shadow-xs">
     <div class="border-b border-[#EAEAEA] dark:border-[#282828] pb-3 flex items-center justify-between">
         <div>
-            <h3 class="font-serif text-base font-medium text-[#111111] dark:text-[#EDEDEC] tracking-tight">
+            <h3 class="font-sans text-base font-bold text-[#111111] dark:text-[#EDEDEC] tracking-tight">
                 Prioritas Utama
             </h3>
             <p class="text-[11px] font-mono text-[#787774] mt-0.5">Top Laporan Tervote</p>

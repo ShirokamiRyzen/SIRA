@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-06)
 
 ## Corpus Check
-- 124 files · ~64,502 words
+- 125 files · ~71,078 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 636 nodes · 756 edges · 98 communities (90 shown, 8 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
+- 647 nodes · 780 edges · 99 communities (92 shown, 7 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 15 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3a5ca45a`
+- Built from commit: `3252c5f8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -37,7 +37,7 @@
 - Laravel Application
 - rules/graphify.md
 - workflows/graphify.md
-- Report
+- Illuminate\Http\Request
 - welcome.blade.php
 - Events and Notifications Best Practices
 - Caching Best Practices
@@ -65,13 +65,14 @@
 - stack-status.blade.php
 - _comment_item.blade.php
 - show.blade.php
-- OgImageController
+- Report
+- static
 
 ## God Nodes (most connected - your core abstractions)
-1. `Report` - 37 edges
-2. `ReportComment` - 17 edges
-3. `User` - 16 edges
-4. `ReportVote` - 12 edges
+1. `Report` - 44 edges
+2. `ReportComment` - 18 edges
+3. `User` - 17 edges
+4. `ReportVote` - 14 edges
 5. `Detection Checklist` - 11 edges
 6. `Architecture Best Practices` - 11 edges
 7. `Security Best Practices` - 11 edges
@@ -94,7 +95,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (98 total, 8 thin omitted)
+## Communities (99 total, 7 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -117,11 +118,11 @@ Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
 ### Community 5 - "ReportComment"
-Cohesion: 0.07
-Nodes (17): ReportComment, ReportVote, User, UserFactory, DatabaseSeeder, DummyDataSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\Factory (+9 more)
+Cohesion: 0.08
+Nodes (15): ReportComment, ReportVote, User, DatabaseSeeder, DummyDataSeeder, MultiIssueLocationSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\HasFactory (+7 more)
 
 ### Community 6 - "Architecture Best Practices"
-Cohesion: 0.18
+Cohesion: 0.17
 Nodes (11): Architecture Best Practices, Depend on Contracts at Boundaries, Extract Focused Business Operations, Follow Framework Conventions, Inject Required Dependencies, Specify a Deterministic Sort Order, Use Atomic Locks for Race Conditions, Use `Concurrency::run()` for Parallel Execution (+3 more)
 
 ### Community 7 - "Security Best Practices"
@@ -141,11 +142,11 @@ Cohesion: 0.20
 Nodes (9): Advanced Query Best Practices, Combine Related Counts with Conditional Aggregates, Compare `whereHas()` with an `IN` Subquery, Consider a Correlated Subquery for Has-Many Ordering, Create Dynamic Relationships with a Subquery Foreign Key, Design Composite Indexes for the Query, Measure Two Simple Queries Against One Complex Query, Reuse Loaded Parent Models with `setRelation()` (+1 more)
 
 ### Community 11 - "Migration Best Practices"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Define Foreign-Key Constraints Deliberately, Design Indexes for Real Queries, Generate Migrations with Artisan, Keep Migrations Focused, Make Rollbacks Honest, Migration Best Practices, Mirror Defaults Only When Unsaved Models Need Them, Stage Changes That Affect Existing Rows (+1 more)
 
 ### Community 12 - "Queue and Job Best Practices"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Back Off Transient Failures, Batch Jobs for Group Coordination, Configure Time-Based Retry Limits Deliberately, Handle Terminal Failure When Needed, Keep Reservation Time Longer Than Execution Time, Queue and Job Best Practices, Rate Limit External Calls, Use Horizon for Redis Queue Operations (+1 more)
 
 ### Community 13 - "AppServiceProvider"
@@ -172,9 +173,9 @@ Nodes (27): APIs & Eloquent Resources, Application Structure & Architecture, Art
 Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
-### Community 25 - "Report"
-Cohesion: 0.09
-Nodes (14): AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Report, AiSummaryService (+6 more)
+### Community 25 - "Illuminate\Http\Request"
+Cohesion: 0.11
+Nodes (13): AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, AiSummaryService, Illuminate\Http\JsonResponse (+5 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.20
@@ -185,7 +186,7 @@ Cohesion: 0.22
 Nodes (8): Caching Best Practices, Configure Failover Cache Stores in Production, Consider `Cache::flexible()` for Stale-While-Revalidate, Use `Cache::add()` for Atomic Conditional Writes, Use `Cache::memo()` to Avoid Redundant Hits Within an Execution, Use `Cache::remember()` for Cache-Aside Reads, Use Cache Tags to Invalidate Related Groups, Use `once()` for In-Process Memoization
 
 ### Community 45 - "Error Handling Best Practices"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): Add Context to Exception Classes, Choose Where to Report and Render Exceptions, Define JSON Rendering for API Routes, Error Handling Best Practices, Mark Exceptions the Handler Should Not Report, Prevent Duplicate Reports of One Exception Instance, Throttle High-Volume Exception Reports
 
 ### Community 46 - "Task Scheduling Best Practices"
@@ -268,22 +269,30 @@ Nodes (5): Consistency First, How to Apply, Rule Index, Testing Best Practices, 
 Cohesion: 0.40
 Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practices, Rule Index
 
+### Community 89 - "Report"
+Cohesion: 0.12
+Nodes (3): OgImageController, Report, Illuminate\Http\Response
+
+### Community 98 - "static"
+Cohesion: 0.28
+Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
+
 ## Knowledge Gaps
 - **306 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+301 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Report` connect `Report` to `OgImageController`, `ReportComment`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `Architecture Best Practices` connect `Architecture Best Practices` to `laravel-best-practices/SKILL.md`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Are the 4 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
-  _`Report` has 4 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 4 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
-  _`User` has 4 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `Report` connect `Report` to `Illuminate\Http\Request`, `static`, `ReportComment`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Are the 5 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
+  _`Report` has 5 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 2 inferred relationships involving `ReportComment` (e.g. with `.run()` and `.run()`) actually correct?**
+  _`ReportComment` has 2 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 5 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
+  _`User` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `name`, `type` to the rest of the system?**
   _306 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `composer.json` be split into smaller, more focused modules?**

@@ -1,7 +1,7 @@
 # Graph Report - SIRA  (2026-09-06)
 
 ## Corpus Check
-- 124 files · ~64,499 words
+- 124 files · ~64,502 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary

@@ -20,7 +20,7 @@
                         Panduan &amp; Kapabilitas
                     </span>
                 </div>
-                <h1 class="font-serif text-2xl sm:text-4xl text-[#111111] dark:text-[#EDEDEC] font-normal tracking-tight">
+                <h1 class="font-sans text-2xl sm:text-4xl text-[#111111] dark:text-[#EDEDEC] font-bold tracking-tight">
                     Cara Kerja &amp; Fitur Utama
                 </h1>
                 <p class="text-xs sm:text-sm text-[#787774] dark:text-[#9B9B97] font-sans mt-1 max-w-2xl">
@@ -55,7 +55,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 select-text">
                 <div class="p-5 sm:p-6 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2.5">
                     <div class="font-mono text-xs text-[#787774] dark:text-[#8E8D8A]">Langkah 01</div>
-                    <h3 class="font-serif text-base text-[#111111] dark:text-[#EDEDEC] font-normal">
+                    <h3 class="font-sans text-base text-[#111111] dark:text-[#EDEDEC] font-semibold">
                         Foto Bukti Kerusakan
                     </h3>
                     <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-relaxed">
@@ -65,7 +65,7 @@
 
                 <div class="p-5 sm:p-6 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2.5">
                     <div class="font-mono text-xs text-[#787774] dark:text-[#8E8D8A]">Langkah 02</div>
-                    <h3 class="font-serif text-base text-[#111111] dark:text-[#EDEDEC] font-normal">
+                    <h3 class="font-sans text-base text-[#111111] dark:text-[#EDEDEC] font-semibold">
                         Tandai Titik di Peta
                     </h3>
                     <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-relaxed">
@@ -75,7 +75,7 @@
 
                 <div class="p-5 sm:p-6 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2.5">
                     <div class="font-mono text-xs text-[#787774] dark:text-[#8E8D8A]">Langkah 03</div>
-                    <h3 class="font-serif text-base text-[#111111] dark:text-[#EDEDEC] font-normal">
+                    <h3 class="font-sans text-base text-[#111111] dark:text-[#EDEDEC] font-semibold">
                         Dukungan Warga &amp; Diskusi
                     </h3>
                     <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-relaxed">
@@ -85,7 +85,7 @@
 
                 <div class="p-5 sm:p-6 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2.5">
                     <div class="font-mono text-xs text-[#787774] dark:text-[#8E8D8A]">Langkah 04</div>
-                    <h3 class="font-serif text-base text-[#111111] dark:text-[#EDEDEC] font-normal">
+                    <h3 class="font-sans text-base text-[#111111] dark:text-[#EDEDEC] font-semibold">
                         Kawal Sampai Selesai
                     </h3>
                     <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-relaxed">
@@ -118,7 +118,7 @@
                             <span class="font-mono text-[11px] text-[#787774] dark:text-[#8E8D8A]">Bebas Akses</span>
                         </div>
 
-                        <h3 class="font-serif text-xl text-[#111111] dark:text-[#EDEDEC] mb-2 font-normal">
+                        <h3 class="font-sans text-xl text-[#111111] dark:text-[#EDEDEC] mb-2 font-bold">
                             Pemetaan &amp; Deteksi Lokasi Otomatis
                         </h3>
 
@@ -151,7 +151,7 @@
                             </span>
                             <span class="font-mono text-[11px] text-[#787774] dark:text-[#8E8D8A]">Demokratis</span>
                         </div>
-                        <h4 class="font-serif text-lg text-[#111111] dark:text-[#EDEDEC] mb-2 font-normal">
+                        <h4 class="font-sans text-lg text-[#111111] dark:text-[#EDEDEC] mb-2 font-semibold">
                             Penentuan Prioritas Kolektif
                         </h4>
                         <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-[1.6]">
@@ -172,7 +172,7 @@
                             </span>
                             <span class="font-mono text-[11px] text-[#787774] dark:text-[#8E8D8A]">Asisten @Sira</span>
                         </div>
-                        <h4 class="font-serif text-lg text-[#111111] dark:text-[#EDEDEC] mb-2 font-normal">
+                        <h4 class="font-sans text-lg text-[#111111] dark:text-[#EDEDEC] mb-2 font-semibold">
                             Analisis Masalah Otomatis
                         </h4>
                         <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-[1.6]">
@@ -193,7 +193,7 @@
                             </span>
                             <span class="font-mono text-[11px] text-[#787774] dark:text-[#8E8D8A]">Titik Panas</span>
                         </div>
-                        <h4 class="font-serif text-lg text-[#111111] dark:text-[#EDEDEC] mb-2 font-normal">
+                        <h4 class="font-sans text-lg text-[#111111] dark:text-[#EDEDEC] mb-2 font-semibold">
                             Pantau Titik Rawan Kota
                         </h4>
                         <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-[1.6]">
@@ -208,16 +208,16 @@
         </div>
     </section>
 
-    <!-- Laporan Prioritas Tertinggi Saat Ini -->
+    <!-- Laporan Sorotan Acak Komunitas -->
     @if ($criticalReports->isNotEmpty())
         <section class="space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <span class="font-mono text-xs uppercase tracking-wider text-[#9F2F2D]">
-                        Suara Terbanyak Warga
+                    <span class="font-mono text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                        Sorotan Komunitas
                     </span>
-                    <h2 class="font-serif text-2xl sm:text-3xl text-[#111111] dark:text-[#EDEDEC] mt-1 font-normal">
-                        Laporan prioritas paling mendesak saat ini
+                    <h2 class="font-sans text-2xl sm:text-3xl text-[#111111] dark:text-[#EDEDEC] mt-1 font-bold">
+                        Laporan fasilitas publik terkini
                     </h2>
                 </div>
                 <a href="{{ route('reports.index') }}" class="text-xs font-mono text-[#111111] dark:text-[#EDEDEC] hover:underline underline-offset-2 flex items-center gap-1.5 shrink-0">
@@ -239,7 +239,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
                 <span class="font-mono text-[11px] uppercase tracking-wider text-[#787774]">Klasifikasi Masalah</span>
-                <h3 class="font-serif text-xl text-[#111111] dark:text-[#EDEDEC] font-normal mt-0.5">
+                <h3 class="font-sans text-xl text-[#111111] dark:text-[#EDEDEC] font-bold mt-0.5">
                     Fasilitas publik yang dapat dilaporkan
                 </h3>
             </div>
@@ -302,7 +302,7 @@
     <!-- Ajakan Bertindak (CTA Banner) -->
     <section class="border border-[#EAEAEA] dark:border-[#222222] bg-[#111111] dark:bg-[#161615] text-white p-8 sm:p-12 rounded-[8px] flex flex-col sm:flex-row items-center justify-between gap-6">
         <div class="space-y-2 max-w-xl text-center sm:text-left">
-            <h3 class="font-serif text-2xl sm:text-3xl text-white font-normal leading-tight">
+            <h3 class="font-sans text-2xl sm:text-3xl text-white font-bold leading-tight">
                 Mari bersama memperbaiki fasilitas publik di sekitar kita.
             </h3>
             <p class="text-xs sm:text-sm text-[#AAAAAA] leading-relaxed font-sans">

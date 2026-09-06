@@ -225,8 +225,8 @@
     "semantic_hash": ""
   },
   "app/Models/Report.php": {
-    "mtime": 1788683865.5857234,
-    "ast_hash": "8974768136e2de1a2f79069188df6375",
+    "mtime": 1788684719.707875,
+    "ast_hash": "bb43689a23fc0d6500ef083543f21bd4",
     "semantic_hash": ""
   },
   "app/Models/ReportComment.php": {
@@ -270,8 +270,8 @@
     "semantic_hash": ""
   },
   "database/seeders/DummyDataSeeder.php": {
-    "mtime": 1788683921.652396,
-    "ast_hash": "0e15721c13adaef7cd93ad9ef096fc3c",
+    "mtime": 1788684164.1438787,
+    "ast_hash": "17d16605775a61f149031340a507c2b0",
     "semantic_hash": ""
   },
   "resources/views/auth/login.blade.php": {
@@ -295,8 +295,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/header.blade.php": {
-    "mtime": 1788676740.6052353,
-    "ast_hash": "ac1d15a98244d542a45d80229332aa74",
+    "mtime": 1788685038.240986,
+    "ast_hash": "0630cac3d2b8d48812c51b8d8c8a2ba7",
     "semantic_hash": ""
   },
   "resources/views/components/landing.blade.php": {
@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/report-card.blade.php": {
-    "mtime": 1788684026.9527924,
-    "ast_hash": "cd17478991a63f1313e33025273c5988",
+    "mtime": 1788684471.514724,
+    "ast_hash": "eed0dcb79161410e9127c49d5bfa022b",
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
@@ -330,13 +330,13 @@
     "semantic_hash": ""
   },
   "resources/views/reports/create.blade.php": {
-    "mtime": 1788683931.0836456,
-    "ast_hash": "49d2782691ab349450508a4fef8d5b75",
+    "mtime": 1788684453.025183,
+    "ast_hash": "bc04a7fb89ae1af9cdb2f2413bf9f4e5",
     "semantic_hash": ""
   },
   "resources/views/reports/heatmap.blade.php": {
-    "mtime": 1788684002.56316,
-    "ast_hash": "af895fd70edc6353ad3df7a31275c727",
+    "mtime": 1788684497.7639146,
+    "ast_hash": "373c0ded3029cdd767bff73e1de9a606",
     "semantic_hash": ""
   },
   "resources/views/reports/index.blade.php": {
@@ -345,8 +345,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/show.blade.php": {
-    "mtime": 1788684034.4556313,
-    "ast_hash": "b890d16703fa87a1b14de7d937296a2e",
+    "mtime": 1788684462.5727754,
+    "ast_hash": "037cb68c7a22a33c8d6bccc6ac4267e7",
     "semantic_hash": ""
   },
   "tests/Feature/ReportSystemTest.php": {

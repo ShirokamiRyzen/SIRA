@@ -22,10 +22,10 @@
     <meta name="twitter:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
     <meta name="twitter:image" content="@yield('og_image', route('og.default'))">
 
-    <!-- Tipografi: Plus Jakarta Sans, Geist Mono, Newsreader -->
+    <!-- Tipografi: Plus Jakarta Sans & Geist Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Script Pencegah Flash Tema Gelap/Terang -->
     <script>
