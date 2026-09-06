@@ -589,3 +589,34 @@ test('endpoint stream notifikasi realtime mengembalikan response text/event-stre
     $response->assertOk();
     expect($response->headers->get('Content-Type'))->toContain('text/event-stream');
 });
+
+test('laporan yang masih aktif menampilkan badge waktu berapa lama belum diproses dari awal upload', function () {
+    $user = User::factory()->create();
+
+    $activeReport = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Jalan Rusak Berlubang Parah',
+        'description' => 'Kerusakan jalan aspal di persimpangan utama.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'normal',
+        'status' => 'active',
+    ]);
+    $activeReport->created_at = now()->subDays(3);
+    $activeReport->save();
+
+    expect($activeReport->pending_duration)->toBe('3 hari');
+
+    // Cek di halaman index/dashboard
+    $indexResponse = $this->get(route('reports.index'));
+    $indexResponse->assertOk();
+    $indexResponse->assertSee('3 hari belum diproses');
+
+    // Cek di halaman detail laporan
+    $showResponse = $this->get(route('reports.show', $activeReport));
+    $showResponse->assertOk();
+    $showResponse->assertSee('3 hari belum diproses');
+});

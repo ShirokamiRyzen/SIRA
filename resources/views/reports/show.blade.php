@@ -52,6 +52,14 @@
                         </span>
                     @endif
                 </div>
+
+                <!-- Pending Duration Badge Overlay on Image -->
+                <div class="absolute top-4 right-4 {{ $report->status === 'active' ? '' : 'hidden' }}" id="imagePendingBadge">
+                    <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#FBF3DB]/95 dark:bg-[#2C2411]/95 text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-md backdrop-blur-xs" title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
+                        <flux:icon name="clock" class="w-3.5 h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
+                        <span>{{ $report->pending_duration }} belum diproses</span>
+                    </span>
+                </div>
             </div>
 
             <!-- Kolom Kanan: Detail & Aksi Voting -->
@@ -59,9 +67,14 @@
                 <div class="space-y-4">
                     <!-- Status & Waktu & Aksi Khusus Pembuat Laporan -->
                     <div class="flex items-center justify-between text-xs flex-wrap gap-2 pb-1">
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2 flex-wrap gap-y-2">
                             <span id="reportStatusBadge" class="px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 {{ $report->status === 'resolved' ? 'bg-emerald-600 text-white shadow-xs' : ($report->status === 'in_progress' ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60') }}">
                                 Status: {{ str_replace('_', ' ', $report->status) }}
+                            </span>
+
+                            <span id="reportPendingBadge" class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium bg-[#FBF3DB] dark:bg-[#2C2411] text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-xs {{ $report->status === 'active' ? '' : 'hidden' }}" title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
+                                <flux:icon name="clock" class="w-3.5 h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
+                                <span>{{ $report->pending_duration }} belum diproses</span>
                             </span>
 
                             @auth
@@ -426,9 +439,13 @@
         .then(res => res.json())
         .then(data => {
             if (data.success) {
+                const pendingBadge = document.getElementById('reportPendingBadge');
+                const imgPending = document.getElementById('imagePendingBadge');
                 if (data.status === 'resolved') {
                     badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-emerald-600 text-white shadow-xs';
                     badge.innerText = 'Status: RESOLVED';
+                    if (pendingBadge) pendingBadge.classList.add('hidden');
+                    if (imgPending) imgPending.classList.add('hidden');
                     if (actionsContainer) {
                         actionsContainer.innerHTML = `
                             <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
@@ -440,6 +457,8 @@
                 } else {
                     badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60';
                     badge.innerText = 'Status: ' + data.status_label.toUpperCase();
+                    if (pendingBadge) pendingBadge.classList.remove('hidden');
+                    if (imgPending) imgPending.classList.remove('hidden');
                     if (actionsContainer) {
                         actionsContainer.innerHTML = `
                             <button type="button" onclick="updateReportStatus('resolved')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center space-x-1 shadow-xs" title="Tandai masalah telah terselesaikan">

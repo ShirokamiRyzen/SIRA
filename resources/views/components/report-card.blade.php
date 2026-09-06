@@ -9,38 +9,48 @@
                 <img src="{{ $report->image_base64 }}" alt="{{ $report->title }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-300">
             </a>
 
-            <!-- Rank Tier Pill Tag (Muted Pastels) -->
-            <div class="absolute top-3 left-3">
-                @if ($report->rank_tier === 'critical')
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#FDEBEC] text-[#9F2F2D] border border-[#9F2F2D]/20">
-                        Kritis
-                    </span>
-                @elseif ($report->rank_tier === 'urgent')
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#FBF3DB] text-[#956400] border border-[#956400]/20">
-                        Mendesak
-                    </span>
-                @elseif ($report->rank_tier === 'trending')
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] border border-[#346538]/20">
-                        Trending
-                    </span>
-                @else
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#F7F6F3] text-[#787774] border border-[#EAEAEA]">
-                        Biasa
-                    </span>
-                @endif
-            </div>
-
-            <!-- Status Tag -->
-            <div class="absolute top-3 right-3">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[10px] font-mono tracking-wider uppercase bg-white/90 dark:bg-[#111111]/90 text-[#111111] dark:text-[#EDEDEC] border border-[#EAEAEA] dark:border-[#282828]">
-                    @if ($report->status === 'resolved')
-                        Selesai
-                    @elseif ($report->status === 'in_progress')
-                        Diproses
+            <!-- Top Badges Overlay (Tier, Status, Pending Duration) -->
+            <div class="absolute top-3 inset-x-3 flex items-start justify-between gap-2 pointer-events-none z-10">
+                <!-- Rank Tier Pill Tag (Muted Pastels) -->
+                <div class="pointer-events-auto">
+                    @if ($report->rank_tier === 'critical')
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#FDEBEC] text-[#9F2F2D] border border-[#9F2F2D]/20">
+                            Kritis
+                        </span>
+                    @elseif ($report->rank_tier === 'urgent')
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#FBF3DB] text-[#956400] border border-[#956400]/20">
+                            Mendesak
+                        </span>
+                    @elseif ($report->rank_tier === 'trending')
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] border border-[#346538]/20">
+                            Trending
+                        </span>
                     @else
-                        Aktif
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#F7F6F3] text-[#787774] border border-[#EAEAEA]">
+                            Biasa
+                        </span>
                     @endif
-                </span>
+                </div>
+
+                <!-- Status & Pending Duration Tag -->
+                <div class="flex items-center flex-wrap justify-end gap-1.5 pointer-events-auto">
+                    @if ($report->status === 'active')
+                        <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-[4px] text-[10px] font-mono font-medium tracking-wide bg-[#FBF3DB]/95 dark:bg-[#2C2411]/95 text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-xs backdrop-blur-xs" title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
+                            <flux:icon name="clock" class="w-3 h-3 text-[#956400] dark:text-[#E9C369] shrink-0" />
+                            <span>{{ $report->pending_duration }} belum diproses</span>
+                        </span>
+                    @endif
+
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[10px] font-mono tracking-wider uppercase bg-white/90 dark:bg-[#111111]/90 text-[#111111] dark:text-[#EDEDEC] border border-[#EAEAEA] dark:border-[#282828]">
+                        @if ($report->status === 'resolved')
+                            Selesai
+                        @elseif ($report->status === 'in_progress')
+                            Diproses
+                        @else
+                            Aktif
+                        @endif
+                    </span>
+                </div>
             </div>
         </div>
 

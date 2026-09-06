@@ -27,10 +27,17 @@
                         <h4 class="text-xs font-semibold text-[#111111] dark:text-[#EDEDEC] truncate group-hover:underline underline-offset-2">
                             {{ $crit->title }}
                         </h4>
-                        <div class="flex items-center space-x-2 mt-1 text-[10px] font-mono text-[#787774]">
+                        <div class="flex items-center space-x-2 mt-1 text-[10px] font-mono text-[#787774] truncate">
                             <span>{{ $crit->district ?? $crit->city ?? 'Area Publik' }}</span>
                             <span>&bull;</span>
                             <span class="font-bold text-[#9F2F2D]">{{ $crit->vote_score }} votes</span>
+                            @if ($crit->status === 'active')
+                                <span>&bull;</span>
+                                <span class="text-[#956400] dark:text-[#E9C369] inline-flex items-center space-x-0.5 shrink-0" title="Belum diproses selama {{ $crit->pending_duration }}">
+                                    <flux:icon name="clock" class="w-2.5 h-2.5 shrink-0" />
+                                    <span>{{ $crit->pending_duration }}</span>
+                                </span>
+                            @endif
                         </div>
                     </div>
                 </a>

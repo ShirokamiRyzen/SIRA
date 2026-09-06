@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -121,5 +122,16 @@ class Report extends Model
             'vote_score' => $score,
             'rank_tier' => $tier,
         ]);
+    }
+
+    /**
+     * Dapatkan durasi waktu sejak laporan pertama kali diunggah dalam format Bahasa Indonesia.
+     * Digunakan untuk menampilkan badge lama laporan belum diproses.
+     */
+    public function getPendingDurationAttribute(): string
+    {
+        return $this->created_at?->locale('id')->diffForHumans([
+            'syntax' => CarbonInterface::DIFF_ABSOLUTE,
+        ]) ?? 'baru saja';
     }
 }
