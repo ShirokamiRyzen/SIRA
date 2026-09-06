@@ -128,16 +128,25 @@
                     </div>
                 </div>
             @else
+                <!-- Top Pagination -->
+                @if ($reports->hasPages())
+                    <div class="border-b border-[#EAEAEA] dark:border-[#222222] pb-3 font-mono text-xs">
+                        {{ $reports->links() }}
+                    </div>
+                @endif
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     @foreach ($reports as $report)
                         <x-report-card :report="$report" />
                     @endforeach
                 </div>
 
-                <!-- Pagination -->
-                <div class="pt-4 font-mono text-xs">
-                    {{ $reports->links() }}
-                </div>
+                <!-- Bottom Pagination -->
+                @if ($reports->hasPages())
+                    <div class="pt-4 border-t border-[#EAEAEA] dark:border-[#222222] font-mono text-xs">
+                        {{ $reports->links() }}
+                    </div>
+                @endif
             @endif
         </div>
 

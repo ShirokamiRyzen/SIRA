@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav role="navigation" aria-label="Navigasi Halaman" class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 font-mono text-xs select-none">
+    <nav role="navigation" aria-label="Navigasi Halaman" class="flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs select-none">
         <!-- Keterangan Jumlah Laporan -->
         <div class="text-[#787774] dark:text-[#888888] text-center sm:text-left order-2 sm:order-1">
             Menampilkan

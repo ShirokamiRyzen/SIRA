@@ -620,3 +620,32 @@ test('laporan yang masih aktif menampilkan badge waktu berapa lama belum diprose
     $showResponse->assertOk();
     $showResponse->assertSee('3 hari belum diproses');
 });
+
+test('dasbor laporan menampilkan pagination di bagian atas dan bawah daftar laporan ketika data melebihi batas per halaman', function () {
+    $user = User::factory()->create();
+
+    for ($i = 1; $i <= 12; $i++) {
+        Report::create([
+            'user_id' => $user->id,
+            'title' => 'Laporan Fasilitas Ke-'.$i,
+            'description' => 'Deskripsi laporan uji fasilitas ke-'.$i,
+            'image_base64' => 'data:image/jpeg;base64,dummy',
+            'latitude' => -6.914744,
+            'longitude' => 107.609810,
+            'city' => 'Kota Bandung',
+            'district' => 'Sumur Bandung',
+            'rank_tier' => 'normal',
+            'status' => 'active',
+        ]);
+    }
+
+    $response = $this->get(route('reports.index'));
+
+    $response->assertOk();
+    $response->assertSee('Navigasi Halaman');
+
+    // Memastikan bar navigasi pagination muncul di bagian atas dan bawah (2 kali)
+    $content = $response->getContent();
+    $matchesCount = substr_count($content, 'aria-label="Navigasi Halaman"');
+    expect($matchesCount)->toBe(2);
+});
