@@ -9,6 +9,61 @@
 @section('og_url', route('reports.show', $report))
 
 @section('content')
+    <style>
+        /* Mention Live Highlighter in Textarea */
+        .mention-highlighter-wrapper {
+            position: relative;
+        }
+        .mention-backdrop {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            word-break: break-word;
+            box-sizing: border-box;
+            color: transparent !important;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .mention-input {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            background-color: transparent !important;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+        .mention-tag {
+            color: transparent !important;
+            background-color: transparent;
+            border-radius: 4px;
+            font-weight: inherit;
+            font-family: inherit;
+            line-height: inherit;
+        }
+        /* Highlight untuk AI Bot @Sira */
+        .mention-tag-sira {
+            background-color: rgba(99, 102, 241, 0.35) !important;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.7), 0 0 10px rgba(99, 102, 241, 0.35) !important;
+        }
+        .dark .mention-tag-sira {
+            background-color: rgba(99, 102, 241, 0.5) !important;
+            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.9), 0 0 12px rgba(99, 102, 241, 0.5) !important;
+        }
+        /* Highlight untuk User Mention */
+        .mention-tag-user {
+            background-color: rgba(16, 185, 129, 0.3) !important;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.6) !important;
+        }
+        .dark .mention-tag-user {
+            background-color: rgba(16, 185, 129, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.8) !important;
+        }
+    </style>
     <div class="max-w-5xl mx-auto space-y-8">
         <!-- Breadcrumb & Aksi Bagikan Kartu -->
         <div class="flex items-center justify-between">
@@ -251,19 +306,11 @@
                 <form id="mainCommentForm" action="{{ route('comments.store', $report, false) }}" method="POST"
                     class="space-y-3" onsubmit="submitCommentAjax(event, this, null)">
                     @csrf
-                    <textarea name="content" rows="3" required
-                        placeholder="Tulis komentar atau tanggapan terkait masalah ini (Tag @Sira untuk meminta bantuan AI)..."
-                        class="w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
-
-                    <!-- Pratinjau LaTeX & Tag Mention -->
-                    <div
-                        class="latex-preview hidden px-4 py-3 bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/60 rounded-2xl text-xs text-slate-800 dark:text-[#EDEDEC] space-y-1.5 shadow-xs">
-                        <div
-                            class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
-                            <flux:icon name="sparkles" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                            <span>Pratinjau Format, Formula, &amp; Tag Mention:</span>
-                        </div>
-                        <div class="latex-preview-content font-sans overflow-x-auto text-sm"></div>
+                    <div class="mention-highlighter-wrapper relative w-full rounded-2xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden transition">
+                        <div class="mention-backdrop absolute inset-0 pointer-events-none px-4 py-3 text-xs sm:text-sm font-sans leading-relaxed text-transparent overflow-hidden select-none whitespace-pre-wrap break-words" aria-hidden="true"></div>
+                        <textarea name="content" rows="3" required
+                            placeholder="Tulis komentar atau tanggapan terkait masalah ini (Tag @Sira untuk meminta bantuan AI)..."
+                            class="mention-input relative z-10 w-full px-4 py-3 bg-transparent text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm font-sans leading-relaxed focus:outline-none resize-y block border-0 ring-0 focus:ring-0"></textarea>
                     </div>
 
                     <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
@@ -419,7 +466,10 @@
                 form.classList.toggle('hidden');
                 if (!form.classList.contains('hidden')) {
                     const ta = form.querySelector('textarea');
-                    if (ta) ta.focus();
+                    if (ta) {
+                        ta.focus();
+                        updateMentionHighlights(ta);
+                    }
                 }
             }
         }
@@ -560,7 +610,7 @@
             textarea.value = text.substring(0, start) + snippet + text.substring(end);
             textarea.selectionStart = textarea.selectionEnd = start + snippet.length;
             textarea.focus();
-            handleLatexPreview(textarea);
+            updateMentionHighlights(textarea);
         }
 
         // -------------------------------------------------------------
@@ -662,23 +712,48 @@
             });
         }
 
-        // Live preview saat pengguna mengetik formula LaTeX, Markdown, atau Mention (@)
-        function handleLatexPreview(textarea) {
-            if (!textarea) return;
-            const form = textarea.closest('form');
-            if (!form) return;
-            const previewBox = form.querySelector('.latex-preview');
-            const previewContent = form.querySelector('.latex-preview-content');
-            if (!previewBox || !previewContent) return;
+        // -------------------------------------------------------------
+        // In-Input Realtime Mention Highlighter
+        // -------------------------------------------------------------
+        function updateMentionHighlights(textarea) {
+            if (!textarea || textarea.tagName !== 'TEXTAREA') return;
+            const wrapper = textarea.closest('.mention-highlighter-wrapper');
+            if (!wrapper) return;
+            const backdrop = wrapper.querySelector('.mention-backdrop');
+            if (!backdrop) return;
 
-            const text = textarea.value.trim();
-            // Deteksi apakah mengandung simbol LaTeX ($ / \ / ^ / _) atau Markdown (* / `) atau Mention (@)
-            if (text && (text.includes('$') || text.includes('\\') || text.includes('^') || text.includes('_') || text.includes('*') || text.includes('`') || text.includes('@'))) {
-                previewContent.innerHTML = formatCommentText(text);
-                previewBox.classList.remove('hidden');
-            } else {
-                previewBox.classList.add('hidden');
-                previewContent.innerHTML = '';
+            let text = textarea.value || '';
+            let escaped = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Highlight bot Sira secara realtime
+            escaped = escaped.replace(/(^|[^a-zA-Z0-9_])\x40([sS][iI][rR][aA])\b/g, '$1<mark class="mention-tag mention-tag-sira">&#64;$2</mark>');
+
+            // Highlight username pengguna lain secara realtime
+            escaped = escaped.replace(/(^|[^a-zA-Z0-9_])\x40([a-zA-Z0-9_]{2,30})\b/g, function (match, prefix, uname) {
+                if (uname.toLowerCase() === 'sira') return match;
+                return prefix + '<mark class="mention-tag mention-tag-user">&#64;' + uname + '</mark>';
+            });
+
+            if (text.endsWith('\n')) {
+                escaped += '&nbsp;';
+            }
+
+            backdrop.innerHTML = escaped;
+            syncBackdropScroll(textarea);
+        }
+
+        function syncBackdropScroll(textarea) {
+            if (!textarea || textarea.tagName !== 'TEXTAREA') return;
+            const wrapper = textarea.closest('.mention-highlighter-wrapper');
+            if (wrapper) {
+                const backdrop = wrapper.querySelector('.mention-backdrop');
+                if (backdrop) {
+                    backdrop.scrollTop = textarea.scrollTop;
+                    backdrop.scrollLeft = textarea.scrollLeft;
+                }
             }
         }
 
@@ -740,7 +815,8 @@
                                 repliesContainer.insertAdjacentHTML('beforeend', data.comment_html);
                             }
                             form.reset();
-                            form.querySelectorAll('.latex-preview').forEach(p => p.classList.add('hidden'));
+                            const replyBackdrop = form.querySelector('.mention-backdrop');
+                            if (replyBackdrop) replyBackdrop.innerHTML = '';
                             toggleReplyForm(parentId);
                         } else {
                             // Komentar utama (root)
@@ -749,7 +825,8 @@
                                 commentsList.insertAdjacentHTML('afterbegin', data.comment_html);
                             }
                             form.reset();
-                            form.querySelectorAll('.latex-preview').forEach(p => p.classList.add('hidden'));
+                            const mainBackdrop = form.querySelector('.mention-backdrop');
+                            if (mainBackdrop) mainBackdrop.innerHTML = '';
                         }
 
                         // Format LaTeX & Markdown pada komentar yang baru diposting
@@ -1020,7 +1097,7 @@
                 currentTargetTextarea.focus();
 
                 closeMentionDropdown();
-                handleLatexPreview(currentTargetTextarea);
+                updateMentionHighlights(currentTargetTextarea);
             }
 
             function handleMentionTrigger(target) {
@@ -1061,11 +1138,19 @@
                 }
             }
 
-            // Listener Delegasi ke semua textarea komentar (input, click, keyup)
+            // Listener Delegasi ke semua textarea komentar (input, click, keyup, scroll)
             document.addEventListener('input', function (e) {
-                handleMentionTrigger(e.target);
-                handleLatexPreview(e.target);
+                if (e.target && e.target.tagName === 'TEXTAREA' && e.target.name === 'content') {
+                    updateMentionHighlights(e.target);
+                    handleMentionTrigger(e.target);
+                }
             });
+
+            document.addEventListener('scroll', function (e) {
+                if (e.target && e.target.tagName === 'TEXTAREA' && e.target.name === 'content') {
+                    syncBackdropScroll(e.target);
+                }
+            }, true);
 
             document.addEventListener('click', function (e) {
                 if (e.target && e.target.tagName === 'TEXTAREA' && e.target.name === 'content') {

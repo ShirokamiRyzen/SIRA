@@ -325,8 +325,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/_comment_item.blade.php": {
-    "mtime": 1788676321.239475,
-    "ast_hash": "a6cfd973e00c11ad71774d800291cfde",
+    "mtime": 1788677830.670618,
+    "ast_hash": "abf9e40a658c6ec7e1cc3ddf3f7e7f5d",
     "semantic_hash": ""
   },
   "resources/views/reports/create.blade.php": {
@@ -345,8 +345,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/show.blade.php": {
-    "mtime": 1788677180.012288,
-    "ast_hash": "f71a304ffb5e8c09704efc9dcd164527",
+    "mtime": 1788677977.1999202,
+    "ast_hash": "00802d648cda4be917c6120d6e6ce111",
     "semantic_hash": ""
   },
   "tests/Feature/ReportSystemTest.php": {
