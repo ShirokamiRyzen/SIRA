@@ -295,8 +295,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/header.blade.php": {
-    "mtime": 1788676740.6052353,
-    "ast_hash": "ac1d15a98244d542a45d80229332aa74",
+    "mtime": 1788685038.240986,
+    "ast_hash": "0630cac3d2b8d48812c51b8d8c8a2ba7",
     "semantic_hash": ""
   },
   "resources/views/components/landing.blade.php": {

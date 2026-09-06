@@ -42,7 +42,7 @@
                 <span id="theme-toggle-text" class="hidden sm:inline">Tema</span>
             </button>
 
-            <a href="{{ route('reports.create') }}" class="hidden md:inline-flex items-center space-x-1 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-medium px-3.5 py-1.5 rounded-[6px] transition duration-150 shrink-0">
+            <a href="{{ route('reports.create') }}" class="hidden md:inline-flex items-center justify-center space-x-1.5 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-medium h-9 px-3.5 rounded-[6px] transition duration-150 shrink-0">
                 <span>+ Buat Laporan</span>
             </a>
 
@@ -151,11 +151,11 @@
                     </div>
                 </div>
 
-                <div class="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828]">
+                <div class="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
                     <span class="text-[#787774] dark:text-[#9B9B97] text-[11px] hidden sm:inline">@<span>{{ Auth::user()->username }}</span></span>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                    <form action="{{ route('logout') }}" method="POST" class="inline-flex items-center">
                         @csrf
-                        <button type="submit" title="Keluar" class="text-[#787774] hover:text-[#9F2F2D] dark:hover:text-[#E88C8A] transition-colors">
+                        <button type="submit" title="Keluar" class="text-[#787774] hover:text-[#9F2F2D] dark:hover:text-[#E88C8A] transition-colors cursor-pointer">
                             [Keluar]
                         </button>
                     </form>
@@ -492,11 +492,11 @@
                     })();
                 </script>
             @else
-                <div class="hidden md:flex items-center space-x-1.5 sm:space-x-2 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828]">
-                    <a href="{{ route('login') }}" class="text-[#787774] hover:text-[#111111] dark:text-[#9B9B97] dark:hover:text-[#EDEDEC] px-2 py-1.5 transition-colors">
+                <div class="hidden md:flex items-center space-x-1.5 sm:space-x-2 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
+                    <a href="{{ route('login') }}" class="h-9 inline-flex items-center text-[#787774] hover:text-[#111111] dark:text-[#9B9B97] dark:hover:text-[#EDEDEC] px-2.5 transition-colors">
                         Masuk
                     </a>
-                    <a href="{{ route('register') }}" class="text-[#111111] dark:text-[#111111] bg-[#EAEAEA] hover:bg-[#E0E0E0] dark:bg-[#EDEDEC] dark:hover:bg-white px-2.5 py-1.5 rounded-[6px] font-medium transition-colors">
+                    <a href="{{ route('register') }}" class="h-9 inline-flex items-center justify-center text-[#111111] dark:text-[#111111] bg-[#EAEAEA] hover:bg-[#E0E0E0] dark:bg-[#EDEDEC] dark:hover:bg-white px-3 rounded-[6px] font-medium transition-colors">
                         Daftar
                     </a>
                 </div>
