@@ -548,6 +548,9 @@
                             const road = addr.road || addr.pedestrian || addr.footway || addr.path || addr.residential || '';
                             const subdistrict = addr.village || addr.quarter || addr.subdistrict || addr.neighbourhood || '';
                             let district = addr.city_district || addr.district || addr.municipality || addr.suburb || addr.county || '';
+                            if (!district) {
+                                district = subdistrict || addr.town || addr.city || '';
+                            }
                             if (district.toLowerCase().startsWith('kecamatan ')) {
                                 district = district.substring(10).trim();
                             }

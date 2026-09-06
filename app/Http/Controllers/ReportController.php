@@ -58,23 +58,47 @@ class ReportController extends Controller
     {
         $query = Report::query()->with(['user'])->withCount('comments');
 
+        // Pastikan laporan lama yang memiliki subdistrict/city tetapi district masih null diperbarui secara otomatis
+        Report::where(function ($q) {
+            $q->whereNull('district')->orWhere('district', '');
+        })->whereNotNull('subdistrict')->where('subdistrict', '!=', '')->update([
+            'district' => DB::raw('subdistrict'),
+        ]);
+
+        Report::where(function ($q) {
+            $q->whereNull('district')->orWhere('district', '');
+        })->whereNotNull('city')->where('city', '!=', '')->update([
+            'district' => DB::raw('city'),
+        ]);
+
         // Filter pencarian teks
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhere('formatted_address', 'like', "%{$search}%");
+                    ->orWhere('formatted_address', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhere('district', 'like', "%{$search}%")
+                    ->orWhere('subdistrict', 'like', "%{$search}%");
             });
         }
 
         // Filter kota/kabupaten
         if ($city = $request->input('city')) {
-            $query->where('city', $city);
+            $query->where(function ($q) use ($city) {
+                $q->where('city', $city)
+                    ->orWhere('district', $city)
+                    ->orWhere('formatted_address', 'like', "%{$city}%");
+            });
         }
 
         // Filter kecamatan
         if ($district = $request->input('district')) {
-            $query->where('district', $district);
+            $query->where(function ($q) use ($district) {
+                $q->where('district', $district)
+                    ->orWhere('subdistrict', $district)
+                    ->orWhere('city', $district);
+            });
         }
 
         // Filter rank tier
@@ -111,7 +135,11 @@ class ReportController extends Controller
         $selectedCity = $request->input('city');
         $dbDistrictsQuery = Report::whereNotNull('district')->where('district', '!=', '');
         if ($selectedCity) {
-            $dbDistrictsQuery->where('city', $selectedCity);
+            $dbDistrictsQuery->where(function ($q) use ($selectedCity) {
+                $q->where('city', $selectedCity)
+                    ->orWhere('district', $selectedCity)
+                    ->orWhere('formatted_address', 'like', "%{$selectedCity}%");
+            });
         }
         $dbDistricts = $dbDistrictsQuery->distinct()->pluck('district');
 
@@ -128,6 +156,10 @@ class ReportController extends Controller
                 ->unique()
                 ->sort(SORT_NATURAL | SORT_FLAG_CASE)
                 ->values();
+
+            if ($availableDistricts->isEmpty()) {
+                $availableDistricts = collect([$selectedCity]);
+            }
         }
 
         // Top 5 Laporan Terkritis untuk leaderboard sidebar / widget
@@ -182,6 +214,11 @@ class ReportController extends Controller
 
         $geohash = $this->encodeGeohash((float) $validated['latitude'], (float) $validated['longitude'], 8);
 
+        $district = $validated['district'] ?? null;
+        if (empty($district)) {
+            $district = $validated['subdistrict'] ?? $validated['city'] ?? null;
+        }
+
         $report = Report::create([
             'user_id' => Auth::id(),
             'title' => $validated['title'],
@@ -192,7 +229,7 @@ class ReportController extends Controller
             'geohash' => $geohash,
             'province' => $validated['province'] ?? null,
             'city' => $validated['city'] ?? null,
-            'district' => $validated['district'] ?? null,
+            'district' => $district,
             'subdistrict' => $validated['subdistrict'] ?? null,
             'formatted_address' => $validated['formatted_address'] ?? null,
             'osm_place_id' => $validated['osm_place_id'] ?? null,

@@ -385,6 +385,18 @@
 
                         // Menampilkan Toast notifikasi realtime melayang di pojok kanan bawah
                         function showRealtimeNotificationToast(item) {
+                            if (!item || !item.id) return;
+
+                            // Cegah toast yang sama muncul berkali-kali setiap pindah halaman
+                            try {
+                                const shownToasts = new Set(JSON.parse(sessionStorage.getItem('sira_shown_toasts') || '[]'));
+                                if (shownToasts.has(String(item.id))) {
+                                    return;
+                                }
+                                shownToasts.add(String(item.id));
+                                sessionStorage.setItem('sira_shown_toasts', JSON.stringify([...shownToasts]));
+                            } catch (e) {}
+
                             const container = document.getElementById('realtimeNotificationToastContainer');
                             if (!container) return;
 

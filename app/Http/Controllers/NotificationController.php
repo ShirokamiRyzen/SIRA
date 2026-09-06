@@ -64,8 +64,8 @@ class NotificationController extends Controller
 
             $startTime = time();
             $maxTime = 20; // 20 detik per siklus stream sebelum browser auto-reconnect
-            $lastKnownId = $lastEventId;
-            $lastKnownUnreadCount = null;
+            $lastKnownId = $lastEventId ?? $user->unreadNotifications()->latest()->value('id');
+            $lastKnownUnreadCount = $user->unreadNotifications()->count();
 
             while (time() - $startTime < $maxTime) {
                 if (connection_aborted()) {
