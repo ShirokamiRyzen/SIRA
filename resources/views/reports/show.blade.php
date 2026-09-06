@@ -425,7 +425,7 @@
                                 <div class="space-y-2">
                                     <!-- Foto thumbnail & Badges -->
                                     <div class="flex items-start gap-2.5 sm:gap-3">
-                                        <img src="{{ $coReport->image_base64 }}" alt="{{ $coReport->title }}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover shrink-0 border border-slate-200 dark:border-[#282828] grayscale group-hover:grayscale-0 transition duration-200">
+                                        <img src="{{ $coReport->image_base64 }}" alt="{{ $coReport->title }}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover shrink-0 border border-slate-200 dark:border-[#282828] transition duration-200">
                                         <div class="flex-1 min-w-0 space-y-1">
                                             <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
                                                 <span class="inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium {{ $coReport->category_meta['badge_class'] }}">

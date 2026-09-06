@@ -6,7 +6,7 @@
         <!-- Foto Thumbnail (Base64) -->
         <div class="relative h-44 w-full bg-[#F7F6F3] dark:bg-[#1C1C1C] border-b border-[#EAEAEA] dark:border-[#222222] overflow-hidden">
             <a href="{{ route('reports.show', $report) }}" class="block w-full h-full">
-                <img src="{{ $report->image_base64 }}" alt="{{ $report->title }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-300">
+                <img src="{{ $report->image_base64 }}" alt="{{ $report->title }}" class="w-full h-full object-cover transition duration-300">
             </a>
 
             <!-- Top Badges Overlay (Tier, Category / Multi-Masalah, Status) -->
