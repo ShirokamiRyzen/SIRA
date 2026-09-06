@@ -649,3 +649,55 @@ test('dasbor laporan menampilkan pagination di bagian atas dan bawah daftar lapo
     $matchesCount = substr_count($content, 'aria-label="Navigasi Halaman"');
     expect($matchesCount)->toBe(2);
 });
+
+test('halaman detail laporan menyediakan tautan untuk membuka titik koordinat di heatmap', function () {
+    $user = User::factory()->create();
+
+    $report = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Pipa PDAM Bocor di Jalan Merdeka',
+        'description' => 'Genangan air akibat kebocoran pipa air bersih.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'normal',
+        'status' => 'active',
+    ]);
+
+    $response = $this->get(route('reports.show', $report));
+
+    $response->assertOk();
+    $response->assertSee('Titik Koordinat Peta');
+    $response->assertSee('Buka di Heatmap');
+    $response->assertSee('/heatmap?lat='.$report->latitude);
+    $response->assertSee('report_id='.$report->id);
+});
+
+test('halaman heatmap memproses parameter koordinat dan menampilkan elemen fokus titik laporan', function () {
+    $user = User::factory()->create();
+
+    $report = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Lampu Jalan Padam di Coblong',
+        'description' => 'Lampu penerangan jalan padam saat malam hari.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.890123,
+        'longitude' => 107.612345,
+        'city' => 'Kota Bandung',
+        'district' => 'Coblong',
+        'rank_tier' => 'trending',
+        'status' => 'active',
+    ]);
+
+    $response = $this->get(route('heatmap.index', [
+        'lat' => $report->latitude,
+        'lng' => $report->longitude,
+        'report_id' => $report->id,
+    ]));
+
+    $response->assertOk();
+    $response->assertSee('focusReportBanner');
+    $response->assertSee('btnResetFocus');
+});

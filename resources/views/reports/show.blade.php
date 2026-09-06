@@ -280,16 +280,25 @@
         <!-- Peta Lokasi Masalah (OpenFreeMap) -->
         <div
             class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-4">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">Titik Koordinat Peta</h3>
                     <p class="text-xs text-slate-500 dark:text-[#888888]">Koordinat: {{ $report->latitude }},
                         {{ $report->longitude }}</p>
                 </div>
-                <a href="https://www.openstreetmap.org/?mlat={{ $report->latitude }}&mlon={{ $report->longitude }}#map=17/{{ $report->latitude }}/{{ $report->longitude }}"
-                    target="_blank" class="text-xs text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">
-                    Buka di OSM &rarr;
-                </a>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <a href="{{ route('heatmap.index', ['lat' => $report->latitude, 'lng' => $report->longitude, 'report_id' => $report->id]) }}"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/50 transition shadow-2xs">
+                        <flux:icon name="fire" class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
+                        <span>Buka di Heatmap &rarr;</span>
+                    </a>
+                    <a href="https://www.openstreetmap.org/?mlat={{ $report->latitude }}&mlon={{ $report->longitude }}#map=17/{{ $report->latitude }}/{{ $report->longitude }}"
+                        target="_blank"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:bg-slate-50 dark:hover:bg-[#202020] transition shadow-2xs">
+                        <span>Buka di OSM</span>
+                        <flux:icon name="arrow-top-right-on-square" class="w-3 h-3 text-slate-400 shrink-0" />
+                    </a>
+                </div>
             </div>
             <div id="reportMap"
                 class="w-full h-72 rounded-2xl border border-slate-200 dark:border-[#282828] overflow-hidden"></div>
@@ -457,9 +466,19 @@
         });
 
         // Tambahkan Marker Pin
+        const heatmapUrl = "{{ route('heatmap.index', ['lat' => $report->latitude, 'lng' => $report->longitude, 'report_id' => $report->id]) }}";
+        const popupContent = `
+            <div class="p-1 space-y-1 font-sans">
+                <strong class="text-xs text-slate-900 dark:text-[#EDEDEC] block leading-tight">{{ addslashes($report->title) }}</strong>
+                <a href="${heatmapUrl}" class="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 hover:text-rose-700 hover:underline">
+                    Buka Titik di Heatmap &rarr;
+                </a>
+            </div>
+        `;
+
         new maplibregl.Marker({ color: '#E11D48' })
             .setLngLat([reportLng, reportLat])
-            .setPopup(new maplibregl.Popup().setHTML('<strong class="text-xs">{{ addslashes($report->title) }}</strong>'))
+            .setPopup(new maplibregl.Popup({ offset: 12 }).setHTML(popupContent))
             .addTo(map);
 
         // -------------------------------------------------------------

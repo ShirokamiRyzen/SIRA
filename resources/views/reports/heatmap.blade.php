@@ -123,6 +123,22 @@
             </div>
         </div>
 
+        <!-- Banner Fokus Titik Laporan Terpilih -->
+        <div id="focusReportBanner" class="hidden absolute top-4 left-14 sm:left-16 z-10 font-sans text-xs">
+            <div class="flex items-center gap-2 bg-white/95 dark:bg-[#161615]/95 backdrop-blur-md rounded-2xl border border-rose-200 dark:border-rose-900/60 shadow-lg px-3 py-2">
+                <span class="relative flex h-2.5 w-2.5 shrink-0">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+                </span>
+                <span class="font-bold text-slate-900 dark:text-[#EDEDEC] truncate max-w-[140px] sm:max-w-xs" id="focusReportTitle">
+                    Fokus Titik Laporan
+                </span>
+                <button type="button" id="btnResetFocus" title="Tampilkan Seluruh Titik Sebaran" class="ml-1 text-[10px] font-bold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#252525] dark:hover:bg-[#303030] transition cursor-pointer shrink-0">
+                    Lihat Semua
+                </button>
+            </div>
+        </div>
+
         <!-- Kontrol Pencarian Lokasi & GPS (Pojok Kanan Atas) -->
         <div class="absolute top-4 right-4 left-14 sm:left-auto sm:w-96 max-w-[calc(100%-4.5rem)] z-10 font-sans text-xs">
             <div class="relative flex items-center bg-white/95 dark:bg-[#161615]/95 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-[#282828] shadow-lg p-1.5 gap-1.5 transition-all focus-within:ring-2 focus-within:ring-emerald-500/30 dark:focus-within:ring-emerald-400/20">
@@ -173,11 +189,17 @@
 
 @push('scripts')
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetLat = parseFloat(urlParams.get('lat'));
+    const targetLng = parseFloat(urlParams.get('lng'));
+    const targetReportId = parseInt(urlParams.get('report_id'), 10);
+    const hasTargetCoords = !isNaN(targetLat) && !isNaN(targetLng);
+
     const map = new maplibregl.Map({
         container: 'heatmapMap',
         style: 'https://tiles.openfreemap.org/styles/bright',
-        center: [107.609810, -6.914744], // Default fokus (Bandung / Indonesia)
-        zoom: 12
+        center: hasTargetCoords ? [targetLng, targetLat] : [107.609810, -6.914744], // Default fokus (Bandung / Indonesia) atau koordinat target
+        zoom: hasTargetCoords ? 16 : 12
     });
 
     map.addControl(new maplibregl.NavigationControl(), 'top-left');
@@ -360,14 +382,16 @@
             }
         });
 
-        // Zoom fit bounds jika ada data awal
+        // Zoom fit bounds jika ada data awal, atau sorot target laporan jika ada koordinat di URL
         fetch("{{ route('api.reports.heatmap') }}")
             .then(res => res.json())
             .then(geojson => {
                 if (loading) loading.style.display = 'none';
                 cachedGeoJson = geojson;
 
-                if (geojson.features && geojson.features.length > 0) {
+                if (hasTargetCoords) {
+                    highlightTargetReport(targetLat, targetLng, targetReportId, geojson);
+                } else if (geojson.features && geojson.features.length > 0) {
                     const bounds = new maplibregl.LngLatBounds();
                     geojson.features.forEach(f => {
                         bounds.extend(f.geometry.coordinates);
@@ -431,6 +455,122 @@
 
         map.on('click', 'reports-icons', handleFeatureClick);
         map.on('click', 'reports-point', handleFeatureClick);
+
+        // -------------------------------------------------------------
+        // Penyorotan Titik Laporan Tertarget (Focus Report Coordinate)
+        // -------------------------------------------------------------
+        let focusMarker = null;
+        let focusPopup = null;
+
+        function highlightTargetReport(lat, lng, reportId, geojson) {
+            if (isNaN(lat) || isNaN(lng)) return;
+
+            const banner = document.getElementById('focusReportBanner');
+            const titleEl = document.getElementById('focusReportTitle');
+
+            let matched = null;
+            if (geojson && geojson.features && geojson.features.length > 0) {
+                matched = geojson.features.find(f => {
+                    if (reportId && f.properties && f.properties.id === reportId) return true;
+                    const fLng = f.geometry.coordinates[0];
+                    const fLat = f.geometry.coordinates[1];
+                    return Math.abs(fLat - lat) < 0.00015 && Math.abs(fLng - lng) < 0.00015;
+                });
+            }
+
+            map.flyTo({
+                center: [lng, lat],
+                zoom: 16,
+                essential: true
+            });
+
+            if (focusMarker) focusMarker.remove();
+            if (focusPopup) focusPopup.remove();
+
+            // Marker Radar Berkedip (Pulsing Rose Radar)
+            const markerEl = document.createElement('div');
+            markerEl.className = 'relative flex items-center justify-center cursor-pointer';
+            markerEl.innerHTML = `
+                <span class="animate-ping absolute inline-flex h-10 w-10 rounded-full bg-rose-500 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-5 w-5 bg-rose-600 border-2 border-white shadow-xl"></span>
+            `;
+
+            let popupContent = '';
+            if (matched) {
+                const props = matched.properties;
+                const iconSvg = fluxIconsSvg[props.category_icon] || fluxIconsSvg['tag'];
+                const categoryBadge = `
+                    <span class="inline-flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full ${props.category_badge_class || 'bg-slate-100 text-slate-800'}">
+                        ${iconSvg}
+                        <span>${props.category_label || 'Laporan'}</span>
+                    </span>
+                `;
+
+                popupContent = `
+                    <div class="p-2 space-y-2 font-sans max-w-[260px]">
+                        <div class="flex items-center justify-between gap-1.5 flex-wrap">
+                            ${categoryBadge}
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                                ${props.rank_tier} TIER &bull; ${props.vote_score} Votes
+                            </span>
+                        </div>
+                        <div class="text-xs font-bold text-slate-900 leading-snug">${escapeHtml(props.title)}</div>
+                        <div class="text-[11px] text-slate-500 leading-tight">
+                            <div class="font-medium">${props.district ? escapeHtml(props.district) + ', ' : ''}${escapeHtml(props.city || '')}</div>
+                            <div class="text-[10px] text-slate-400 mt-0.5">${escapeHtml(props.date || '')}</div>
+                        </div>
+                        <a href="${props.url}" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-800 hover:underline pt-1">
+                            Buka Detail Laporan &rarr;
+                        </a>
+                    </div>
+                `;
+                if (banner && titleEl) {
+                    titleEl.textContent = 'Fokus: ' + props.title;
+                    banner.classList.remove('hidden');
+                }
+            } else {
+                popupContent = `
+                    <div class="p-2 space-y-1 font-sans">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-rose-600">Titik Koordinat Laporan</div>
+                        <div class="text-xs font-bold text-slate-900">Fokus Koordinat Terpilih</div>
+                        <div class="text-[11px] text-slate-500 font-mono">${lat.toFixed(6)}, ${lng.toFixed(6)}</div>
+                    </div>
+                `;
+                if (banner && titleEl) {
+                    titleEl.textContent = 'Fokus: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
+                    banner.classList.remove('hidden');
+                }
+            }
+
+            focusPopup = new maplibregl.Popup({ offset: 16 })
+                .setLngLat([lng, lat])
+                .setHTML(popupContent)
+                .addTo(map);
+
+            focusMarker = new maplibregl.Marker({ element: markerEl })
+                .setLngLat([lng, lat])
+                .setPopup(focusPopup)
+                .addTo(map);
+        }
+
+        const btnResetFocus = document.getElementById('btnResetFocus');
+        if (btnResetFocus) {
+            btnResetFocus.addEventListener('click', () => {
+                if (focusMarker) focusMarker.remove();
+                if (focusPopup) focusPopup.remove();
+                const banner = document.getElementById('focusReportBanner');
+                if (banner) banner.classList.add('hidden');
+
+                const cleanUrl = window.location.pathname;
+                window.history.replaceState({}, '', cleanUrl);
+
+                if (cachedGeoJson && cachedGeoJson.features && cachedGeoJson.features.length > 0) {
+                    const bounds = new maplibregl.LngLatBounds();
+                    cachedGeoJson.features.forEach(f => bounds.extend(f.geometry.coordinates));
+                    map.fitBounds(bounds, { padding: 80, maxZoom: 14 });
+                }
+            });
+        }
 
         // Ubah kursor saat hover pada titik / icon
         ['reports-icons', 'reports-point'].forEach(layer => {
