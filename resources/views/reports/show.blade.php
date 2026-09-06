@@ -65,38 +65,29 @@
             outline: none !important;
         }
 
-        /* Styling Tag Highlight: pas, rapi, dan proporsional */
+        /* Styling Tag Highlight di Textarea: tanpa kotakan tebal, soft blue underline/tint */
         .mention-tag {
             display: inline;
             color: transparent !important;
             font-weight: inherit !important;
             font-family: inherit !important;
             line-height: inherit !important;
-            border-radius: 4px;
-            padding: 1.5px 3px;
-            margin: 0 -3px;
+            border-radius: 2px;
+            padding: 0 1px;
             box-decoration-break: clone;
             -webkit-box-decoration-break: clone;
         }
 
-        /* Highlight untuk AI Bot @Sira */
-        .mention-tag-sira {
-            background-color: rgba(99, 102, 241, 0.18) !important;
-            box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.45) !important;
-        }
-        .dark .mention-tag-sira {
-            background-color: rgba(99, 102, 241, 0.3) !important;
-            box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6) !important;
-        }
-
-        /* Highlight untuk User Mention (@username) */
+        /* Highlight biru lembut untuk tag mention */
+        .mention-tag-sira,
         .mention-tag-user {
-            background-color: rgba(16, 185, 129, 0.18) !important;
-            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.45) !important;
+            background-color: rgba(37, 99, 235, 0.12) !important;
+            border-bottom: 1.5px solid rgba(37, 99, 235, 0.6) !important;
         }
+        .dark .mention-tag-sira,
         .dark .mention-tag-user {
-            background-color: rgba(16, 185, 129, 0.3) !important;
-            box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.6) !important;
+            background-color: rgba(96, 165, 250, 0.2) !important;
+            border-bottom: 1.5px solid rgba(96, 165, 250, 0.7) !important;
         }
     </style>
 @endpush
@@ -264,22 +255,12 @@
 
                                 $badgeSvg = '';
                                 if ($badgeType === 'admin') {
-                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-amber-500 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
+                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-amber-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
                                 } elseif ($badgeType === 'verified') {
-                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-sky-500 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
+                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-sky-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
                                 }
 
-                                if ($isAi) {
-                                    $cls = 'font-bold text-indigo-700 dark:text-indigo-200 bg-indigo-100/90 dark:bg-indigo-900/60 border border-indigo-300/80 dark:border-indigo-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
-                                } elseif ($badgeType === 'admin') {
-                                    $cls = 'font-bold text-amber-900 dark:text-amber-200 bg-amber-100/90 dark:bg-amber-950/60 border border-amber-300/80 dark:border-amber-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
-                                } elseif ($badgeType === 'verified') {
-                                    $cls = 'font-bold text-sky-900 dark:text-sky-200 bg-sky-100/90 dark:bg-sky-950/60 border border-sky-300/80 dark:border-sky-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
-                                } else {
-                                    $cls = 'font-bold text-emerald-800 dark:text-emerald-200 bg-emerald-100/90 dark:bg-emerald-950/60 border border-emerald-300/80 dark:border-emerald-700/80 px-2 py-0.5 rounded-lg shadow-2xs inline-flex items-center gap-1 align-baseline';
-                                }
-
-                                return $m[1] . '<span class="' . $cls . '">@' . $u . $badgeSvg . '</span>';
+                                return $m[1] . '<span class="font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-0.5">@' . $u . $badgeSvg . '</span>';
                             }, e($report->description));
                         @endphp
                         <div
@@ -927,27 +908,9 @@
                 html = html.replaceAll(`%%KATEX_TOKEN_${idx}%%`, tokenHtml);
             });
 
-            // 6. Highlight mention username (Sira bot atau user lain) dengan efek highlight mencolok
-            const currentAuthUser = "{{ Auth::user()?->username ?? '' }}";
+            // 6. Highlight mention username (Sira bot atau user lain) dengan teks bold biru
             html = html.replace(/(^|[^a-zA-Z0-9_])\x40([a-zA-Z0-9_]+)/g, (match, prefix, username) => {
-                const isAi = username.toLowerCase() === 'sira';
-                const isMe = currentAuthUser && username.toLowerCase() === currentAuthUser.toLowerCase();
-                let badgeClass = '';
-                let iconSvg = '';
-
-                if (isAi) {
-                    badgeClass = 'font-bold text-indigo-700 dark:text-indigo-200 bg-indigo-100/90 dark:bg-indigo-900/60 border border-indigo-300/80 dark:border-indigo-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-indigo-400/30 transition-all';
-                    iconSvg = '<svg class="w-3 h-3 text-indigo-600 dark:text-indigo-300 inline mr-0.5" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a2 2 0 0 1 2-2z"/></svg>';
-                } else if (isMe) {
-                    badgeClass = 'font-bold text-amber-900 dark:text-amber-100 bg-amber-200/90 dark:bg-amber-900/70 border border-amber-400 dark:border-amber-600 px-2 py-0.5 rounded-lg shadow-xs ring-2 ring-amber-400/60 transition-all';
-                    iconSvg = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block mr-1"></span>';
-                } else {
-                    badgeClass = 'font-bold text-emerald-700 dark:text-emerald-200 bg-emerald-100/90 dark:bg-emerald-900/60 border border-emerald-300/80 dark:border-emerald-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-emerald-400/30 transition-all';
-                    iconSvg = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span>';
-                }
-
-                const badge = `<span class="inline-flex items-center mx-0.5 ${badgeClass}">${iconSvg}@${username}</span>`;
-                return prefix + badge;
+                return prefix + `<span class="font-bold text-blue-600 dark:text-blue-400 hover:underline">@${username}</span>`;
             });
 
             return html;

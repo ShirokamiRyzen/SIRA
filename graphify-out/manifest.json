@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/report-card.blade.php": {
-    "mtime": 1788702864.3961318,
-    "ast_hash": "410eca7aa7330212ca05752fe0537085",
+    "mtime": 1788704042.9878144,
+    "ast_hash": "6e8f10d8391c93fa7bf79d84a459b7d2",
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
@@ -325,8 +325,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/_comment_item.blade.php": {
-    "mtime": 1788701981.1219883,
-    "ast_hash": "37ff9833e8eaa1d4ee068fd6adab4835",
+    "mtime": 1788704034.2487235,
+    "ast_hash": "bb4faadbeee5293c7247fa87ca70b688",
     "semantic_hash": ""
   },
   "resources/views/reports/create.blade.php": {
@@ -345,8 +345,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/show.blade.php": {
-    "mtime": 1788702874.236229,
-    "ast_hash": "47f672085a4898429277fff0bfc10d46",
+    "mtime": 1788704069.6509535,
+    "ast_hash": "81c3763cd443f73f52ab3492769219e2",
     "semantic_hash": ""
   },
   "tests/Feature/ReportSystemTest.php": {

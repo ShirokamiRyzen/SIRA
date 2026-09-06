@@ -90,7 +90,7 @@
 
             @php
                 $cardDesc = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) {
-                    return $m[1] . '<span class="font-semibold text-emerald-600 dark:text-emerald-400 font-mono">@' . $m[2] . '</span>';
+                    return $m[1] . '<span class="font-bold text-blue-600 dark:text-blue-400">@' . $m[2] . '</span>';
                 }, e($report->description));
             @endphp
             <p class="text-xs text-[#787774] dark:text-[#9B9B97] line-clamp-2 leading-relaxed font-sans">

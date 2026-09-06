@@ -42,24 +42,19 @@
 
             <!-- Content -->
             @php
-                $currentAuthUsername = Auth::user()?->username ?? '';
-                $formattedBladeContent = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) use ($currentAuthUsername) {
+                $formattedBladeContent = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) {
                     $u = $m[2];
-                    $isAi = strtolower($u) === 'sira';
-                    $isMe = $currentAuthUsername && strcasecmp($u, $currentAuthUsername) === 0;
+                    $targetUser = \App\Models\User::where('username', $u)->first();
+                    $badgeType = strtolower($u) === 'sira' ? null : ($targetUser ? $targetUser->badgeType() : null);
 
-                    if ($isAi) {
-                        $cls = 'font-bold text-indigo-700 dark:text-indigo-200 bg-indigo-100/90 dark:bg-indigo-900/60 border border-indigo-300/80 dark:border-indigo-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-indigo-400/30';
-                        $icon = '<svg class="w-3 h-3 text-indigo-600 dark:text-indigo-300 inline mr-0.5" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a2 2 0 0 1 2-2z"/></svg>';
-                    } elseif ($isMe) {
-                        $cls = 'font-bold text-amber-900 dark:text-amber-100 bg-amber-200/90 dark:bg-amber-900/70 border border-amber-400 dark:border-amber-600 px-2 py-0.5 rounded-lg shadow-xs ring-2 ring-amber-400/60';
-                        $icon = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block mr-1"></span>';
-                    } else {
-                        $cls = 'font-bold text-emerald-700 dark:text-emerald-200 bg-emerald-100/90 dark:bg-emerald-900/60 border border-emerald-300/80 dark:border-emerald-700/80 px-2 py-0.5 rounded-lg shadow-xs ring-1 ring-emerald-400/30';
-                        $icon = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span>';
+                    $badgeSvg = '';
+                    if ($badgeType === 'admin') {
+                        $badgeSvg = '<svg class="w-3 h-3 text-amber-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
+                    } elseif ($badgeType === 'verified') {
+                        $badgeSvg = '<svg class="w-3 h-3 text-sky-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
                     }
 
-                    return $m[1] . '<span class="inline-flex items-center mx-0.5 ' . $cls . '">' . $icon . '@' . $u . '</span>';
+                    return $m[1] . '<span class="font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-0.5">@' . $u . $badgeSvg . '</span>';
                 }, e($comment->content));
             @endphp
             <div class="comment-body text-xs {{ ($comment->user && strtolower($comment->user->username) === 'sira') ? 'text-indigo-950 dark:text-indigo-200 font-medium' : 'text-slate-700 dark:text-[#CCCCCC]' }} mt-1.5 leading-relaxed" data-raw-content="{{ e($comment->content) }}">{!! $formattedBladeContent !!}</div>
