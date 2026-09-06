@@ -610,22 +610,12 @@
                 activeFilterBadge.textContent = categoryLabels[cat] || cat;
             }
 
-            // Terapkan filter ekspresi MapLibre secara instan
+            // Terapkan filter ekspresi MapLibre secara instan tanpa mereset posisi viewport/zoom peta
             const layerFilter = cat === 'all' ? null : ['==', ['get', 'category'], cat];
 
             if (map.getLayer('reports-heat')) map.setFilter('reports-heat', layerFilter);
             if (map.getLayer('reports-point')) map.setFilter('reports-point', layerFilter);
             if (map.getLayer('reports-icons')) map.setFilter('reports-icons', layerFilter);
-
-            // Pusatkan peta ke sebaran titik kategori yang dipilih jika ada
-            if (cachedGeoJson && cachedGeoJson.features && cachedGeoJson.features.length > 0) {
-                const matching = cachedGeoJson.features.filter(f => cat === 'all' || f.properties.category === cat);
-                if (matching.length > 0) {
-                    const bounds = new maplibregl.LngLatBounds();
-                    matching.forEach(f => bounds.extend(f.geometry.coordinates));
-                    map.fitBounds(bounds, { padding: 80, maxZoom: 14 });
-                }
-            }
         }
 
         categoryButtons.forEach(btn => {

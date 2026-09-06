@@ -335,8 +335,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/heatmap.blade.php": {
-    "mtime": 1788695356.6737573,
-    "ast_hash": "705651e2d39400162c763716f51c07a7",
+    "mtime": 1788697749.3395808,
+    "ast_hash": "be2408811df1df50762bf34c81035daa",
     "semantic_hash": ""
   },
   "resources/views/reports/index.blade.php": {
