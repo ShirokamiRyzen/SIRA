@@ -126,67 +126,69 @@
                     <img src="{{ $report->image_base64 }}" alt="{{ $report->title }}"
                         class="max-h-[500px] w-auto max-w-full object-contain rounded-xl">
 
-                    <!-- Rank Tier Badge Overlay -->
-                    <div class="absolute top-4 left-4" id="tierBadgeContainer">
-                        @if ($report->rank_tier === 'critical')
-                            <span
-                                class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-rose-600 text-white shadow-lg">
-                                <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
-                                <span>CRITICAL TIER</span>
-                            </span>
-                        @elseif ($report->rank_tier === 'urgent')
-                            <span
-                                class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow-md">
-                                <flux:icon name="exclamation-triangle" class="w-3.5 h-3.5 text-white" />
-                                <span>URGENT TIER</span>
-                            </span>
-                        @elseif ($report->rank_tier === 'trending')
-                            <span
-                                class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-teal-600 text-white shadow-md">
-                                <flux:icon name="arrow-trending-up" class="w-3.5 h-3.5 text-white" />
-                                <span>TRENDING TIER</span>
-                            </span>
-                        @else
-                            <span
-                                class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">
-                                NORMAL TIER
-                            </span>
-                        @endif
-                    </div>
+                    <!-- Image Badges Overlay: Flex header so tier and pending duration never collide -->
+                    <div class="absolute top-3 inset-x-3 sm:top-4 sm:inset-x-4 flex items-center justify-between gap-2 pointer-events-none z-10">
+                        <div class="pointer-events-auto shrink-0" id="tierBadgeContainer">
+                            @if ($report->rank_tier === 'critical')
+                                <span
+                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black bg-rose-600 text-white shadow-lg">
+                                    <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white animate-ping"></span>
+                                    <span>CRITICAL TIER</span>
+                                </span>
+                            @elseif ($report->rank_tier === 'urgent')
+                                <span
+                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-amber-500 text-white shadow-md">
+                                    <flux:icon name="exclamation-triangle" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
+                                    <span>URGENT TIER</span>
+                                </span>
+                            @elseif ($report->rank_tier === 'trending')
+                                <span
+                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-teal-600 text-white shadow-md">
+                                    <flux:icon name="arrow-trending-up" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
+                                    <span>TRENDING TIER</span>
+                                </span>
+                            @else
+                                <span
+                                    class="inline-flex items-center px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">
+                                    NORMAL TIER
+                                </span>
+                            @endif
+                        </div>
 
-                    <!-- Pending Duration Badge Overlay on Image -->
-                    <div class="absolute top-4 right-4 {{ $report->status === 'active' ? '' : 'hidden' }}"
-                        id="imagePendingBadge">
-                        <span
-                            class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#FBF3DB]/95 dark:bg-[#2C2411]/95 text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-md backdrop-blur-xs"
-                            title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
-                            <flux:icon name="clock" class="w-3.5 h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
-                            <span>{{ $report->pending_duration }} belum diproses</span>
-                        </span>
+                        <!-- Pending Duration Badge Overlay on Image -->
+                        <div class="pointer-events-auto shrink-0 {{ $report->status === 'active' ? '' : 'hidden' }}"
+                            id="imagePendingBadge">
+                            <span
+                                class="inline-flex items-center space-x-1 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-semibold bg-[#FBF3DB]/95 dark:bg-[#2C2411]/95 text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-md backdrop-blur-xs"
+                                title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
+                                <flux:icon name="clock" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
+                                <span>{{ $report->pending_duration }} belum diproses</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Kolom Kanan: Detail & Aksi Voting -->
-                <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                <div class="lg:col-span-5 p-4 sm:p-6 lg:p-8 flex flex-col justify-between space-y-5 sm:space-y-6">
                     <div class="space-y-4">
                         <!-- Status & Waktu & Aksi Khusus Pembuat Laporan -->
                         <div class="flex items-center justify-between text-xs flex-wrap gap-2 pb-1">
-                            <div class="flex items-center space-x-2 flex-wrap gap-y-2">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold text-xs {{ $report->category_meta['badge_class'] }}">
-                                    <flux:icon name="{{ $report->category_icon }}" class="w-3.5 h-3.5" />
+                            <div class="flex items-center space-x-1.5 sm:space-x-2 flex-wrap gap-y-1.5 sm:gap-y-2">
+                                <span class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full font-bold text-[11px] sm:text-xs {{ $report->category_meta['badge_class'] }}">
+                                    <flux:icon name="{{ $report->category_icon }}" class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
                                     <span>{{ $report->category_label }}</span>
                                 </span>
 
                                 <span id="reportStatusBadge"
-                                    class="px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 {{ $report->status === 'resolved' ? 'bg-emerald-600 text-white shadow-xs' : ($report->status === 'in_progress' ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60') }}">
+                                    class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs transition duration-200 {{ $report->status === 'resolved' ? 'bg-emerald-600 text-white shadow-xs' : ($report->status === 'in_progress' ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60') }}">
                                     Status: {{ str_replace('_', ' ', $report->status) }}
                                 </span>
 
                                 <span id="reportPendingBadge"
-                                    class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium bg-[#FBF3DB] dark:bg-[#2C2411] text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-xs {{ $report->status === 'active' ? '' : 'hidden' }}"
+                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-medium bg-[#FBF3DB] dark:bg-[#2C2411] text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-xs {{ $report->status === 'active' ? '' : 'hidden' }}"
                                     title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
                                     <flux:icon name="clock"
-                                        class="w-3.5 h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
+                                        class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
                                     <span>{{ $report->pending_duration }} belum diproses</span>
                                 </span>
 
@@ -317,23 +319,23 @@
 
         <!-- Bagian Khusus: Multi-Masalah di Titik Koordinat yang Sama -->
         @if (isset($totalCoLocatedCount) && $totalCoLocatedCount > 0)
-            <div id="multi-issues" class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-violet-200/80 dark:border-violet-900/60 shadow-sm space-y-6 scroll-mt-24">
+            <div id="multi-issues" class="bg-white dark:bg-[#141414] p-4 sm:p-6 lg:p-8 rounded-3xl border border-violet-200/80 dark:border-violet-900/60 shadow-sm space-y-5 sm:space-y-6 scroll-mt-24">
                 <!-- Header Bagian Multi-Masalah -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-[#222222]">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-slate-100 dark:border-[#222222]">
                     <div class="space-y-1">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-100 text-violet-900 dark:bg-violet-950/70 dark:text-violet-200 border border-violet-300/80 dark:border-violet-800/80 shadow-xs">
-                                <flux:icon name="squares-2x2" class="w-3.5 h-3.5 text-violet-700 dark:text-violet-300 shrink-0" />
+                            <span class="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-semibold bg-violet-100 text-violet-900 dark:bg-violet-950/70 dark:text-violet-200 border border-violet-300/80 dark:border-violet-800/80 shadow-xs">
+                                <flux:icon name="squares-2x2" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-violet-700 dark:text-violet-300 shrink-0" />
                                 <span>Multi-Masalah Terdeteksi</span>
-                                <span class="inline-flex items-center justify-center px-1.5 rounded-full text-[10px] font-mono font-bold bg-violet-200 text-violet-900 dark:bg-violet-900 dark:text-violet-100">
+                                <span class="inline-flex items-center justify-center px-1.5 rounded-full text-[9px] sm:text-[10px] font-mono font-bold bg-violet-200 text-violet-900 dark:bg-violet-900 dark:text-violet-100">
                                     {{ $report->total_location_issues }} Masalah
                                 </span>
                             </span>
-                            <span class="text-xs font-mono text-slate-400 dark:text-[#787774]">
+                            <span class="text-[11px] sm:text-xs font-mono text-slate-400 dark:text-[#787774]">
                                 Titik: {{ $report->latitude }}, {{ $report->longitude }}
                             </span>
                         </div>
-                        <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">
+                        <h3 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">
                             Permasalahan Lain di Lokasi yang Sama
                         </h3>
                         <p class="text-xs text-slate-500 dark:text-[#888888]">
@@ -342,24 +344,24 @@
                     </div>
 
                     <!-- Filter Khusus Di-Scope untuk Lokasi Ini -->
-                    <div class="flex items-center gap-1.5 flex-wrap font-mono text-xs">
-                        <span class="text-slate-400 dark:text-[#787774] text-[11px] mr-1">Filter Khusus:</span>
+                    <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap font-mono text-xs">
+                        <span class="text-slate-400 dark:text-[#787774] text-[10px] sm:text-[11px] mr-0.5 sm:mr-1">Filter:</span>
                         <a href="{{ request()->fullUrlWithQuery(['co_filter' => null, 'co_page' => null]) }}#multi-issues"
-                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 {{ !request('co_filter') ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
+                           class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 {{ !request('co_filter') ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
                             Semua ({{ $totalCoLocatedCount }})
                         </a>
                         <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'urgent', 'co_page' => null]) }}#multi-issues"
-                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'urgent' ? 'bg-amber-600 text-white font-bold' : 'text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 hover:bg-amber-100' }}">
-                            <flux:icon name="exclamation-triangle" class="w-3 h-3 shrink-0" />
-                            <span>Mendesak / Urgent</span>
+                           class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'urgent' ? 'bg-amber-600 text-white font-bold' : 'text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 hover:bg-amber-100' }}">
+                            <flux:icon name="exclamation-triangle" class="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
+                            <span>Mendesak<span class="hidden sm:inline"> / Urgent</span></span>
                         </a>
                         <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'active', 'co_page' => null]) }}#multi-issues"
-                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 {{ request('co_filter') === 'active' ? 'bg-indigo-600 text-white font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
+                           class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 {{ request('co_filter') === 'active' ? 'bg-indigo-600 text-white font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
                             ● Aktif
                         </a>
                         <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'resolved', 'co_page' => null]) }}#multi-issues"
-                           class="px-2.5 py-1 rounded-lg text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100' }}">
-                            <flux:icon name="check" class="w-3 h-3 shrink-0" />
+                           class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100' }}">
+                            <flux:icon name="check" class="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
                             <span>Selesai</span>
                         </a>
                     </div>
@@ -378,34 +380,34 @@
                         </div>
                     @endif
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         @foreach ($coLocatedReports as $coReport)
-                            <div class="p-4 rounded-2xl border border-slate-200 dark:border-[#222222] bg-[#FBFBFA]/70 dark:bg-[#181818]/60 flex flex-col justify-between hover:border-violet-300 dark:hover:border-violet-700 transition space-y-3 group">
+                            <div class="p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-[#222222] bg-[#FBFBFA]/70 dark:bg-[#181818]/60 flex flex-col justify-between hover:border-violet-300 dark:hover:border-violet-700 transition space-y-2.5 sm:space-y-3 group">
                                 <div class="space-y-2">
                                     <!-- Foto thumbnail & Badges -->
-                                    <div class="flex items-start gap-3">
-                                        <img src="{{ $coReport->image_base64 }}" alt="{{ $coReport->title }}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-200 dark:border-[#282828] grayscale group-hover:grayscale-0 transition duration-200">
+                                    <div class="flex items-start gap-2.5 sm:gap-3">
+                                        <img src="{{ $coReport->image_base64 }}" alt="{{ $coReport->title }}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover shrink-0 border border-slate-200 dark:border-[#282828] grayscale group-hover:grayscale-0 transition duration-200">
                                         <div class="flex-1 min-w-0 space-y-1">
-                                            <div class="flex items-center gap-1.5 flex-wrap">
-                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium {{ $coReport->category_meta['badge_class'] }}">
+                                            <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                                                <span class="inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium {{ $coReport->category_meta['badge_class'] }}">
                                                     <flux:icon name="{{ $coReport->category_icon }}" class="w-2.5 h-2.5" />
                                                     <span>{{ $coReport->category_label }}</span>
                                                 </span>
                                                 @if ($coReport->rank_tier === 'critical')
-                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300">
+                                                    <span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300">
                                                         Kritis
                                                     </span>
                                                 @elseif ($coReport->rank_tier === 'urgent')
-                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
+                                                    <span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
                                                         Urgent
                                                     </span>
                                                 @endif
                                                 @if ($coReport->status === 'resolved')
-                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                                    <span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
                                                         Selesai
                                                     </span>
                                                 @else
-                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-500 dark:text-[#888888] bg-slate-100 dark:bg-[#252525]">
+                                                    <span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono text-slate-500 dark:text-[#888888] bg-slate-100 dark:bg-[#252525]">
                                                         Aktif
                                                     </span>
                                                 @endif
@@ -422,14 +424,14 @@
                                     </p>
                                 </div>
 
-                                <div class="pt-2.5 border-t border-slate-200/70 dark:border-[#282828] flex items-center justify-between text-[11px] font-mono">
-                                    <div class="flex items-center space-x-3 text-slate-500">
+                                <div class="pt-2 sm:pt-2.5 border-t border-slate-200/70 dark:border-[#282828] flex items-center justify-between text-[10px] sm:text-[11px] font-mono">
+                                    <div class="flex items-center space-x-2 sm:space-x-3 text-slate-500">
                                         <span class="font-bold text-slate-800 dark:text-[#EDEDEC]">{{ $coReport->vote_score }} votes</span>
                                         <span>&bull;</span>
                                         <span>{{ $coReport->comments_count }} komentar</span>
                                     </div>
-                                    <a href="{{ route('reports.show', $coReport) }}" class="inline-flex items-center gap-1 text-xs font-semibold text-violet-700 dark:text-violet-400 hover:underline">
-                                        <span>Buka Laporan</span>
+                                    <a href="{{ route('reports.show', $coReport) }}" class="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-violet-700 dark:text-violet-400 hover:underline">
+                                        <span>Buka</span>
                                         <span>&rarr;</span>
                                     </a>
                                 </div>
@@ -449,7 +451,7 @@
 
         <!-- Peta Lokasi Masalah (OpenFreeMap) -->
         <div
-            class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-4">
+            class="bg-white dark:bg-[#141414] p-4 sm:p-6 lg:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">Titik Koordinat Peta</h3>
@@ -476,7 +478,7 @@
 
         <!-- Diskusi & Komentar Bertingkat (Nested Comments) -->
         <div
-            class="bg-white dark:bg-[#141414] p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-6">
+            class="bg-white dark:bg-[#141414] p-4 sm:p-6 lg:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-6">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-[#222222]">
                 <div>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">Diskusi & Respon Warga</h3>

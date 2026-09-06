@@ -10,7 +10,7 @@
 <!-- Component: Dashboard Laporan & Feed Komunitas -->
 <div id="dashboard" class="space-y-8 scroll-mt-24 transition-opacity duration-200">
     <!-- Filter & Query Control Bar -->
-    <div class="bg-white dark:bg-[#141414] p-4 sm:p-5 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222]">
+    <div class="bg-white dark:bg-[#141414] p-3.5 sm:p-5 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222]">
         <form method="GET" action="{{ route('reports.index', [], false) }}#dashboard" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3">
             <input type="hidden" name="sort" value="{{ request('sort', 'trending') }}">
             <!-- Search Text Input -->
@@ -164,52 +164,45 @@
         @endif
     </div>
 
-    <!-- Grid Content (Reports + Leaderboard) -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Feed Laporan (2 Kolom) -->
-        <div class="lg:col-span-2 space-y-6">
-            @if ($reports->isEmpty())
-                <div class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] p-12 rounded-[8px] text-center space-y-2">
-                    <span class="font-mono text-xs text-[#787774] block">[KOSONG]</span>
-                    <h3 class="font-serif text-lg font-medium text-[#111111] dark:text-[#EDEDEC]">
-                        Tidak ditemukan laporan yang sesuai kriteria pencarian
-                    </h3>
-                    <p class="text-xs text-[#787774] max-w-sm mx-auto font-sans">
-                        Gunakan filter lain atau jadilah yang pertama mendokumentasikan keluhan publik.
-                    </p>
-                    <div class="pt-2">
-                        <a href="{{ route('reports.create') }}" class="inline-block px-3.5 py-2 bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] text-xs font-mono rounded-[6px]">
-                            + Buat Laporan Baru
-                        </a>
-                    </div>
+    <!-- Full-Width Feed Laporan Komunitas -->
+    <div class="space-y-6">
+        @if ($reports->isEmpty())
+            <div class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] p-12 rounded-[8px] text-center space-y-2">
+                <span class="font-mono text-xs text-[#787774] block">[KOSONG]</span>
+                <h3 class="font-serif text-lg font-medium text-[#111111] dark:text-[#EDEDEC]">
+                    Tidak ditemukan laporan yang sesuai kriteria pencarian
+                </h3>
+                <p class="text-xs text-[#787774] max-w-sm mx-auto font-sans">
+                    Gunakan filter lain atau jadilah yang pertama mendokumentasikan keluhan publik.
+                </p>
+                <div class="pt-2">
+                    <a href="{{ route('reports.create') }}" class="inline-block px-3.5 py-2 bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] text-xs font-mono rounded-[6px]">
+                        + Buat Laporan Baru
+                    </a>
                 </div>
-            @else
-                <!-- Top Pagination -->
-                @if ($reports->hasPages())
-                    <div class="border-b border-[#EAEAEA] dark:border-[#222222] pb-3 font-mono text-xs">
-                        {{ $reports->links() }}
-                    </div>
-                @endif
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    @foreach ($reports as $report)
-                        <x-report-card :report="$report" />
-                    @endforeach
+            </div>
+        @else
+            <!-- Top Pagination -->
+            @if ($reports->hasPages())
+                <div class="border-b border-[#EAEAEA] dark:border-[#222222] pb-3 font-mono text-xs">
+                    {{ $reports->links() }}
                 </div>
-
-                <!-- Bottom Pagination -->
-                @if ($reports->hasPages())
-                    <div class="pt-4 border-t border-[#EAEAEA] dark:border-[#222222] font-mono text-xs">
-                        {{ $reports->links() }}
-                    </div>
-                @endif
             @endif
-        </div>
 
-        <!-- Sidebar Leaderboard (1 Kolom) -->
-        <div class="space-y-6">
-            <x-leaderboard :reports="$criticalReports" />
-        </div>
+            <!-- Full-Width 3-Column Responsive Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                @foreach ($reports as $report)
+                    <x-report-card :report="$report" />
+                @endforeach
+            </div>
+
+            <!-- Bottom Pagination -->
+            @if ($reports->hasPages())
+                <div class="pt-4 border-t border-[#EAEAEA] dark:border-[#222222] font-mono text-xs">
+                    {{ $reports->links() }}
+                </div>
+            @endif
+        @endif
     </div>
 </div>
 

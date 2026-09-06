@@ -1,8 +1,8 @@
 @props(['reports' => []])
 
 <!-- Component: Leaderboard Widget (Editorial Minimalist) -->
-<div class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] rounded-[8px] p-6 space-y-4">
-    <div class="border-b border-[#EAEAEA] dark:border-[#222222] pb-3 flex items-center justify-between">
+<div class="border border-[#EAEAEA] dark:border-[#282828] bg-[#FAFAFA] dark:bg-[#1A1A1A] rounded-[8px] p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5 shadow-xs">
+    <div class="border-b border-[#EAEAEA] dark:border-[#282828] pb-3 flex items-center justify-between">
         <div>
             <h3 class="font-serif text-base font-medium text-[#111111] dark:text-[#EDEDEC] tracking-tight">
                 Prioritas Utama
@@ -17,9 +17,9 @@
     @if (empty($reports) || $reports->isEmpty())
         <p class="text-xs text-[#787774] py-3 text-center font-mono">Belum ada laporan prioritas.</p>
     @else
-        <div class="space-y-3 font-sans">
+        <div class="space-y-2.5 font-sans">
             @foreach ($reports as $index => $crit)
-                <a href="{{ route('reports.show', $crit) }}" class="flex items-start space-x-3 p-2 rounded-[6px] hover:bg-[#F7F6F3] dark:hover:bg-[#1C1C1C] transition duration-150 group">
+                <a href="{{ route('reports.show', $crit) }}" class="flex items-start space-x-3 p-2.5 rounded-[6px] hover:bg-white dark:hover:bg-[#222222] border border-transparent hover:border-[#EAEAEA] dark:hover:border-[#333333] transition duration-150 group">
                     <span class="font-mono text-xs font-bold text-[#787774] w-5 pt-0.5 shrink-0">
                         {{ sprintf('%02d', $index + 1) }}.
                     </span>

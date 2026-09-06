@@ -9,6 +9,7 @@
         :total-reports="$totalReports"
         :critical-count="$criticalCount"
         :resolved-count="$resolvedCount"
+        :critical-reports="$criticalReports"
     />
 
     <!-- Component: Dashboard Laporan, Filter, & Leaderboard -->
