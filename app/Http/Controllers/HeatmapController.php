@@ -16,12 +16,22 @@ class HeatmapController extends Controller
      */
     public function index(): View
     {
-        $totalReports = Report::count();
+        $stats = Report::query()
+            ->selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN rank_tier = "critical" THEN 1 ELSE 0 END) as critical,
+                SUM(CASE WHEN rank_tier = "urgent" THEN 1 ELSE 0 END) as urgent,
+                SUM(CASE WHEN rank_tier = "trending" THEN 1 ELSE 0 END) as trending,
+                SUM(CASE WHEN rank_tier = "normal" THEN 1 ELSE 0 END) as normal
+            ')
+            ->first();
+
+        $totalReports = (int) ($stats->total ?? 0);
         $tierCounts = [
-            'critical' => Report::where('rank_tier', 'critical')->count(),
-            'urgent' => Report::where('rank_tier', 'urgent')->count(),
-            'trending' => Report::where('rank_tier', 'trending')->count(),
-            'normal' => Report::where('rank_tier', 'normal')->count(),
+            'critical' => (int) ($stats->critical ?? 0),
+            'urgent' => (int) ($stats->urgent ?? 0),
+            'trending' => (int) ($stats->trending ?? 0),
+            'normal' => (int) ($stats->normal ?? 0),
         ];
 
         $categories = Report::CATEGORIES;

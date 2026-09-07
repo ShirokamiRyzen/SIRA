@@ -12,16 +12,36 @@ use Illuminate\Support\Facades\Route;
 
 // Halaman Welcome / Landing Page SIRA
 Route::get('/', function () {
-    $totalReports = Report::count();
-    $criticalCount = Report::where('rank_tier', 'critical')->count();
-    $urgentCount = Report::where('rank_tier', 'urgent')->count();
-    $resolvedCount = Report::where('status', 'resolved')->count();
+    $stats = Report::query()
+        ->selectRaw("
+            COUNT(*) as total_reports,
+            SUM(CASE WHEN rank_tier = 'critical' THEN 1 ELSE 0 END) as critical_count,
+            SUM(CASE WHEN rank_tier = 'urgent' THEN 1 ELSE 0 END) as urgent_count,
+            SUM(CASE WHEN status = 'resolved' THEN 1 ELSE 0 END) as resolved_count
+        ")
+        ->first();
+
+    $totalReports = (int) ($stats->total_reports ?? 0);
+    $criticalCount = (int) ($stats->critical_count ?? 0);
+    $urgentCount = (int) ($stats->urgent_count ?? 0);
+    $resolvedCount = (int) ($stats->resolved_count ?? 0);
+
     $criticalReports = Report::withMultiIssueStatus()
-        ->with(['user'])
+        ->with(['user:id,name,username,is_admin,is_verified'])
         ->withCount('comments')
-        ->inRandomOrder()
+        ->where('rank_tier', '!=', 'normal')
+        ->orderByDesc('vote_score')
         ->take(5)
         ->get();
+
+    if ($criticalReports->isEmpty()) {
+        $criticalReports = Report::withMultiIssueStatus()
+            ->with(['user:id,name,username,is_admin,is_verified'])
+            ->withCount('comments')
+            ->orderByDesc('vote_score')
+            ->take(5)
+            ->get();
+    }
 
     return view('welcome', compact(
         'totalReports',

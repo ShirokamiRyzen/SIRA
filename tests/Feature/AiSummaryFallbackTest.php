@@ -215,3 +215,94 @@ test('generateAiResponse falls back when model returns 200 with overload text me
     expect($aiComment)->not->toBeNull();
     expect($aiComment->content)->toContain('Rangkuman banjir luapan saluran');
 });
+
+test('buildReportContext, area context, discussion context, and civic guidance provide dynamic multi-source data', function () {
+    $reporter = User::factory()->create(['username' => 'warga_pelapor', 'name' => 'Budi Santoso', 'is_verified' => true]);
+    $commenter = User::factory()->create(['username' => 'warga_komentar', 'name' => 'Siti Rahma']);
+    $replier = User::factory()->create(['username' => 'warga_penanya', 'name' => 'Ahmad Dani']);
+
+    $report = Report::create([
+        'user_id' => $reporter->id,
+        'title' => 'Jembatan Penyeberangan Rusak Parah',
+        'category' => 'infrastruktur',
+        'description' => 'Bantalan kayu jembatan patah dan sangat berisiko bagi warga melintas.',
+        'image_base64' => 'data:image/jpeg;base64,samplephoto',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'province' => 'Jawa Barat',
+        'city' => 'Kota Bandung',
+        'district' => 'Coblong',
+        'subdistrict' => 'Dago',
+        'formatted_address' => 'Jl. Ir. H. Juanda No. 123, Dago, Coblong',
+        'status' => 'active',
+        'rank_tier' => 'critical',
+    ]);
+
+    // Laporan lain di koordinat yang sama persis (multi-masalah)
+    Report::create([
+        'user_id' => $reporter->id,
+        'title' => 'Lampu PJU di dekat jembatan mati',
+        'category' => 'kelistrikan',
+        'description' => 'PJU padam total sehingga jembatan gelap gulita.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'province' => 'Jawa Barat',
+        'city' => 'Kota Bandung',
+        'district' => 'Coblong',
+        'status' => 'active',
+        'rank_tier' => 'urgent',
+    ]);
+
+    // Komentar pertama dari warga lain
+    $firstComment = ReportComment::create([
+        'report_id' => $report->id,
+        'user_id' => $commenter->id,
+        'content' => 'Kemarin malam hampir ada anak sekolah yang terperosok di sini!',
+    ]);
+
+    // Komentar kedua yang membalas komentar pertama dan men-tag @Sira
+    $replyComment = ReportComment::create([
+        'report_id' => $report->id,
+        'user_id' => $replier->id,
+        'parent_id' => $firstComment->id,
+        'content' => 'Bahaya sekali ini. Halo @sira instansi mana yang berwenang menangani ini dan apa langkah daruratnya?',
+    ]);
+
+    $service = app(AiSummaryService::class);
+
+    // 1. Uji buildReportContext
+    $reportContext = $service->buildReportContext($report);
+    expect($reportContext)->toContain('Jembatan Penyeberangan Rusak Parah')
+        ->toContain('Infrastruktur')
+        ->toContain('@warga_pelapor')
+        ->toContain('Coblong')
+        ->toContain('Kota Bandung');
+
+    // 2. Uji buildAreaAndRelatedReportsContext (Deteksi Titik Multi-Masalah)
+    $areaContext = $service->buildAreaAndRelatedReportsContext($report);
+    expect($areaContext)->toContain('DETEKSI TITIK MULTI-MASALAH')
+        ->toContain('Lampu PJU di dekat jembatan mati')
+        ->toContain('Lampu & Kelistrikan');
+
+    // 3. Uji buildDiscussionContext (Konteks Balasan Langsung & Percakapan Sebelumnya)
+    $discussionContext = $service->buildDiscussionContext($report, $replyComment);
+    expect($discussionContext)->toContain('KONTEKS BALASAN LANGSUNG')
+        ->toContain('@warga_komentar')
+        ->toContain('Kemarin malam hampir ada anak sekolah yang terperosok');
+
+    // 4. Uji getCivicGuidance
+    $guidance = $service->getCivicGuidance($report);
+    expect($guidance)->toContain('Dinas Pekerjaan Umum dan Penataan Ruang (PUPR)')
+        ->toContain('SP4N-LAPOR');
+
+    // 5. Uji buildPrompts integrasi
+    $prompts = $service->buildPrompts($report, $replyComment);
+    expect($prompts['systemPrompt'])->toContain('SIRA AI')
+        ->toContain('PRINSIP RESPON DINAMIS & FLEKSIBEL');
+    expect($prompts['userPrompt'])->toContain('SUMBER 1: DATA LENGKAP LAPORAN PUBLIK')
+        ->toContain('SUMBER 2: KONTEKS MULTI-MASALAH & RIWAYAT WILAYAH')
+        ->toContain('SUMBER 3: REFERENSI KEWENANGAN DINAS & PROSEDUR PUBLIK')
+        ->toContain('SUMBER 4: STRUKTUR DISKUSI & RIWAYAT KOMENTAR WARGA')
+        ->toContain('PESAN DARI PENGGUNA @warga_penanya');
+});

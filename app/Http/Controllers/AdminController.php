@@ -19,9 +19,17 @@ class AdminController extends Controller
     {
         abort_unless(Auth::user()?->isAdmin(), 403, 'Akses terbatas hanya untuk administrator.');
 
-        $totalUsers = User::count();
-        $totalVerified = User::where('is_verified', true)->count();
-        $totalAdmins = User::where('is_admin', true)->orWhere('username', 'admin')->count();
+        $userStats = User::query()
+            ->selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN is_verified = 1 THEN 1 ELSE 0 END) as verified,
+                SUM(CASE WHEN is_admin = 1 OR username = "admin" THEN 1 ELSE 0 END) as admins
+            ')
+            ->first();
+
+        $totalUsers = (int) ($userStats->total ?? 0);
+        $totalVerified = (int) ($userStats->verified ?? 0);
+        $totalAdmins = (int) ($userStats->admins ?? 0);
 
         $query = User::withCount(['reports', 'comments'])->latest();
 
@@ -117,15 +125,26 @@ class AdminController extends Controller
     {
         abort_unless(Auth::user()?->isAdmin(), 403, 'Akses terbatas hanya untuk administrator.');
 
-        $totalReports = Report::count();
-        $totalActive = Report::where('status', 'active')->count();
-        $totalInProgress = Report::where('status', 'in_progress')->count();
-        $totalResolved = Report::where('status', 'resolved')->count();
-        $totalCritical = Report::where('rank_tier', 'critical')->count();
-        $totalUrgent = Report::where('rank_tier', 'urgent')->count();
+        $reportStats = Report::query()
+            ->selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN status = "active" THEN 1 ELSE 0 END) as active,
+                SUM(CASE WHEN status = "in_progress" THEN 1 ELSE 0 END) as in_progress,
+                SUM(CASE WHEN status = "resolved" THEN 1 ELSE 0 END) as resolved,
+                SUM(CASE WHEN rank_tier = "critical" THEN 1 ELSE 0 END) as critical,
+                SUM(CASE WHEN rank_tier = "urgent" THEN 1 ELSE 0 END) as urgent
+            ')
+            ->first();
+
+        $totalReports = (int) ($reportStats->total ?? 0);
+        $totalActive = (int) ($reportStats->active ?? 0);
+        $totalInProgress = (int) ($reportStats->in_progress ?? 0);
+        $totalResolved = (int) ($reportStats->resolved ?? 0);
+        $totalCritical = (int) ($reportStats->critical ?? 0);
+        $totalUrgent = (int) ($reportStats->urgent ?? 0);
         $totalMultiIssue = Report::onlyMultiIssue()->count();
 
-        $query = Report::with(['user'])->withCount('comments')->latest();
+        $query = Report::with(['user:id,name,username,is_admin,is_verified'])->withCount('comments')->latest();
 
         if ($search = trim((string) $request->query('q', ''))) {
             $query->where(function ($q) use ($search) {

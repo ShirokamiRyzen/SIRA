@@ -1,10 +1,13 @@
 @php
-    $topReporters = \App\Models\User::query()
-        ->whereRaw('LOWER(username) != ?', ['sira'])
-        ->withCount('reports')
-        ->orderByDesc('reports_count')
-        ->take(5)
-        ->get();
+    $topReporters = \Illuminate\Support\Facades\Cache::remember('top_5_reporters_modal', 300, function () {
+        return \App\Models\User::query()
+            ->select(['id', 'name', 'username', 'is_admin', 'is_verified'])
+            ->whereRaw('LOWER(username) != ?', ['sira'])
+            ->withCount('reports')
+            ->orderByDesc('reports_count')
+            ->take(5)
+            ->get();
+    });
 @endphp
 
 <!-- Komponen Pop-up Poster Reward Top 5 Bulanan SIRA -->

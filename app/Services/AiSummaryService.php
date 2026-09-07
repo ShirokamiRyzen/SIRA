@@ -104,6 +104,216 @@ class AiSummaryService
     }
 
     /**
+     * Susun konteks komprehensif data laporan publik.
+     */
+    public function buildReportContext(Report $report): string
+    {
+        $report->loadMissing(['user:id,name,username,is_admin,is_verified']);
+
+        $reporterName = $report->user ? "@{$report->user->username} ({$report->user->name})" : 'Warga Anonim';
+        $reporterStatus = $report->user?->isAdmin() ? 'Administrator Sistem' : ($report->user?->isVerified() ? 'Warga/Lembaga Terverifikasi' : 'Warga Terdaftar');
+        $hasImage = ! empty($report->image_base64) ? 'Tersedia bukti foto dokumentasi visual di lapangan' : 'Tidak ada foto dokumentasi';
+
+        return <<<TEXT
+- ID Laporan: #{$report->id}
+- Judul Masalah: {$report->title}
+- Kategori: {$report->category_label} ({$report->category_symbol})
+- Deskripsi Lengkap: {$report->description}
+- Status Saat Ini: {$report->status_label} (Internal: {$report->status})
+- Tingkat Urgensi / Prioritas: {$report->tier_label} ({$report->rank_tier})
+- Pelapor: {$reporterName} [Status Akun: {$reporterStatus}]
+- Waktu Pelaporan: {$report->created_at?->translatedFormat('d F Y H:i')} (Waktu tunggu penanganan: {$report->pending_duration})
+- Lokasi Kejadian: {$report->formatted_address}
+- Wilayah Administratif: Kecamatan {$report->district}, Kota/Kabupaten {$report->city}, Provinsi {$report->province}
+- Titik Koordinat GPS: Lat {$report->latitude}, Long {$report->longitude}
+- Bukti Dokumentasi: {$hasImage}
+- Respon Komunitas: Skor Net +{$report->vote_score} (Dukungan Upvote: {$report->upvotes_count}, Downvote: {$report->downvotes_count}, Total Komentar: {$report->comments_count})
+TEXT;
+    }
+
+    /**
+     * Susun konteks titik multi-masalah (co-located) dan laporan terkait di wilayah sekitar.
+     */
+    public function buildAreaAndRelatedReportsContext(Report $report): string
+    {
+        // 1. Cek laporan lain di titik koordinat yang sama persis (Co-Located / Multi-Masalah)
+        $coLocatedReports = Report::where('latitude', $report->latitude)
+            ->where('longitude', $report->longitude)
+            ->where('id', '!=', $report->id)
+            ->with(['user:id,username'])
+            ->take(5)
+            ->get();
+
+        $lines = [];
+
+        if ($coLocatedReports->isNotEmpty()) {
+            $totalIssues = $coLocatedReports->count() + 1;
+            $lines[] = "DETEKSI TITIK MULTI-MASALAH: Titik koordinat ini teridentifikasi memiliki {$totalIssues} masalah berbeda yang terjadi di lokasi yang sama:";
+            foreach ($coLocatedReports as $other) {
+                $lines[] = "  * Laporan #{$other->id}: \"{$other->title}\" [Kategori: {$other->category_label} | Status: {$other->status_label} | Prioritas: {$other->tier_label} | Skor: +{$other->vote_score} oleh @{$other->user?->username}]";
+            }
+        } else {
+            $lines[] = '- Titik Lokasi: Laporan tunggal pada titik koordinat ini (tidak terdeteksi masalah bertumpuk).';
+        }
+
+        // 2. Statistik masalah sejenis di kecamatan & kota
+        $districtReportsCount = Report::where('district', $report->district)
+            ->where('id', '!=', $report->id)
+            ->count();
+
+        $citySameCategoryCount = Report::where('city', $report->city)
+            ->where('category', $report->category)
+            ->where('id', '!=', $report->id)
+            ->count();
+
+        $lines[] = "- Riwayat Wilayah Terkait: Terdapat {$districtReportsCount} laporan fasilitas publik lain yang tercatat di Kecamatan {$report->district}, serta {$citySameCategoryCount} laporan kategori {$report->category_label} lainnya di wilayah {$report->city}.";
+
+        return implode("\n", $lines);
+    }
+
+    /**
+     * Susun riwayat diskusi, hierarki thread balasan, dan komentar induk.
+     */
+    public function buildDiscussionContext(Report $report, ReportComment $triggerComment): string
+    {
+        $triggerComment->loadMissing(['parent.user:id,name,username,is_admin,is_verified', 'user:id,name,username,is_admin,is_verified']);
+
+        $lines = [];
+
+        // Jika user sedang membalas komentar spesifik
+        if ($triggerComment->parent) {
+            $parentAuthor = "@{$triggerComment->parent->user?->username}";
+            $parentTime = $triggerComment->parent->created_at?->diffForHumans() ?? 'sebelumnya';
+            $lines[] = 'KONTEKS BALASAN LANGSUNG:';
+            $lines[] = "Pengguna @{$triggerComment->user?->username} sedang membalas komentar dari {$parentAuthor} ({$parentTime}):";
+            $lines[] = ">>> \"{$triggerComment->parent->content}\"";
+            $lines[] = '';
+        }
+
+        // Ambil riwayat diskusi warga sebelumnya
+        $previousComments = ReportComment::where('report_id', $report->id)
+            ->where('id', '!=', $triggerComment->id)
+            ->with(['user:id,name,username,is_admin,is_verified', 'parent.user:id,name,username'])
+            ->oldest()
+            ->take(15)
+            ->get();
+
+        if ($previousComments->isEmpty()) {
+            $lines[] = 'Belum ada komentar atau diskusi warga lain sebelum pesan ini.';
+        } else {
+            $lines[] = "Riwayat Percakapan Warga Sebelumnya ({$previousComments->count()} komentar):";
+            foreach ($previousComments as $c) {
+                $author = "@{$c->user?->username}".($c->user?->isAdmin() ? ' [ADMIN]' : ($c->user?->isVerified() ? ' [TERVERIFIKASI]' : ''));
+                $replyInfo = $c->parent ? " (membalas @{$c->parent->user?->username})" : '';
+                $lines[] = "- {$author}{$replyInfo}: \"{$c->content}\"";
+            }
+        }
+
+        return implode("\n", $lines);
+    }
+
+    /**
+     * Dapatkan panduan kewenangan instansi pemerintahan dan prosedur penanganan publik sesuai kategori laporan.
+     */
+    public function getCivicGuidance(Report $report): string
+    {
+        $cat = $report->category ?: 'infrastruktur';
+
+        return match ($cat) {
+            'kelistrikan', 'penerangan' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Perhubungan (Dishub) Bidang Penerangan Jalan Umum (PJU) Kota/Kabupaten {$report->city}, atau PT PLN (Persero) jika menyangkut korsleting gardu/kabel distribusi.
+- Jalur Pengaduan Resmi: Unit Layanan Cepat Dishub setempat, Call Center 112, dan portal SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Area gelap rawan tindak kejahatan dan kecelakaan lalu lintas di malam hari. Warga disarankan meningkatkan kewaspadaan atau swadaya penerangan darurat sementara.
+GUIDE,
+            'lingkungan', 'kebersihan' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Lingkungan Hidup dan Kebersihan (DLHK) Kota/Kabupaten {$report->city}, UPTD Pengelolaan Sampah wilayah {$report->district}, serta pihak Kelurahan/Kecamatan setempat.
+- Jalur Pengaduan Resmi: Call center DLHK, aplikasi pengaduan warga Pemda, dan SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Penumpukan sampah berisiko menimbulkan bau menyengat, sumber penyakit, serta penyumbatan saluran saat hujan. Warga dihimbau tidak menambah timbunan sampah liar.
+GUIDE,
+            'bencana_alam', 'drainase' => <<<GUIDE
+- Instansi Penanggung Jawab: Badan Penanggulangan Bencana Daerah (BPBD) Kota/Kabupaten {$report->city}, Dinas Sumber Daya Air (SDA) / Dinas Bina Marga Bidang Drainase.
+- Jalur Pengaduan Resmi: Call Center Darurat Bencana 112 / BPBD, dan portal SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Hindari area lereng labil saat hujan deras, pantau ketinggian debit saluran air, dan prioritaskan evakuasi warga rentan ke titik kumpul aman.
+GUIDE,
+            'kebakaran', 'darurat' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Kebakaran dan Penanggulangan Bencana (Diskar) Kota/Kabupaten {$report->city}, BPBD, dan Palang Merah Indonesia (PMI).
+- Jalur Pengaduan Resmi: Emergency Call Center 113 (Pemadam Kebakaran), 112 (Panggilan Darurat), atau 119 (Medis darurat).
+- Aspek Keselamatan & Mitigasi: Segera putuskan sumber listrik/gas, gunakan APAR jika api masih kecil, dan amankan jalur akses mobil damkar agar tidak terhalang.
+GUIDE,
+            'fasilitas_umum', 'fasilitas' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Perumahan dan Kawasan Permukiman (Disperkim) Kota/Kabupaten {$report->city}, Dinas Pemuda & Olahraga, atau instansi pengelola fasilitas publik terkait.
+- Jalur Pengaduan Resmi: Layanan aduan publik Pemda setempat dan SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Pasang tanda peringatan atau barikade sementara pada bagian fasilitas yang rusak agar tidak mencelakai warga sekitar.
+GUIDE,
+            default => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Pekerjaan Umum dan Penataan Ruang (PUPR) / Dinas Bina Marga Kota/Kabupaten {$report->city}, atau Dinas Bina Marga Provinsi {$report->province} jika merupakan Jalan Provinsi/Nasional.
+- Jalur Pengaduan Resmi: Aplikasi pengaduan resmi Pemda (seperti Sapawarga di Jabar), Layanan Cepat Tanggap PUPR, dan SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Kerusakan jalan atau jembatan sangat membahayakan pengendara, terutama roda dua di malam hari atau kondisi hujan. Diperlukan rambu penanda darurat di lokasi.
+GUIDE,
+        };
+    }
+
+    /**
+     * Bangun System Prompt dan User Prompt secara dinamis dari berbagai sumber data.
+     *
+     * @return array{systemPrompt: string, userPrompt: string}
+     */
+    public function buildPrompts(Report $report, ReportComment $triggerComment): array
+    {
+        $reportContext = $this->buildReportContext($report);
+        $areaContext = $this->buildAreaAndRelatedReportsContext($report);
+        $discussionContext = $this->buildDiscussionContext($report, $triggerComment);
+        $civicGuidance = $this->getCivicGuidance($report);
+        $triggerAuthor = $triggerComment->user ? "@{$triggerComment->user->username}" : 'Pengguna';
+
+        $systemPrompt = <<<'PROMPT'
+Kamu adalah SIRA AI, asisten intelijen dan advokasi ruang aman resmi dari platform SIRA (Sistem Informasi Ruang Aman).
+Tugas utamamu adalah mendampingi warga, komunitas, dan aparatur daerah dalam menganalisis masalah fasilitas publik, berdiskusi secara konstruktif, serta memberikan wawasan solutif.
+
+PRINSIP RESPON DINAMIS & FLEKSIBEL (TIDAK KAKU):
+1. BACA & CERMATI PESAN PENGGUNA: Pahami apa kebutuhan spesifik pengguna saat ini:
+   - Jika pengguna MENGAJUKAN PERTANYAAN (misal: "siapa yang harus dihubungi?", "kenapa belum selesai?", "apakah berbahaya?", "bagaimana aturannya?"): Jawab langsung inti pertanyaannya dengan lugas dan informatif, dukung dengan data laporan serta panduan instansi yang relevan.
+   - Jika pengguna MEMINTA RINGKASAN / SUMMARY: Berikan sintesis cerdas (inti masalah, peta sentimen warga dari diskusi, dan langkah prioritas).
+   - Jika pengguna MENANYAKAN LAPORAN SEKITAR / MULTI-MASALAH: Gunakan informasi titik multi-masalah & data riwayat wilayah untuk menjelaskan kondisi sekitar secara komprehensif.
+   - Jika pengguna MEMINTA SOLUSI / JALUR LAPOR RESMI: Jelaskan instansi penanggung jawab, kanal pengaduan resmi (seperti SP4N-LAPOR, call center 112, dll), serta tips mitigasi darurat bagi warga.
+   - Jika pengguna MEMBALAS KOMENTAR WARGA LAIN: Pahami konteks komentar induk yang sedang dibahas dan berikan tanggapan yang menyambung secara relevan.
+   - Jika pengguna MENYAPA, MENGAPRESIASI, ATAU BERKOMENTAR SINGKAT: Tanggapi secara hangat, komunikatif, dan apresiatif.
+2. JANGAN MEMAKSAKAN SATU FORMAT / TEMPLATE KAKU:
+   - Hindari selalu mengulang-ulang sub-judul kaku yang sama jika tidak diminta.
+   - Sesuaikan gaya dan panjang jawaban secara proporsional dengan pesan pengguna.
+3. TATA BAHASA & GAYA KOMUNIKASI:
+   - Gunakan Bahasa Indonesia yang santun, objektif, empatik, solutif, dan profesional.
+   - Sapa pengguna secara personal (@username).
+   - Gunakan Markdown yang rapi (bold, bullet points, kutipan jika merujuk komentar) agar nyaman dibaca.
+   - Tetap berpijak pada data fakta; jangan mengklaim masalah sudah selesai jika status laporan masih aktif/menunggu respon.
+PROMPT;
+
+        $userPrompt = <<<PROMPT
+=== SUMBER 1: DATA LENGKAP LAPORAN PUBLIK ===
+{$reportContext}
+
+=== SUMBER 2: KONTEKS MULTI-MASALAH & RIWAYAT WILAYAH ===
+{$areaContext}
+
+=== SUMBER 3: REFERENSI KEWENANGAN DINAS & PROSEDUR PUBLIK ===
+{$civicGuidance}
+
+=== SUMBER 4: STRUKTUR DISKUSI & RIWAYAT KOMENTAR WARGA ===
+{$discussionContext}
+
+=== PESAN DARI PENGGUNA {$triggerAuthor} ===
+"{$triggerComment->content}"
+
+Instruksi: Berikan respon yang cerdas, kontekstual, dan dinamis untuk pesan {$triggerAuthor} di atas, dengan memanfaatkan berbagai sumber informasi yang telah disediakan secara relevan!
+PROMPT;
+
+        return [
+            'systemPrompt' => $systemPrompt,
+            'userPrompt' => $userPrompt,
+        ];
+    }
+
+    /**
      * Hasilkan rangkuman atau respon berbasis AI menggunakan OpenAI API
      * dengan auto-fallback jika model utama sedang mengalami overload/error,
      * dan simpan sebagai balasan otomatis dari @Sira.
@@ -121,48 +331,7 @@ class AiSummaryService
             return null;
         }
 
-        // Ambil riwayat diskusi warga terdahulu untuk konteks AI
-        $previousComments = ReportComment::where('report_id', $report->id)
-            ->where('id', '!=', $triggerComment->id)
-            ->with('user')
-            ->latest()
-            ->take(10)
-            ->get()
-            ->reverse()
-            ->map(fn (ReportComment $c) => "- @{$c->user?->username}: {$c->content}")
-            ->implode("\n");
-
-        $systemPrompt = <<<'PROMPT'
-Kamu adalah SIRA AI, asisten virtual resmi untuk platform SIRA (Sistem Informasi Ruang Aman).
-Tugasmu adalah menganalisis laporan fasilitas/masalah publik dan diskusi warga, serta memberikan respon cerdas, ringkasan, atau saran konstruktif.
-
-Panduan:
-1. Jawab selalu dalam Bahasa Indonesia yang santun, objektif, solutif, dan ringkas.
-2. Jika pengguna meminta ringkasan/summary, berikan poin-poin inti:
-   - Masalah Utama
-   - Sentimen & Poin Diskusi Warga
-   - Rekomendasi Tindak Lanjut Pemda/Warga
-3. Gunakan formatting Markdown yang rapi (bold, bullet points).
-4. Jangan bertele-tele. Langsung pada substansi jawaban.
-PROMPT;
-
-        $userPrompt = <<<PROMPT
-[DATA LAPORAN]
-Judul: {$report->title}
-Deskripsi: {$report->description}
-Lokasi: {$report->formatted_address} ({$report->district}, {$report->city}, {$report->province})
-Status: {$report->status}
-Skor Dukungan Warga: {$report->vote_score} poin (Upvotes: {$report->upvotes_count}, Downvotes: {$report->downvotes_count})
-Kategori Tier: {$report->rank_tier}
-
-[DISKUSI WARGA SEBELUMNYA]
-{$previousComments}
-
-[PESAN PENGGUNA @{$triggerComment->user?->username}]
-{$triggerComment->content}
-
-Tolong berikan respon atau ringkasan sesuai pesan pengguna di atas!
-PROMPT;
+        ['systemPrompt' => $systemPrompt, 'userPrompt' => $userPrompt] = $this->buildPrompts($report, $triggerComment);
 
         $endpoint = rtrim($apiUrl, '/').'/chat/completions';
         $replyText = null;

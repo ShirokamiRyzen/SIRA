@@ -61,7 +61,7 @@
   "59": "CommentNotification",
   "60": "Collection Best Practices",
   "61": "Naming and Structure",
-  "62": "Configuration Best Practices",
+  "62": "2026_09_07_092106_add_performance_indexes_to_tables.php",
   "63": "Factories and Test Data",
   "64": "Testing Best Practices",
   "65": "laravel-best-practices/SKILL.md",
@@ -85,6 +85,7 @@
   "83": "heatmap.blade.php",
   "84": "index.blade.php",
   "85": "bootstrap-3.blade.php",
+  "86": "Configuration Best Practices",
   "87": "2026_09_05_114247_create_notifications_table.php",
   "88": "bootstrap-4.blade.php",
   "89": "Report",
@@ -100,5 +101,6 @@
   "99": "reward-modal.blade.php",
   "100": "verified-badge.blade.php",
   "101": "static",
-  "102": "users/index.blade.php"
+  "102": "users/index.blade.php",
+  "103": "admin/reports/index.blade.php"
 }

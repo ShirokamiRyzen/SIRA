@@ -290,7 +290,7 @@ class Report extends Model
     public function scopeOnlyMultiIssue($query)
     {
         return $query->whereRaw(
-            '(SELECT COUNT(*) FROM reports r2 WHERE r2.latitude = reports.latitude AND r2.longitude = reports.longitude AND r2.id != reports.id AND r2.deleted_at IS NULL) > 0'
+            'EXISTS (SELECT 1 FROM reports r2 WHERE r2.latitude = reports.latitude AND r2.longitude = reports.longitude AND r2.id != reports.id AND r2.deleted_at IS NULL)'
         );
     }
 
@@ -300,7 +300,7 @@ class Report extends Model
     public function scopeOnlySingleIssue($query)
     {
         return $query->whereRaw(
-            '(SELECT COUNT(*) FROM reports r2 WHERE r2.latitude = reports.latitude AND r2.longitude = reports.longitude AND r2.id != reports.id AND r2.deleted_at IS NULL) = 0'
+            'NOT EXISTS (SELECT 1 FROM reports r2 WHERE r2.latitude = reports.latitude AND r2.longitude = reports.longitude AND r2.id != reports.id AND r2.deleted_at IS NULL)'
         );
     }
 

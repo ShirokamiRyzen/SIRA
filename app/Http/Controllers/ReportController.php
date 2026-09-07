@@ -6,10 +6,13 @@ use App\Models\Report;
 use App\Models\ReportVote;
 use App\Models\User;
 use App\Notifications\ReportMentionNotification;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
@@ -60,35 +63,60 @@ class ReportController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = Report::query()->withMultiIssueStatus()->with(['user'])->withCount('comments');
+        $query = Report::query()
+            ->withMultiIssueStatus()
+            ->with(['user:id,name,username,is_admin,is_verified'])
+            ->withCount('comments');
 
-        // Pastikan laporan lama yang memiliki subdistrict/city tetapi district masih null diperbarui secara otomatis
-        Report::where(function ($q) {
-            $q->whereNull('district')->orWhere('district', '');
-        })->whereNotNull('subdistrict')->where('subdistrict', '!=', '')->update([
-            'district' => DB::raw('subdistrict'),
-        ]);
+        $this->applyFilters($query, $request);
 
-        Report::where(function ($q) {
-            $q->whereNull('district')->orWhere('district', '');
-        })->whereNotNull('city')->where('city', '!=', '')->update([
-            'district' => DB::raw('city'),
-        ]);
+        $sort = $request->input('sort', 'trending');
+        match ($sort) {
+            'latest' => $query->latest('created_at'),
+            'top_score' => $query->orderByDesc('vote_score')->latest('created_at'),
+            'most_upvoted' => $query->orderByDesc('upvotes_count')->latest('created_at'),
+            default => $query->orderByDesc('vote_score')->orderByDesc('created_at'),
+        };
 
-        // Khusus laporan Purwakarta, sinkronkan district agar 'Purwakarta' muncul sebagai wilayah/kecamatan
-        Report::where(function ($q) {
-            $q->where('city', 'like', '%Purwakarta%')
-                ->orWhere('formatted_address', 'like', '%Purwakarta%');
-        })->where(function ($q) {
-            $q->where('district', 'Cikopak')
-                ->orWhereNull('district')
-                ->orWhere('district', '');
-        })->update([
-            'district' => 'Purwakarta',
-            'city' => 'Purwakarta',
-        ]);
+        $reports = $query->paginate(9)->withQueryString()->fragment('dashboard');
 
-        // Filter pencarian teks
+        $availableCities = Cache::remember('reports_filter_available_cities', 300, function () {
+            return Report::whereNotNull('city')
+                ->where('city', '!=', '')
+                ->distinct()
+                ->pluck('city')
+                ->filter()
+                ->unique()
+                ->sort(SORT_NATURAL | SORT_FLAG_CASE)
+                ->values();
+        });
+
+        $availableDistricts = $this->getAvailableDistricts($request->input('city'));
+
+        $criticalReports = Report::withMultiIssueStatus()
+            ->with(['user:id,name,username,is_admin,is_verified'])
+            ->where('rank_tier', '!=', 'normal')
+            ->orderByDesc('vote_score')
+            ->take(5)
+            ->get();
+
+        $stats = $this->getAggregateStats();
+
+        return view('reports.index', array_merge([
+            'reports' => $reports,
+            'availableCities' => $availableCities,
+            'availableDistricts' => $availableDistricts,
+            'criticalReports' => $criticalReports,
+            'sort' => $sort,
+            'myReportsCount' => Auth::check() ? Auth::user()->reports()->count() : 0,
+        ], $stats));
+    }
+
+    /**
+     * Terapkan parameter filter pencarian dan taksonomi laporan pada query builder.
+     */
+    protected function applyFilters(Builder $query, Request $request): void
+    {
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -100,7 +128,6 @@ class ReportController extends Controller
             });
         }
 
-        // Filter kota/kabupaten
         if ($city = $request->input('city')) {
             $query->where(function ($q) use ($city) {
                 $q->where('city', $city)
@@ -109,7 +136,6 @@ class ReportController extends Controller
             });
         }
 
-        // Filter kecamatan / wilayah
         if ($district = $request->input('district')) {
             $query->where(function ($q) use ($district) {
                 $q->where('district', $district)
@@ -119,17 +145,14 @@ class ReportController extends Controller
             });
         }
 
-        // Filter rank tier
         if ($tier = $request->input('rank_tier')) {
             $query->where('rank_tier', $tier);
         }
 
-        // Filter status
         if ($status = $request->input('status')) {
             $query->where('status', $status);
         }
 
-        // Filter tipe masalah (Multi Masalah vs Masalah Tunggal)
         $issueType = $request->input('issue_type');
         if ($issueType === 'multi' || $request->boolean('multi_issue')) {
             $query->onlyMultiIssue();
@@ -137,33 +160,18 @@ class ReportController extends Controller
             $query->onlySingleIssue();
         }
 
-        // Filter laporan pengguna saat ini ("Laporan Saya")
         if ($request->boolean('my_reports') && Auth::check()) {
             $query->where('user_id', Auth::id());
         }
+    }
 
-        // Pengurutan / Ranking
-        $sort = $request->input('sort', 'trending');
-        match ($sort) {
-            'latest' => $query->latest('created_at'),
-            'top_score' => $query->orderByDesc('vote_score')->latest('created_at'),
-            'most_upvoted' => $query->orderByDesc('upvotes_count')->latest('created_at'),
-            default => $query->orderByDesc('vote_score')->orderByDesc('created_at'), // Trending
-        };
-
-        $reports = $query->paginate(9)->withQueryString()->fragment('dashboard');
-
-        // Ambil daftar unik kota & kecamatan untuk dropdown filter (disortir alfabetis A-Z)
-        $availableCities = Report::whereNotNull('city')
-            ->where('city', '!=', '')
-            ->distinct()
-            ->pluck('city')
-            ->filter()
-            ->unique()
-            ->sort(SORT_NATURAL | SORT_FLAG_CASE)
-            ->values();
-
-        $selectedCity = $request->input('city');
+    /**
+     * Dapatkan daftar wilayah/kecamatan yang tersedia untuk dropdown filter.
+     *
+     * @return Collection<int, string>
+     */
+    protected function getAvailableDistricts(?string $selectedCity): Collection
+    {
         $dbDistrictsQuery = Report::whereNotNull('district')->where('district', '!=', '');
         if ($selectedCity) {
             $dbDistrictsQuery->where(function ($q) use ($selectedCity) {
@@ -174,7 +182,6 @@ class ReportController extends Controller
         }
         $dbDistricts = $dbDistrictsQuery->distinct()->pluck('district');
 
-        // Ambil juga daftar wilayah/kota non-Bandung (misalnya Purwakarta) agar user dapat langsung memilihnya dari dropdown kecamatan
         $otherLocations = Report::whereNotNull('city')
             ->where('city', '!=', '')
             ->where('city', 'not like', '%Bandung%')
@@ -182,50 +189,46 @@ class ReportController extends Controller
             ->pluck('city');
 
         if (empty($selectedCity) || str_contains(strtolower($selectedCity), 'bandung')) {
-            $availableDistricts = collect(self::$officialBandungDistricts)
+            return collect(self::$officialBandungDistricts)
                 ->merge($dbDistricts)
                 ->merge($otherLocations)
                 ->filter()
                 ->unique()
                 ->sort(SORT_NATURAL | SORT_FLAG_CASE)
                 ->values();
-        } else {
-            $availableDistricts = $dbDistricts
-                ->push($selectedCity)
-                ->filter()
-                ->unique()
-                ->sort(SORT_NATURAL | SORT_FLAG_CASE)
-                ->values();
         }
 
-        // Top 5 Laporan Terkritis untuk leaderboard sidebar / widget
-        $criticalReports = Report::withMultiIssueStatus()
-            ->where('rank_tier', '!=', 'normal')
-            ->orderByDesc('vote_score')
-            ->take(5)
-            ->get();
+        return $dbDistricts
+            ->push($selectedCity)
+            ->filter()
+            ->unique()
+            ->sort(SORT_NATURAL | SORT_FLAG_CASE)
+            ->values();
+    }
 
-        // Statistik Agregat untuk Komponen Landing
-        $totalReports = Report::count();
-        $criticalCount = Report::where('rank_tier', 'critical')->count();
-        $urgentCount = Report::where('rank_tier', 'urgent')->count();
-        $resolvedCount = Report::where('status', 'resolved')->count();
-        $multiIssueCount = Report::onlyMultiIssue()->count();
-        $myReportsCount = Auth::check() ? Auth::user()->reports()->count() : 0;
+    /**
+     * Dapatkan ringkasan statistik agregat laporan untuk dasbor.
+     *
+     * @return array<string, int>
+     */
+    protected function getAggregateStats(): array
+    {
+        $stats = Report::query()
+            ->selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN rank_tier = "critical" THEN 1 ELSE 0 END) as critical,
+                SUM(CASE WHEN rank_tier = "urgent" THEN 1 ELSE 0 END) as urgent,
+                SUM(CASE WHEN status = "resolved" THEN 1 ELSE 0 END) as resolved
+            ')
+            ->first();
 
-        return view('reports.index', compact(
-            'reports',
-            'availableCities',
-            'availableDistricts',
-            'criticalReports',
-            'sort',
-            'totalReports',
-            'criticalCount',
-            'urgentCount',
-            'resolvedCount',
-            'multiIssueCount',
-            'myReportsCount'
-        ));
+        return [
+            'totalReports' => (int) ($stats->total ?? 0),
+            'criticalCount' => (int) ($stats->critical ?? 0),
+            'urgentCount' => (int) ($stats->urgent ?? 0),
+            'resolvedCount' => (int) ($stats->resolved ?? 0),
+            'multiIssueCount' => Report::onlyMultiIssue()->count(),
+        ];
     }
 
     /**
@@ -287,6 +290,9 @@ class ReportController extends Controller
         // Kirim notifikasi mention (@) jika ada akun pengguna/lembaga yang ditandai dalam postingan
         $this->dispatchReportMentionNotifications($report);
 
+        Cache::forget('reports_filter_available_cities');
+        Cache::forget('top_5_reporters_modal');
+
         return redirect()->route('reports.show', $report)
             ->with('success', 'Laporan berhasil dipublikasikan! Komunitas dapat segera memberikan vote.');
     }
@@ -297,22 +303,28 @@ class ReportController extends Controller
     public function show(Report $report, Request $request): View
     {
         $report->load([
-            'user',
+            'user:id,name,username,is_admin,is_verified',
             'rootComments' => function ($query) {
-                $query->with(['user', 'replies.user'])->latest();
+                $query->with([
+                    'user:id,name,username,is_admin,is_verified',
+                    'replies.user:id,name,username,is_admin,is_verified',
+                ])->latest();
             },
         ]);
 
         $userVote = Auth::check() ? $report->userVote(Auth::user()) : null;
 
         // Ambil laporan-laporan lain di titik lokasi/koordinat yang sama persis (Co-located Reports)
+        $totalCoLocatedCount = Report::where('latitude', $report->latitude)
+            ->where('longitude', $report->longitude)
+            ->where('id', '!=', $report->id)
+            ->count();
+
         $coLocatedQuery = Report::where('latitude', $report->latitude)
             ->where('longitude', $report->longitude)
             ->where('id', '!=', $report->id)
-            ->with(['user'])
+            ->with(['user:id,name,username,is_admin,is_verified'])
             ->withCount('comments');
-
-        $totalCoLocatedCount = (clone $coLocatedQuery)->count();
 
         // Filter scoped khusus lokasi ini (urgent, active, resolved)
         $coFilter = $request->input('co_filter');

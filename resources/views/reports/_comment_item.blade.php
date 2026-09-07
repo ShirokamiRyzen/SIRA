@@ -44,8 +44,20 @@
             @php
                 $formattedBladeContent = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function($m) {
                     $u = $m[2];
-                    $targetUser = \App\Models\User::where('username', $u)->first();
-                    $badgeType = strtolower($u) === 'sira' ? null : ($targetUser ? $targetUser->badgeType() : null);
+                    static $userMentionCache = [];
+
+                    if (strtolower($u) === 'sira') {
+                        $badgeType = null;
+                    } else {
+                        if (! array_key_exists($u, $userMentionCache)) {
+                            $userMentionCache[$u] = \App\Models\User::query()
+                                ->select(['id', 'username', 'is_admin', 'is_verified'])
+                                ->where('username', $u)
+                                ->first();
+                        }
+                        $targetUser = $userMentionCache[$u];
+                        $badgeType = $targetUser ? $targetUser->badgeType() : null;
+                    }
 
                     $badgeSvg = '';
                     if ($badgeType === 'admin') {
