@@ -7,176 +7,181 @@
     'multiIssueCount' => 0,
 ])
 
-<!-- Component: Dashboard Laporan & Feed Komunitas -->
-<div id="dashboard" class="space-y-8 scroll-mt-24 transition-opacity duration-200">
-    <!-- Filter & Query Control Bar -->
-    <div class="bg-white dark:bg-[#141414] p-3.5 sm:p-5 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222]">
-        <form method="GET" action="{{ route('reports.index', [], false) }}#dashboard" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3">
+<!-- Component: Dashboard Laporan & Feed Komunitas (Sederhana & Boomer-Proof) -->
+<div id="dashboard" class="space-y-6 scroll-mt-24 transition-opacity duration-200">
+    <!-- Panel Filter Sederhana & Ramah Pengguna -->
+    <div class="bg-white dark:bg-[#141414] p-4 sm:p-5 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222] space-y-4 shadow-xs">
+        <form method="GET" action="{{ route('reports.index', [], false) }}#dashboard" class="space-y-4">
             <input type="hidden" name="sort" value="{{ request('sort', 'trending') }}">
-            <!-- Search Text Input -->
-            <div class="sm:col-span-2 lg:col-span-2">
-                <input type="text" name="search" value="{{ request('search') }}"
-                    placeholder="Cari judul masalah atau alamat..."
-                    class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111] dark:focus:border-[#EDEDEC]">
+
+            <!-- Baris 1: Kolom Pencarian Cepat & Pilihan Wilayah -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                <!-- Input Cari Teks -->
+                <div class="relative flex-1">
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Cari keluhan (misal: jalan berlubang, lampu padam, Dago)..."
+                        class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-[#FBFBFA] dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111] dark:focus:border-[#EDEDEC]">
+                    @if (request('search'))
+                        <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}#dashboard"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[#999999] hover:text-[#111111] dark:hover:text-white"
+                            title="Hapus pencarian">&times;</a>
+                    @endif
+                </div>
+
+                <!-- Dropdown Pilihan Wilayah / Kecamatan -->
+                <div class="sm:w-64">
+                    <select name="district" onchange="this.form.requestSubmit()"
+                        class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111] cursor-pointer">
+                        <option value="">Semua Wilayah / Kecamatan</option>
+                        @foreach ($availableDistricts as $dist)
+                            <option value="{{ $dist }}" {{ request('district') == $dist ? 'selected' : '' }}>{{ $dist }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Tombol Submit & Reset -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button type="submit"
+                        class="w-full sm:w-auto px-5 py-2.5 bg-[#111111] hover:bg-[#2A2A2A] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white rounded-[6px] text-xs font-mono font-medium transition cursor-pointer">
+                        Cari
+                    </button>
+
+                    @if (request()->hasAny(['search', 'city', 'district', 'rank_tier', 'status', 'issue_type']))
+                        <a href="{{ route('reports.index', [], false) }}#dashboard"
+                            class="px-3 py-2.5 border border-[#EAEAEA] dark:border-[#282828] bg-[#FBFBFA] dark:bg-[#1A1A1A] hover:bg-[#F0F0EF] text-[#9F2F2D] dark:text-[#E88C8A] rounded-[6px] text-xs font-mono transition text-center whitespace-nowrap"
+                            title="Hapus semua filter">
+                            Reset &times;
+                        </a>
+                    @endif
+                </div>
             </div>
 
-            <!-- Filter Kota Dropdown -->
-            <div>
-                <select name="city" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
-                    <option value="">Semua Kota/Kab</option>
-                    @foreach ($availableCities as $city)
-                        <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>{{ $city }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <!-- Baris 2: Tab Status Laporan yang Besar & Kontras Tinggi -->
+            <div class="pt-3 border-t border-[#EAEAEA] dark:border-[#222222] flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs font-mono">
+                <!-- Status Tabs -->
+                <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 md:pb-0">
+                    <span class="text-[#787774] dark:text-[#8E8D8A] shrink-0 mr-1 font-medium">Status:</span>
 
-            <!-- Filter Kecamatan Dropdown -->
-            <div>
-                <select name="district" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
-                    <option value="">Semua Kecamatan (A-Z)</option>
-                    @foreach ($availableDistricts as $dist)
-                        <option value="{{ $dist }}" {{ request('district') == $dist ? 'selected' : '' }}>{{ $dist }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <!-- Filter Tipe Masalah Dropdown (Multi Masalah vs Tunggal) -->
-            <div>
-                <select name="issue_type" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
-                    <option value="">Semua Tipe Masalah</option>
-                    <option value="multi" {{ request('issue_type') == 'multi' ? 'selected' : '' }}>⊞ Multi Masalah ({{ $multiIssueCount }})</option>
-                    <option value="single" {{ request('issue_type') == 'single' ? 'selected' : '' }}>Masalah Tunggal</option>
-                </select>
-            </div>
-
-            <!-- Filter Status Dropdown -->
-            <div>
-                <select name="status" onchange="this.form.requestSubmit()" class="w-full px-3.5 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
-                    <option value="">Semua Status</option>
-                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
-                    <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Sedang Ditangani</option>
-                    <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Selesai (Resolved)</option>
-                </select>
-            </div>
-
-            <!-- Filter Tier & Submit Button -->
-            <div class="flex items-center space-x-2">
-                <select name="rank_tier" onchange="this.form.requestSubmit()" class="w-full px-3 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111]">
-                    <option value="">Semua Tier</option>
-                    <option value="critical" {{ request('rank_tier') == 'critical' ? 'selected' : '' }}>Critical (100+)</option>
-                    <option value="urgent" {{ request('rank_tier') == 'urgent' ? 'selected' : '' }}>Urgent (50+)</option>
-                    <option value="trending" {{ request('rank_tier') == 'trending' ? 'selected' : '' }}>Trending (10+)</option>
-                    <option value="normal" {{ request('rank_tier') == 'normal' ? 'selected' : '' }}>Normal</option>
-                </select>
-
-                <button type="submit" class="px-4 py-2 bg-[#111111] hover:bg-[#2A2A2A] text-white dark:bg-[#EDEDEC] dark:text-[#111111] rounded-[6px] text-xs font-mono transition shrink-0">
-                    Filter
-                </button>
-            </div>
-        </form>
-
-        <!-- Status Pills & Sorting Control Bar -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 pt-3 border-t border-[#EAEAEA] dark:border-[#222222] text-xs font-mono">
-            <!-- Filter Status Quick Pills & Multi Masalah Filter -->
-            <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 sm:pb-0">
-                <span class="text-[#787774] shrink-0">Status:</span>
-                <a href="{{ request()->fullUrlWithQuery(['status' => null]) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ !request('status') ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
-                   Semua
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['status' => 'active']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ request('status') === 'active' ? 'bg-amber-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
-                   ● Aktif
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['status' => 'in_progress']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 {{ request('status') === 'in_progress' ? 'bg-indigo-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
-                   ● Diproses
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['status' => 'resolved']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 inline-flex items-center space-x-1 {{ request('status') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-[#787774] hover:bg-[#EAEAEA]/60' }}">
-                   <flux:icon name="check" class="w-3 h-3 shrink-0" />
-                   <span>Selesai</span>
-                </a>
-
-                <span class="text-[#D4D4D4] dark:text-[#333333] mx-1">|</span>
-
-                <!-- Quick Filter Pill: Multi Masalah -->
-                <a href="{{ request()->fullUrlWithQuery(['issue_type' => request('issue_type') === 'multi' ? null : 'multi']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition shrink-0 inline-flex items-center gap-1.5 {{ request('issue_type') === 'multi' ? 'bg-violet-700 text-white font-bold ring-1 ring-violet-400' : 'text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/40 border border-violet-200 dark:border-violet-800/60 hover:bg-violet-100 dark:hover:bg-violet-900/40' }}"
-                   title="Saring hanya laporan yang memiliki multi-masalah di titik lokasi yang sama">
-                   <flux:icon name="squares-2x2" class="w-3 h-3 shrink-0" />
-                   <span>Multi Masalah ({{ $multiIssueCount }})</span>
-                   @if (request('issue_type') === 'multi')
-                       <span class="text-xs">&times;</span>
-                   @endif
-                </a>
-            </div>
-
-            <!-- Sorting Control Tabs -->
-            <div class="flex items-center space-x-1 shrink-0">
-                <span class="text-[#787774] mr-1">Urutkan:</span>
-                <a href="{{ request()->fullUrlWithQuery(['sort' => 'trending']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? 'trending') === 'trending' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/50' }}">
-                   Trending
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['sort' => 'top_score']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? '') === 'top_score' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/50' }}">
-                   Skor Tertinggi
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}#dashboard"
-                   class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? '') === 'latest' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111]' : 'text-[#787774] hover:bg-[#EAEAEA]/50' }}">
-                   Terbaru
-                </a>
-            </div>
-        </div>
-
-        <!-- Scoped Filter Bar Khusus Multi-Masalah -->
-        @if (request('issue_type') === 'multi')
-            <div class="flex items-center justify-between flex-wrap gap-2 mt-3 pt-3 border-t border-violet-200/80 dark:border-violet-900/50 text-xs font-mono">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="text-violet-900 dark:text-violet-300 font-bold flex items-center gap-1 text-[11px]">
-                        <flux:icon name="squares-2x2" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 shrink-0" />
-                        <span>Scope Khusus:</span>
-                    </span>
-                    <a href="{{ request()->fullUrlWithQuery(['issue_type' => 'multi', 'status' => null, 'rank_tier' => null]) }}#dashboard"
-                       class="px-2.5 py-1 rounded-[4px] text-[11px] transition {{ !request('status') && !request('rank_tier') ? 'bg-violet-800 text-white font-bold' : 'text-violet-800 dark:text-violet-300 bg-violet-100/80 dark:bg-violet-950/60 hover:bg-violet-200' }}">
-                       Semua Multi-Masalah
+                    <!-- Semua -->
+                    <a href="{{ request()->fullUrlWithQuery(['status' => null, 'rank_tier' => null]) }}#dashboard"
+                       class="px-3 py-1.5 rounded-[6px] transition shrink-0 font-medium {{ !request('status') && !request('rank_tier') ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold shadow-xs' : 'text-[#787774] dark:text-[#9B9B97] hover:bg-[#EAEAEA]/60 dark:hover:bg-[#222222] hover:text-[#111111] dark:hover:text-white' }}">
+                       Semua
                     </a>
-                    <a href="{{ request()->fullUrlWithQuery(['issue_type' => 'multi', 'rank_tier' => 'urgent', 'status' => null]) }}#dashboard"
-                       class="px-2.5 py-1 rounded-[4px] text-[11px] transition inline-flex items-center gap-1 {{ request('rank_tier') === 'urgent' ? 'bg-amber-600 text-white font-bold' : 'text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100' }}">
-                       <flux:icon name="exclamation-triangle" class="w-3 h-3 shrink-0" />
-                       <span>Mendesak / Urgent</span>
+
+                    <!-- Kritis -->
+                    <a href="{{ request()->fullUrlWithQuery(['rank_tier' => 'critical', 'status' => null]) }}#dashboard"
+                       class="px-3 py-1.5 rounded-[6px] transition shrink-0 font-medium border {{ request('rank_tier') === 'critical' ? 'bg-[#9F2F2D] border-[#9F2F2D] text-white font-bold shadow-xs' : 'text-[#9F2F2D] dark:text-[#E88C8A] bg-[#FDEBEC] dark:bg-[#2D1517] border-[#9F2F2D]/20 hover:bg-[#F9D6D8] dark:hover:bg-[#3D1D20]' }}">
+                       Kritis (Prioritas)
                     </a>
-                    <a href="{{ request()->fullUrlWithQuery(['issue_type' => 'multi', 'status' => 'active', 'rank_tier' => null]) }}#dashboard"
-                       class="px-2.5 py-1 rounded-[4px] text-[11px] transition {{ request('status') === 'active' ? 'bg-indigo-600 text-white font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
-                       ● Aktif
+
+                    <!-- Sedang Diproses -->
+                    <a href="{{ request()->fullUrlWithQuery(['status' => 'in_progress', 'rank_tier' => null]) }}#dashboard"
+                       class="px-3 py-1.5 rounded-[6px] transition shrink-0 font-medium border {{ request('status') === 'in_progress' ? 'bg-indigo-600 border-indigo-600 text-white font-bold shadow-xs' : 'text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 border-indigo-200/50 dark:border-indigo-800/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/50' }}">
+                       Sedang Diproses
                     </a>
-                    <a href="{{ request()->fullUrlWithQuery(['issue_type' => 'multi', 'status' => 'resolved', 'rank_tier' => null]) }}#dashboard"
-                       class="px-2.5 py-1 rounded-[4px] text-[11px] transition inline-flex items-center gap-1 {{ request('status') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100' }}">
-                       <flux:icon name="check" class="w-3 h-3 shrink-0" />
-                       <span>Selesai</span>
+
+                    <!-- Selesai -->
+                    <a href="{{ request()->fullUrlWithQuery(['status' => 'resolved', 'rank_tier' => null]) }}#dashboard"
+                       class="px-3 py-1.5 rounded-[6px] transition shrink-0 font-medium border {{ request('status') === 'resolved' ? 'bg-emerald-600 border-emerald-600 text-white font-bold shadow-xs' : 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/50 dark:border-emerald-800/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50' }}">
+                       Selesai
+                    </a>
+
+                    <span class="text-[#D4D4D4] dark:text-[#333333] mx-1">|</span>
+
+                    <!-- Multi Masalah Tag -->
+                    <a href="{{ request()->fullUrlWithQuery(['issue_type' => request('issue_type') === 'multi' ? null : 'multi']) }}#dashboard"
+                       class="px-2.5 py-1.5 rounded-[6px] transition shrink-0 font-medium inline-flex items-center gap-1 border {{ request('issue_type') === 'multi' ? 'bg-violet-700 border-violet-700 text-white font-bold shadow-xs' : 'text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/40 border-violet-200/50 dark:border-violet-800/40 hover:bg-violet-100 dark:hover:bg-violet-900/50 hover:text-violet-800 dark:hover:text-violet-200' }}">
+                       <flux:icon name="squares-2x2" class="w-3 h-3 shrink-0" />
+                       <span>Multi Masalah ({{ $multiIssueCount }})</span>
                     </a>
                 </div>
-                <a href="{{ request()->fullUrlWithQuery(['issue_type' => null, 'status' => null, 'rank_tier' => null]) }}#dashboard" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-[11px] underline">
-                    Reset Scope &times;
-                </a>
+
+                <!-- Kontrol Urutan -->
+                <div class="flex items-center space-x-1 shrink-0">
+                    <span class="text-[#787774] dark:text-[#8E8D8A] mr-1">Urutan:</span>
+                    <a href="{{ request()->fullUrlWithQuery(['sort' => 'trending']) }}#dashboard"
+                       class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? 'trending') === 'trending' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold shadow-xs' : 'text-[#787774] dark:text-[#8E8D8A] hover:bg-[#EAEAEA]/60 dark:hover:bg-[#222222] hover:text-[#111111] dark:hover:text-[#EDEDEC]' }}">
+                       Trending
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['sort' => 'top_score']) }}#dashboard"
+                       class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? '') === 'top_score' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold shadow-xs' : 'text-[#787774] dark:text-[#8E8D8A] hover:bg-[#EAEAEA]/60 dark:hover:bg-[#222222] hover:text-[#111111] dark:hover:text-[#EDEDEC]' }}">
+                       Skor Tertinggi
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}#dashboard"
+                       class="px-2.5 py-1 rounded-[4px] transition {{ ($sort ?? '') === 'latest' ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold shadow-xs' : 'text-[#787774] dark:text-[#8E8D8A] hover:bg-[#EAEAEA]/60 dark:hover:bg-[#222222] hover:text-[#111111] dark:hover:text-[#EDEDEC]' }}">
+                       Terbaru
+                    </a>
+                </div>
             </div>
-        @endif
+
+            <!-- Opsi Filter Tambahan (Disembunyikan Rapi agar Tidak Membingungkan) -->
+            <details class="group pt-2 text-xs font-mono">
+                <summary class="cursor-pointer text-[#787774] dark:text-[#8E8D8A] hover:text-[#111111] dark:hover:text-[#EDEDEC] inline-flex items-center gap-1 select-none">
+                    <span>Opsi filter spesifik (Kota &amp; Tier)...</span>
+                    <span class="text-[10px] group-open:rotate-180 transition-transform">&darr;</span>
+                </summary>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
+                    <div>
+                        <label class="block text-[11px] text-[#787774] mb-1">Pilih Kota / Kabupaten:</label>
+                        <select name="city" onchange="this.form.requestSubmit()"
+                            class="w-full px-3 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC]">
+                            <option value="">Semua Kota/Kab</option>
+                            @foreach ($availableCities as $city)
+                                <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>{{ $city }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-[#787774] mb-1">Pilih Tingkat Urgensi (Tier):</label>
+                        <select name="rank_tier" onchange="this.form.requestSubmit()"
+                            class="w-full px-3 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC]">
+                            <option value="">Semua Tingkat</option>
+                            <option value="critical" {{ request('rank_tier') == 'critical' ? 'selected' : '' }}>Kritis (100+ Suara)</option>
+                            <option value="urgent" {{ request('rank_tier') == 'urgent' ? 'selected' : '' }}>Mendesak (50+ Suara)</option>
+                            <option value="trending" {{ request('rank_tier') == 'trending' ? 'selected' : '' }}>Trending (10+ Suara)</option>
+                            <option value="normal" {{ request('rank_tier') == 'normal' ? 'selected' : '' }}>Normal</option>
+                        </select>
+                    </div>
+                </div>
+            </details>
+        </form>
     </div>
 
-    <!-- Full-Width Feed Laporan Komunitas -->
-    <div class="space-y-6">
+    <!-- Ringkasan Hasil Pencarian & Daftar Kartu Laporan -->
+    <div class="space-y-5">
+        <!-- Informasi Jumlah Laporan yang Ditemukan -->
+        <div class="flex items-center justify-between text-xs font-mono text-[#787774] dark:text-[#8E8D8A] px-1">
+            <span>
+                Menampilkan <strong class="text-[#111111] dark:text-[#EDEDEC]">{{ $reports->total() }}</strong> laporan
+                @if (request('district'))
+                    di <span class="font-bold text-[#111111] dark:text-[#EDEDEC]">{{ request('district') }}</span>
+                @endif
+                @if (request('search'))
+                    untuk kata kunci <span class="italic text-[#111111] dark:text-[#EDEDEC]">"{{ request('search') }}"</span>
+                @endif
+            </span>
+
+            @if ($reports->hasPages())
+                <span>Halaman {{ $reports->currentPage() }} dari {{ $reports->lastPage() }}</span>
+            @endif
+        </div>
+
         @if ($reports->isEmpty())
-            <div class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] p-12 rounded-[8px] text-center space-y-2">
-                <span class="font-mono text-xs text-[#787774] block">[KOSONG]</span>
-                <h3 class="font-sans text-lg font-semibold text-[#111111] dark:text-[#EDEDEC]">
-                    Tidak ditemukan laporan yang sesuai kriteria pencarian
+            <div class="border border-[#EAEAEA] dark:border-[#222222] bg-white dark:bg-[#141414] p-10 sm:p-14 rounded-[8px] text-center space-y-3 shadow-xs">
+                <div class="w-10 h-10 rounded-full bg-[#F4F4F3] dark:bg-[#202020] text-[#787774] dark:text-[#999999] flex items-center justify-center mx-auto text-sm font-mono">
+                    ?
+                </div>
+                <h3 class="font-sans text-base sm:text-lg font-bold text-[#111111] dark:text-[#EDEDEC]">
+                    Tidak ada laporan yang sesuai kriteria pencarian
                 </h3>
-                <p class="text-xs text-[#787774] max-w-sm mx-auto font-sans">
-                    Gunakan filter lain atau jadilah yang pertama mendokumentasikan keluhan publik.
+                <p class="text-xs text-[#787774] dark:text-[#9B9B97] max-w-sm mx-auto font-sans leading-relaxed">
+                    Coba ganti kata kunci pencarian, ubah filter wilayah, atau jadilah yang pertama melaporkan masalah ini.
                 </p>
-                <div class="pt-2">
-                    <a href="{{ route('reports.create') }}" class="inline-block px-3.5 py-2 bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] text-xs font-mono rounded-[6px]">
+                <div class="pt-2 flex items-center justify-center gap-2">
+                    <a href="{{ route('reports.index') }}#dashboard" class="px-3.5 py-2 border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-[#111111] dark:text-[#EDEDEC] text-xs font-mono rounded-[6px]">
+                        Lihat Semua Laporan
+                    </a>
+                    <a href="{{ route('reports.create') }}" class="px-3.5 py-2 bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] text-xs font-mono rounded-[6px]">
                         + Buat Laporan Baru
                     </a>
                 </div>
@@ -189,14 +194,14 @@
                 </div>
             @endif
 
-            <!-- Full-Width 3-Column Responsive Grid -->
+            <!-- Grid 3 Kolom Responsif -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 @foreach ($reports as $report)
                     <x-report-card :report="$report" />
                 @endforeach
             </div>
 
-            <!-- Bottom Pagination -->
+            <!-- Pagination Bawah (Hanya satu pagination bersih) -->
             @if ($reports->hasPages())
                 <div class="pt-4 border-t border-[#EAEAEA] dark:border-[#222222] font-mono text-xs">
                     {{ $reports->links() }}
@@ -249,7 +254,7 @@
                 });
             }
 
-            // Form submit intercept
+            // Tangani submit form secara asinkron
             const form = dashboard.querySelector('form');
             if (form) {
                 form.addEventListener('submit', function (e) {
@@ -268,7 +273,7 @@
                 });
             }
 
-            // Links intercept (status pills, sort tabs, pagination)
+            // Tangani klik tautan filter & navigasi halaman (pagination)
             dashboard.querySelectorAll('a').forEach(link => {
                 const href = link.getAttribute('href');
                 if (!href || href.startsWith('#')) return;

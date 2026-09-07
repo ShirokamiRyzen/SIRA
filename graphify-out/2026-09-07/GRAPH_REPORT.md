@@ -1,16 +1,16 @@
-# Graph Report - SIRA  (2026-09-07)
+# Graph Report - SIRA  (2026-09-06)
 
 ## Corpus Check
-- 134 files · ~81,587 words
+- 133 files · ~80,860 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 680 nodes · 860 edges · 102 communities (96 shown, 6 thin omitted)
+- 676 nodes · 849 edges · 102 communities (96 shown, 6 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 15 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ec27fb67`
+- Built from commit: `37915eeb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -72,12 +72,12 @@
 2. `User` - 27 edges
 3. `ReportComment` - 18 edges
 4. `ReportVote` - 16 edges
-5. `AiSummaryService` - 12 edges
-6. `ReportController` - 11 edges
-7. `Detection Checklist` - 11 edges
-8. `Architecture Best Practices` - 11 edges
-9. `Security Best Practices` - 11 edges
-10. `require-dev` - 10 edges
+5. `ReportController` - 11 edges
+6. `Detection Checklist` - 11 edges
+7. `Architecture Best Practices` - 11 edges
+8. `Security Best Practices` - 11 edges
+9. `require-dev` - 10 edges
+10. `OgImageController` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `OgImageController` --inherits--> `Controller`  [EXTRACTED]
@@ -118,7 +118,7 @@ Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked
 
 ### Community 5 - "User"
 Cohesion: 0.07
-Nodes (16): ReportComment, ReportVote, User, AiSummaryService, DatabaseSeeder, DummyDataSeeder, MultiIssueLocationSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents (+8 more)
+Nodes (15): ReportComment, ReportVote, User, DatabaseSeeder, DummyDataSeeder, MultiIssueLocationSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\HasFactory (+7 more)
 
 ### Community 6 - "Architecture Best Practices"
 Cohesion: 0.17
@@ -173,8 +173,8 @@ Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
 ### Community 25 - "Illuminate\Http\Request"
-Cohesion: 0.09
-Nodes (13): AdminController, AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Http\JsonResponse (+5 more)
+Cohesion: 0.10
+Nodes (14): AdminController, AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, AiSummaryService (+6 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.22
@@ -241,7 +241,7 @@ Cohesion: 0.29
 Nodes (6): Assertions, Coverage, Data and Determinism, Names and Structure, Reviewing Tests, Test Value
 
 ### Community 59 - "CommentNotification"
-Cohesion: 0.24
+Cohesion: 0.22
 Nodes (4): CommentNotification, ReportMentionNotification, Illuminate\Bus\Queueable, Illuminate\Notifications\Notification
 
 ### Community 60 - "Collection Best Practices"
@@ -285,11 +285,9 @@ Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Report` connect `Report` to `Illuminate\Http\Request`, `static`, `User`?**
-  _High betweenness centrality (0.055) - this node is a cross-community bridge._
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **Why does `User` connect `User` to `Report`, `Illuminate\Http\Request`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **Why does `AiSummaryService` connect `User` to `Illuminate\Http\Request`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Are the 5 inferred relationships involving `Report` (e.g. with `.geojson()` and `.index()`) actually correct?**
   _`Report` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 5 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**
@@ -298,3 +296,5 @@ _Questions this graph is uniquely positioned to answer:_
   _305 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `composer.json` be split into smaller, more focused modules?**
   _Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected._
+- **Should `scripts` be split into smaller, more focused modules?**
+  _Cohesion score 0.08 - nodes in this community are weakly interconnected._

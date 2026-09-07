@@ -116,17 +116,19 @@
                             class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-2">
                             Kategori Masalah <span class="text-rose-500">*</span>
                         </label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2.5">
                             @foreach($categories as $catKey => $cat)
                                 <label
-                                    class="relative flex items-center gap-2.5 p-3 rounded-2xl border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:border-emerald-500/60 dark:hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-400 has-checked:bg-emerald-50/50 dark:has-checked:bg-emerald-950/30 has-checked:ring-2 has-checked:ring-emerald-500/30 shadow-2xs">
+                                    class="relative flex items-center gap-2 p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:border-emerald-500/60 dark:hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-400 has-checked:bg-emerald-50/50 dark:has-checked:bg-emerald-950/30 has-checked:ring-2 has-checked:ring-emerald-500/30 shadow-2xs min-w-0">
                                     <input type="radio" name="category" value="{{ $catKey }}" {{ old('category', 'infrastruktur') === $catKey ? 'checked' : '' }} class="sr-only">
                                     <div class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0"
                                         style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
                                         <flux:icon name="{{ $cat['icon'] }}" class="w-4 h-4" />
                                     </div>
-                                    <span
-                                        class="text-xs font-bold text-slate-800 dark:text-[#EDEDEC] truncate">{{ $cat['label'] }}</span>
+                                    <div class="min-w-0 flex-1">
+                                        <span
+                                            class="block text-[11px] sm:text-xs font-bold text-slate-800 dark:text-[#EDEDEC] leading-tight whitespace-normal break-words">{{ $cat['label'] }}</span>
+                                    </div>
                                 </label>
                             @endforeach
                         </div>
@@ -141,8 +143,8 @@
                             Judul Masalah <span class="text-rose-500">*</span>
                         </label>
                         <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                            placeholder="Contoh: Lubang Jalan Dalam di Depan Halte Dago"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            placeholder="Contoh: Lubang jalan di Jl. Dago depan halte"
+                            class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                         @error('title')
                             <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
                         @enderror
@@ -154,14 +156,14 @@
                             Deskripsi Lengkap <span class="text-rose-500">*</span>
                         </label>
                         <textarea id="description" name="description" rows="4" required
-                            placeholder="Jelaskan detail masalah, dampak, dan perkiraan sudah berapa lama terjadi... (Ketik @ untuk menandai akun instansi atau warga lain)"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">{{ old('description') }}</textarea>
-                        <div class="flex items-center justify-between mt-1.5 text-[11px] text-slate-500 dark:text-[#888888]">
-                            <span class="inline-flex items-center gap-1.5">
+                            placeholder="Jelaskan detail kerusakan dan dampaknya... (Ketik @ untuk menandai akun instansi/warga)"
+                            class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">{{ old('description') }}</textarea>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mt-1.5 text-[11px] text-slate-500 dark:text-[#888888]">
+                            <span class="inline-flex items-center gap-1.5 flex-wrap">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block shrink-0"></span>
-                                <span>Fitur Tag: Ketik <strong class="text-emerald-600 dark:text-emerald-400">@username</strong> untuk menandai akun instansi atau warga</span>
+                                <span>Fitur Tag: Ketik <strong class="text-emerald-600 dark:text-emerald-400">@username</strong> untuk menandai dinas/warga</span>
                             </span>
-                            <span class="font-mono text-[10px] text-slate-400">Notifikasi Otomatis</span>
+                            <span class="font-mono text-[10px] text-slate-400 hidden sm:inline">Notifikasi Otomatis</span>
                         </div>
                         @error('description')
                             <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
@@ -187,7 +189,7 @@
                             </p>
                         </div>
                         <button type="button" id="btnGeolocate"
-                            class="inline-flex items-center justify-center space-x-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer shrink-0">
+                            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer shrink-0">
                             <flux:icon name="viewfinder-circle" class="w-4 h-4 text-white shrink-0" />
                             <span id="btnGeolocateText">Ambil Titik Lokasi GPS</span>
                         </button>

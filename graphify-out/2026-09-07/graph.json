@@ -1022,8 +1022,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_user",
-      "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community": 5,
+      "community_name": "User",
       "norm_label": "user.php"
     },
     {
@@ -1330,8 +1330,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice",
-      "community": 5,
-      "community_name": "User",
+      "community": 25,
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": "aisummaryservice"
     },
     {
@@ -1341,8 +1341,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_isaimentioned",
-      "community": 5,
-      "community_name": "User",
+      "community": 25,
+      "community_name": "Illuminate\\Http\\Request",
       "norm_label": ".isaimentioned()"
     },
     {
@@ -1357,43 +1357,10 @@
       "norm_label": ".getorcreatebotuser()"
     },
     {
-      "label": ".getConfiguredModels()",
-      "file_type": "code",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L43",
-      "_origin": "ast",
-      "id": "app_services_aisummaryservice_aisummaryservice_getconfiguredmodels",
-      "community": 5,
-      "community_name": "User",
-      "norm_label": ".getconfiguredmodels()"
-    },
-    {
-      "label": ".parseModelList()",
-      "file_type": "code",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L57",
-      "_origin": "ast",
-      "id": "app_services_aisummaryservice_aisummaryservice_parsemodellist",
-      "community": 5,
-      "community_name": "User",
-      "norm_label": ".parsemodellist()"
-    },
-    {
-      "label": ".isOverloadOrErrorResponse()",
-      "file_type": "code",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L88",
-      "_origin": "ast",
-      "id": "app_services_aisummaryservice_aisummaryservice_isoverloadorerrorresponse",
-      "community": 5,
-      "community_name": "User",
-      "norm_label": ".isoverloadorerrorresponse()"
-    },
-    {
       "label": ".generateAiResponse()",
       "file_type": "code",
       "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L111",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
       "community": 5,
@@ -3568,17 +3535,6 @@
       "norm_label": "adminprivilegesandbadgestest.php"
     },
     {
-      "label": "AiSummaryFallbackTest.php",
-      "file_type": "code",
-      "source_file": "tests/Feature/AiSummaryFallbackTest.php",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "tests_feature_aisummaryfallbacktest",
-      "community": 5,
-      "community_name": "User",
-      "norm_label": "aisummaryfallbacktest.php"
-    },
-    {
       "label": "Feature/ExampleTest.php",
       "file_type": "code",
       "source_file": "tests/Feature/ExampleTest.php",
@@ -3596,8 +3552,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_heatmapcategorytest",
-      "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community": 5,
+      "community_name": "User",
       "norm_label": "heatmapcategorytest.php"
     },
     {
@@ -3618,8 +3574,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_ogimagetest",
-      "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community": 5,
+      "community_name": "User",
       "norm_label": "ogimagetest.php"
     },
     {
@@ -3629,8 +3585,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_reportcreatephototest",
-      "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community": 5,
+      "community_name": "User",
       "norm_label": "reportcreatephototest.php"
     },
     {
@@ -3640,8 +3596,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_reportmentiontest",
-      "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community": 59,
+      "community_name": "CommentNotification",
       "norm_label": "reportmentiontest.php"
     },
     {
@@ -3662,8 +3618,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_welcometest",
-      "community": 25,
-      "community_name": "Illuminate\\Http\\Request",
+      "community": 5,
+      "community_name": "User",
       "norm_label": "welcometest.php"
     },
     {
@@ -10085,18 +10041,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "tests/Feature/AiSummaryFallbackTest.php",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_feature_aisummaryfallbacktest",
-      "target": "app_models_report",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "tests/Feature/HeatmapCategoryTest.php",
       "source_location": "L3",
       "weight": 1.0,
@@ -10443,7 +10387,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L111",
+      "source_location": "L42",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -10716,18 +10660,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "tests/Feature/AiSummaryFallbackTest.php",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_feature_aisummaryfallbacktest",
-      "target": "app_models_reportcomment",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "tests/Feature/ReportSystemTest.php",
       "source_location": "L4",
       "weight": 1.0,
@@ -10841,7 +10773,7 @@
       "context": "return_type",
       "confidence": "EXTRACTED",
       "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L111",
+      "source_location": "L42",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
@@ -11233,18 +11165,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_feature_adminprivilegesandbadgestest",
-      "target": "app_models_user",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/Feature/AiSummaryFallbackTest.php",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_feature_aisummaryfallbacktest",
       "target": "app_models_user",
       "confidence_score": 1.0
     },
@@ -11917,22 +11837,11 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L111",
+      "source_location": "L42",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_services_aisummaryservice_aisummaryservice",
       "target": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L43",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_services_aisummaryservice_aisummaryservice",
-      "target": "app_services_aisummaryservice_aisummaryservice_getconfiguredmodels",
       "confidence_score": 1.0
     },
     {
@@ -11958,85 +11867,15 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L88",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_services_aisummaryservice_aisummaryservice",
-      "target": "app_services_aisummaryservice_aisummaryservice_isoverloadorerrorresponse",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L57",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_services_aisummaryservice_aisummaryservice",
-      "target": "app_services_aisummaryservice_aisummaryservice_parsemodellist",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/Feature/AiSummaryFallbackTest.php",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_feature_aisummaryfallbacktest",
-      "target": "app_services_aisummaryservice_aisummaryservice",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L222",
+      "source_location": "L116",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
       "target": "app_services_aisummaryservice_aisummaryservice_getorcreatebotuser",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L115",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
-      "target": "app_services_aisummaryservice_aisummaryservice_getconfiguredmodels",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L49",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_services_aisummaryservice_aisummaryservice_getconfiguredmodels",
-      "target": "app_services_aisummaryservice_aisummaryservice_parsemodellist",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/Services/AiSummaryService.php",
-      "source_location": "L199",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_services_aisummaryservice_aisummaryservice_generateairesponse",
-      "target": "app_services_aisummaryservice_aisummaryservice_isoverloadorerrorresponse",
       "confidence_score": 1.0
     },
     {
@@ -13773,18 +13612,6 @@
       "_origin": "ast",
       "source": "resources_views_reports_show_blade",
       "target": "resources_views_reports_show_blade_php_reports_comment_item"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/Feature/AiSummaryFallbackTest.php",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_feature_aisummaryfallbacktest",
-      "target": "agents_skills_laravel_best_practices_rules_config",
-      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -17244,5 +17071,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ec27fb67141e71697cf5eb9e64bfdd482756b781"
+  "built_at_commit": "37915eebb1b13e64795b4c13fe7a96cba7a8025f"
 }

@@ -181,6 +181,7 @@
 </div>
 
 <!-- Tombol Melayang untuk Membuka Kembali Poster Reward Kapan Saja -->
+@if (!request()->routeIs('reports.create'))
 <div class="fixed bottom-5 left-5 z-[9990] select-none">
     <button type="button" onclick="openRewardModal(true)"
         class="group flex items-center space-x-2 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer border border-amber-300/40 active:scale-95">
@@ -189,6 +190,7 @@
         <span class="sm:hidden font-sans">Reward</span>
     </button>
 </div>
+@endif
 
 <!-- Script Pengendali Pop-Up Poster Reward -->
 <script>

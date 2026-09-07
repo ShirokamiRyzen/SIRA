@@ -116,7 +116,7 @@
                             <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
                                 <flux:icon name="{{ $cat['icon'] }}" class="w-3 h-3" />
                             </span>
-                            <span class="truncate text-[10px] font-medium">{{ $cat['label'] }}</span>
+                            <span class="text-[10px] font-medium leading-tight break-words">{{ $cat['label'] }}</span>
                         </div>
                     @endforeach
                 </div>

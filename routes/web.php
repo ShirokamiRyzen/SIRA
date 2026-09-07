@@ -20,7 +20,7 @@ Route::get('/', function () {
         ->with(['user'])
         ->withCount('comments')
         ->inRandomOrder()
-        ->take(4)
+        ->take(5)
         ->get();
 
     return view('welcome', compact(

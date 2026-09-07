@@ -36,14 +36,84 @@ class AiSummaryService
     }
 
     /**
+     * Dapatkan daftar model AI yang terkonfigurasi secara berurutan untuk auto fallback.
+     *
+     * @return array<int, string>
+     */
+    public function getConfiguredModels(): array
+    {
+        $raw = config('services.openai.models')
+            ?? config('services.openai.model')
+            ?? env('OPENAI_MODEL', 'deepseek-v4-pro');
+
+        return $this->parseModelList($raw);
+    }
+
+    /**
+     * Parsing string atau array konfigurasi model menjadi daftar model yang bersih.
+     *
+     * @return array<int, string>
+     */
+    public function parseModelList(mixed $raw): array
+    {
+        if (is_array($raw)) {
+            $models = $raw;
+        } elseif (is_string($raw)) {
+            $trimmed = trim($raw);
+            if (str_starts_with($trimmed, '[') && str_ends_with($trimmed, ']')) {
+                $trimmed = substr($trimmed, 1, -1);
+            }
+            $models = explode(',', $trimmed);
+        } else {
+            $models = [];
+        }
+
+        $cleaned = [];
+        foreach ($models as $item) {
+            if (! is_string($item)) {
+                continue;
+            }
+            $name = trim($item, " \t\n\r\0\x0B'\"");
+            if ($name !== '') {
+                $cleaned[] = $name;
+            }
+        }
+
+        return ! empty($cleaned) ? array_values(array_unique($cleaned)) : ['deepseek-v4-pro'];
+    }
+
+    /**
+     * Cek apakah teks respon merupakan pesan overload atau error dari upstream AI.
+     */
+    public function isOverloadOrErrorResponse(string $text): bool
+    {
+        if (strlen($text) > 250) {
+            return false;
+        }
+
+        $lower = strtolower($text);
+
+        return str_contains($lower, 'system overload')
+            || str_contains($lower, 'system overloaded')
+            || str_contains($lower, 'server overloaded')
+            || str_contains($lower, 'currently overloaded')
+            || str_contains($lower, 'rate limit')
+            || str_contains($lower, 'too many requests')
+            || str_contains($lower, 'capacity')
+            || str_starts_with($lower, 'error:');
+    }
+
+    /**
      * Hasilkan rangkuman atau respon berbasis AI menggunakan OpenAI API
+     * dengan auto-fallback jika model utama sedang mengalami overload/error,
      * dan simpan sebagai balasan otomatis dari @Sira.
      */
     public function generateAiResponse(Report $report, ReportComment $triggerComment): ?ReportComment
     {
         $apiUrl = config('services.openai.api_url', env('OPENAI_API', 'https://ai.rizuu.id/v1'));
         $apiKey = config('services.openai.api_key', env('OPENAI_KEY'));
-        $model = config('services.openai.model') ?: env('OPENAI_MODEL', 'deepseek-v4-pro');
+        $models = $this->getConfiguredModels();
+        $timeout = (int) config('services.openai.timeout', 25);
 
         if (empty($apiKey) || empty($apiUrl)) {
             Log::warning('AI Summary: OPENAI_API atau OPENAI_KEY belum dikonfigurasi.');
@@ -94,42 +164,79 @@ Kategori Tier: {$report->rank_tier}
 Tolong berikan respon atau ringkasan sesuai pesan pengguna di atas!
 PROMPT;
 
-        try {
-            $endpoint = rtrim($apiUrl, '/').'/chat/completions';
-            $response = Http::timeout(35)
-                ->withToken($apiKey)
-                ->post($endpoint, [
-                    'model' => $model,
-                    'messages' => [
-                        ['role' => 'system', 'content' => $systemPrompt],
-                        ['role' => 'user', 'content' => $userPrompt],
-                    ],
-                    'temperature' => 0.7,
-                    'max_tokens' => 900,
-                ]);
+        $endpoint = rtrim($apiUrl, '/').'/chat/completions';
+        $replyText = null;
 
-            if ($response->successful()) {
-                $data = $response->json();
-                $replyText = $data['choices'][0]['message']['content'] ?? null;
-
-                if (! empty($replyText)) {
-                    $botUser = $this->getOrCreateBotUser();
-
-                    return ReportComment::create([
-                        'report_id' => $report->id,
-                        'user_id' => $botUser->id,
-                        'parent_id' => $triggerComment->id,
-                        'content' => trim($replyText),
+        foreach ($models as $model) {
+            try {
+                $response = Http::timeout($timeout)
+                    ->withToken($apiKey)
+                    ->post($endpoint, [
+                        'model' => $model,
+                        'messages' => [
+                            ['role' => 'system', 'content' => $systemPrompt],
+                            ['role' => 'user', 'content' => $userPrompt],
+                        ],
+                        'temperature' => 0.7,
+                        'max_tokens' => 900,
                     ]);
+
+                if ($response->successful()) {
+                    $data = $response->json();
+
+                    if (! empty($data['error'])) {
+                        $errMsg = is_array($data['error']) ? ($data['error']['message'] ?? json_encode($data['error'])) : (string) $data['error'];
+                        Log::warning("AI Summary: Model [{$model}] mengembalikan error: {$errMsg}. Mencoba model berikutnya...");
+
+                        continue;
+                    }
+
+                    $candidate = $data['choices'][0]['message']['content'] ?? null;
+
+                    if (! empty($candidate)) {
+                        $candidate = trim($candidate);
+
+                        if ($this->isOverloadOrErrorResponse($candidate)) {
+                            Log::warning("AI Summary: Model [{$model}] mengembalikan indikasi overload: {$candidate}. Mencoba model berikutnya...");
+
+                            continue;
+                        }
+
+                        $replyText = $candidate;
+                        Log::info("AI Summary: Berhasil mendapatkan respon menggunakan model [{$model}].");
+
+                        break;
+                    }
+
+                    Log::warning("AI Summary: Model [{$model}] mengembalikan konten kosong. Mencoba model berikutnya...");
+                } else {
+                    Log::warning("AI Summary: Model [{$model}] gagal dengan HTTP {$response->status()}: ".substr($response->body(), 0, 200).'. Mencoba model berikutnya...');
                 }
-            } else {
-                Log::error('OpenAI API Error: '.$response->body());
+            } catch (Exception $e) {
+                Log::warning("AI Summary: Gagal menghubungi model [{$model}]: {$e->getMessage()}. Mencoba model berikutnya...");
             }
-        } catch (Exception $e) {
-            Log::error('Gagal menghubungi OpenAI API: '.$e->getMessage());
         }
 
-        // Fallback jika API sedang tidak dapat dijangkau
+        if (! empty($replyText)) {
+            try {
+                $botUser = $this->getOrCreateBotUser();
+
+                return ReportComment::create([
+                    'report_id' => $report->id,
+                    'user_id' => $botUser->id,
+                    'parent_id' => $triggerComment->id,
+                    'content' => $replyText,
+                ]);
+            } catch (Exception $e) {
+                Log::error('Gagal menyimpan komentar balasan AI: '.$e->getMessage());
+
+                return null;
+            }
+        }
+
+        Log::error('AI Summary: Semua model AI yang dikonfigurasi gagal merespon. Menjalankan fallback pesan standar.');
+
+        // Fallback jika seluruh model AI tidak dapat dijangkau
         try {
             $botUser = $this->getOrCreateBotUser();
 

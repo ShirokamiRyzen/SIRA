@@ -39,6 +39,7 @@ return [
         'api_url' => env('OPENAI_API', 'https://ai.rizuu.id/v1'),
         'api_key' => env('OPENAI_KEY'),
         'model' => env('OPENAI_MODEL', 'deepseek-v4-pro'),
+        'timeout' => (int) env('OPENAI_TIMEOUT', 25),
     ],
 
 ];
