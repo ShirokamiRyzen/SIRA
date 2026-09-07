@@ -10,9 +10,9 @@
     <section class="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-[#222222] bg-slate-950 text-white select-none" id="komdigi-hero-banner">
         @if ($criticalReports->isNotEmpty())
             <!-- Slide Track -->
-            <div class="relative min-h-[380px] sm:min-h-[440px] md:min-h-[480px] lg:min-h-[520px] w-full overflow-hidden" id="gov-carousel-track">
+            <div class="relative min-h-[390px] sm:min-h-[440px] md:min-h-[480px] lg:min-h-[520px] w-full overflow-hidden" id="gov-carousel-track">
                 @foreach ($criticalReports as $index => $report)
-                    <div class="gov-slide absolute inset-0 transition-opacity duration-500 ease-in-out flex flex-col justify-end p-5 sm:p-8 md:p-10 {{ $index === 0 ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0' }}"
+                    <div class="gov-slide absolute inset-0 transition-opacity duration-500 ease-in-out flex flex-col justify-end p-4 sm:p-8 md:p-10 pb-16 sm:pb-8 {{ $index === 0 ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0' }}"
                          data-index="{{ $index }}">
                         <!-- Background Image dengan Aspect Fill & Dark Gradient Overlay -->
                         <div class="absolute inset-0 z-0">
@@ -20,96 +20,113 @@
                                  alt="{{ $report->title }}"
                                  class="w-full h-full object-cover object-center filter brightness-[0.78] scale-100 transition-transform duration-700 ease-out">
                             <!-- Gradient Overlay Khas Portal Berita Pemerintah (Gelap di bawah & kiri) -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/65 to-slate-950/20"></div>
-                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/40 to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/20"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/45 to-transparent"></div>
                         </div>
 
                         <!-- Konten Slide (Teks, Badge, & Headline Besar) -->
-                        <div class="relative z-10 max-w-3xl space-y-3 sm:space-y-4 mb-3 sm:mb-6">
+                        <div class="relative z-10 max-w-3xl space-y-2.5 sm:space-y-4">
                             <!-- Baris Badge Kategori & Urgensi -->
-                            <div class="flex items-center gap-2 flex-wrap">
+                            <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                                 @if ($report->rank_tier === 'critical')
-                                    <span class="px-2.5 py-1 rounded-[4px] bg-[#E8590C] text-white text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
+                                    <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-[4px] bg-[#E8590C] text-white text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
                                         LAPORAN KRITIS
                                     </span>
                                 @elseif ($report->rank_tier === 'urgent')
-                                    <span class="px-2.5 py-1 rounded-[4px] bg-amber-500 text-slate-950 text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
+                                    <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-[4px] bg-amber-500 text-slate-950 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
                                         MENDESAK
                                     </span>
                                 @else
-                                    <span class="px-2.5 py-1 rounded-[4px] bg-emerald-600 text-white text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
+                                    <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-[4px] bg-emerald-600 text-white text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
                                         SOROTAN WARGA
                                     </span>
                                 @endif
 
-                                <span class="px-2.5 py-1 rounded-[4px] bg-white/20 backdrop-blur-xs text-white text-[11px] font-mono border border-white/20">
+                                <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-[4px] bg-white/20 backdrop-blur-xs text-white text-[10px] sm:text-[11px] font-mono border border-white/20">
                                     {{ $report->category_label }}
                                 </span>
 
-                                <span class="px-2.5 py-1 rounded-[4px] bg-black/40 backdrop-blur-xs text-slate-300 text-[11px] font-mono border border-white/10 hidden sm:inline-flex items-center gap-1">
+                                <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-[4px] bg-black/40 backdrop-blur-xs text-slate-300 text-[10px] sm:text-[11px] font-mono border border-white/10 hidden sm:inline-flex items-center gap-1">
                                     <flux:icon name="map-pin" class="w-3 h-3 text-emerald-400" />
                                     <span>{{ $report->district ?? $report->city ?? 'Lokasi Terdaftar' }}</span>
                                 </span>
                             </div>
 
                             <!-- Judul Utama Besar (Komdigi Style) -->
-                            <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-sans font-extrabold text-white leading-tight tracking-tight drop-shadow-md">
-                                <a href="{{ route('reports.show', $report) }}" class="hover:text-emerald-300 transition line-clamp-2 sm:line-clamp-3">
+                            <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-sans font-extrabold text-white leading-snug sm:leading-tight tracking-tight drop-shadow-md">
+                                <a href="{{ route('reports.show', $report) }}" class="hover:text-emerald-300 transition line-clamp-2">
                                     {{ $report->title }}
                                 </a>
                             </h2>
 
                             <!-- Deskripsi Singkat -->
                             <p class="text-xs sm:text-sm text-slate-200 line-clamp-2 max-w-2xl leading-relaxed drop-shadow-xs font-sans">
-                                {{ Str::limit(strip_tags($report->description), 150) }}
+                                {{ Str::limit(strip_tags($report->description), 140) }}
                             </p>
 
                             <!-- Link Aksi: Baca Selengkapnya -->
-                            <div class="pt-1 flex items-center gap-4">
+                            <div class="pt-1 flex items-center gap-3">
                                 <a href="{{ route('reports.show', $report) }}"
-                                   class="inline-flex items-center gap-2 text-white hover:text-emerald-300 font-semibold text-xs sm:text-sm transition group">
-                                    <span class="w-6 h-6 rounded-full border border-white/60 flex items-center justify-center group-hover:border-emerald-400 group-hover:bg-emerald-500/30 transition text-xs font-mono">&rarr;</span>
+                                   class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-emerald-600 border border-white/20 hover:border-emerald-500 text-white font-semibold text-xs sm:text-sm transition-all group">
+                                    <span class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-emerald-700 transition text-xs font-mono">&rarr;</span>
                                     <span>Baca Selengkapnya</span>
                                 </a>
 
-                                <span class="text-xs text-slate-400 font-mono hidden sm:inline">
+                                <span class="text-xs text-slate-300 font-mono hidden sm:inline">
                                     &bull; {{ $report->vote_score }} Dukungan Warga
                                 </span>
                             </div>
                         </div>
-
-                        <!-- Indikator Angka Bulat di Kanan Bawah Banner (1 2 3 4 5 ala Komdigi) -->
-                        <div class="absolute right-4 sm:right-8 bottom-4 sm:bottom-8 z-20 flex items-center space-x-1.5 sm:space-x-2">
-                            @foreach ($criticalReports as $numIndex => $rep)
-                                <button type="button"
-                                    class="gov-num-pill w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition flex items-center justify-center cursor-pointer {{ $numIndex === 0 ? 'bg-white text-slate-950 font-black shadow-md scale-110' : 'bg-black/60 text-white/80 hover:bg-black/90 hover:text-white border border-white/20' }}"
-                                    data-slide-index="{{ $numIndex }}"
-                                    aria-label="Pindah ke slide {{ $numIndex + 1 }}">
-                                    {{ $numIndex + 1 }}
-                                </button>
-                            @endforeach
-                        </div>
                     </div>
                 @endforeach
+
+                <!-- Indikator Angka Bulat Tunggal (1 2 3 4 5 ala Komdigi) di Pojok Kanan Bawah Banner -->
+                <div class="absolute right-3 sm:right-8 bottom-3 sm:bottom-6 z-20 flex items-center space-x-1.5 sm:space-x-2">
+                    <button type="button" id="gov-prev-btn"
+                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition flex items-center justify-center cursor-pointer bg-black/60 text-white/80 hover:bg-black/90 hover:text-white border border-white/20"
+                        aria-label="Slide sebelumnya">
+                        <flux:icon name="chevron-left" class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </button>
+                    @foreach ($criticalReports as $numIndex => $rep)
+                        <button type="button"
+                            class="gov-num-pill w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition-all duration-200 flex items-center justify-center cursor-pointer {{ $numIndex === 0 ? 'bg-emerald-500 text-white font-black shadow-lg shadow-emerald-500/50 scale-110 ring-2 ring-white' : 'bg-black/60 text-white/75 hover:bg-black/90 hover:text-white border border-white/20' }}"
+                            data-slide-index="{{ $numIndex }}"
+                            aria-current="{{ $numIndex === 0 ? 'true' : 'false' }}"
+                            aria-label="Pindah ke slide {{ $numIndex + 1 }}">
+                            {{ $numIndex + 1 }}
+                        </button>
+                    @endforeach
+                    <button type="button" id="gov-next-btn"
+                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition flex items-center justify-center cursor-pointer bg-black/60 text-white/80 hover:bg-black/90 hover:text-white border border-white/20"
+                        aria-label="Slide berikutnya">
+                        <flux:icon name="chevron-right" class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </button>
+                </div>
             </div>
 
             <!-- Bagian Bawah: Strip Thumbnail "Laporan Populer" ala Komdigi -->
-            <div class="relative z-20 bg-slate-950/85 backdrop-blur-md border-t border-white/10 px-4 py-3 sm:px-6 sm:py-3.5">
-                <div class="text-[10px] sm:text-[11px] uppercase tracking-wider font-mono text-slate-400 font-bold mb-2 flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Laporan Populer &amp; Sorotan Warga</span>
+            <div class="relative z-20 bg-slate-950/85 backdrop-blur-md border-t border-white/10 px-3 sm:px-6 py-2.5 sm:py-3.5">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="text-[10px] sm:text-[11px] uppercase tracking-wider font-mono text-slate-400 font-bold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Laporan Populer &amp; Sorotan Warga</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-slate-400 md:hidden flex items-center gap-1">
+                        Geser &rarr;
+                    </span>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 font-sans">
+                <!-- Baris Thumbnail: Horizontal swipe scroll di mobile, 5 kolom di desktop -->
+                <div class="flex overflow-x-auto md:grid md:grid-cols-5 gap-2 sm:gap-3 font-sans pb-1 px-0.5 snap-x snap-mandatory no-scrollbar" style="-webkit-overflow-scrolling: touch;">
                     @foreach ($criticalReports as $tIndex => $tReport)
                         <button type="button"
-                            class="gov-thumb-card text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group {{ $tIndex === 0 ? 'border-emerald-500 bg-white/10' : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20' }}"
+                            class="gov-thumb-card w-[210px] sm:w-[230px] md:w-auto shrink-0 md:shrink snap-start text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group {{ $tIndex === 0 ? 'border-emerald-500 bg-white/15 ring-1 ring-emerald-400/50' : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20' }}"
                             data-thumb-index="{{ $tIndex }}">
                             <img src="{{ $tReport->image_base64 }}"
                                  alt="{{ $tReport->title }}"
                                  class="w-12 h-10 sm:w-14 sm:h-11 rounded object-cover shrink-0 border border-white/10">
                             <div class="min-w-0 flex-1">
-                                <h4 class="text-[11px] sm:text-xs font-semibold text-white group-hover:text-emerald-300 transition line-clamp-1">
+                                <h4 class="text-[11px] sm:text-xs font-semibold text-white group-hover:text-emerald-300 transition truncate">
                                     {{ $tReport->title }}
                                 </h4>
                                 <div class="text-[10px] font-mono text-amber-400/90 truncate mt-0.5">
@@ -372,20 +389,24 @@
             });
 
             // Update status nomor lingkaran (1 2 3 4 5)
-            numPills.forEach((pill, idx) => {
-                if (idx === currentIndex) {
-                    pill.className = 'gov-num-pill w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition flex items-center justify-center cursor-pointer bg-white text-slate-950 font-black shadow-md scale-110';
+            numPills.forEach((pill) => {
+                const pIdx = parseInt(pill.getAttribute('data-slide-index'), 10);
+                if (pIdx === currentIndex) {
+                    pill.className = 'gov-num-pill w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition-all duration-200 flex items-center justify-center cursor-pointer bg-emerald-500 text-white font-black shadow-lg shadow-emerald-500/50 scale-110 ring-2 ring-white';
+                    pill.setAttribute('aria-current', 'true');
                 } else {
-                    pill.className = 'gov-num-pill w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition flex items-center justify-center cursor-pointer bg-black/60 text-white/80 hover:bg-black/90 hover:text-white border border-white/20';
+                    pill.className = 'gov-num-pill w-7 h-7 sm:w-8 sm:h-8 rounded-full font-mono text-xs font-bold transition-all duration-200 flex items-center justify-center cursor-pointer bg-black/60 text-white/75 hover:bg-black/90 hover:text-white border border-white/20';
+                    pill.setAttribute('aria-current', 'false');
                 }
             });
 
             // Update status thumbnail baris bawah
             thumbCards.forEach((card, idx) => {
                 if (idx === currentIndex) {
-                    card.className = 'gov-thumb-card text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group border-emerald-500 bg-white/15 ring-1 ring-emerald-400/50';
+                    card.className = 'gov-thumb-card w-[210px] sm:w-[230px] md:w-auto shrink-0 md:shrink snap-start text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group border-emerald-500 bg-white/15 ring-1 ring-emerald-400/50';
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
                 } else {
-                    card.className = 'gov-thumb-card text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20';
+                    card.className = 'gov-thumb-card w-[210px] sm:w-[230px] md:w-auto shrink-0 md:shrink snap-start text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20';
                 }
             });
         }
@@ -408,16 +429,38 @@
         numPills.forEach((pill) => {
             pill.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 const idx = parseInt(pill.getAttribute('data-slide-index'), 10);
                 goToSlide(idx);
                 startAutoPlay();
             });
         });
 
+        // Listener tombol prev/next panah
+        const prevBtn = document.getElementById('gov-prev-btn');
+        const nextBtn = document.getElementById('gov-next-btn');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                goToSlide(currentIndex - 1);
+                startAutoPlay();
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                goToSlide(currentIndex + 1);
+                startAutoPlay();
+            });
+        }
+
         // Listener klik thumbnail card bawah
         thumbCards.forEach((card) => {
             card.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 const idx = parseInt(card.getAttribute('data-thumb-index'), 10);
                 goToSlide(idx);
                 startAutoPlay();
@@ -451,6 +494,7 @@
             }, { passive: true });
         }
 
+        goToSlide(0);
         startAutoPlay();
     })();
 </script>

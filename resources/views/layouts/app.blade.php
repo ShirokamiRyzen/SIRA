@@ -106,11 +106,11 @@
                 if (isDark) {
                     if (lightIcon) lightIcon.classList.remove('hidden');
                     if (darkIcon) darkIcon.classList.add('hidden');
-                    if (themeText) themeText.textContent = 'Terang';
+                    if (toggleBtn) toggleBtn.setAttribute('title', 'Beralih ke mode terang');
                 } else {
                     if (lightIcon) lightIcon.classList.add('hidden');
                     if (darkIcon) darkIcon.classList.remove('hidden');
-                    if (themeText) themeText.textContent = 'Gelap';
+                    if (toggleBtn) toggleBtn.setAttribute('title', 'Beralih ke mode gelap');
                 }
             }
 

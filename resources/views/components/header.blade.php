@@ -12,24 +12,81 @@
 
             <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-1 font-mono text-xs">
-                <a href="{{ route('reports.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('reports.*') && !request()->routeIs('reports.create') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
-                    <flux:icon name="document-text" class="w-3.5 h-3.5 shrink-0 text-[#787774] dark:text-[#9B9B97]" />
-                    <span>Laporan</span>
-                </a>
-                <a href="{{ route('heatmap.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('heatmap.index') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
+                <!-- Dropdown Laporan -->
+                <div class="relative" id="reportsNavDropdownContainer">
+                    <button
+                        type="button"
+                        id="reportsNavDropdownBtn"
+                        aria-expanded="false"
+                        class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 cursor-pointer {{ request()->routeIs('reports.index') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}"
+                    >
+                        <flux:icon name="document-text" class="w-3.5 h-3.5 shrink-0 text-[#787774] dark:text-[#9B9B97]" />
+                        <span>Laporan</span>
+                        <flux:icon name="chevron-down" id="reportsNavChevron" class="w-3 h-3 text-[#787774] dark:text-[#9B9B97] transition-transform duration-200" />
+                    </button>
+
+                    <div
+                        id="reportsNavDropdownMenu"
+                        class="hidden absolute left-0 mt-1.5 w-48 rounded-xl bg-white dark:bg-[#161615] border border-[#EAEAEA] dark:border-[#282828] shadow-lg py-1 z-50 transition-all font-mono"
+                    >
+                        <a href="{{ route('reports.index') }}"
+                           class="flex items-center space-x-2 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold' : '' }}">
+                            <flux:icon name="queue-list" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97] shrink-0" />
+                            <span>Semua Laporan</span>
+                        </a>
+
+                        @auth
+                            <a href="{{ route('reports.index', ['my_reports' => 1]) }}"
+                               class="flex items-center space-x-2 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold text-emerald-600 dark:text-emerald-400' : '' }}">
+                                <flux:icon name="user" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                                <span class="text-emerald-700 dark:text-emerald-400 font-medium">Laporan Saya</span>
+                            </a>
+                        @endauth
+                    </div>
+                </div>
+
+                <!-- Peta Sebaran Masalah -->
+                <a href="{{ route('heatmap.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('heatmap.index') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
                     <span>Peta Sebaran</span>
                 </a>
+
+                <!-- Dropdown Manajemen Khusus Admin -->
                 @auth
                     @if (Auth::user()->isAdmin())
-                        <a href="{{ route('admin.users.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('admin.users.*') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-medium' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
-                            <flux:icon name="users" class="w-3.5 h-3.5 shrink-0 text-amber-500" />
-                            <span>Manajemen User</span>
-                        </a>
+                        <div class="relative" id="adminNavDropdownContainer">
+                            <button
+                                type="button"
+                                id="adminNavDropdownBtn"
+                                aria-expanded="false"
+                                class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 cursor-pointer {{ request()->routeIs('admin.*') ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-amber-600 dark:hover:text-amber-400 hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}"
+                            >
+                                <flux:icon name="shield-check" class="w-3.5 h-3.5 shrink-0 text-amber-500" />
+                                <span>Manajemen</span>
+                                <flux:icon name="chevron-down" id="adminNavChevron" class="w-3 h-3 text-amber-500 transition-transform duration-200" />
+                            </button>
+
+                            <div
+                                id="adminNavDropdownMenu"
+                                class="hidden absolute left-0 mt-1.5 w-52 rounded-xl bg-white dark:bg-[#161615] border border-[#EAEAEA] dark:border-[#282828] shadow-lg py-1 z-50 transition-all font-mono"
+                            >
+                                <a href="{{ route('admin.reports.index') }}"
+                                   class="flex items-center space-x-2.5 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('admin.reports.*') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold text-amber-600 dark:text-amber-400' : '' }}">
+                                    <flux:icon name="clipboard-document-list" class="w-4 h-4 text-amber-500 shrink-0" />
+                                    <span>Manajemen Laporan</span>
+                                </a>
+                                <a href="{{ route('admin.users.index') }}"
+                                   class="flex items-center space-x-2.5 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('admin.users.*') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold text-amber-600 dark:text-amber-400' : '' }}">
+                                    <flux:icon name="users" class="w-4 h-4 text-amber-500 shrink-0" />
+                                    <span>Manajemen User</span>
+                                </a>
+                            </div>
+                        </div>
                     @endif
                 @endauth
+
                 @if (request()->routeIs('home'))
-                    <a href="#cara-kerja-fitur" class="px-3 py-1.5 rounded-[6px] transition-colors text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E] hidden lg:inline-block">
+                    <a href="#cara-kerja-fitur" class="px-3 py-1.5 rounded-[6px] transition-colors text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E] hidden xl:inline-block">
                         Cara Kerja &amp; Fitur
                     </a>
                 @endif
@@ -43,11 +100,11 @@
                 id="theme-toggle"
                 type="button"
                 aria-label="Ganti tema warna"
-                class="w-9 h-9 sm:w-auto sm:h-9 sm:px-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] font-mono text-[11px] cursor-pointer inline-flex items-center justify-center gap-1.5 shrink-0"
+                title="Ganti tema warna"
+                class="w-9 h-9 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] cursor-pointer inline-flex items-center justify-center shrink-0"
             >
                 <flux:icon id="theme-toggle-light-icon" name="sun" class="w-4 h-4 hidden" />
                 <flux:icon id="theme-toggle-dark-icon" name="moon" class="w-4 h-4 hidden" />
-                <span id="theme-toggle-text" class="hidden sm:inline">Tema</span>
             </button>
 
             <a href="{{ route('reports.create') }}" class="hidden md:inline-flex items-center justify-center space-x-1.5 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-medium h-9 px-3.5 rounded-[6px] transition duration-150 shrink-0">
@@ -160,10 +217,13 @@
                 </div>
 
                 <div class="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
-                    <div class="inline-flex items-center space-x-1 text-[#787774] dark:text-[#9B9B97] text-[11px] hidden sm:inline-flex">
+                    <a href="{{ route('reports.index', ['my_reports' => 1]) }}"
+                       class="inline-flex items-center space-x-1 text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] text-[11px] hidden sm:inline-flex transition-colors group"
+                       title="Lihat Laporan Saya">
+                        <flux:icon name="user-circle" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
                         <span>@<span>{{ Auth::user()->username }}</span></span>
                         <x-verified-badge :user="Auth::user()" size="xs" />
-                    </div>
+                    </a>
                     <form action="{{ route('logout') }}" method="POST" class="inline-flex items-center">
                         @csrf
                         <button type="submit" title="Keluar" class="text-[#787774] hover:text-[#9F2F2D] dark:hover:text-[#E88C8A] transition-colors cursor-pointer">
@@ -536,13 +596,22 @@
     <div id="mobileMenu"
          class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/98 dark:bg-[#111111]/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
         <div class="space-y-1">
-            <a href="{{ route('reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.*') && !request()->routeIs('reports.create') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+            <a href="{{ route('reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
                 <span class="flex items-center space-x-2">
                     <flux:icon name="document-text" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
-                    <span>Laporan</span>
+                    <span>Laporan Publik</span>
                 </span>
                 <span class="text-[11px] text-[#787774]">&rarr;</span>
             </a>
+            @auth
+                <a href="{{ route('reports.index', ['my_reports' => 1]) }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                    <span class="flex items-center space-x-2">
+                        <flux:icon name="user" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span>Laporan Saya</span>
+                    </span>
+                    <span class="text-[11px] text-[#787774]">&rarr;</span>
+                </a>
+            @endauth
             <a href="{{ route('heatmap.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('heatmap.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
                 <span class="flex items-center space-x-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
@@ -552,10 +621,17 @@
             </a>
             @auth
                 @if (Auth::user()->isAdmin())
+                    <a href="{{ route('admin.reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.reports.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                        <span class="flex items-center space-x-2">
+                            <flux:icon name="clipboard-document-list" class="w-3.5 h-3.5 text-amber-500" />
+                            <span>Manajemen Laporan (Admin)</span>
+                        </span>
+                        <span class="text-[11px] text-[#787774]">&rarr;</span>
+                    </a>
                     <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.users.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
                         <span class="flex items-center space-x-2">
                             <flux:icon name="users" class="w-3.5 h-3.5 text-amber-500" />
-                            <span>Manajemen User</span>
+                            <span>Manajemen User (Admin)</span>
                         </span>
                         <span class="text-[11px] text-[#787774]">&rarr;</span>
                     </a>
@@ -677,6 +753,65 @@
                     setMenuState(false);
                 });
             });
+        })();
+
+        // Handler Dropdown Navigasi Desktop (Laporan & Manajemen Admin)
+        (function () {
+            function setupNavDropdown(btnId, menuId, containerId, chevronId) {
+                const btn = document.getElementById(btnId);
+                const menu = document.getElementById(menuId);
+                const container = document.getElementById(containerId);
+                const chevron = document.getElementById(chevronId);
+                if (!btn || !menu) return;
+
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const willOpen = menu.classList.contains('hidden');
+
+                    // Tutup dropdown lain yang sedang terbuka
+                    document.querySelectorAll('#reportsNavDropdownMenu, #adminNavDropdownMenu').forEach(function (m) {
+                        m.classList.add('hidden');
+                    });
+                    document.querySelectorAll('#reportsNavChevron, #adminNavChevron').forEach(function (c) {
+                        c.classList.remove('rotate-180');
+                    });
+
+                    if (willOpen) {
+                        menu.classList.remove('hidden');
+                        btn.setAttribute('aria-expanded', 'true');
+                        if (chevron) chevron.classList.add('rotate-180');
+                    } else {
+                        btn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (container && !container.contains(e.target)) {
+                        menu.classList.add('hidden');
+                        btn.setAttribute('aria-expanded', 'false');
+                        if (chevron) chevron.classList.remove('rotate-180');
+                    }
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') {
+                        menu.classList.add('hidden');
+                        btn.setAttribute('aria-expanded', 'false');
+                        if (chevron) chevron.classList.remove('rotate-180');
+                    }
+                });
+
+                menu.querySelectorAll('a').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        menu.classList.add('hidden');
+                        btn.setAttribute('aria-expanded', 'false');
+                        if (chevron) chevron.classList.remove('rotate-180');
+                    });
+                });
+            }
+
+            setupNavDropdown('reportsNavDropdownBtn', 'reportsNavDropdownMenu', 'reportsNavDropdownContainer', 'reportsNavChevron');
+            setupNavDropdown('adminNavDropdownBtn', 'adminNavDropdownMenu', 'adminNavDropdownContainer', 'adminNavChevron');
         })();
     </script>
 </header>

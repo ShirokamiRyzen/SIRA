@@ -23,7 +23,14 @@
             </p>
         </div>
 
-        <div class="flex items-center gap-3 shrink-0 flex-wrap">
+        <div class="flex items-center gap-2.5 sm:gap-3 shrink-0 flex-wrap">
+            @auth
+                <a href="{{ request('my_reports') ? route('reports.index') : route('reports.index', ['my_reports' => 1]) }}#dashboard"
+                   class="px-3.5 py-2.5 border {{ request('my_reports') ? 'bg-emerald-600 border-emerald-600 text-white font-bold' : 'border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] text-[#111111] dark:text-[#EDEDEC]' }} text-xs font-mono font-medium rounded-[6px] transition inline-flex items-center gap-1.5 shadow-2xs">
+                    <flux:icon name="user" class="w-3.5 h-3.5 {{ request('my_reports') ? 'text-white' : 'text-emerald-600 dark:text-emerald-400' }}" />
+                    <span>Laporan Saya ({{ $myReportsCount }})</span>
+                </a>
+            @endauth
             <a href="{{ route('reports.create') }}" class="px-5 py-2.5 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-mono font-medium rounded-[6px] transition inline-flex items-center gap-1.5 shadow-xs">
                 <span>+ Buat Laporan Baru</span>
             </a>
@@ -66,6 +73,7 @@
         :critical-reports="$criticalReports"
         :sort="$sort"
         :multi-issue-count="$multiIssueCount"
+        :my-reports-count="$myReportsCount"
     />
 </div>
 @endsection

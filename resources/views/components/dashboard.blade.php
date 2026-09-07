@@ -5,6 +5,7 @@
     'criticalReports' => [],
     'sort' => 'trending',
     'multiIssueCount' => 0,
+    'myReportsCount' => 0,
 ])
 
 <!-- Component: Dashboard Laporan & Feed Komunitas (Sederhana & Boomer-Proof) -->
@@ -13,6 +14,9 @@
     <div class="bg-white dark:bg-[#141414] p-4 sm:p-5 rounded-[8px] border border-[#EAEAEA] dark:border-[#222222] space-y-4 shadow-xs">
         <form method="GET" action="{{ route('reports.index', [], false) }}#dashboard" class="space-y-4">
             <input type="hidden" name="sort" value="{{ request('sort', 'trending') }}">
+            @if (request('my_reports'))
+                <input type="hidden" name="my_reports" value="1">
+            @endif
 
             <!-- Baris 1: Kolom Pencarian Cepat & Pilihan Wilayah -->
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
@@ -46,7 +50,7 @@
                         Cari
                     </button>
 
-                    @if (request()->hasAny(['search', 'city', 'district', 'rank_tier', 'status', 'issue_type']))
+                    @if (request()->hasAny(['search', 'city', 'district', 'rank_tier', 'status', 'issue_type', 'my_reports']))
                         <a href="{{ route('reports.index', [], false) }}#dashboard"
                             class="px-3 py-2.5 border border-[#EAEAEA] dark:border-[#282828] bg-[#FBFBFA] dark:bg-[#1A1A1A] hover:bg-[#F0F0EF] text-[#9F2F2D] dark:text-[#E88C8A] rounded-[6px] text-xs font-mono transition text-center whitespace-nowrap"
                             title="Hapus semua filter">
@@ -94,6 +98,15 @@
                        <flux:icon name="squares-2x2" class="w-3 h-3 shrink-0" />
                        <span>Multi Masalah ({{ $multiIssueCount }})</span>
                     </a>
+
+                    @auth
+                        <!-- Laporan Saya Tag -->
+                        <a href="{{ request()->fullUrlWithQuery(['my_reports' => request('my_reports') ? null : 1]) }}#dashboard"
+                           class="px-2.5 py-1.5 rounded-[6px] transition shrink-0 font-medium inline-flex items-center gap-1 border {{ request('my_reports') ? 'bg-emerald-700 border-emerald-700 text-white font-bold shadow-xs' : 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/50 dark:border-emerald-800/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 hover:text-emerald-800 dark:hover:text-emerald-200' }}">
+                           <flux:icon name="user" class="w-3 h-3 shrink-0" />
+                           <span>Laporan Saya ({{ $myReportsCount }})</span>
+                        </a>
+                    @endauth
                 </div>
 
                 <!-- Kontrol Urutan -->
@@ -153,6 +166,11 @@
         <div class="flex items-center justify-between text-xs font-mono text-[#787774] dark:text-[#8E8D8A] px-1">
             <span>
                 Menampilkan <strong class="text-[#111111] dark:text-[#EDEDEC]">{{ $reports->total() }}</strong> laporan
+                @if (request('my_reports') && Auth::check())
+                    <span class="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-200/60 dark:border-emerald-800/40 ml-1">
+                        milik Anda (@<span>{{ Auth::user()->username }}</span>)
+                    </span>
+                @endif
                 @if (request('district'))
                     di <span class="font-bold text-[#111111] dark:text-[#EDEDEC]">{{ request('district') }}</span>
                 @endif

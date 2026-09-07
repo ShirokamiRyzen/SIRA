@@ -257,16 +257,79 @@ test('admin cannot delete own account or bot Sira', function () {
     expect(User::find($sira->id))->not->toBeNull();
 });
 
-test('header displays Manajemen User only for admin and hides Dasbor Laporan for regular users', function () {
+test('header displays Manajemen User and Manajemen Laporan only for admin', function () {
     $admin = User::factory()->create(['username' => 'admin_nav', 'is_admin' => true]);
     $regularUser = User::factory()->create(['username' => 'user_nav', 'is_admin' => false]);
 
     // Admin view
     $responseAdmin = $this->actingAs($admin)->get(route('reports.index'));
     $responseAdmin->assertSee('Manajemen User');
+    $responseAdmin->assertSee('Manajemen Laporan');
 
     // Regular user view
     $responseUser = $this->actingAs($regularUser)->get(route('reports.index'));
     $responseUser->assertDontSee('Manajemen User')
-        ->assertDontSee('Dasbor Laporan');
+        ->assertDontSee('Manajemen Laporan');
+});
+
+test('non-admin user cannot access admin reports index', function () {
+    $regularUser = User::factory()->create(['is_admin' => false]);
+
+    $this->actingAs($regularUser)
+        ->get(route('admin.reports.index'))
+        ->assertForbidden();
+});
+
+test('admin can access admin reports index and filter by status and search', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $author = User::factory()->create(['username' => 'warga_melapor']);
+
+    $report1 = Report::create([
+        'user_id' => $author->id,
+        'title' => 'Jalan Rusak Sukajadi Bandung',
+        'category' => 'infrastruktur',
+        'description' => 'Aspal berlubang besar',
+        'image_base64' => 'data:image/jpeg;base64,sample1',
+        'latitude' => -6.9175,
+        'longitude' => 107.6191,
+        'city' => 'Kota Bandung',
+        'district' => 'Sukajadi',
+        'status' => 'active',
+        'rank_tier' => 'critical',
+    ]);
+
+    $report2 = Report::create([
+        'user_id' => $author->id,
+        'title' => 'Lampu PJU Padam Dago',
+        'category' => 'lampu_kelistrikan',
+        'description' => 'Gelap saat malam',
+        'image_base64' => 'data:image/jpeg;base64,sample2',
+        'latitude' => -6.9175,
+        'longitude' => 107.6191,
+        'city' => 'Kota Bandung',
+        'district' => 'Coblong',
+        'status' => 'resolved',
+        'rank_tier' => 'normal',
+    ]);
+
+    // Akses index tanpa filter
+    $response = $this->actingAs($admin)->get(route('admin.reports.index'));
+    $response->assertOk();
+    $response->assertSee('Manajemen &amp; Moderasi Laporan', false);
+    $response->assertSee('Jalan Rusak Sukajadi Bandung');
+    $response->assertSee('Lampu PJU Padam Dago');
+
+    // Filter status resolved
+    $filterResponse = $this->actingAs($admin)->get(route('admin.reports.index', ['filter' => 'resolved']));
+    $filterResponse->assertOk();
+    $filterTitles = $filterResponse->viewData('reports')->pluck('title');
+    expect($filterTitles)->toContain('Lampu PJU Padam Dago');
+    expect($filterTitles)->not->toContain('Jalan Rusak Sukajadi Bandung');
+
+    // Search query
+    $searchResponse = $this->actingAs($admin)->get(route('admin.reports.index', ['q' => 'Sukajadi']));
+    $searchResponse->assertOk();
+    $searchTitles = $searchResponse->viewData('reports')->pluck('title');
+    expect($searchTitles)->toContain('Jalan Rusak Sukajadi Bandung');
+    expect($searchTitles)->not->toContain('Lampu PJU Padam Dago');
 });

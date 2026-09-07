@@ -21,17 +21,36 @@
             </p>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
+            <a href="{{ route('admin.reports.index') }}"
+               class="inline-flex items-center space-x-1.5 px-3 py-2 rounded-[6px] text-xs font-mono font-medium border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition shadow-2xs">
+                <flux:icon name="clipboard-document-list" class="w-3.5 h-3.5 text-amber-500" />
+                <span>Manajemen Laporan</span>
+            </a>
             <a href="{{ route('reports.index') }}"
-               class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-[6px] text-xs font-mono font-medium border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition shadow-2xs">
+               class="inline-flex items-center space-x-1.5 px-3 py-2 rounded-[6px] text-xs font-mono font-medium border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition shadow-2xs">
                 <flux:icon name="document-text" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
-                <span>Lihat Semua Laporan</span>
+                <span>Lihat Feed Publik</span>
             </a>
             <a href="{{ route('reports.create') }}"
                class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-[6px] text-xs font-medium bg-[#111111] hover:bg-[#2A2A2A] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white transition shadow-2xs">
                 <span>+ Buat Laporan</span>
             </a>
         </div>
+    </div>
+
+    <!-- Navigasi Tab Admin Sub-Menu -->
+    <div class="flex items-center space-x-2 border-b border-[#EAEAEA] dark:border-[#222222] font-mono text-xs">
+        <a href="{{ route('admin.reports.index') }}"
+           class="pb-2.5 px-3 text-[#787774] dark:text-[#8E8D8A] hover:text-[#111111] dark:hover:text-[#EDEDEC] transition flex items-center gap-1.5">
+            <flux:icon name="clipboard-document-list" class="w-4 h-4 text-[#787774] dark:text-[#8E8D8A]" />
+            <span>Manajemen Laporan</span>
+        </a>
+        <a href="{{ route('admin.users.index') }}"
+           class="pb-2.5 px-1 border-b-2 border-[#111111] dark:border-[#EDEDEC] text-[#111111] dark:text-[#EDEDEC] font-bold flex items-center gap-1.5">
+            <flux:icon name="users" class="w-4 h-4 text-amber-500" />
+            <span>Manajemen Pengguna ({{ number_format($totalUsers) }})</span>
+        </a>
     </div>
 
     <!-- Ringkasan Statistik Kartu (Utilitarian Minimalist) -->

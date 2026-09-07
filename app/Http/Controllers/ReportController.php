@@ -137,6 +137,11 @@ class ReportController extends Controller
             $query->onlySingleIssue();
         }
 
+        // Filter laporan pengguna saat ini ("Laporan Saya")
+        if ($request->boolean('my_reports') && Auth::check()) {
+            $query->where('user_id', Auth::id());
+        }
+
         // Pengurutan / Ranking
         $sort = $request->input('sort', 'trending');
         match ($sort) {
@@ -206,6 +211,7 @@ class ReportController extends Controller
         $urgentCount = Report::where('rank_tier', 'urgent')->count();
         $resolvedCount = Report::where('status', 'resolved')->count();
         $multiIssueCount = Report::onlyMultiIssue()->count();
+        $myReportsCount = Auth::check() ? Auth::user()->reports()->count() : 0;
 
         return view('reports.index', compact(
             'reports',
@@ -217,7 +223,8 @@ class ReportController extends Controller
             'criticalCount',
             'urgentCount',
             'resolvedCount',
-            'multiIssueCount'
+            'multiIssueCount',
+            'myReportsCount'
         ));
     }
 

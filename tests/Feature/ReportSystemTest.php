@@ -891,3 +891,57 @@ test('halaman detail laporan menampilkan bagian multi masalah dengan filter scop
     expect($resolvedTitles)->toContain('Sampah Liar Sudah Dibersihkan');
     expect($resolvedTitles)->not->toContain('Lampu PJU Padam di Titik yang Sama');
 });
+
+test('pengguna login dapat memfilter laporan miliknya sendiri melalui fitur Laporan Saya', function () {
+    $user1 = User::factory()->create(['username' => 'pelapor_satu']);
+    $user2 = User::factory()->create(['username' => 'pelapor_dua']);
+
+    $report1 = Report::create([
+        'user_id' => $user1->id,
+        'title' => 'Laporan Khusus User Satu',
+        'description' => 'Deskripsi laporan pertama.',
+        'image_base64' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'province' => 'Jawa Barat',
+        'city' => 'Kota Bandung',
+        'district' => 'Coblong',
+        'subdistrict' => 'Dago',
+        'formatted_address' => 'Jl. Ir. H. Juanda, Dago, Coblong, Kota Bandung',
+        'rank_tier' => 'normal',
+        'vote_score' => 5,
+        'status' => 'active',
+    ]);
+
+    $report2 = Report::create([
+        'user_id' => $user2->id,
+        'title' => 'Laporan Khusus User Dua',
+        'description' => 'Deskripsi laporan kedua.',
+        'image_base64' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'province' => 'Jawa Barat',
+        'city' => 'Kota Bandung',
+        'district' => 'Coblong',
+        'subdistrict' => 'Dago',
+        'formatted_address' => 'Jl. Ir. H. Juanda, Dago, Coblong, Kota Bandung',
+        'rank_tier' => 'normal',
+        'vote_score' => 5,
+        'status' => 'active',
+    ]);
+
+    // Saat belum login, filter my_reports tidak membatasi laporan
+    $guestResponse = $this->get(route('reports.index', ['my_reports' => 1]));
+    $guestResponse->assertOk();
+    $guestTitles = $guestResponse->viewData('reports')->pluck('title');
+    expect($guestTitles)->toContain('Laporan Khusus User Satu');
+    expect($guestTitles)->toContain('Laporan Khusus User Dua');
+
+    // Saat login sebagai user1, filter my_reports hanya menampilkan laporan user1
+    $authResponse = $this->actingAs($user1)->get(route('reports.index', ['my_reports' => 1]));
+    $authResponse->assertOk();
+    $authResponse->assertSee('Laporan Saya');
+    $authTitles = $authResponse->viewData('reports')->pluck('title');
+    expect($authTitles)->toContain('Laporan Khusus User Satu');
+    expect($authTitles)->not->toContain('Laporan Khusus User Dua');
+});

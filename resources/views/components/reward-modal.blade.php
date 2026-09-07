@@ -182,12 +182,11 @@
 
 <!-- Tombol Melayang untuk Membuka Kembali Poster Reward Kapan Saja -->
 @if (!request()->routeIs('reports.create'))
-<div class="fixed bottom-5 left-5 z-[9990] select-none">
+<div class="fixed bottom-5 right-5 z-[9990] select-none">
     <button type="button" onclick="openRewardModal(true)"
-        class="group flex items-center space-x-2 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer border border-amber-300/40 active:scale-95">
-        <flux:icon name="gift" class="w-4 h-4 text-white shrink-0 group-hover:scale-110 transition-transform duration-200" />
-        <span class="hidden sm:inline font-sans">Info Reward Top 5</span>
-        <span class="sm:hidden font-sans">Reward</span>
+        class="group flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer border border-amber-300/40 active:scale-95 hover:scale-105"
+        title="Info Reward Top 5" aria-label="Info Reward">
+        <flux:icon name="gift" class="w-5 h-5 text-white shrink-0 group-hover:scale-110 transition-transform duration-200" />
     </button>
 </div>
 @endif

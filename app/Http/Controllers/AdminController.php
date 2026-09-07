@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -107,5 +108,74 @@ class AdminController extends Controller
         $user->delete();
 
         return back()->with('success', "Akun @{$username} berhasil dihapus dari sistem.");
+    }
+
+    /**
+     * Tampilkan halaman manajemen laporan untuk administrator.
+     */
+    public function reports(Request $request): View
+    {
+        abort_unless(Auth::user()?->isAdmin(), 403, 'Akses terbatas hanya untuk administrator.');
+
+        $totalReports = Report::count();
+        $totalActive = Report::where('status', 'active')->count();
+        $totalInProgress = Report::where('status', 'in_progress')->count();
+        $totalResolved = Report::where('status', 'resolved')->count();
+        $totalCritical = Report::where('rank_tier', 'critical')->count();
+        $totalUrgent = Report::where('rank_tier', 'urgent')->count();
+        $totalMultiIssue = Report::onlyMultiIssue()->count();
+
+        $query = Report::with(['user'])->withCount('comments')->latest();
+
+        if ($search = trim((string) $request->query('q', ''))) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('formatted_address', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhere('district', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('username', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $filter = (string) $request->query('filter', 'all');
+        if ($filter === 'active') {
+            $query->where('status', 'active');
+        } elseif ($filter === 'in_progress') {
+            $query->where('status', 'in_progress');
+        } elseif ($filter === 'resolved') {
+            $query->where('status', 'resolved');
+        } elseif ($filter === 'critical') {
+            $query->where('rank_tier', 'critical');
+        } elseif ($filter === 'urgent') {
+            $query->where('rank_tier', 'urgent');
+        } elseif ($filter === 'multi') {
+            $query->onlyMultiIssue();
+        }
+
+        if ($category = $request->query('category')) {
+            $query->where('category', $category);
+        }
+
+        $reports = $query->paginate(20)->withQueryString();
+        $categories = Report::CATEGORIES;
+
+        return view('admin.reports.index', compact(
+            'reports',
+            'totalReports',
+            'totalActive',
+            'totalInProgress',
+            'totalResolved',
+            'totalCritical',
+            'totalUrgent',
+            'totalMultiIssue',
+            'filter',
+            'search',
+            'category',
+            'categories'
+        ));
     }
 }
