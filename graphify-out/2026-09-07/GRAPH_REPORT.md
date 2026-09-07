@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-07)
 
 ## Corpus Check
-- 136 files · ~87,521 words
+- 143 files · ~88,266 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 690 nodes · 885 edges · 104 communities (98 shown, 6 thin omitted)
+- 702 nodes · 898 edges · 112 communities (104 shown, 8 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `73e876c0`
+- Built from commit: `b829efa5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -66,14 +66,15 @@
 - Configuration Best Practices
 - Report
 - static
+- OgImageController
 
 ## God Nodes (most connected - your core abstractions)
-1. `Report` - 56 edges
+1. `Report` - 58 edges
 2. `User` - 27 edges
 3. `ReportComment` - 20 edges
 4. `AiSummaryService` - 17 edges
 5. `ReportVote` - 16 edges
-6. `ReportController` - 11 edges
+6. `ReportController` - 14 edges
 7. `Detection Checklist` - 11 edges
 8. `Architecture Best Practices` - 11 edges
 9. `Security Best Practices` - 11 edges
@@ -94,7 +95,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (104 total, 6 thin omitted)
+## Communities (112 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -117,7 +118,7 @@ Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
 ### Community 5 - "User"
-Cohesion: 0.08
+Cohesion: 0.07
 Nodes (15): ReportComment, ReportVote, User, DatabaseSeeder, DummyDataSeeder, MultiIssueLocationSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\HasFactory (+7 more)
 
 ### Community 6 - "Architecture Best Practices"
@@ -174,7 +175,7 @@ Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
 ### Community 25 - "Illuminate\Http\Request"
 Cohesion: 0.09
-Nodes (13): AdminController, AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Http\JsonResponse (+5 more)
+Nodes (15): AdminController, AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Database\Eloquent\Builder (+7 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.20
@@ -241,7 +242,7 @@ Cohesion: 0.29
 Nodes (6): Assertions, Coverage, Data and Determinism, Names and Structure, Reviewing Tests, Test Value
 
 ### Community 59 - "CommentNotification"
-Cohesion: 0.24
+Cohesion: 0.22
 Nodes (4): CommentNotification, ReportMentionNotification, Illuminate\Bus\Queueable, Illuminate\Notifications\Notification
 
 ### Community 60 - "Collection Best Practices"
@@ -268,10 +269,6 @@ Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practic
 Cohesion: 0.33
 Nodes (5): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks
 
-### Community 89 - "Report"
-Cohesion: 0.08
-Nodes (4): OgImageController, Report, AiSummaryService, Illuminate\Http\Response
-
 ### Community 101 - "static"
 Cohesion: 0.28
 Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
@@ -279,13 +276,13 @@ Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
 ## Knowledge Gaps
 - **305 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+300 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Report` connect `Report` to `Illuminate\Http\Request`, `static`, `User`?**
-  _High betweenness centrality (0.058) - this node is a cross-community bridge._
+- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `static`, `User`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
 - **Why does `AiSummaryService` connect `Report` to `Illuminate\Http\Request`, `User`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **Why does `User` connect `User` to `Report`, `Illuminate\Http\Request`?**

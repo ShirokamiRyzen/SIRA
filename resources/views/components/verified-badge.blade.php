@@ -5,7 +5,11 @@
 ])
 
 @php
-    $badgeType = $type ?? ($user ? $user->badgeType() : null);
+    $badgeType = $type ?? (
+        $user instanceof \App\Models\User
+            ? $user->badgeType()
+            : ($user->badge_type ?? (!empty($user->is_admin) ? 'admin' : (!empty($user->is_verified) ? 'verified' : null)))
+    );
     $sizeClass = match ($size) {
         'xs' => 'w-3.5 h-3.5',
         'sm' => 'w-4 h-4',

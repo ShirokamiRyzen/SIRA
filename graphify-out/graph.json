@@ -3458,6 +3458,83 @@
       "norm_label": "verified-badge.blade.php"
     },
     {
+      "label": "403.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/errors/403.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_errors_403_blade",
+      "community": 105,
+      "community_name": "403.blade.php",
+      "norm_label": "403.blade.php"
+    },
+    {
+      "label": "404.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/errors/404.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_errors_404_blade",
+      "community": 106,
+      "community_name": "404.blade.php",
+      "norm_label": "404.blade.php"
+    },
+    {
+      "label": "419.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/errors/419.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_errors_419_blade",
+      "community": 107,
+      "community_name": "419.blade.php",
+      "norm_label": "419.blade.php"
+    },
+    {
+      "label": "429.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/errors/429.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_errors_429_blade",
+      "community": 108,
+      "community_name": "429.blade.php",
+      "norm_label": "429.blade.php"
+    },
+    {
+      "label": "500.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/errors/500.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_errors_500_blade",
+      "community": 109,
+      "community_name": "500.blade.php",
+      "norm_label": "500.blade.php"
+    },
+    {
+      "label": "503.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/errors/503.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_errors_503_blade",
+      "community": 110,
+      "community_name": "503.blade.php",
+      "norm_label": "503.blade.php"
+    },
+    {
+      "label": "layout.blade.php",
+      "file_type": "code",
+      "source_file": "resources/views/errors/layout.blade.php",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "resources_views_errors_layout_blade",
+      "community": 111,
+      "community_name": "layout.blade.php",
+      "norm_label": "layout.blade.php"
+    },
+    {
       "label": "app.blade.php",
       "file_type": "code",
       "source_file": "resources/views/layouts/app.blade.php",
@@ -17854,5 +17931,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "73e876c0f4f1d0efe2f82c2657d70a156139899f"
+  "built_at_commit": "b829efa5f31e8fc7ffb25e72363b7a25872ca893"
 }

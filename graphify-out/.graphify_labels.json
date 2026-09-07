@@ -103,5 +103,12 @@
   "101": "static",
   "102": "users/index.blade.php",
   "103": "admin/reports/index.blade.php",
-  "104": "OgImageController"
+  "104": "OgImageController",
+  "105": "403.blade.php",
+  "106": "404.blade.php",
+  "107": "419.blade.php",
+  "108": "429.blade.php",
+  "109": "500.blade.php",
+  "110": "503.blade.php",
+  "111": "layout.blade.php"
 }

@@ -1,13 +1,40 @@
 @php
-    $topReporters = \Illuminate\Support\Facades\Cache::remember('top_5_reporters_modal', 300, function () {
+    $cachedReporters = \Illuminate\Support\Facades\Cache::remember('top_5_reporters_modal', 300, function () {
         return \App\Models\User::query()
             ->select(['id', 'name', 'username', 'is_admin', 'is_verified'])
             ->whereRaw('LOWER(username) != ?', ['sira'])
             ->withCount('reports')
             ->orderByDesc('reports_count')
             ->take(5)
-            ->get();
+            ->get()
+            ->map(function ($u) {
+                $isAdmin = !empty($u->is_admin) || (isset($u->username) && $u->username === 'admin');
+                $isVerified = $isAdmin || !empty($u->is_verified);
+
+                return [
+                    'id' => (int) $u->id,
+                    'name' => (string) $u->name,
+                    'username' => (string) $u->username,
+                    'is_admin' => (bool) $isAdmin,
+                    'is_verified' => (bool) $isVerified,
+                    'badge_type' => $isAdmin ? 'admin' : ($isVerified ? 'verified' : null),
+                    'reports_count' => (int) $u->reports_count,
+                ];
+            })
+            ->values()
+            ->all();
     });
+
+    $topReporters = [];
+    if (is_iterable($cachedReporters)) {
+        foreach ($cachedReporters as $item) {
+            if (is_array($item)) {
+                $topReporters[] = $item;
+            } elseif (is_object($item) && ! ($item instanceof \__PHP_Incomplete_Class)) {
+                $topReporters[] = (array) $item;
+            }
+        }
+    }
 @endphp
 
 <!-- Komponen Pop-up Poster Reward Top 5 Bulanan SIRA -->
@@ -134,27 +161,27 @@
                 </div>
 
                 <div class="space-y-1.5">
-                    @forelse ($topReporters as $idx => $reporter)
-                        <div class="flex items-center justify-between p-2.5 rounded-xl {{ $idx === 0 ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-white dark:bg-[#1A1A19] border border-slate-200/70 dark:border-[#282828]' }}">
+                    @forelse ($topReporters as $reporter)
+                        <div class="flex items-center justify-between p-2.5 rounded-xl {{ $loop->first ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-white dark:bg-[#1A1A19] border border-slate-200/70 dark:border-[#282828]' }}">
                             <div class="flex items-center space-x-2.5 min-w-0">
-                                <span class="font-mono text-xs font-bold w-5 flex items-center justify-center shrink-0 {{ $idx === 0 ? 'text-amber-500' : ($idx === 1 ? 'text-slate-400' : ($idx === 2 ? 'text-amber-700' : 'text-slate-500')) }}">
-                                    @if ($idx === 0)
+                                <span class="font-mono text-xs font-bold w-5 flex items-center justify-center shrink-0 {{ $loop->index === 0 ? 'text-amber-500' : ($loop->index === 1 ? 'text-slate-400' : ($loop->index === 2 ? 'text-amber-700' : 'text-slate-500')) }}">
+                                    @if ($loop->index === 0)
                                         <flux:icon name="trophy" class="w-3.5 h-3.5 text-amber-500" />
-                                    @elseif ($idx === 1)
+                                    @elseif ($loop->index === 1)
                                         <flux:icon name="trophy" class="w-3.5 h-3.5 text-slate-400" />
-                                    @elseif ($idx === 2)
+                                    @elseif ($loop->index === 2)
                                         <flux:icon name="trophy" class="w-3.5 h-3.5 text-amber-700" />
                                     @else
-                                        #{{ $idx + 1 }}
+                                        #{{ $loop->iteration }}
                                     @endif
                                 </span>
                                 <div class="inline-flex items-center space-x-1 min-w-0">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] truncate">@<span>{{ $reporter->username }}</span></span>
-                                    <x-verified-badge :user="$reporter" size="xs" />
+                                    <span class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] truncate">@<span>{{ $reporter['username'] ?? '' }}</span></span>
+                                    <x-verified-badge :type="$reporter['badge_type'] ?? null" size="xs" />
                                 </div>
                             </div>
                             <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
-                                {{ $reporter->reports_count }} <span class="text-[10px] font-normal text-slate-500 dark:text-[#888888]">Laporan</span>
+                                {{ $reporter['reports_count'] ?? 0 }} <span class="text-[10px] font-normal text-slate-500 dark:text-[#888888]">Laporan</span>
                             </span>
                         </div>
                     @empty

@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-07)
 
 ## Corpus Check
-- 136 files · ~87,340 words
+- 143 files · ~88,277 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 695 nodes · 898 edges · 105 communities (97 shown, 8 thin omitted)
+- 702 nodes · 898 edges · 112 communities (104 shown, 8 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `73e876c0`
+- Built from commit: `b829efa5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -95,7 +95,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (105 total, 8 thin omitted)
+## Communities (112 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -282,7 +282,7 @@ Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `static`, `User`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
 - **Why does `AiSummaryService` connect `Report` to `Illuminate\Http\Request`, `User`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **Why does `User` connect `User` to `Report`, `Illuminate\Http\Request`?**

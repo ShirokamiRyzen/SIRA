@@ -75,8 +75,8 @@
     "semantic_hash": ""
   },
   "config/services.php": {
-    "mtime": 1788774028.3813934,
-    "ast_hash": "daac03578d6a8d484a659c100d627813",
+    "mtime": 1788774524.3229222,
+    "ast_hash": "baa6e3a15d5ee46089c3281c66612ab0",
     "semantic_hash": ""
   },
   "config/session.php": {
@@ -530,7 +530,7 @@
     "semantic_hash": ""
   },
   "app/Services/AiSummaryService.php": {
-    "mtime": 1788773560.8687766,
+    "mtime": 1788774539.474888,
     "ast_hash": "d69705b63eac4a3d87879ec005bc634f",
     "semantic_hash": ""
   },
@@ -640,13 +640,13 @@
     "semantic_hash": ""
   },
   "resources/views/components/reward-modal.blade.php": {
-    "mtime": 1788773252.8163993,
-    "ast_hash": "7060f205663abd67de586e623bc66f8a",
+    "mtime": 1788774609.9925659,
+    "ast_hash": "a4133e29e8e4f192563857aace1c9bd1",
     "semantic_hash": ""
   },
   "resources/views/components/verified-badge.blade.php": {
-    "mtime": 1788701598.523144,
-    "ast_hash": "68c53d53ac07d3d0be0cf7d49936bca2",
+    "mtime": 1788774289.5136194,
+    "ast_hash": "979c05ccf6cee1822eadd5ff023cd3d8",
     "semantic_hash": ""
   },
   "tests/Feature/AdminPrivilegesAndBadgesTest.php": {
@@ -682,6 +682,41 @@
   "database/migrations/2026_09_07_092106_add_performance_indexes_to_tables.php": {
     "mtime": 1788772878.5903244,
     "ast_hash": "a016e356d9ff7fb27b3c8f17621f840a",
+    "semantic_hash": ""
+  },
+  "resources/views/errors/403.blade.php": {
+    "mtime": 1788774465.3165767,
+    "ast_hash": "3bff019c8e99c7dee5d99772468dd45f",
+    "semantic_hash": ""
+  },
+  "resources/views/errors/404.blade.php": {
+    "mtime": 1788774426.3211527,
+    "ast_hash": "e4db3aac0bb2fa6a08f5980fe9c69d12",
+    "semantic_hash": ""
+  },
+  "resources/views/errors/419.blade.php": {
+    "mtime": 1788774436.3194726,
+    "ast_hash": "a17fb11e500c3b91664404db11f9e8e4",
+    "semantic_hash": ""
+  },
+  "resources/views/errors/429.blade.php": {
+    "mtime": 1788774440.5374506,
+    "ast_hash": "5b6952588b2eb5983b110d48ea12cc48",
+    "semantic_hash": ""
+  },
+  "resources/views/errors/500.blade.php": {
+    "mtime": 1788774474.2721958,
+    "ast_hash": "91c0641ef664600e2d2b86aa9184e75f",
+    "semantic_hash": ""
+  },
+  "resources/views/errors/503.blade.php": {
+    "mtime": 1788774469.6166008,
+    "ast_hash": "78d65749c0fa886407b4967a5ec70113",
+    "semantic_hash": ""
+  },
+  "resources/views/errors/layout.blade.php": {
+    "mtime": 1788774420.5774412,
+    "ast_hash": "6c9fc7ccbbecc9a84da163d1a40a7525",
     "semantic_hash": ""
   }
 }
