@@ -595,48 +595,89 @@
     <!-- Panel Menu Navigasi Mobile (Floating Overlay - Tidak menggeser layout halaman) -->
     <div id="mobileMenu"
          class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/98 dark:bg-[#111111]/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
-        <div class="space-y-1">
-            <a href="{{ route('reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
-                <span class="flex items-center space-x-2">
-                    <flux:icon name="document-text" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
-                    <span>Laporan Publik</span>
-                </span>
-                <span class="text-[11px] text-[#787774]">&rarr;</span>
-            </a>
-            @auth
-                <a href="{{ route('reports.index', ['my_reports' => 1]) }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+        <div class="space-y-1.5">
+            <!-- Accordion Kategori Mobile: Laporan -->
+            <div class="rounded-[6px] overflow-hidden border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40">
+                <button type="button" id="mobileReportsAccordionBtn"
+                    class="w-full flex items-center justify-between px-3 py-2.5 text-[#111111] dark:text-[#EDEDEC] font-semibold transition cursor-pointer hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]">
                     <span class="flex items-center space-x-2">
-                        <flux:icon name="user" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                        <span>Laporan Saya</span>
+                        <flux:icon name="document-text" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
+                        <span>Laporan</span>
                     </span>
-                    <span class="text-[11px] text-[#787774]">&rarr;</span>
-                </a>
-            @endauth
-            <a href="{{ route('heatmap.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('heatmap.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+                    <flux:icon name="chevron-down" id="mobileReportsChevron"
+                        class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97] transition-transform duration-200 {{ request()->routeIs('reports.*') ? 'rotate-180' : '' }}" />
+                </button>
+
+                <!-- Sub-menu Laporan -->
+                <div id="mobileReportsSubmenu" class="px-2 pb-2 pt-0.5 space-y-1 border-t border-[#EAEAEA]/60 dark:border-[#262626]/60 {{ request()->routeIs('reports.*') ? '' : 'hidden' }}">
+                    <a href="{{ route('reports.index') }}"
+                       class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                        <span class="flex items-center space-x-2">
+                            <flux:icon name="queue-list" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
+                            <span>Semua Laporan</span>
+                        </span>
+                        <span class="text-[10px] text-[#787774]">&rarr;</span>
+                    </a>
+                    @auth
+                        <a href="{{ route('reports.index', ['my_reports' => 1]) }}"
+                           class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold text-emerald-600 dark:text-emerald-400' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                            <span class="flex items-center space-x-2">
+                                <flux:icon name="user" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                                <span class="text-emerald-700 dark:text-emerald-400 font-medium">Laporan Saya</span>
+                            </span>
+                            <span class="text-[10px] text-[#787774]">&rarr;</span>
+                        </a>
+                    @endauth
+                </div>
+            </div>
+
+            <!-- Tautan Peta Sebaran Masalah -->
+            <a href="{{ route('heatmap.index') }}"
+               class="flex items-center justify-between px-3 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40 text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('heatmap.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
                 <span class="flex items-center space-x-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
+                    <span class="w-2 h-2 rounded-full bg-[#9F2F2D]"></span>
                     <span>Peta Sebaran Masalah</span>
                 </span>
                 <span class="text-[11px] text-[#787774]">&rarr;</span>
             </a>
+
+            <!-- Accordion Kategori Mobile: Manajemen Admin -->
             @auth
                 @if (Auth::user()->isAdmin())
-                    <a href="{{ route('admin.reports.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.reports.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
-                        <span class="flex items-center space-x-2">
-                            <flux:icon name="clipboard-document-list" class="w-3.5 h-3.5 text-amber-500" />
-                            <span>Manajemen Laporan (Admin)</span>
-                        </span>
-                        <span class="text-[11px] text-[#787774]">&rarr;</span>
-                    </a>
-                    <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.users.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
-                        <span class="flex items-center space-x-2">
-                            <flux:icon name="users" class="w-3.5 h-3.5 text-amber-500" />
-                            <span>Manajemen User (Admin)</span>
-                        </span>
-                        <span class="text-[11px] text-[#787774]">&rarr;</span>
-                    </a>
+                    <div class="rounded-[6px] overflow-hidden border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40">
+                        <button type="button" id="mobileAdminAccordionBtn"
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-amber-600 dark:text-amber-400 font-semibold transition cursor-pointer hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]">
+                            <span class="flex items-center space-x-2">
+                                <flux:icon name="shield-check" class="w-3.5 h-3.5 text-amber-500" />
+                                <span>Manajemen Admin</span>
+                            </span>
+                            <flux:icon name="chevron-down" id="mobileAdminChevron"
+                                class="w-3.5 h-3.5 text-amber-500 transition-transform duration-200 {{ request()->routeIs('admin.*') ? 'rotate-180' : '' }}" />
+                        </button>
+
+                        <!-- Sub-menu Manajemen Admin -->
+                        <div id="mobileAdminSubmenu" class="px-2 pb-2 pt-0.5 space-y-1 border-t border-[#EAEAEA]/60 dark:border-[#262626]/60 {{ request()->routeIs('admin.*') ? '' : 'hidden' }}">
+                            <a href="{{ route('admin.reports.index') }}"
+                               class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.reports.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold text-amber-600 dark:text-amber-400' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                                <span class="flex items-center space-x-2">
+                                    <flux:icon name="clipboard-document-list" class="w-3.5 h-3.5 text-amber-500" />
+                                    <span>Manajemen Laporan</span>
+                                </span>
+                                <span class="text-[10px] text-[#787774]">&rarr;</span>
+                            </a>
+                            <a href="{{ route('admin.users.index') }}"
+                               class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.users.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold text-amber-600 dark:text-amber-400' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                                <span class="flex items-center space-x-2">
+                                    <flux:icon name="users" class="w-3.5 h-3.5 text-amber-500" />
+                                    <span>Manajemen User</span>
+                                </span>
+                                <span class="text-[10px] text-[#787774]">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
                 @endif
             @endauth
+
             @if (request()->routeIs('home'))
                 <a href="#cara-kerja-fitur" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C] transition">
                     <span>Cara Kerja &amp; Fitur</span>
@@ -812,6 +853,28 @@
 
             setupNavDropdown('reportsNavDropdownBtn', 'reportsNavDropdownMenu', 'reportsNavDropdownContainer', 'reportsNavChevron');
             setupNavDropdown('adminNavDropdownBtn', 'adminNavDropdownMenu', 'adminNavDropdownContainer', 'adminNavChevron');
+        })();
+
+        // Handler Accordion Kategori Menu Mobile
+        (function () {
+            function setupMobileAccordion(btnId, submenuId, chevronId) {
+                const btn = document.getElementById(btnId);
+                const submenu = document.getElementById(submenuId);
+                const chevron = document.getElementById(chevronId);
+                if (!btn || !submenu) return;
+
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const isHidden = submenu.classList.toggle('hidden');
+                    if (chevron) {
+                        chevron.classList.toggle('rotate-180', !isHidden);
+                    }
+                });
+            }
+
+            setupMobileAccordion('mobileReportsAccordionBtn', 'mobileReportsSubmenu', 'mobileReportsChevron');
+            setupMobileAccordion('mobileAdminAccordionBtn', 'mobileAdminSubmenu', 'mobileAdminChevron');
         })();
     </script>
 </header>
