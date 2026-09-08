@@ -3,10 +3,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <!-- Brand Logo -->
         <div class="flex items-center space-x-6">
-            <a href="{{ url('/') }}" class="flex items-center space-x-2.5 group">
-                <span class="w-7 h-7 rounded-[4px] bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] flex items-center justify-center font-mono text-xs font-semibold">
-                    S
-                </span>
+            <a href="{{ url('/') }}" class="flex items-center space-x-2.5 group" title="SIRA — Sistem Informasi Ruang Aman">
+                <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-7 h-7 rounded-[4px] object-contain shrink-0">
                 <span class="text-sm font-semibold tracking-tight text-[#111111] dark:text-[#EDEDEC]">SIRA</span>
             </a>
 
@@ -168,9 +166,9 @@
                                      class="group relative flex items-start justify-between p-3 hover:bg-[#F7F6F3] dark:hover:bg-[#1C1C1C] transition duration-150 {{ $isUnread ? 'bg-[#F9F9F8] dark:bg-[#191918]' : '' }}">
                                     <a href="{{ route('notifications.markAsRead', ['id' => $notification->id, 'redirect' => 1]) }}"
                                        class="flex items-start space-x-2.5 flex-1 min-w-0 pr-2">
-                                        <div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] {{ $isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold' : (in_array($type, ['mention', 'post_mention']) ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300') }}">
+                                        <div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] {{ $isAi ? 'overflow-hidden' : (in_array($type, ['mention', 'post_mention']) ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300') }}">
                                             @if ($isAi)
-                                                <flux:icon name="cpu-chip" class="w-3.5 h-3.5 text-indigo-700 dark:text-indigo-300" />
+                                                <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-6 h-6 rounded-full object-cover shrink-0">
                                             @elseif (in_array($type, ['mention', 'post_mention']))
                                                 <span class="font-bold text-[11px]">@</span>
                                             @else
@@ -413,10 +411,10 @@
                             const isAi = d.is_ai || false;
                             const type = d.type || 'reply';
                             const iconSvg = isAi
-                                ? '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>'
+                                ? '<img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-6 h-6 rounded-full object-cover shrink-0">'
                                 : ((type === 'mention' || type === 'post_mention') ? '<span class="font-bold text-[11px]">@</span>' : '<svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
                             const iconCls = isAi
-                                ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 font-bold'
+                                ? 'overflow-hidden'
                                 : ((type === 'mention' || type === 'post_mention') ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300');
 
                             const div = document.createElement('div');
@@ -475,14 +473,14 @@
                             const isAi = d.is_ai || false;
                             const type = d.type || 'reply';
                             const toastIconSvg = isAi
-                                ? '<svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>'
+                                ? '<img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-7 h-7 rounded-full object-cover shrink-0">'
                                 : ((type === 'mention' || type === 'post_mention') ? '<span class="font-bold text-xs">@</span>' : '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
 
                             const toast = document.createElement('div');
                             toast.className = 'pointer-events-auto flex items-start space-x-3 p-3.5 rounded-[8px] bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#282828] shadow-xl text-xs transform translate-y-4 opacity-0 transition-all duration-300 max-w-sm';
 
                             toast.innerHTML = `
-                                <div class="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${isAi ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300' : ((type === 'mention' || type === 'post_mention') ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300')}">
+                                <div class="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${isAi ? 'overflow-hidden' : ((type === 'mention' || type === 'post_mention') ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300')}">
                                     ${toastIconSvg}
                                 </div>
                                 <div class="flex-1 min-w-0 space-y-0.5">

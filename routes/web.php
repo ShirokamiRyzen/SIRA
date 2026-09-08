@@ -105,3 +105,12 @@ Route::get('/api/geocode/search', [HeatmapController::class, 'searchLocation'])-
 
 // Pencarian Mention Pengguna (@) untuk Komentar
 Route::get('/api/users/mention', [CommentController::class, 'mentionSuggestions'])->name('api.users.mention');
+
+// XML Sitemap Otomatis untuk Mesin Pencari (SEO)
+Route::get('/sitemap.xml', function () {
+    $reports = Report::select('id', 'updated_at')->latest('updated_at')->take(500)->get();
+
+    return response()
+        ->view('sitemap', ['reports' => $reports])
+        ->header('Content-Type', 'text/xml');
+})->name('sitemap');

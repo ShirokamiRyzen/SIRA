@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Terjadi Kesalahan') — SIRA</title>
+    <meta name="robots" content="noindex, follow">
+
+    <!-- Ikon Aplikasi & Favicon (Folder Public) -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('android-chrome-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('android-chrome-512x512.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)">
 
     <!-- Tipografi: Plus Jakarta Sans & Geist Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,9 +50,7 @@
     <header class="border-b border-slate-200/80 dark:border-[#262626] bg-white/80 dark:bg-[#141414]/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
             <a href="{{ url('/') }}" class="inline-flex items-center gap-2.5 group">
-                <div class="w-7 h-7 rounded-[6px] bg-[#111111] dark:bg-[#EDEDEC] text-white dark:text-[#111111] flex items-center justify-center font-mono font-bold text-xs">
-                    S
-                </div>
+                <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-7 h-7 rounded-[6px] object-contain shrink-0">
                 <span class="font-bold text-sm tracking-tight text-[#111111] dark:text-[#EDEDEC] group-hover:opacity-80 transition-opacity">
                     SIRA
                 </span>

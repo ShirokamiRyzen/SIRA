@@ -152,13 +152,13 @@
                             <!-- Kolom Pengguna (Avatar, Nama, Username, Email) -->
                             <td class="px-5 py-3.5">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-9 h-9 rounded-[6px] flex items-center justify-center font-mono text-xs font-bold shrink-0 {{ $user->isAdmin() ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20' : ($user->is_verified ? 'bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20' : 'bg-[#F5F5F4] dark:bg-[#1E1E1E] text-[#555555] dark:text-[#AAAAAA] border border-[#EAEAEA] dark:border-[#282828]') }}">
-                                        @if (strtolower($user->username) === 'sira')
-                                            <flux:icon name="cpu-chip" class="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                                        @else
+                                    @if (strtolower($user->username) === 'sira')
+                                        <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-9 h-9 rounded-[6px] object-cover shrink-0 border border-indigo-500/30">
+                                    @else
+                                        <div class="w-9 h-9 rounded-[6px] flex items-center justify-center font-mono text-xs font-bold shrink-0 {{ $user->isAdmin() ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20' : ($user->is_verified ? 'bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20' : 'bg-[#F5F5F4] dark:bg-[#1E1E1E] text-[#555555] dark:text-[#AAAAAA] border border-[#EAEAEA] dark:border-[#282828]') }}">
                                             {{ strtoupper(substr($user->username ?? 'U', 0, 1)) }}
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                     <div class="min-w-0">
                                         <div class="flex items-center space-x-1.5 flex-wrap">
                                             <span class="font-semibold text-sm text-[#111111] dark:text-[#EDEDEC] truncate">

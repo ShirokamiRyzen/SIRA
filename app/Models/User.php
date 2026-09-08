@@ -77,6 +77,26 @@ class User extends Authenticatable
     }
 
     /**
+     * Determine if the user is the SIRA AI Assistant bot.
+     */
+    public function isAi(): bool
+    {
+        return strtolower($this->username) === 'sira';
+    }
+
+    /**
+     * Get the avatar URL for the user.
+     */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        if ($this->isAi()) {
+            return asset('android-chrome-192x192.png');
+        }
+
+        return null;
+    }
+
+    /**
      * Get the reports created by the user.
      */
     public function reports(): HasMany

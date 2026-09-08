@@ -6,6 +6,29 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'SIRA — Sistem Informasi Ruang Aman')</title>
 
+    <!-- SEO Meta Tags Primer -->
+    <meta name="description" content="@yield('meta_description', 'Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
+    <meta name="keywords" content="SIRA, sistem informasi ruang aman, pengaduan publik, lapor fasilitas, GIS openmap, partisipasi warga, transparansi fasilitas publik">
+    <meta name="author" content="SIRA — Sistem Informasi Ruang Aman">
+    <meta name="robots" content="@yield('meta_robots', 'index, follow')">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
+    <!-- Ikon Aplikasi & Favicon (Folder Public) -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('android-chrome-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('android-chrome-512x512.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)">
+    <meta name="application-name" content="SIRA">
+    <meta name="apple-mobile-web-app-title" content="SIRA">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <!-- OpenGraph & Twitter Card Dinamis -->
     <meta property="og:site_name" content="SIRA — Sistem Informasi Ruang Aman">
     <meta property="og:title" content="@yield('og_title', 'SIRA — Sistem Informasi Ruang Aman')">
@@ -21,6 +44,19 @@
     <meta name="twitter:title" content="@yield('og_title', 'SIRA — Sistem Informasi Ruang Aman')">
     <meta name="twitter:description" content="@yield('og_description', 'Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.')">
     <meta name="twitter:image" content="@yield('og_image', route('og.default'))">
+
+    <!-- JSON-LD Structured Data Schema untuk SEO Mesin Pencari -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
+        "name": "SIRA — Sistem Informasi Ruang Aman",
+        "alternateName": "SIRA",
+        "url": "{{ url('/') }}",
+        "description": "Platform pengaduan publik berbasis GIS OpenMap dengan algoritma prioritas ranking Wilson Score & keterlibatan warga secara transparan.",
+        "image": "{{ asset('android-chrome-512x512.png') }}"
+    }
+    </script>
 
     <!-- Tipografi: Plus Jakarta Sans & Geist Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

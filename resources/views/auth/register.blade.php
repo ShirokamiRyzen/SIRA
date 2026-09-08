@@ -11,9 +11,7 @@
         <!-- Header -->
         <div class="mb-8">
             <div class="flex items-center gap-2 mb-4">
-                <span class="w-6 h-6 rounded-[4px] bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] flex items-center justify-center font-mono text-xs font-semibold">
-                    S
-                </span>
+                <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-6 h-6 rounded-[4px] object-contain shrink-0">
                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] dark:bg-[#1C281E] dark:text-[#82C78A]">
                     Registrasi
                 </span>

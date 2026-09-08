@@ -2,9 +2,7 @@
     <div class="flex items-start space-x-3 p-3.5 rounded-2xl {{ ($comment->user && strtolower($comment->user->username) === 'sira') ? 'bg-gradient-to-r from-indigo-50/80 to-purple-50/80 dark:from-indigo-950/40 dark:to-purple-950/40 border border-indigo-200/90 dark:border-indigo-800/60 shadow-sm' : 'bg-slate-50 dark:bg-[#181818] border border-slate-200/80 dark:border-[#262626]' }}">
         <!-- User Initial Avatar / AI Robot Avatar -->
         @if ($comment->user && strtolower($comment->user->username) === 'sira')
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-bold flex items-center justify-center text-sm shrink-0 shadow-sm ring-2 ring-indigo-200 dark:ring-indigo-900/60">
-                <flux:icon name="cpu-chip" class="w-4 h-4 text-white" />
-            </div>
+            <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-8 h-8 rounded-full object-cover shrink-0 shadow-sm ring-2 ring-indigo-300 dark:ring-indigo-800">
         @else
             <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 font-bold flex items-center justify-center text-xs shrink-0 uppercase">
                 {{ substr($comment->user->username ?? 'U', 0, 1) }}

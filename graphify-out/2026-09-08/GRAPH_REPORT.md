@@ -1,11 +1,11 @@
 # Graph Report - SIRA  (2026-09-08)
 
 ## Corpus Check
-- 144 files · ~106,850 words
+- 144 files · ~106,937 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 705 nodes · 901 edges · 112 communities (105 shown, 7 thin omitted)
+- 703 nodes · 898 edges · 113 communities (105 shown, 8 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -20,7 +20,7 @@
 - scripts
 - Process
 - package.json
-- Report.php
+- User
 - Architecture Best Practices
 - Security Best Practices
 - README.md
@@ -63,13 +63,14 @@
 - stack-status.blade.php
 - _comment_item.blade.php
 - show.blade.php
+- Configuration Best Practices
 - Report
 - static
 - OgImageController
 
 ## God Nodes (most connected - your core abstractions)
 1. `Report` - 58 edges
-2. `User` - 29 edges
+2. `User` - 27 edges
 3. `ReportComment` - 20 edges
 4. `AiSummaryService` - 17 edges
 5. `ReportVote` - 16 edges
@@ -80,21 +81,21 @@
 10. `require-dev` - 10 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `CommentController` --inherits--> `Controller`  [EXTRACTED]
-  app/Http/Controllers/CommentController.php → app/Http/Controllers/Controller.php
 - `OgImageController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/OgImageController.php → app/Http/Controllers/Controller.php
 - `AdminController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/AdminController.php → app/Http/Controllers/Controller.php
 - `AuthController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/AuthController.php → app/Http/Controllers/Controller.php
+- `CommentController` --inherits--> `Controller`  [EXTRACTED]
+  app/Http/Controllers/CommentController.php → app/Http/Controllers/Controller.php
 - `HeatmapController` --inherits--> `Controller`  [EXTRACTED]
   app/Http/Controllers/HeatmapController.php → app/Http/Controllers/Controller.php
 
 ## Import Cycles
 - None detected.
 
-## Communities (112 total, 7 thin omitted)
+## Communities (113 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -116,12 +117,12 @@ Nodes (11): Edge cases, Glob mapping, Ground Rules (read before you start), Infe
 Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
-### Community 5 - "Report.php"
-Cohesion: 0.09
-Nodes (14): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks, ReportVote, DatabaseSeeder, MultiIssueLocationSeeder (+6 more)
+### Community 5 - "User"
+Cohesion: 0.07
+Nodes (15): ReportComment, ReportVote, User, DatabaseSeeder, DummyDataSeeder, MultiIssueLocationSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\HasFactory (+7 more)
 
 ### Community 6 - "Architecture Best Practices"
-Cohesion: 0.18
+Cohesion: 0.17
 Nodes (11): Architecture Best Practices, Depend on Contracts at Boundaries, Extract Focused Business Operations, Follow Framework Conventions, Inject Required Dependencies, Specify a Deterministic Sort Order, Use Atomic Locks for Race Conditions, Use `Concurrency::run()` for Parallel Execution (+3 more)
 
 ### Community 7 - "Security Best Practices"
@@ -141,7 +142,7 @@ Cohesion: 0.20
 Nodes (9): Advanced Query Best Practices, Combine Related Counts with Conditional Aggregates, Compare `whereHas()` with an `IN` Subquery, Consider a Correlated Subquery for Has-Many Ordering, Create Dynamic Relationships with a Subquery Foreign Key, Design Composite Indexes for the Query, Measure Two Simple Queries Against One Complex Query, Reuse Loaded Parent Models with `setRelation()` (+1 more)
 
 ### Community 11 - "Migration Best Practices"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Define Foreign-Key Constraints Deliberately, Design Indexes for Real Queries, Generate Migrations with Artisan, Keep Migrations Focused, Make Rollbacks Honest, Migration Best Practices, Mirror Defaults Only When Unsaved Models Need Them, Stage Changes That Affect Existing Rows (+1 more)
 
 ### Community 12 - "Queue and Job Best Practices"
@@ -174,18 +175,18 @@ Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
 ### Community 25 - "Illuminate\Http\Request"
 Cohesion: 0.09
-Nodes (14): AdminController, AuthController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Database\Eloquent\Builder, Illuminate\Http\JsonResponse (+6 more)
+Nodes (15): AdminController, AuthController, CommentController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Database\Eloquent\Builder (+7 more)
 
 ### Community 40 - "Events and Notifications Best Practices"
 Cohesion: 0.20
 Nodes (9): Cache Event Discovery During Production Deployment, Dispatch Queued Notifications After Commit, Events and Notifications Best Practices, Implement `HasLocalePreference` on Notifiable Models, Queue Slow Notifications, Rely on Event Discovery, Route Notification Channels to Dedicated Queues, Use On-Demand Notifications for Non-User Recipients (+1 more)
 
 ### Community 44 - "Caching Best Practices"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Caching Best Practices, Configure Failover Cache Stores in Production, Consider `Cache::flexible()` for Stale-While-Revalidate, Use `Cache::add()` for Atomic Conditional Writes, Use `Cache::memo()` to Avoid Redundant Hits Within an Execution, Use `Cache::remember()` for Cache-Aside Reads, Use Cache Tags to Invalidate Related Groups, Use `once()` for In-Process Memoization
 
 ### Community 45 - "Error Handling Best Practices"
-Cohesion: 0.25
+Cohesion: 0.29
 Nodes (7): Add Context to Exception Classes, Choose Where to Report and Render Exceptions, Define JSON Rendering for API Routes, Error Handling Best Practices, Mark Exceptions the Handler Should Not Report, Prevent Duplicate Reports of One Exception Instance, Throttle High-Volume Exception Reports
 
 ### Community 46 - "Task Scheduling Best Practices"
@@ -241,7 +242,7 @@ Cohesion: 0.29
 Nodes (6): Assertions, Coverage, Data and Determinism, Names and Structure, Reviewing Tests, Test Value
 
 ### Community 59 - "CommentNotification"
-Cohesion: 0.24
+Cohesion: 0.22
 Nodes (4): CommentNotification, ReportMentionNotification, Illuminate\Bus\Queueable, Illuminate\Notifications\Notification
 
 ### Community 60 - "Collection Best Practices"
@@ -264,9 +265,9 @@ Nodes (5): Consistency First, How to Apply, Rule Index, Testing Best Practices, 
 Cohesion: 0.22
 Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practices, Rule Index
 
-### Community 89 - "Report"
-Cohesion: 0.06
-Nodes (9): CommentController, Report, ReportComment, User, AiSummaryService, DummyDataSeeder, Illuminate\Database\Eloquent\Relations\HasMany, Illuminate\Foundation\Auth\User (+1 more)
+### Community 86 - "Configuration Best Practices"
+Cohesion: 0.33
+Nodes (5): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks
 
 ### Community 101 - "static"
 Cohesion: 0.28
@@ -275,17 +276,17 @@ Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
 ## Knowledge Gaps
 - **305 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+300 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `static`, `Report.php`?**
+- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `static`, `User`?**
   _High betweenness centrality (0.059) - this node is a cross-community bridge._
-- **Why does `User` connect `Report` to `Illuminate\Http\Request`, `Report.php`?**
-  _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **Why does `AiSummaryService` connect `Report` to `Illuminate\Http\Request`, `Report.php`?**
+- **Why does `AiSummaryService` connect `Report` to `Illuminate\Http\Request`, `User`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `User` connect `User` to `Report`, `Illuminate\Http\Request`?**
+  _High betweenness centrality (0.019) - this node is a cross-community bridge._
 - **Are the 6 inferred relationships involving `Report` (e.g. with `.reports()` and `.geojson()`) actually correct?**
   _`Report` has 6 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 5 inferred relationships involving `User` (e.g. with `.register()` and `.dispatchCommentNotifications()`) actually correct?**

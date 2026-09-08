@@ -3,10 +3,7 @@
     class="bg-white dark:bg-[#111111] border-t border-[#EAEAEA] dark:border-[#222222] mt-20 py-10 text-center font-sans">
     <div class="max-w-5xl mx-auto px-6 space-y-2">
         <div class="flex items-center justify-center space-x-2">
-            <span
-                class="w-5 h-5 rounded-[4px] bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] flex items-center justify-center font-mono text-[10px] font-semibold">
-                S
-            </span>
+            <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-5 h-5 rounded-[4px] object-contain shrink-0">
             <span class="font-medium text-xs tracking-tight text-[#111111] dark:text-[#EDEDEC]">
                 SIRA — Sistem Informasi Ruang Aman
             </span>

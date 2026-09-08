@@ -1062,9 +1062,7 @@
                             const indicatorId = 'ai-typing-' + data.comment_id;
                             const indicatorHtml = `
                             <div id="${indicatorId}" class="flex items-start space-x-3 p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50/70 to-purple-50/70 border border-indigo-200/80 shadow-xs animate-pulse">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-bold flex items-center justify-center text-sm shrink-0 ring-2 ring-indigo-200">
-                                    <svg class="w-4 h-4 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="10" height="9" rx="2"/><circle cx="6" cy="8" r="0.75" fill="currentColor"/><circle cx="10" cy="8" r="0.75" fill="currentColor"/><path d="M8 1.5v2.5M6 10.5h4"/></svg>
-                                </div>
+                                <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-8 h-8 rounded-full object-cover shrink-0 ring-2 ring-indigo-300">
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center space-x-2">
                                         <span class="text-xs font-bold text-slate-900">@Sira</span>
@@ -1257,8 +1255,8 @@
 
                     item.innerHTML = `
                         <div class="flex items-center space-x-2 min-w-0">
-                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'bg-white text-indigo-700 shadow-xs' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 uppercase'}">
-                                ${isAi ? '<svg class="w-3.5 h-3.5 text-indigo-600" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a2 2 0 0 1 2-2z"/></svg>' : (user.username ? user.username.charAt(0).toUpperCase() : 'U')}
+                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${isAi ? 'overflow-hidden ring-1 ring-indigo-300' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 uppercase'}">
+                                ${isAi ? '<img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-6 h-6 rounded-full object-cover shrink-0">' : (user.username ? user.username.charAt(0).toUpperCase() : 'U')}
                             </div>
                             <div class="truncate">
                                 <div class="truncate text-xs ${isSelected ? 'text-white' : (isAi ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium')}">${user.name}</div>
