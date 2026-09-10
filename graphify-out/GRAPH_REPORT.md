@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-10)
 
 ## Corpus Check
-- 144 files · ~106,889 words
+- 144 files · ~106,909 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 705 nodes · 903 edges · 112 communities (105 shown, 7 thin omitted)
+- 705 nodes · 904 edges · 112 communities (105 shown, 7 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `81deabd9`
+- Built from commit: `53f9bc09`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,7 +20,7 @@
 - scripts
 - Process
 - package.json
-- Report.php
+- User
 - Architecture Best Practices
 - Security Best Practices
 - README.md
@@ -116,9 +116,9 @@ Nodes (11): Edge cases, Glob mapping, Ground Rules (read before you start), Infe
 Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
-### Community 5 - "Report.php"
-Cohesion: 0.08
-Nodes (14): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks, ReportVote, DatabaseSeeder, MultiIssueLocationSeeder (+6 more)
+### Community 5 - "User"
+Cohesion: 0.06
+Nodes (19): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks, ReportVote, User, DatabaseSeeder (+11 more)
 
 ### Community 6 - "Architecture Best Practices"
 Cohesion: 0.18
@@ -265,8 +265,8 @@ Cohesion: 0.22
 Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practices, Rule Index
 
 ### Community 89 - "Report"
-Cohesion: 0.06
-Nodes (9): CommentController, Report, ReportComment, User, AiSummaryService, DummyDataSeeder, Illuminate\Database\Eloquent\Relations\HasMany, Illuminate\Foundation\Auth\User (+1 more)
+Cohesion: 0.09
+Nodes (4): CommentController, Report, ReportComment, AiSummaryService
 
 ### Community 101 - "static"
 Cohesion: 0.28
@@ -280,11 +280,11 @@ Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `static`, `Report.php`?**
+- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `static`, `User`?**
   _High betweenness centrality (0.059) - this node is a cross-community bridge._
-- **Why does `User` connect `Report` to `Illuminate\Http\Request`, `Report.php`?**
+- **Why does `User` connect `User` to `Report`, `Illuminate\Http\Request`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **Why does `AiSummaryService` connect `Report` to `Illuminate\Http\Request`, `Report.php`?**
+- **Why does `AiSummaryService` connect `Report` to `Illuminate\Http\Request`, `User`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **Are the 6 inferred relationships involving `Report` (e.g. with `.reports()` and `.geojson()`) actually correct?**
   _`Report` has 6 INFERRED edges - model-reasoned connections that need verification._

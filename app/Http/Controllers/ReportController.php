@@ -80,9 +80,10 @@ class ReportController extends Controller
 
         $reports = $query->paginate(9)->withQueryString()->fragment('dashboard');
 
-        $cachedCities = Cache::get('reports_filter_available_cities');
-        if (! is_array($cachedCities)) {
-            $cachedCities = Report::whereNotNull('city')
+        Cache::forget('reports_filter_available_cities');
+
+        $cachedCities = Cache::remember('sira_reports_available_cities', 300, function () {
+            return Report::whereNotNull('city')
                 ->where('city', '!=', '')
                 ->distinct()
                 ->pluck('city')
@@ -91,9 +92,9 @@ class ReportController extends Controller
                 ->sort(SORT_NATURAL | SORT_FLAG_CASE)
                 ->values()
                 ->all();
-            Cache::put('reports_filter_available_cities', $cachedCities, 300);
-        }
-        $availableCities = collect($cachedCities);
+        });
+
+        $availableCities = collect(is_iterable($cachedCities) ? $cachedCities : []);
 
         $availableDistricts = $this->getAvailableDistricts($request->input('city'));
 
@@ -294,6 +295,7 @@ class ReportController extends Controller
         // Kirim notifikasi mention (@) jika ada akun pengguna/lembaga yang ditandai dalam postingan
         $this->dispatchReportMentionNotifications($report);
 
+        Cache::forget('sira_reports_available_cities');
         Cache::forget('reports_filter_available_cities');
         Cache::forget('top_5_reporters_modal');
 

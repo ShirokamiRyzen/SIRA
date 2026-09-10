@@ -68,8 +68,8 @@
     <!-- Feed Laporan & Filter yang Disederhanakan -->
     <x-dashboard
         :reports="$reports"
-        :available-cities="$availableCities"
-        :available-districts="$availableDistricts"
+        :available-cities="is_iterable($availableCities) ? $availableCities : []"
+        :available-districts="is_iterable($availableDistricts) ? $availableDistricts : []"
         :critical-reports="$criticalReports"
         :sort="$sort"
         :multi-issue-count="$multiIssueCount"

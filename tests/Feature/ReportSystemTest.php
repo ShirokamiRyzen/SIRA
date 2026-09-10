@@ -950,10 +950,12 @@ test('pengguna login dapat memfilter laporan miliknya sendiri melalui fitur Lapo
 
 test('reports index handles cached available cities safely without incomplete class error', function () {
     Cache::put('reports_filter_available_cities', collect(['Bandung', 'Jakarta']), 300);
+    Cache::put('sira_reports_available_cities', ['Bandung', 'Cimahi'], 300);
 
     $response = $this->get(route('reports.index'));
     $response->assertOk();
 
     $availableCities = $response->viewData('availableCities');
-    expect($availableCities)->toBeInstanceOf(Collection::class);
+    expect($availableCities)->toBeInstanceOf(Collection::class)
+        ->and($availableCities->all())->toEqual(['Bandung', 'Cimahi']);
 });
