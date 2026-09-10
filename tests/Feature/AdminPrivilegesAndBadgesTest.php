@@ -189,6 +189,18 @@ test('admin has gold badge automatically and permanently', function () {
         ->assertStatus(422);
 });
 
+test('user with username admin but is_admin false does not have admin privileges or badge', function () {
+    $user = User::factory()->create([
+        'username' => 'admin',
+        'is_admin' => false,
+        'is_verified' => false,
+    ]);
+
+    expect($user->isAdmin())->toBeFalse()
+        ->and($user->isVerified())->toBeFalse()
+        ->and($user->badgeType())->toBeNull();
+});
+
 test('non-admin cannot toggle verification badges', function () {
     $regularUser = User::factory()->create([
         'username' => 'regular_user',

@@ -23,7 +23,7 @@ class AdminController extends Controller
             ->selectRaw('
                 COUNT(*) as total,
                 SUM(CASE WHEN is_verified = 1 THEN 1 ELSE 0 END) as verified,
-                SUM(CASE WHEN is_admin = 1 OR username = "admin" THEN 1 ELSE 0 END) as admins
+                SUM(CASE WHEN is_admin = 1 THEN 1 ELSE 0 END) as admins
             ')
             ->first();
 
@@ -45,11 +45,9 @@ class AdminController extends Controller
         if ($filter === 'verified') {
             $query->where('is_verified', true);
         } elseif ($filter === 'unverified') {
-            $query->where('is_verified', false)->where('is_admin', false)->where('username', '!=', 'admin');
+            $query->where('is_verified', false)->where('is_admin', false);
         } elseif ($filter === 'admin') {
-            $query->where(function ($q) {
-                $q->where('is_admin', true)->orWhere('username', 'admin');
-            });
+            $query->where('is_admin', true);
         }
 
         $users = $query->paginate(20)->withQueryString();
@@ -103,8 +101,12 @@ class AdminController extends Controller
     {
         abort_unless(Auth::user()?->isAdmin(), 403, 'Hanya administrator yang dapat menghapus akun.');
 
-        if ($user->id === Auth::id() || $user->username === 'admin') {
-            return back()->with('error', 'Akun administrator utama tidak dapat dihapus.');
+        if ($user->id === Auth::id()) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+        }
+
+        if ($user->isAdmin() && User::where('is_admin', true)->count() <= 1) {
+            return back()->with('error', 'Akun administrator terakhir tidak dapat dihapus.');
         }
 
         if (strtolower($user->username) === 'sira') {

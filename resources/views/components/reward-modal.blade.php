@@ -8,8 +8,8 @@
             ->take(5)
             ->get()
             ->map(function ($u) {
-                $isAdmin = !empty($u->is_admin) || (isset($u->username) && $u->username === 'admin');
-                $isVerified = $isAdmin || !empty($u->is_verified);
+                $isAdmin = ! empty($u->is_admin);
+                $isVerified = $isAdmin || ! empty($u->is_verified);
 
                 return [
                     'id' => (int) $u->id,
