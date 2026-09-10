@@ -1,16 +1,16 @@
-# Graph Report - SIRA  (2026-09-10)
+# Graph Report - SIRA  (2026-09-08)
 
 ## Corpus Check
-- 144 files · ~106,889 words
+- 144 files · ~106,850 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 705 nodes · 903 edges · 112 communities (105 shown, 7 thin omitted)
+- 705 nodes · 901 edges · 112 communities (105 shown, 7 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `81deabd9`
+- Built from commit: `a52bdafb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -117,7 +117,7 @@ Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
 ### Community 5 - "Report.php"
-Cohesion: 0.08
+Cohesion: 0.09
 Nodes (14): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks, ReportVote, DatabaseSeeder, MultiIssueLocationSeeder (+6 more)
 
 ### Community 6 - "Architecture Best Practices"
@@ -173,7 +173,7 @@ Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
 ### Community 25 - "Illuminate\Http\Request"
-Cohesion: 0.10
+Cohesion: 0.09
 Nodes (14): AdminController, AuthController, Controller, HeatmapController, NotificationController, ReportController, Illuminate\Database\Eloquent\Builder, Illuminate\Http\JsonResponse (+6 more)
 
 ### Community 40 - "Events and Notifications Best Practices"

@@ -80,16 +80,20 @@ class ReportController extends Controller
 
         $reports = $query->paginate(9)->withQueryString()->fragment('dashboard');
 
-        $availableCities = Cache::remember('reports_filter_available_cities', 300, function () {
-            return Report::whereNotNull('city')
+        $cachedCities = Cache::get('reports_filter_available_cities');
+        if (! is_array($cachedCities)) {
+            $cachedCities = Report::whereNotNull('city')
                 ->where('city', '!=', '')
                 ->distinct()
                 ->pluck('city')
                 ->filter()
                 ->unique()
                 ->sort(SORT_NATURAL | SORT_FLAG_CASE)
-                ->values();
-        });
+                ->values()
+                ->all();
+            Cache::put('reports_filter_available_cities', $cachedCities, 300);
+        }
+        $availableCities = collect($cachedCities);
 
         $availableDistricts = $this->getAvailableDistricts($request->input('city'));
 

@@ -5,6 +5,8 @@ use App\Models\ReportComment;
 use App\Models\ReportVote;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 uses(RefreshDatabase::class);
 
@@ -944,4 +946,14 @@ test('pengguna login dapat memfilter laporan miliknya sendiri melalui fitur Lapo
     $authTitles = $authResponse->viewData('reports')->pluck('title');
     expect($authTitles)->toContain('Laporan Khusus User Satu');
     expect($authTitles)->not->toContain('Laporan Khusus User Dua');
+});
+
+test('reports index handles cached available cities safely without incomplete class error', function () {
+    Cache::put('reports_filter_available_cities', collect(['Bandung', 'Jakarta']), 300);
+
+    $response = $this->get(route('reports.index'));
+    $response->assertOk();
+
+    $availableCities = $response->viewData('availableCities');
+    expect($availableCities)->toBeInstanceOf(Collection::class);
 });
