@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "app/Models/User.php": {
-    "mtime": 1788846152.62589,
-    "ast_hash": "4a1e5fda7fe345e348782f887e2710dc",
+    "mtime": 1789015477.1510055,
+    "ast_hash": "515d78eb87cf78c460ca550f549a193f",
     "semantic_hash": ""
   },
   "app/Providers/AppServiceProvider.php": {
@@ -105,8 +105,8 @@
     "semantic_hash": ""
   },
   "database/seeders/DatabaseSeeder.php": {
-    "mtime": 1788699483.6031258,
-    "ast_hash": "5cff5fecbd6c12a469b5072d014ccb33",
+    "mtime": 1789015512.0920508,
+    "ast_hash": "4fd5d0f122aa295df22ccf5bff1df6c2",
     "semantic_hash": ""
   },
   "package.json": {
@@ -267,11 +267,6 @@
   "database/migrations/2026_09_05_093108_create_report_comments_table.php": {
     "mtime": 1788602271.53686,
     "ast_hash": "1b91ae07d3f201b56c23c00f128657f5",
-    "semantic_hash": ""
-  },
-  "database/seeders/DummyDataSeeder.php": {
-    "mtime": 1788702075.222006,
-    "ast_hash": "d4d2e6557a2ad291ac92d86db356dcf2",
     "semantic_hash": ""
   },
   "resources/views/auth/login.blade.php": {
@@ -624,14 +619,9 @@
     "ast_hash": "23820b8395163ac217c0688f802bc5fb",
     "semantic_hash": ""
   },
-  "database/seeders/MultiIssueLocationSeeder.php": {
-    "mtime": 1788695356.6582265,
-    "ast_hash": "b4811d93a34222ca1136ac5a8a87d2cc",
-    "semantic_hash": ""
-  },
   "app/Http/Controllers/AdminController.php": {
-    "mtime": 1788773245.1123483,
-    "ast_hash": "9c03ed5b8d1c24d3db9fae72a8e1de26",
+    "mtime": 1789015496.6539195,
+    "ast_hash": "acc6139808ff4a54df6a5a1ca71e019e",
     "semantic_hash": ""
   },
   "database/migrations/2026_09_06_123601_add_roles_and_verification_to_users_table.php": {
@@ -640,8 +630,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/reward-modal.blade.php": {
-    "mtime": 1788774609.9925659,
-    "ast_hash": "a4133e29e8e4f192563857aace1c9bd1",
+    "mtime": 1789015503.9225616,
+    "ast_hash": "dba97404cbad63111402f397b3c69dce",
     "semantic_hash": ""
   },
   "resources/views/components/verified-badge.blade.php": {
@@ -650,8 +640,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/AdminPrivilegesAndBadgesTest.php": {
-    "mtime": 1788771456.9672785,
-    "ast_hash": "cef7b0f8cb49542ca7e7cb86f583f4da",
+    "mtime": 1789015564.928628,
+    "ast_hash": "be04b6fc9fad40c32b6c8b52a5581ca5",
     "semantic_hash": ""
   },
   "app/Notifications/ReportMentionNotification.php": {

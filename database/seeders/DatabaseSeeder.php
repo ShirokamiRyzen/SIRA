@@ -45,6 +45,20 @@ class DatabaseSeeder extends Seeder
                 'is_admin' => false,
                 'is_verified' => true,
             ],
+            [
+                'name' => 'Asep Kopling',
+                'username' => 'asep_kopling',
+                'password' => Hash::make('asep_kopling'),
+                'is_admin' => false,
+                'is_verified' => false,
+            ],
+            [
+                'name' => 'Mamat Gunshop',
+                'username' => 'mamat_gunshop',
+                'password' => Hash::make('mamat_gunshop'),
+                'is_admin' => false,
+                'is_verified' => false,
+            ],
         ];
 
         foreach ($users as $userData) {
