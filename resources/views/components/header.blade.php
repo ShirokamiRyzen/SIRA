@@ -133,7 +133,7 @@
                     </button>
 
                     <!-- Dropdown Menu -->
-                    <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 sm:w-92 max-w-[92vw] bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#262626] rounded-[8px] shadow-2xl z-50 overflow-hidden font-sans text-xs">
+                    <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 sm:w-92 max-w-[92vw] bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#262626] rounded-[8px] shadow-2xl z-50 overflow-hidden font-sans text-xs overscroll-contain">
                         <div class="px-4 py-3 border-b border-[#EAEAEA] dark:border-[#262626] flex items-center justify-between bg-[#FBFBFA] dark:bg-[#181818]">
                             <div class="flex items-center space-x-2">
                                 <span class="font-semibold text-[#111111] dark:text-[#EDEDEC]">Notifikasi</span>
@@ -153,7 +153,7 @@
                         </div>
 
                         <!-- Notification List Items -->
-                        <div id="notificationList" class="max-h-80 overflow-y-auto divide-y divide-[#EAEAEA]/70 dark:divide-[#262626]/70">
+                        <div id="notificationList" class="max-h-80 overflow-y-auto overscroll-contain divide-y divide-[#EAEAEA]/70 dark:divide-[#262626]/70">
                             @forelse ($recentNotifications as $notification)
                                 @php
                                     $data = $notification->data;
@@ -251,6 +251,26 @@
                                     menu.classList.add('hidden');
                                 }
                             });
+
+                            // Mencegah scroll chaining ke halaman saat menu notifikasi di-scroll hingga mentok (overscroll)
+                            menu.addEventListener('wheel', function (e) {
+                                const list = document.getElementById('notificationList');
+                                if (!list) return;
+
+                                if (list.contains(e.target)) {
+                                    const isScrollingDown = e.deltaY > 0;
+                                    const isScrollingUp = e.deltaY < 0;
+                                    const reachedBottom = (list.scrollTop + list.clientHeight) >= (list.scrollHeight - 1);
+                                    const reachedTop = list.scrollTop <= 0;
+
+                                    if ((isScrollingDown && reachedBottom) || (isScrollingUp && reachedTop)) {
+                                        e.preventDefault();
+                                    }
+                                } else {
+                                    // Cegah scroll halaman jika kursor berada di header menu notifikasi
+                                    e.preventDefault();
+                                }
+                            }, { passive: false });
                         }
 
                         // Helper sinkronisasi badge tampilan notifikasi

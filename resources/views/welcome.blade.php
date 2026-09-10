@@ -157,7 +157,7 @@
             <a href="{{ route('reports.create') }}"
                class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white rounded-lg font-bold text-xs sm:text-sm inline-flex items-center gap-2 shadow-sm transition">
                 <flux:icon name="plus-circle" class="w-4 h-4 text-white shrink-0" />
-                <span>+ Laporkan Masalah Baru</span>
+                <span>+ Laporkan Masalah</span>
             </a>
             <a href="{{ route('reports.index') }}"
                class="px-5 py-3.5 border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] text-[#111111] dark:text-[#EDEDEC] rounded-lg font-bold text-xs sm:text-sm inline-flex items-center gap-1.5 transition shadow-2xs">
