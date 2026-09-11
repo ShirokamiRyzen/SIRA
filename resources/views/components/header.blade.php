@@ -582,7 +582,7 @@
                 </script>
             @else
                 <div class="hidden md:flex items-center space-x-1.5 sm:space-x-2 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
-                    <a href="{{ route('login') }}" class="h-9 inline-flex items-center text-[#787774] hover:text-[#111111] dark:text-[#9B9B97] dark:hover:text-[#EDEDEC] px-2.5 transition-colors">
+                    <a href="{{ route('login') }}" class="h-9 inline-flex items-center justify-center text-slate-950 font-bold bg-amber-400 hover:bg-amber-500 border border-amber-500/60 px-3 rounded-[6px] shadow-xs transition-all">
                         Masuk
                     </a>
                     <a href="{{ route('register') }}" class="h-9 inline-flex items-center justify-center text-[#111111] dark:text-[#111111] bg-[#EAEAEA] hover:bg-[#E0E0E0] dark:bg-[#EDEDEC] dark:hover:bg-white px-3 rounded-[6px] font-medium transition-colors">
@@ -724,7 +724,7 @@
                 </div>
             @else
                 <div class="grid grid-cols-2 gap-2 pt-1">
-                    <a href="{{ route('login') }}" class="py-2.5 text-center rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E]">
+                    <a href="{{ route('login') }}" class="py-2.5 text-center rounded-[6px] bg-amber-400 hover:bg-amber-500 border border-amber-500/60 text-slate-950 font-bold shadow-xs transition-colors">
                         Masuk
                     </a>
                     <a href="{{ route('register') }}" class="py-2.5 text-center rounded-[6px] bg-[#EAEAEA] dark:bg-[#2A2A2A] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#DFDFDF] dark:hover:bg-[#333333] font-medium">

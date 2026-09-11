@@ -117,7 +117,7 @@
                 </div>
 
                 <!-- Baris Thumbnail: Horizontal swipe scroll di mobile, 5 kolom di desktop -->
-                <div class="flex overflow-x-auto md:grid md:grid-cols-5 gap-2 sm:gap-3 font-sans pb-1 px-0.5 snap-x snap-mandatory no-scrollbar" style="-webkit-overflow-scrolling: touch;">
+                <div class="relative flex overflow-x-auto md:grid md:grid-cols-5 gap-2 sm:gap-3 font-sans pb-1 px-0.5 snap-x snap-mandatory no-scrollbar" style="-webkit-overflow-scrolling: touch;">
                     @foreach ($criticalReports as $tIndex => $tReport)
                         <button type="button"
                             class="gov-thumb-card w-[210px] sm:w-[230px] md:w-auto shrink-0 md:shrink snap-start text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group {{ $tIndex === 0 ? 'border-emerald-500 bg-white/15 ring-1 ring-emerald-400/50' : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20' }}"
@@ -404,7 +404,19 @@
             thumbCards.forEach((card, idx) => {
                 if (idx === currentIndex) {
                     card.className = 'gov-thumb-card w-[210px] sm:w-[230px] md:w-auto shrink-0 md:shrink snap-start text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group border-emerald-500 bg-white/15 ring-1 ring-emerald-400/50';
-                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+                    const container = card.parentElement;
+                    if (container && container.scrollWidth > container.clientWidth) {
+                        const cardLeft = card.offsetLeft;
+                        const cardWidth = card.offsetWidth;
+                        const containerScroll = container.scrollLeft;
+                        const containerWidth = container.clientWidth;
+
+                        if (cardLeft < containerScroll) {
+                            container.scrollTo({ left: Math.max(0, cardLeft - 8), behavior: 'smooth' });
+                        } else if (cardLeft + cardWidth > containerScroll + containerWidth) {
+                            container.scrollTo({ left: cardLeft + cardWidth - containerWidth + 8, behavior: 'smooth' });
+                        }
+                    }
                 } else {
                     card.className = 'gov-thumb-card w-[210px] sm:w-[230px] md:w-auto shrink-0 md:shrink snap-start text-left p-1.5 sm:p-2 rounded-lg border transition cursor-pointer flex items-center gap-2 group border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20';
                 }

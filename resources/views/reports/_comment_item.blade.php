@@ -1,4 +1,4 @@
-<div class="space-y-3 scroll-mt-28 transition-all duration-300" id="comment-{{ $comment->id }}">
+<div class="space-y-3 scroll-mt-28 transition-all duration-300 relative" id="comment-{{ $comment->id }}">
     <div class="flex items-start space-x-3 p-3.5 rounded-2xl {{ ($comment->user && strtolower($comment->user->username) === 'sira') ? 'bg-gradient-to-r from-indigo-50/80 to-purple-50/80 dark:from-indigo-950/40 dark:to-purple-950/40 border border-indigo-200/90 dark:border-indigo-800/60 shadow-sm' : 'bg-slate-50 dark:bg-[#181818] border border-slate-200/80 dark:border-[#262626]' }}">
         <!-- User Initial Avatar / AI Robot Avatar -->
         @if ($comment->user && strtolower($comment->user->username) === 'sira')
@@ -112,7 +112,7 @@
     </div>
 
     <!-- Recursive Nested Replies Container -->
-    <div id="replies-container-{{ $comment->id }}" class="pl-6 border-l-2 border-slate-200 dark:border-[#262626] space-y-3 mt-3 {{ ($comment->replies && $comment->replies->count() > 0) ? '' : 'hidden' }}">
+    <div id="replies-container-{{ $comment->id }}" class="comment-replies-container pl-6 sm:pl-8 space-y-3 mt-3 {{ ($comment->replies && $comment->replies->count() > 0) ? '' : 'hidden' }}">
         @if ($comment->replies && $comment->replies->count() > 0)
             @foreach ($comment->replies as $reply)
                 @include('reports._comment_item', ['comment' => $reply])

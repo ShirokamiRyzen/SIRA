@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "resources/views/welcome.blade.php": {
-    "mtime": 1789032136.0143344,
-    "ast_hash": "ea415078384eb1869e2227e73abe20b4",
+    "mtime": 1789089713.3493145,
+    "ast_hash": "ed7bf8ac048613cb5e7453bc7d4d0cfb",
     "semantic_hash": ""
   },
   "routes/console.php": {
@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/header.blade.php": {
-    "mtime": 1789032309.5094478,
-    "ast_hash": "7c0330493a146688eaf9b94bff48fec5",
+    "mtime": 1789090329.2103236,
+    "ast_hash": "aa68db991daaf055b9a07359af6e1172",
     "semantic_hash": ""
   },
   "resources/views/components/landing.blade.php": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "resources/views/reports/_comment_item.blade.php": {
-    "mtime": 1788846063.9676974,
-    "ast_hash": "052d654384e0432a6bafad62512eb09e",
+    "mtime": 1789089912.187886,
+    "ast_hash": "204fedcb5d648cc150d1b8ef59554d5c",
     "semantic_hash": ""
   },
   "resources/views/reports/create.blade.php": {
@@ -635,8 +635,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/verified-badge.blade.php": {
-    "mtime": 1788774289.5136194,
-    "ast_hash": "979c05ccf6cee1822eadd5ff023cd3d8",
+    "mtime": 1789090443.6660612,
+    "ast_hash": "1bd500ffc182679a6663d90335eb0fbd",
     "semantic_hash": ""
   },
   "tests/Feature/AdminPrivilegesAndBadgesTest.php": {

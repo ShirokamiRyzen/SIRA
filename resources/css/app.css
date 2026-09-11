@@ -132,4 +132,95 @@ body {
     scrollbar-width: none;
 }
 
+/* ==========================================================================
+   Struktur Pohon Balasan Komentar Bertingkat (Curved Thread Lines)
+   ========================================================================== */
+.comment-replies-container {
+    position: relative;
+    padding-left: 1.5rem; /* pl-6 (24px) di layar mobile */
+}
+
+@media (min-width: 640px) {
+    .comment-replies-container {
+        padding-left: 2rem; /* sm:pl-8 (32px) di layar desktop */
+    }
+}
+
+/* Setiap item balasan di dalam container */
+.comment-replies-container > div {
+    position: relative;
+}
+
+/* Garis cabang melengkung (L-curve) dari sumbu vertikal menekuk 90 derajat ke balon komentar */
+.comment-replies-container > div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -16px; /* mobile: 8px - 24px = -16px */
+    width: 16px;
+    height: 32px;
+    border-bottom: 2px solid #cbd5e1;
+    border-left: 2px solid #cbd5e1;
+    border-bottom-left-radius: 12px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@media (min-width: 640px) {
+    .comment-replies-container > div::before {
+        left: -20px; /* desktop: 12px - 32px = -20px */
+        width: 20px;
+        height: 34px;
+        border-bottom-left-radius: 14px;
+    }
+}
+
+.dark .comment-replies-container > div::before {
+    border-left-color: #2e2e2e;
+    border-bottom-color: #2e2e2e;
+}
+
+/* Balasan pertama: lengkungan ditarik ke atas setinggi -12px agar menyambung tepat ke bawah kartu komentar induk */
+.comment-replies-container > div:first-child::before {
+    top: -12px;
+    height: 44px; /* 32px + 12px di mobile */
+}
+
+@media (min-width: 640px) {
+    .comment-replies-container > div:first-child::before {
+        top: -12px;
+        height: 46px; /* 34px + 12px di desktop */
+    }
+}
+
+/* Garis vertikal penghubung antar balasan bertingkat (hanya untuk item sebelum balasan terakhir) */
+.comment-replies-container > div:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: -14px; /* menyeberangi jarak margin 12px (space-y-3) ke balasan berikutnya tanpa putus */
+    left: -16px;
+    width: 0;
+    border-left: 2px solid #cbd5e1;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@media (min-width: 640px) {
+    .comment-replies-container > div:not(:last-child)::after {
+        left: -20px;
+    }
+}
+
+.dark .comment-replies-container > div:not(:last-child)::after {
+    border-left-color: #2e2e2e;
+}
+
+/* Balasan pertama yang bukan balasan terakhir: garis vertikal dimulai dari -12px */
+.comment-replies-container > div:first-child:not(:last-child)::after {
+    top: -12px;
+}
+
+
+
 
