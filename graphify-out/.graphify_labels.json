@@ -100,6 +100,7 @@
   "98": "2026_09_06_123601_add_roles_and_verification_to_users_table.php",
   "99": "reward-modal.blade.php",
   "100": "verified-badge.blade.php",
+  "101": "static",
   "102": "users/index.blade.php",
   "103": "admin/reports/index.blade.php",
   "104": "OgImageController",

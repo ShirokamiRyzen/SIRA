@@ -890,8 +890,8 @@
       "source_location": "L339",
       "_origin": "ast",
       "id": "app_models_report_report_getcolocatedreportscountattribute",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": ".getcolocatedreportscountattribute()"
     },
     {
@@ -989,8 +989,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_models_reportcomment_reportcomment_booted",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": ".booted()"
     },
     {
@@ -1055,8 +1055,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "app_models_reportvote_reportvote_booted",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": ".booted()"
     },
     {
@@ -2463,8 +2463,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_userfactory",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": "userfactory.php"
     },
     {
@@ -2474,8 +2474,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": "userfactory"
     },
     {
@@ -2485,8 +2485,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_definition",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": ".definition()"
     },
     {
@@ -2496,8 +2496,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "database_factories_userfactory_userfactory_unverified",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": ".unverified()"
     },
     {
@@ -2507,8 +2507,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "static",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": "static"
     },
     {
@@ -7600,8 +7600,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_factories_factory",
-      "community": 5,
-      "community_name": "User",
+      "community": 101,
+      "community_name": "static",
       "norm_label": "illuminate\\database\\eloquent\\factories\\factory"
     },
     {
@@ -13334,6 +13334,18 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/Feature/ReportRequirementEnhancementsTest.php",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_feature_reportrequirementenhancementstest",
+      "target": "config_cache",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/Feature/ReportSystemTest.php",
       "source_location": "L9",
       "weight": 1.0,
@@ -17529,5 +17541,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e15bee2ccc7ff308aa784be9afa247b1fbe0421f"
+  "built_at_commit": "3f4fe988d5b65445d7e15663ce4b7bb8a6404619"
 }

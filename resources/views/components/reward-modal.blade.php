@@ -3,21 +3,21 @@
         return \App\Models\User::query()
             ->select(['id', 'name', 'username', 'is_admin', 'is_verified'])
             ->whereRaw('LOWER(username) != ?', ['sira'])
+            ->where('is_admin', false)
+            ->where('is_verified', false)
+            ->has('reports')
             ->withCount('reports')
             ->orderByDesc('reports_count')
             ->take(5)
             ->get()
             ->map(function ($u) {
-                $isAdmin = ! empty($u->is_admin);
-                $isVerified = $isAdmin || ! empty($u->is_verified);
-
                 return [
                     'id' => (int) $u->id,
                     'name' => (string) $u->name,
                     'username' => (string) $u->username,
-                    'is_admin' => (bool) $isAdmin,
-                    'is_verified' => (bool) $isVerified,
-                    'badge_type' => $isAdmin ? 'admin' : ($isVerified ? 'verified' : null),
+                    'is_admin' => false,
+                    'is_verified' => false,
+                    'badge_type' => null,
                     'reports_count' => (int) $u->reports_count,
                 ];
             })

@@ -740,13 +740,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/ReportRequirementEnhancementsTest.php": {
-    "mtime": 1789119071.9107368,
-    "ast_hash": "9277377b305bfe8791d58c64c11b1f00",
-    "semantic_hash": ""
-  },
-  "database/migrations/2026_09_11_094000_populate_districts_for_existing_reports.php": {
-    "mtime": 1789119434.8269887,
-    "ast_hash": "2debbe13661daf88219679b671981757",
+    "mtime": 1789119732.5797515,
+    "ast_hash": "3fa26e91a2b7d621069b2ddb267e88a5",
     "semantic_hash": ""
   }
 }

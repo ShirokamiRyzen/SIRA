@@ -1,16 +1,16 @@
 # Graph Report - SIRA  (2026-09-11)
 
 ## Corpus Check
-- 143 files · ~96,648 words
+- 143 files · ~96,782 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 694 nodes · 871 edges · 112 communities (104 shown, 8 thin omitted)
+- 694 nodes · 872 edges · 113 communities (105 shown, 8 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e15bee2c`
+- Built from commit: `3f4fe988`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -65,6 +65,7 @@
 - show.blade.php
 - Configuration Best Practices
 - Report
+- static
 - OgImageController
 
 ## God Nodes (most connected - your core abstractions)
@@ -94,7 +95,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (112 total, 8 thin omitted)
+## Communities (113 total, 8 thin omitted)
 
 ### Community 0 - "Detection Checklist"
 Cohesion: 0.17
@@ -117,8 +118,8 @@ Cohesion: 0.08
 Nodes (25): concurrently, katex, @laravel/multiplex, laravel-vite-plugin, marked, dependencies, katex, marked (+17 more)
 
 ### Community 5 - "User"
-Cohesion: 0.06
-Nodes (17): ReportComment, ReportVote, User, UserFactory, DatabaseSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\Factory, Illuminate\Database\Eloquent\Factories\HasFactory (+9 more)
+Cohesion: 0.08
+Nodes (14): ReportComment, ReportVote, User, DatabaseSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Eloquent\Factories\HasFactory, Illuminate\Database\Eloquent\Model, Illuminate\Database\Eloquent\Relations\BelongsTo (+6 more)
 
 ### Community 6 - "Architecture Best Practices"
 Cohesion: 0.18
@@ -268,6 +269,10 @@ Nodes (5): Consistency First, Decision Rules, How to Apply, Laravel Best Practic
 Cohesion: 0.33
 Nodes (5): Configuration Best Practices, Name Repeated Domain Values, Protect Production Secrets, Read Environment Variables in Configuration Files, Use `App::environment()` for Environment Checks
 
+### Community 101 - "static"
+Cohesion: 0.28
+Nodes (3): UserFactory, Illuminate\Database\Eloquent\Factories\Factory, static
+
 ## Knowledge Gaps
 - **305 isolated node(s):** `$schema`, `name`, `type`, `description`, `laravel` (+300 more)
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -276,7 +281,7 @@ Nodes (5): Configuration Best Practices, Name Repeated Domain Values, Protect Pr
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `User`?**
+- **Why does `Report` connect `Report` to `OgImageController`, `Illuminate\Http\Request`, `static`, `User`?**
   _High betweenness centrality (0.056) - this node is a cross-community bridge._
 - **Why does `AiSummaryService` connect `Report` to `Illuminate\Http\Request`, `User`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ReportController;
 use App\Models\Report;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 test('report description fails when containing fewer than 5 words', function () {
     $user = User::factory()->create();
@@ -97,4 +98,48 @@ test('submitting a new report via store endpoint properly saves district and upd
     // Cek dropdown filter otomatis memunculkan Coblong
     $availableDistricts = ReportController::getAvailableDistricts('Kota Bandung');
     expect($availableDistricts)->toContain('Coblong');
+});
+
+test('reward modal leaderboard excludes admin and verified users', function () {
+    $admin = User::factory()->create(['username' => 'superadmin', 'is_admin' => true, 'is_verified' => true]);
+    $verified = User::factory()->create(['username' => 'dinas_official', 'is_admin' => false, 'is_verified' => true]);
+    $regularCitizen = User::factory()->create(['username' => 'warga_teladan', 'is_admin' => false, 'is_verified' => false]);
+
+    // Admin and verified make reports
+    Report::create([
+        'user_id' => $admin->id,
+        'title' => 'Laporan Admin',
+        'category' => 'jalan_jembatan',
+        'description' => 'Laporan oleh admin internal dinas.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.9,
+        'longitude' => 107.6,
+    ]);
+
+    Report::create([
+        'user_id' => $verified->id,
+        'title' => 'Laporan Akun Terverifikasi',
+        'category' => 'jalan_jembatan',
+        'description' => 'Laporan oleh lembaga resmi terverifikasi.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.9,
+        'longitude' => 107.6,
+    ]);
+
+    Report::create([
+        'user_id' => $regularCitizen->id,
+        'title' => 'Laporan Warga Biasa',
+        'category' => 'sampah_kebersihan',
+        'description' => 'Laporan dari warga biasa lingkungan sekitar.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.9,
+        'longitude' => 107.6,
+    ]);
+
+    Cache::forget('top_5_reporters_modal');
+
+    $renderedModal = (string) $this->blade('<x-reward-modal />');
+    expect($renderedModal)->toContain('warga_teladan')
+        ->not->toContain('superadmin')
+        ->not->toContain('dinas_official');
 });
