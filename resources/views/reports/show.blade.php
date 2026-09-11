@@ -119,9 +119,11 @@
             class="bg-white dark:bg-[#141414] rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm overflow-hidden">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 <!-- Kolom Kiri: Foto Bukti Base64 -->
-                <div class="lg:col-span-7 bg-slate-950 flex items-center justify-center p-2 relative min-h-[350px]">
+                <div class="lg:col-span-7 bg-slate-950 relative min-h-[380px] lg:min-h-[500px] overflow-hidden group flex items-center justify-center">
                     <img src="{{ $report->image_base64 }}" alt="{{ $report->title }}"
-                        class="max-h-[500px] w-auto max-w-full object-contain rounded-xl">
+                        class="w-full h-full min-h-[380px] lg:min-h-[500px] object-cover cursor-zoom-in hover:scale-[1.02] transition-transform duration-500"
+                        onclick="openImageLightbox('{{ $report->image_base64 }}')"
+                        title="Klik untuk melihat pratinjau foto penuh">
 
                     <!-- Image Badges Overlay: Flex header so tier and pending duration never collide -->
                     <div
@@ -665,6 +667,76 @@
                         Buka Gambar Langsung &rarr;
                     </a>
                 </div>
+            </div>
+        </div>
+
+        <!-- Modal Lightbox Foto Ukuran Penuh dengan Fitur Zoom & Drag/Pan Gesture -->
+        <div id="imageLightboxModal"
+            class="fixed inset-0 z-[9999] hidden overflow-hidden bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-2 sm:p-4 select-none touch-none"
+            role="dialog" aria-modal="true" aria-label="Pratinjau Foto Bukti">
+
+            <!-- Tombol Tutup (Kanan Atas) -->
+            <button type="button" onclick="closeImageLightbox()"
+                class="absolute top-4 right-4 z-30 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white flex items-center justify-center transition cursor-pointer shadow-xl backdrop-blur-md"
+                title="Tutup (Esc)">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <!-- Hint Navigasi (Mobile & Desktop) -->
+            <div id="lightboxGestureHint"
+                class="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-3.5 py-1 rounded-full bg-black/60 border border-white/10 text-white/80 text-[10px] sm:text-xs font-mono backdrop-blur-md pointer-events-none transition-opacity duration-700 shadow-md">
+                <span>Cubit / Scroll untuk Zoom &bull; Geser untuk memindahkan</span>
+            </div>
+
+            <!-- Viewport Gambar yang Mendukung Drag & Zoom -->
+            <div id="lightboxViewport" class="relative w-full h-full flex items-center justify-center overflow-hidden cursor-zoom-in"
+                onclick="handleLightboxBackdropClick(event)">
+                <img id="lightboxImage" src="" alt="{{ $report->title }}"
+                    class="max-w-[95vw] max-h-[85vh] object-contain rounded-xl sm:rounded-2xl shadow-2xl pointer-events-auto select-none will-change-transform"
+                    draggable="false">
+            </div>
+
+            <!-- Floating Control Bar (Bawah Tengah) -->
+            <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-1.5 sm:space-x-2 px-3 py-1.5 rounded-full bg-slate-900/85 border border-white/15 text-white shadow-2xl backdrop-blur-md" onclick="event.stopPropagation()">
+                <!-- Zoom Out (-) -->
+                <button type="button" onclick="zoomLightbox(-0.35)"
+                    class="w-8 h-8 rounded-full hover:bg-white/15 active:scale-90 flex items-center justify-center transition cursor-pointer"
+                    title="Perkecil (-)">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+
+                <!-- Zoom Level Display -->
+                <span id="lightboxZoomLevel" class="text-xs font-mono font-bold w-12 text-center text-emerald-400 select-none">
+                    100%
+                </span>
+
+                <!-- Zoom In (+) -->
+                <button type="button" onclick="zoomLightbox(0.35)"
+                    class="w-8 h-8 rounded-full hover:bg-white/15 active:scale-90 flex items-center justify-center transition cursor-pointer"
+                    title="Perbesar (+)">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+
+                <div class="w-px h-4 bg-white/20 my-auto"></div>
+
+                <!-- Reset Zoom (1:1) -->
+                <button type="button" onclick="resetLightboxZoom()"
+                    class="px-2.5 h-8 rounded-full hover:bg-white/15 active:scale-90 flex items-center space-x-1 text-[11px] font-mono transition cursor-pointer"
+                    title="Reset Zoom">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                    <span>Reset</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1528,6 +1600,247 @@
         window.addEventListener('hashchange', scrollToTargetComment);
 
         // -------------------------------------------------------------
+        // Lightbox Foto Bukti Laporan (Zoom, Drag/Pan, Touch & Pinch)
+        // -------------------------------------------------------------
+        const lightboxState = {
+            scale: 1,
+            translateX: 0,
+            translateY: 0,
+            isDragging: false,
+            startX: 0,
+            startY: 0,
+            startTranslateX: 0,
+            startTranslateY: 0,
+            lastTouchDistance: 0,
+            lastTapTime: 0,
+            minScale: 1,
+            maxScale: 5,
+        };
+
+        function updateLightboxTransform(animate = false) {
+            const img = document.getElementById('lightboxImage');
+            const zoomText = document.getElementById('lightboxZoomLevel');
+            const viewport = document.getElementById('lightboxViewport');
+            if (!img) return;
+
+            if (animate) {
+                img.style.transition = 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+            } else {
+                img.style.transition = 'none';
+            }
+
+            img.style.transform = `translate3d(${lightboxState.translateX}px, ${lightboxState.translateY}px, 0) scale(${lightboxState.scale})`;
+
+            if (lightboxState.scale > 1.05) {
+                if (viewport) {
+                    viewport.classList.remove('cursor-zoom-in');
+                    viewport.classList.add(lightboxState.isDragging ? 'cursor-grabbing' : 'cursor-grab');
+                }
+            } else {
+                if (viewport) {
+                    viewport.classList.remove('cursor-grab', 'cursor-grabbing');
+                    viewport.classList.add('cursor-zoom-in');
+                }
+            }
+
+            if (zoomText) {
+                zoomText.textContent = `${Math.round(lightboxState.scale * 100)}%`;
+            }
+        }
+
+        function zoomLightbox(delta) {
+            const prevScale = lightboxState.scale;
+            let newScale = Math.min(Math.max(prevScale + delta, lightboxState.minScale), lightboxState.maxScale);
+            if (newScale === prevScale) return;
+
+            if (newScale <= 1.02) {
+                lightboxState.scale = 1;
+                lightboxState.translateX = 0;
+                lightboxState.translateY = 0;
+            } else {
+                const ratio = newScale / prevScale;
+                lightboxState.translateX *= ratio;
+                lightboxState.translateY *= ratio;
+                lightboxState.scale = newScale;
+            }
+            updateLightboxTransform(true);
+        }
+
+        function resetLightboxZoom() {
+            lightboxState.scale = 1;
+            lightboxState.translateX = 0;
+            lightboxState.translateY = 0;
+            updateLightboxTransform(true);
+        }
+
+        function openImageLightbox(src) {
+            const modal = document.getElementById('imageLightboxModal');
+            const img = document.getElementById('lightboxImage');
+            const hint = document.getElementById('lightboxGestureHint');
+            if (modal && img) {
+                img.src = src;
+                resetLightboxZoom();
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.classList.add('overflow-hidden');
+
+                if (hint) {
+                    hint.style.opacity = '1';
+                    setTimeout(() => {
+                        if (hint) hint.style.opacity = '0';
+                    }, 3000);
+                }
+            }
+        }
+
+        function closeImageLightbox() {
+            const modal = document.getElementById('imageLightboxModal');
+            if (modal) {
+                resetLightboxZoom();
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        function handleLightboxBackdropClick(e) {
+            if (e.target.id === 'lightboxViewport' && lightboxState.scale <= 1.05) {
+                closeImageLightbox();
+            }
+        }
+
+        // Inisialisasi Event Listener Zoom, Drag & Gestur Mobile untuk Lightbox
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewport = document.getElementById('lightboxViewport');
+            const img = document.getElementById('lightboxImage');
+            if (!viewport || !img) return;
+
+            // 1. Mouse Wheel Zoom (Desktop)
+            viewport.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY < 0 ? 0.35 : -0.35;
+                zoomLightbox(delta);
+            }, { passive: false });
+
+            // 2. Mouse Drag (Desktop)
+            viewport.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return;
+                if (lightboxState.scale > 1.05) {
+                    e.preventDefault();
+                    lightboxState.isDragging = true;
+                    lightboxState.startX = e.clientX;
+                    lightboxState.startY = e.clientY;
+                    lightboxState.startTranslateX = lightboxState.translateX;
+                    lightboxState.startTranslateY = lightboxState.translateY;
+                    updateLightboxTransform(false);
+                }
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!lightboxState.isDragging) return;
+                const dx = e.clientX - lightboxState.startX;
+                const dy = e.clientY - lightboxState.startY;
+                lightboxState.translateX = lightboxState.startTranslateX + dx;
+                lightboxState.translateY = lightboxState.startTranslateY + dy;
+                updateLightboxTransform(false);
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (lightboxState.isDragging) {
+                    lightboxState.isDragging = false;
+                    updateLightboxTransform(false);
+                }
+            });
+
+            // Double Click to Toggle Zoom (Desktop)
+            viewport.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                if (lightboxState.scale > 1.2) {
+                    resetLightboxZoom();
+                } else {
+                    lightboxState.scale = 2.5;
+                    updateLightboxTransform(true);
+                }
+            });
+
+            // 3. Mobile Touch & Pinch Gestures
+            viewport.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    // Cek Double Tap di Mobile
+                    const now = Date.now();
+                    if (now - lightboxState.lastTapTime < 320) {
+                        e.preventDefault();
+                        if (lightboxState.scale > 1.2) {
+                            resetLightboxZoom();
+                        } else {
+                            lightboxState.scale = 2.2;
+                            updateLightboxTransform(true);
+                        }
+                        lightboxState.lastTapTime = 0;
+                        return;
+                    }
+                    lightboxState.lastTapTime = now;
+
+                    // Mulai Pan / Drag 1 Jari jika sedang zoom
+                    if (lightboxState.scale > 1.05) {
+                        lightboxState.isDragging = true;
+                        lightboxState.startX = e.touches[0].clientX;
+                        lightboxState.startY = e.touches[0].clientY;
+                        lightboxState.startTranslateX = lightboxState.translateX;
+                        lightboxState.startTranslateY = lightboxState.translateY;
+                    }
+                } else if (e.touches.length === 2) {
+                    // Mulai Pinch-to-Zoom 2 Jari
+                    lightboxState.isDragging = false;
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    lightboxState.lastTouchDistance = Math.hypot(dx, dy);
+                    lightboxState.startScale = lightboxState.scale;
+                }
+            }, { passive: false });
+
+            viewport.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && lightboxState.isDragging) {
+                    e.preventDefault();
+                    const dx = e.touches[0].clientX - lightboxState.startX;
+                    const dy = e.touches[0].clientY - lightboxState.startY;
+                    lightboxState.translateX = lightboxState.startTranslateX + dx;
+                    lightboxState.translateY = lightboxState.startTranslateY + dy;
+                    updateLightboxTransform(false);
+                } else if (e.touches.length === 2 && lightboxState.lastTouchDistance > 0) {
+                    e.preventDefault();
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    const dist = Math.hypot(dx, dy);
+                    const factor = dist / lightboxState.lastTouchDistance;
+                    const newScale = Math.min(Math.max((lightboxState.startScale || 1) * factor, 1), 5);
+                    lightboxState.scale = newScale;
+                    updateLightboxTransform(false);
+                }
+            }, { passive: false });
+
+            viewport.addEventListener('touchend', (e) => {
+                if (e.touches.length === 0) {
+                    lightboxState.isDragging = false;
+                    lightboxState.lastTouchDistance = 0;
+                    if (lightboxState.scale <= 1.05) {
+                        resetLightboxZoom();
+                    }
+                } else if (e.touches.length === 1) {
+                    lightboxState.lastTouchDistance = 0;
+                }
+            });
+
+            viewport.addEventListener('touchcancel', () => {
+                lightboxState.isDragging = false;
+                lightboxState.lastTouchDistance = 0;
+                if (lightboxState.scale <= 1.05) {
+                    resetLightboxZoom();
+                }
+            });
+        });
+
+        // -------------------------------------------------------------
         // OpenGraph Dynamic HTML5 Canvas Generator & Exporter
         // -------------------------------------------------------------
         function openOgCanvasModal() {
@@ -1548,6 +1861,7 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeOgCanvasModal();
+                closeImageLightbox();
             }
         });
 
