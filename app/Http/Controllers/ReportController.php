@@ -21,44 +21,6 @@ use Illuminate\View\View;
 class ReportController extends Controller
 {
     /**
-     * Daftar 30 kecamatan resmi di Kota Bandung.
-     *
-     * @var array<int, string>
-     */
-    public static array $officialBandungDistricts = [
-        'Andir',
-        'Antapani',
-        'Arcamanik',
-        'Astanaanyar',
-        'Babakan Ciparay',
-        'Bandung Kidul',
-        'Bandung Kulon',
-        'Bandung Wetan',
-        'Batununggal',
-        'Bojongloa Kaler',
-        'Bojongloa Kidul',
-        'Buahbatu',
-        'Cibeunying Kaler',
-        'Cibeunying Kidul',
-        'Cibiru',
-        'Cicendo',
-        'Cidadap',
-        'Cinambo',
-        'Coblong',
-        'Gedebage',
-        'Kiaracondong',
-        'Lengkong',
-        'Mandalajati',
-        'Panyileukan',
-        'Rancasari',
-        'Regol',
-        'Sukajadi',
-        'Sukasari',
-        'Sumur Bandung',
-        'Ujungberung',
-    ];
-
-    /**
      * Tampilkan daftar feed laporan & leaderboard dengan filter daerah.
      */
     public function index(Request $request): View
@@ -171,40 +133,24 @@ class ReportController extends Controller
     }
 
     /**
-     * Dapatkan daftar wilayah/kecamatan yang tersedia untuk dropdown filter.
+     * Dapatkan daftar wilayah/kecamatan yang benar-benar ada datanya di basis data.
      *
      * @return Collection<int, string>
      */
-    protected function getAvailableDistricts(?string $selectedCity): Collection
+    public static function getAvailableDistricts(?string $selectedCity): Collection
     {
-        $dbDistrictsQuery = Report::whereNotNull('district')->where('district', '!=', '');
+        $query = Report::whereNotNull('district')
+            ->where('district', '!=', '');
+
         if ($selectedCity) {
-            $dbDistrictsQuery->where(function ($q) use ($selectedCity) {
+            $query->where(function ($q) use ($selectedCity) {
                 $q->where('city', $selectedCity)
-                    ->orWhere('district', $selectedCity)
                     ->orWhere('formatted_address', 'like', "%{$selectedCity}%");
             });
         }
-        $dbDistricts = $dbDistrictsQuery->distinct()->pluck('district');
 
-        $otherLocations = Report::whereNotNull('city')
-            ->where('city', '!=', '')
-            ->where('city', 'not like', '%Bandung%')
-            ->distinct()
-            ->pluck('city');
-
-        if (empty($selectedCity) || str_contains(strtolower($selectedCity), 'bandung')) {
-            return collect(self::$officialBandungDistricts)
-                ->merge($dbDistricts)
-                ->merge($otherLocations)
-                ->filter()
-                ->unique()
-                ->sort(SORT_NATURAL | SORT_FLAG_CASE)
-                ->values();
-        }
-
-        return $dbDistricts
-            ->push($selectedCity)
+        return $query->distinct()
+            ->pluck('district')
             ->filter()
             ->unique()
             ->sort(SORT_NATURAL | SORT_FLAG_CASE)
@@ -251,10 +197,30 @@ class ReportController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $legacyMap = [
+            'infrastruktur' => 'jalan_jembatan',
+            'kelistrikan' => 'lampu_pju',
+            'lingkungan' => 'sampah_kebersihan',
+            'fasilitas_umum' => 'taman_fasum',
+            'bencana_alam' => 'drainase_saluran',
+            'kebakaran' => 'sampah_kebersihan',
+        ];
+        $allowedCategories = array_unique(array_merge(array_keys(Report::CATEGORIES), array_keys($legacyMap)));
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:200'],
-            'category' => ['nullable', 'string', 'in:'.implode(',', array_keys(Report::CATEGORIES))],
-            'description' => ['required', 'string', 'max:3000'],
+            'category' => ['nullable', 'string', 'in:'.implode(',', $allowedCategories)],
+            'description' => [
+                'required',
+                'string',
+                'max:3000',
+                function (string $attribute, mixed $value, \Closure $fail) {
+                    $wordCount = count(preg_split('/\s+/u', trim((string) $value), -1, PREG_SPLIT_NO_EMPTY));
+                    if ($wordCount < 5) {
+                        $fail('Deskripsi laporan minimal harus terdiri dari 5 kata agar informasi masalah lengkap dan jelas.');
+                    }
+                },
+            ],
             'image_base64' => ['required', 'string'], // Hasil kompresi 80% dari canvas
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
@@ -273,10 +239,15 @@ class ReportController extends Controller
             $district = $validated['subdistrict'] ?? $validated['city'] ?? null;
         }
 
+        $categoryKey = $validated['category'] ?? 'jalan_jembatan';
+        if (isset($legacyMap[$categoryKey])) {
+            $categoryKey = $legacyMap[$categoryKey];
+        }
+
         $report = Report::create([
             'user_id' => Auth::id(),
             'title' => $validated['title'],
-            'category' => $validated['category'] ?? 'infrastruktur',
+            'category' => $categoryKey,
             'description' => $validated['description'],
             'image_base64' => $validated['image_base64'],
             'latitude' => $validated['latitude'],

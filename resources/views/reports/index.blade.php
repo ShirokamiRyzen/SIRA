@@ -55,7 +55,7 @@
         </a>
         <a href="{{ route('reports.index', ['rank_tier' => 'urgent']) }}#dashboard"
             class="p-3 sm:p-3.5 rounded-[8px] border border-[#EAEAEA] dark:border-[#262626] bg-white dark:bg-[#161615] hover:border-[#956400]/50 transition flex flex-col justify-between shadow-xs">
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#956400] dark:text-[#E0BE69]">Mendesak (Urgent)</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#956400] dark:text-[#E0BE69]">Prioritas Mendesak</div>
             <div class="text-lg sm:text-2xl font-bold text-[#956400] dark:text-[#E0BE69] mt-1">{{ number_format($urgentCount) }}</div>
         </a>
         <a href="{{ route('reports.index', ['status' => 'resolved']) }}#dashboard"

@@ -71,8 +71,8 @@
                         class="w-full px-2.5 py-1.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111] cursor-pointer">
                         <option value="">Semua Prioritas</option>
                         <option value="critical" {{ request('rank_tier') === 'critical' ? 'selected' : '' }}>Prioritas Kritis</option>
-                        <option value="urgent" {{ request('rank_tier') === 'urgent' ? 'selected' : '' }}>Mendesak (Urgent)</option>
-                        <option value="normal" {{ request('rank_tier') === 'normal' ? 'selected' : '' }}>Reguler (Normal)</option>
+                        <option value="urgent" {{ request('rank_tier') === 'urgent' ? 'selected' : '' }}>Prioritas Mendesak</option>
+                        <option value="normal" {{ request('rank_tier') === 'normal' ? 'selected' : '' }}>Reguler</option>
                     </select>
                 </div>
 
@@ -91,7 +91,7 @@
                 <!-- Dropdown Kota / Kabupaten -->
                 <div>
                     <label class="block text-[10px] uppercase tracking-wider text-[#787774] dark:text-[#8E8D8A] mb-1">Kota/Kab</label>
-                    <select name="city" onchange="this.form.requestSubmit()"
+                    <select name="city" onchange="if(this.form.district) this.form.district.value = ''; this.form.requestSubmit()"
                         class="w-full px-2.5 py-1.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] focus:outline-none focus:border-[#111111] cursor-pointer">
                         <option value="">Semua Kota</option>
                         @foreach ($availableCities as $city)

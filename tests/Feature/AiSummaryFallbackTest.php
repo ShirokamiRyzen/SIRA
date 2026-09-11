@@ -224,7 +224,7 @@ test('buildReportContext, area context, discussion context, and civic guidance p
     $report = Report::create([
         'user_id' => $reporter->id,
         'title' => 'Jembatan Penyeberangan Rusak Parah',
-        'category' => 'infrastruktur',
+        'category' => 'jalan_jembatan',
         'description' => 'Bantalan kayu jembatan patah dan sangat berisiko bagi warga melintas.',
         'image_base64' => 'data:image/jpeg;base64,samplephoto',
         'latitude' => -6.914744,
@@ -242,7 +242,7 @@ test('buildReportContext, area context, discussion context, and civic guidance p
     Report::create([
         'user_id' => $reporter->id,
         'title' => 'Lampu PJU di dekat jembatan mati',
-        'category' => 'kelistrikan',
+        'category' => 'lampu_pju',
         'description' => 'PJU padam total sehingga jembatan gelap gulita.',
         'image_base64' => 'data:image/jpeg;base64,dummy',
         'latitude' => -6.914744,
@@ -274,7 +274,7 @@ test('buildReportContext, area context, discussion context, and civic guidance p
     // 1. Uji buildReportContext
     $reportContext = $service->buildReportContext($report);
     expect($reportContext)->toContain('Jembatan Penyeberangan Rusak Parah')
-        ->toContain('Infrastruktur')
+        ->toContain('Jalan & Jembatan')
         ->toContain('@warga_pelapor')
         ->toContain('Coblong')
         ->toContain('Kota Bandung');
@@ -283,7 +283,7 @@ test('buildReportContext, area context, discussion context, and civic guidance p
     $areaContext = $service->buildAreaAndRelatedReportsContext($report);
     expect($areaContext)->toContain('DETEKSI TITIK MULTI-MASALAH')
         ->toContain('Lampu PJU di dekat jembatan mati')
-        ->toContain('Lampu & Kelistrikan');
+        ->toContain('Lampu Jalan & PJU');
 
     // 3. Uji buildDiscussionContext (Konteks Balasan Langsung & Percakapan Sebelumnya)
     $discussionContext = $service->buildDiscussionContext($report, $replyComment);

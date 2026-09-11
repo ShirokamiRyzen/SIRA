@@ -11,9 +11,9 @@ test('halaman heatmap menampilkan filter kategori dan icon visual', function () 
 
     Report::create([
         'user_id' => $user->id,
-        'title' => 'Insiden Kebakaran Lahan Semak Kering',
-        'category' => 'kebakaran',
-        'description' => 'Api berkobar di semak kering dekat perumahan.',
+        'title' => 'Kerusakan Jalan Berlubang Parah',
+        'category' => 'jalan_jembatan',
+        'description' => 'Lubang jalan sedalam 15cm membahayakan pengendara motor saat malam hari.',
         'image_base64' => 'data:image/jpeg;base64,dummy',
         'latitude' => -6.914744,
         'longitude' => 107.609810,
@@ -26,8 +26,8 @@ test('halaman heatmap menampilkan filter kategori dan icon visual', function () 
     Report::create([
         'user_id' => $user->id,
         'title' => 'Banjir Luapan Drainase',
-        'category' => 'bencana_alam',
-        'description' => 'Air menggenang setinggi 40cm.',
+        'category' => 'drainase_saluran',
+        'description' => 'Air menggenang setinggi 40cm karena saluran air mampet tersumbat sampah.',
         'image_base64' => 'data:image/jpeg;base64,dummy',
         'latitude' => -6.920000,
         'longitude' => 107.610000,
@@ -40,13 +40,14 @@ test('halaman heatmap menampilkan filter kategori dan icon visual', function () 
     $response = $this->get(route('heatmap.index'));
 
     $response->assertOk();
-    $response->assertSee('Filter Kategori Laporan');
-    $response->assertSee('Kebakaran');
-    $response->assertSee('Infrastruktur Rusak');
-    $response->assertSee('Bencana Alam');
-    $response->assertSee('Lampu & Kelistrikan');
-    $response->assertSee('Sampah & Lingkungan');
-    $response->assertSee('Fasilitas Umum');
+    $response->assertSee('Filter Kategori Masalah');
+    $response->assertSee('Jalan & Jembatan');
+    $response->assertSee('Drainase & Saluran Air');
+    $response->assertSee('Sampah & Kebersihan');
+    $response->assertSee('Lampu Jalan & PJU');
+    $response->assertSee('Lalu Lintas & Rambu');
+    $response->assertSee('Trotoar & Fasilitas Difabel');
+    $response->assertSee('Fasilitas Publik & Taman');
     $response->assertSee('cat-filter-btn');
     $response->assertSee('Icon Kategori Pada Peta');
 });
@@ -56,9 +57,9 @@ test('endpoint heatmap geojson menyertakan metadata kategori dan icon id', funct
 
     Report::create([
         'user_id' => $user->id,
-        'title' => 'Kebakaran Gudang Rongsok',
-        'category' => 'kebakaran',
-        'description' => 'Api membesar di area gudang.',
+        'title' => 'Jalan Rusak Berlubang Besar',
+        'category' => 'jalan_jembatan',
+        'description' => 'Aspal mengelupas dan berlubang membahayakan pengguna jalan raya.',
         'image_base64' => 'data:image/jpeg;base64,dummy',
         'latitude' => -6.915000,
         'longitude' => 107.615000,
@@ -95,12 +96,12 @@ test('endpoint heatmap geojson menyertakan metadata kategori dan icon id', funct
     ]);
 
     $features = $response->json('features');
-    $kebakaranFeature = collect($features)->firstWhere('properties.category', 'kebakaran');
+    $jalanFeature = collect($features)->firstWhere('properties.category', 'jalan_jembatan');
 
-    expect($kebakaranFeature)->not->toBeNull();
-    expect($kebakaranFeature['properties']['category_label'])->toBe('Kebakaran');
-    expect($kebakaranFeature['properties']['category_icon_id'])->toBe('cat-icon-kebakaran');
-    expect($kebakaranFeature['properties']['category_color'])->toBe('#ef4444');
+    expect($jalanFeature)->not->toBeNull();
+    expect($jalanFeature['properties']['category_label'])->toBe('Jalan & Jembatan');
+    expect($jalanFeature['properties']['category_icon_id'])->toBe('cat-icon-jalan_jembatan');
+    expect($jalanFeature['properties']['category_color'])->toBe('#f97316');
 });
 
 test('endpoint heatmap geojson mendukung filter query berdasarkan kategori', function () {
@@ -108,9 +109,9 @@ test('endpoint heatmap geojson mendukung filter query berdasarkan kategori', fun
 
     Report::create([
         'user_id' => $user->id,
-        'title' => 'Kebakaran Lahan',
-        'category' => 'kebakaran',
-        'description' => 'Kebakaran di kebun warga.',
+        'title' => 'Saluran Air Meluap',
+        'category' => 'drainase_saluran',
+        'description' => 'Drainase tidak mengalir lancar dan meluap ke permukiman warga.',
         'image_base64' => 'data:image/jpeg;base64,dummy',
         'latitude' => -6.915000,
         'longitude' => 107.615000,
@@ -120,34 +121,34 @@ test('endpoint heatmap geojson mendukung filter query berdasarkan kategori', fun
     Report::create([
         'user_id' => $user->id,
         'title' => 'Jalan Rusak Aspal',
-        'category' => 'infrastruktur',
-        'description' => 'Jalan berlubang dalam.',
+        'category' => 'jalan_jembatan',
+        'description' => 'Jalan berlubang dalam sedalam dua puluh sentimeter membahayakan pengendara.',
         'image_base64' => 'data:image/jpeg;base64,dummy',
         'latitude' => -6.925000,
         'longitude' => 107.625000,
         'status' => 'active',
     ]);
 
-    $response = $this->getJson(route('api.reports.heatmap', ['category' => 'kebakaran']));
+    $response = $this->getJson(route('api.reports.heatmap', ['category' => 'drainase_saluran']));
 
     $response->assertOk();
     $features = $response->json('features');
 
     expect($features)->toHaveCount(1);
-    expect($features[0]['properties']['category'])->toBe('kebakaran');
-    expect($features[0]['properties']['title'])->toBe('Kebakaran Lahan');
+    expect($features[0]['properties']['category'])->toBe('drainase_saluran');
+    expect($features[0]['properties']['title'])->toBe('Saluran Air Meluap');
 });
 
-test('pembuatan laporan baru dapat memilih kategori seperti kebakaran atau bencana alam', function () {
+test('pembuatan laporan baru dapat memilih kategori pemda yang diperluas', function () {
     $user = User::factory()->create();
     $this->actingAs($user);
 
     $dummyBase64 = 'data:image/jpeg;base64,'.base64_encode('dummy_image');
 
     $response = $this->post(route('reports.store'), [
-        'title' => 'Tanah Longsor Menutup Badan Jalan',
-        'category' => 'bencana_alam',
-        'description' => 'Longsor tebing menutupi separuh jalan raya saat hujan deras.',
+        'title' => 'Jalan Berlubang di Depan Puskesmas',
+        'category' => 'jalan_jembatan',
+        'description' => 'Lubang jalan sedalam lima belas sentimeter membahayakan warga yang berobat ke puskesmas.',
         'image_base64' => $dummyBase64,
         'latitude' => -6.850000,
         'longitude' => 107.600000,
@@ -157,11 +158,11 @@ test('pembuatan laporan baru dapat memilih kategori seperti kebakaran atau benca
 
     $this->assertDatabaseHas('reports', [
         'user_id' => $user->id,
-        'title' => 'Tanah Longsor Menutup Badan Jalan',
-        'category' => 'bencana_alam',
+        'title' => 'Jalan Berlubang di Depan Puskesmas',
+        'category' => 'jalan_jembatan',
         'district' => 'Cidadap',
     ]);
 
-    $report = Report::where('title', 'Tanah Longsor Menutup Badan Jalan')->first();
+    $report = Report::where('title', 'Jalan Berlubang di Depan Puskesmas')->first();
     $response->assertRedirect(route('reports.show', $report));
 });

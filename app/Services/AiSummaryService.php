@@ -217,33 +217,43 @@ TEXT;
      */
     public function getCivicGuidance(Report $report): string
     {
-        $cat = $report->category ?: 'infrastruktur';
+        $cat = $report->category ?: 'jalan_jembatan';
 
         return match ($cat) {
-            'kelistrikan', 'penerangan' => <<<GUIDE
+            'lampu_pju', 'kelistrikan', 'penerangan' => <<<GUIDE
 - Instansi Penanggung Jawab: Dinas Perhubungan (Dishub) Bidang Penerangan Jalan Umum (PJU) Kota/Kabupaten {$report->city}, atau PT PLN (Persero) jika menyangkut korsleting gardu/kabel distribusi.
 - Jalur Pengaduan Resmi: Unit Layanan Cepat Dishub setempat, Call Center 112, dan portal SP4N-LAPOR!.
 - Aspek Keselamatan & Mitigasi: Area gelap rawan tindak kejahatan dan kecelakaan lalu lintas di malam hari. Warga disarankan meningkatkan kewaspadaan atau swadaya penerangan darurat sementara.
 GUIDE,
-            'lingkungan', 'kebersihan' => <<<GUIDE
+            'sampah_kebersihan', 'lingkungan', 'kebersihan' => <<<GUIDE
 - Instansi Penanggung Jawab: Dinas Lingkungan Hidup dan Kebersihan (DLHK) Kota/Kabupaten {$report->city}, UPTD Pengelolaan Sampah wilayah {$report->district}, serta pihak Kelurahan/Kecamatan setempat.
 - Jalur Pengaduan Resmi: Call center DLHK, aplikasi pengaduan warga Pemda, dan SP4N-LAPOR!.
 - Aspek Keselamatan & Mitigasi: Penumpukan sampah berisiko menimbulkan bau menyengat, sumber penyakit, serta penyumbatan saluran saat hujan. Warga dihimbau tidak menambah timbunan sampah liar.
 GUIDE,
-            'bencana_alam', 'drainase' => <<<GUIDE
-- Instansi Penanggung Jawab: Badan Penanggulangan Bencana Daerah (BPBD) Kota/Kabupaten {$report->city}, Dinas Sumber Daya Air (SDA) / Dinas Bina Marga Bidang Drainase.
-- Jalur Pengaduan Resmi: Call Center Darurat Bencana 112 / BPBD, dan portal SP4N-LAPOR!.
-- Aspek Keselamatan & Mitigasi: Hindari area lereng labil saat hujan deras, pantau ketinggian debit saluran air, dan prioritaskan evakuasi warga rentan ke titik kumpul aman.
+            'drainase_saluran', 'bencana_alam', 'drainase' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Sumber Daya Air (SDA) / Dinas Bina Marga & Penataan Ruang Bidang Drainase Kota/Kabupaten {$report->city}, serta BPBD setempat.
+- Jalur Pengaduan Resmi: Layanan Cepat Tanggap SDA/PUPR, Call Center 112, dan portal SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Saluran mampet berisiko meluap ke badan jalan dan pemukiman warga saat hujan lebat. Bersihkan sumbatan sampah padat jika memungkinkan secara swadaya.
 GUIDE,
-            'kebakaran', 'darurat' => <<<GUIDE
-- Instansi Penanggung Jawab: Dinas Kebakaran dan Penanggulangan Bencana (Diskar) Kota/Kabupaten {$report->city}, BPBD, dan Palang Merah Indonesia (PMI).
-- Jalur Pengaduan Resmi: Emergency Call Center 113 (Pemadam Kebakaran), 112 (Panggilan Darurat), atau 119 (Medis darurat).
-- Aspek Keselamatan & Mitigasi: Segera putuskan sumber listrik/gas, gunakan APAR jika api masih kecil, dan amankan jalur akses mobil damkar agar tidak terhalang.
+            'rambu_lalulintas', 'lalulintas' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Perhubungan (Dishub) Bidang Lalu Lintas Kota/Kabupaten {$report->city} dan Satlantas Polres setempat.
+- Jalur Pengaduan Resmi: Layanan aduan Dishub, Call Center Polri 110, dan SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Lampu merah atau rambu rusak memicu kemacetan parah dan rawan kecelakaan tabrakan. Pengendara dihimbau saling mengalah dan menurunkan kecepatan.
 GUIDE,
-            'fasilitas_umum', 'fasilitas' => <<<GUIDE
-- Instansi Penanggung Jawab: Dinas Perumahan dan Kawasan Permukiman (Disperkim) Kota/Kabupaten {$report->city}, Dinas Pemuda & Olahraga, atau instansi pengelola fasilitas publik terkait.
+            'trotoar_pedestrian', 'trotoar' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Pekerjaan Umum dan Penataan Ruang (PUPR) / Bina Marga Kota/Kabupaten {$report->city}.
+- Jalur Pengaduan Resmi: Aplikasi pengaduan Pemda setempat, Layanan Cepat Tanggap PUPR, dan SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Trotoar dan fasilitas pemandu difabel yang rusak sangat berisiko mencelakai pejalan kaki, lansia, dan penyandang disabilitas.
+GUIDE,
+            'taman_fasum', 'fasilitas_umum', 'fasilitas' => <<<GUIDE
+- Instansi Penanggung Jawab: Dinas Perumahan dan Kawasan Permukiman (Disperkim) / DPKP Kota/Kabupaten {$report->city} atau instansi pengelola taman dan fasilitas publik.
 - Jalur Pengaduan Resmi: Layanan aduan publik Pemda setempat dan SP4N-LAPOR!.
 - Aspek Keselamatan & Mitigasi: Pasang tanda peringatan atau barikade sementara pada bagian fasilitas yang rusak agar tidak mencelakai warga sekitar.
+GUIDE,
+            'ketertiban_umum', 'ketertiban' => <<<GUIDE
+- Instansi Penanggung Jawab: Satuan Polisi Pamong Praja (Satpol PP) Kota/Kabupaten {$report->city} dan Dinas Perhubungan (untuk penertiban parkir liar).
+- Jalur Pengaduan Resmi: Hotline Satpol PP Kota/Kabupaten, Call Center 112, dan SP4N-LAPOR!.
+- Aspek Keselamatan & Mitigasi: Okupasi ruang publik atau parkir liar mempersempit jalan dan hak pejalan kaki, laporkan dengan santun tanpa aksi main hakim sendiri.
 GUIDE,
             default => <<<GUIDE
 - Instansi Penanggung Jawab: Dinas Pekerjaan Umum dan Penataan Ruang (PUPR) / Dinas Bina Marga Kota/Kabupaten {$report->city}, atau Dinas Bina Marga Provinsi {$report->province} jika merupakan Jalan Provinsi/Nasional.

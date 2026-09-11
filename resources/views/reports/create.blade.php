@@ -120,7 +120,7 @@
                             @foreach($categories as $catKey => $cat)
                                 <label
                                     class="relative flex items-center gap-2 p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:border-emerald-500/60 dark:hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-400 has-checked:bg-emerald-50/50 dark:has-checked:bg-emerald-950/30 has-checked:ring-2 has-checked:ring-emerald-500/30 shadow-2xs min-w-0">
-                                    <input type="radio" name="category" value="{{ $catKey }}" {{ old('category', 'infrastruktur') === $catKey ? 'checked' : '' }} class="sr-only">
+                                    <input type="radio" name="category" value="{{ $catKey }}" {{ old('category', 'jalan_jembatan') === $catKey ? 'checked' : '' }} class="sr-only">
                                     <div class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0"
                                         style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
                                         <flux:icon name="{{ $cat['icon'] }}" class="w-4 h-4" />
@@ -151,12 +151,17 @@
                     </div>
 
                     <div>
-                        <label for="description"
-                            class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-1.5">
-                            Deskripsi Lengkap <span class="text-rose-500">*</span>
-                        </label>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="description"
+                                class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC]">
+                                Deskripsi Lengkap <span class="text-rose-500">*</span>
+                            </label>
+                            <span id="descWordCounter" class="text-[11px] font-mono text-slate-400 dark:text-[#888888]">
+                                <span id="currentWordCount" class="font-bold text-rose-500">0</span> / 5 kata minimal
+                            </span>
+                        </div>
                         <textarea id="description" name="description" rows="4" required
-                            placeholder="Jelaskan detail kerusakan dan dampaknya... (Ketik @ untuk menandai akun instansi/warga)"
+                            placeholder="Jelaskan detail kerusakan dan dampaknya... (Ketik @ untuk menandai akun instansi/warga, minimal 5 kata)"
                             class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">{{ old('description') }}</textarea>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mt-1.5 text-[11px] text-slate-500 dark:text-[#888888]">
                             <span class="inline-flex items-center gap-1.5 flex-wrap">
@@ -268,8 +273,8 @@
                     <span>02. Crowdsourced Voting Tier</span>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Laporan tidak diverifikasi oleh birokrat tunggal. Dukungan vote komunitas yang menentukan apakah suatu
-                    masalah naik ke status Trending, Urgent, atau Critical.
+                    Laporan diprioritaskan secara transparan. Dukungan suara warga yang menentukan apakah suatu
+                    masalah naik ke prioritas Trending, Mendesak, atau Kritis agar segera ditangani pemda.
                 </p>
             </div>
 
@@ -281,8 +286,8 @@
                     <span>03. WebGL Heatmap GPU</span>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Visualisasi titik-titik panas masalah kota secara menyeluruh. Semakin tinggi skor vote laporan, semakin
-                    pekat intensitas warna panas yang terpancar.
+                    Visualisasi titik-titik konsentrasi masalah kota secara menyeluruh. Semakin tinggi dukungan warga, semakin
+                    jelas intensitas titik masalah yang terpancar.
                 </p>
             </div>
         </div>
@@ -733,11 +738,39 @@
             requestGpsLocation(false);
         });
 
-        // Validasi form sebelum submit (Foto & Wajib GPS)
+        // Live counter kata untuk deskripsi
+        const descInput = document.getElementById('description');
+        const wordCountDisplay = document.getElementById('currentWordCount');
+        function updateWordCount() {
+            if (!descInput || !wordCountDisplay) return;
+            const words = descInput.value.trim().split(/\s+/).filter(Boolean);
+            const count = words.length;
+            wordCountDisplay.innerText = count;
+            if (count >= 5) {
+                wordCountDisplay.className = 'font-bold text-emerald-600 dark:text-emerald-400';
+            } else {
+                wordCountDisplay.className = 'font-bold text-rose-500';
+            }
+        }
+        if (descInput) {
+            descInput.addEventListener('input', updateWordCount);
+            updateWordCount();
+        }
+
+        // Validasi form sebelum submit (Foto, Deskripsi min 5 kata, & Wajib GPS)
         document.getElementById('reportForm').addEventListener('submit', function (e) {
             if (!imageBase64Input.value) {
                 e.preventDefault();
                 alert('Harap unggah foto bukti laporan terlebih dahulu!');
+                return;
+            }
+
+            const descVal = (document.getElementById('description')?.value || '').trim();
+            const words = descVal.split(/\s+/).filter(Boolean);
+            if (words.length < 5) {
+                e.preventDefault();
+                alert('Deskripsi laporan minimal harus terdiri dari 5 kata agar informasi masalah lengkap dan jelas!');
+                document.getElementById('description')?.focus();
                 return;
             }
 

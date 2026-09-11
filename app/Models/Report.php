@@ -14,57 +14,73 @@ class Report extends Model
     use HasFactory, SoftDeletes;
 
     public const CATEGORIES = [
-        'kebakaran' => [
-            'key' => 'kebakaran',
-            'label' => 'Kebakaran',
-            'icon' => 'fire',
-            'symbol' => 'fire',
-            'color' => '#ef4444',
-            'badge_class' => 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-900/50',
-        ],
-        'infrastruktur' => [
-            'key' => 'infrastruktur',
-            'label' => 'Infrastruktur Rusak',
+        'jalan_jembatan' => [
+            'key' => 'jalan_jembatan',
+            'label' => 'Jalan & Jembatan',
             'icon' => 'wrench',
             'symbol' => 'wrench',
             'color' => '#f97316',
             'badge_class' => 'bg-orange-100 text-orange-800 dark:bg-orange-950/60 dark:text-orange-300 border-orange-200 dark:border-orange-900/50',
         ],
-        'bencana_alam' => [
-            'key' => 'bencana_alam',
-            'label' => 'Bencana Alam',
+        'drainase_saluran' => [
+            'key' => 'drainase_saluran',
+            'label' => 'Drainase & Saluran Air',
             'icon' => 'cloud',
             'symbol' => 'cloud',
             'color' => '#0284c7',
             'badge_class' => 'bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300 border-sky-200 dark:border-sky-900/50',
         ],
-        'kelistrikan' => [
-            'key' => 'kelistrikan',
-            'label' => 'Lampu & Kelistrikan',
-            'icon' => 'bolt',
-            'symbol' => 'bolt',
-            'color' => '#eab308',
-            'badge_class' => 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-900/50',
-        ],
-        'lingkungan' => [
-            'key' => 'lingkungan',
-            'label' => 'Sampah & Lingkungan',
+        'sampah_kebersihan' => [
+            'key' => 'sampah_kebersihan',
+            'label' => 'Sampah & Kebersihan',
             'icon' => 'trash',
             'symbol' => 'trash',
             'color' => '#16a34a',
             'badge_class' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900/50',
         ],
-        'fasilitas_umum' => [
-            'key' => 'fasilitas_umum',
-            'label' => 'Fasilitas Umum',
+        'lampu_pju' => [
+            'key' => 'lampu_pju',
+            'label' => 'Lampu Jalan & PJU',
+            'icon' => 'bolt',
+            'symbol' => 'bolt',
+            'color' => '#eab308',
+            'badge_class' => 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-900/50',
+        ],
+        'rambu_lalulintas' => [
+            'key' => 'rambu_lalulintas',
+            'label' => 'Lalu Lintas & Rambu',
+            'icon' => 'exclamation-triangle',
+            'symbol' => 'exclamation-triangle',
+            'color' => '#ef4444',
+            'badge_class' => 'bg-red-100 text-red-800 dark:bg-red-950/60 dark:text-red-300 border-red-200 dark:border-red-900/50',
+        ],
+        'trotoar_pedestrian' => [
+            'key' => 'trotoar_pedestrian',
+            'label' => 'Trotoar & Fasilitas Difabel',
+            'icon' => 'shield-check',
+            'symbol' => 'shield-check',
+            'color' => '#0d9488',
+            'badge_class' => 'bg-teal-100 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 border-teal-200 dark:border-teal-900/50',
+        ],
+        'taman_fasum' => [
+            'key' => 'taman_fasum',
+            'label' => 'Fasilitas Publik & Taman',
             'icon' => 'building-office',
             'symbol' => 'building-office',
             'color' => '#8b5cf6',
             'badge_class' => 'bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200 dark:border-purple-900/50',
         ],
+        'ketertiban_umum' => [
+            'key' => 'ketertiban_umum',
+            'label' => 'Ketertiban & Gangguan Fasum',
+            'icon' => 'shield-exclamation',
+            'symbol' => 'shield-exclamation',
+            'color' => '#ec4899',
+            'badge_class' => 'bg-pink-100 text-pink-800 dark:bg-pink-950/60 dark:text-pink-300 border-pink-200 dark:border-pink-900/50',
+        ],
         'lainnya' => [
             'key' => 'lainnya',
-            'label' => 'Lainnya',
+            'label' => 'Layanan Publik Lainnya',
             'icon' => 'tag',
             'symbol' => 'tag',
             'color' => '#64748b',
@@ -202,7 +218,20 @@ class Report extends Model
      */
     public function getCategoryMetaAttribute(): array
     {
-        $cat = $this->category ?: 'infrastruktur';
+        $cat = $this->category ?: 'jalan_jembatan';
+
+        $legacyMap = [
+            'infrastruktur' => 'jalan_jembatan',
+            'kelistrikan' => 'lampu_pju',
+            'lingkungan' => 'sampah_kebersihan',
+            'fasilitas_umum' => 'taman_fasum',
+            'bencana_alam' => 'drainase_saluran',
+            'kebakaran' => 'sampah_kebersihan',
+        ];
+
+        if (isset($legacyMap[$cat])) {
+            $cat = $legacyMap[$cat];
+        }
 
         return self::CATEGORIES[$cat] ?? self::CATEGORIES['lainnya'];
     }

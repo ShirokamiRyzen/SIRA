@@ -7,7 +7,7 @@
             <h3 class="font-sans text-base font-bold text-[#111111] dark:text-[#EDEDEC] tracking-tight">
                 Prioritas Utama
             </h3>
-            <p class="text-[11px] font-mono text-[#787774] mt-0.5">Top Laporan Tervote</p>
+            <p class="text-[11px] font-mono text-[#787774] mt-0.5">Laporan Paling Banyak Didukung</p>
         </div>
         <span class="inline-flex items-center px-1.5 py-0.5 rounded-[4px] text-[10px] font-mono bg-[#FDEBEC] text-[#9F2F2D]">
             Live
@@ -30,7 +30,7 @@
                         <div class="flex items-center space-x-2 mt-1 text-[10px] font-mono text-[#787774] truncate">
                             <span>{{ $crit->district ?? $crit->city ?? 'Area Publik' }}</span>
                             <span>&bull;</span>
-                            <span class="font-bold text-[#9F2F2D]">{{ $crit->vote_score }} votes</span>
+                            <span class="font-bold text-[#9F2F2D]">{{ $crit->vote_score }} suara</span>
                             @if ($crit->status === 'active')
                                 <span>&bull;</span>
                                 <span class="text-[#956400] dark:text-[#E9C369] inline-flex items-center space-x-0.5 shrink-0" title="Belum diproses selama {{ $crit->pending_duration }}">

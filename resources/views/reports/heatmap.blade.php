@@ -23,10 +23,10 @@
                 Total: {{ $totalReports }} Laporan
             </div>
             <div class="px-3 py-1.5 rounded-xl bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 font-bold border border-rose-200 dark:border-rose-900/50">
-                Critical: {{ $tierCounts['critical'] }}
+                Prioritas Kritis: {{ $tierCounts['critical'] }}
             </div>
             <div class="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 font-bold border border-amber-200 dark:border-amber-900/50">
-                Urgent: {{ $tierCounts['urgent'] }}
+                Prioritas Mendesak: {{ $tierCounts['urgent'] }}
             </div>
             <div class="px-3 py-1.5 rounded-xl bg-teal-100 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 font-bold border border-teal-200 dark:border-teal-900/50">
                 Trending: {{ $tierCounts['trending'] }}
@@ -221,15 +221,21 @@
         `.trim();
     }
 
-    // Registrasi 7 icon kategori ke dalam MapLibre GL
+    // Registrasi icon kategori ke dalam MapLibre GL
     function registerCategoryIcons(mapInstance) {
         const categorySvgs = {
-            'cat-icon-kebakaran': createCategorySvg('#ef4444', '<path d="M10 1.5c-.6 1.5-1.2 2.9-1.1 4.4.1 1.8 1.3 3.3 1.2 5.1-.1 1.5-1 2.7-2 3.6-1.2-1.1-1.7-2.6-1.6-4.1 0-.4 0-.9.1-1.3C5 10.5 3.6 12.5 3.6 14.8c0 3.2 2.9 5.8 6.4 5.8s6.4-2.6 6.4-5.8c0-3.5-2.7-5.8-3.7-9-.6 1.2-1.3 2.3-1.6 3.6-.4-1.9.1-3.9-.9-5.7-.1-.7-.2-1.5-.2-2.2z" fill="#ffffff"/>'),
+            'cat-icon-jalan_jembatan': createCategorySvg('#f97316', '<path d="M17.4 5.6a5.5 5.5 0 0 0-7.3 7.3L3.3 19.7a1.5 1.5 0 0 0 2.1 2.1l6.8-6.8a5.5 5.5 0 0 0 7.3-7.3l-2.7 2.7-2.1-2.1 2.7-2.7z" fill="#ffffff"/>'),
             'cat-icon-infrastruktur': createCategorySvg('#f97316', '<path d="M17.4 5.6a5.5 5.5 0 0 0-7.3 7.3L3.3 19.7a1.5 1.5 0 0 0 2.1 2.1l6.8-6.8a5.5 5.5 0 0 0 7.3-7.3l-2.7 2.7-2.1-2.1 2.7-2.7z" fill="#ffffff"/>'),
-            'cat-icon-bencana_alam': createCategorySvg('#0284c7', '<path d="M10 2s-4 4-4 6.5c0 2.2 1.8 4 4 4s4-1.8 4-4c0-2.5-4-6.5-4-6.5z" fill="#ffffff"/><path d="M2 14c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1v-2z" fill="#ffffff"/><path d="M2 17c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1v-2z" fill="#ffffff"/>'),
-            'cat-icon-kelistrikan': createCategorySvg('#eab308', '<path d="M11.5 1L3 11.5h6l-2.5 7.5 9.5-10.5h-6l2.5-7.5z" fill="#ffffff"/>'),
+            'cat-icon-drainase_saluran': createCategorySvg('#0284c7', '<path d="M10 2s-4 4-4 6.5c0 2.2 1.8 4 4 4s4-1.8 4-4c0-2.5-4-6.5-4-6.5z" fill="#ffffff"/><path d="M2 14c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1v-2z" fill="#ffffff"/>'),
+            'cat-icon-sampah_kebersihan': createCategorySvg('#16a34a', '<path d="M4 6h12M7.5 6V4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2M5.5 6v10.5a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2V6M8 9.5v5.5M12 9.5v5.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'),
             'cat-icon-lingkungan': createCategorySvg('#16a34a', '<path d="M4 6h12M7.5 6V4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2M5.5 6v10.5a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2V6M8 9.5v5.5M12 9.5v5.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'),
+            'cat-icon-lampu_pju': createCategorySvg('#eab308', '<path d="M11.5 1L3 11.5h6l-2.5 7.5 9.5-10.5h-6l2.5-7.5z" fill="#ffffff"/>'),
+            'cat-icon-kelistrikan': createCategorySvg('#eab308', '<path d="M11.5 1L3 11.5h6l-2.5 7.5 9.5-10.5h-6l2.5-7.5z" fill="#ffffff"/>'),
+            'cat-icon-rambu_lalulintas': createCategorySvg('#ef4444', '<path d="M10 2l8.5 15H1.5L10 2z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M10 7.5v4.5M10 14.5v.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>'),
+            'cat-icon-trotoar_pedestrian': createCategorySvg('#0d9488', '<path d="M10 2a11 11 0 0 0-7 2.5A11 11 0 0 0 10 18a11 11 0 0 0 7-13.5A11 11 0 0 0 10 2z" stroke="#ffffff" stroke-width="2" fill="none"/><path d="M7 10l2 2 4-4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'),
+            'cat-icon-taman_fasum': createCategorySvg('#8b5cf6', '<path d="M3.5 18V3a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v15M1.5 18h17M6.5 6h2M11.5 6h2M6.5 10h2M11.5 10h2M6.5 14h2M11.5 14h2M8.5 18v-3h3v3" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'),
             'cat-icon-fasilitas_umum': createCategorySvg('#8b5cf6', '<path d="M3.5 18V3a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v15M1.5 18h17M6.5 6h2M11.5 6h2M6.5 10h2M11.5 10h2M6.5 14h2M11.5 14h2M8.5 18v-3h3v3" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'),
+            'cat-icon-ketertiban_umum': createCategorySvg('#ec4899', '<path d="M10 2a11 11 0 0 0-7 2.5A11 11 0 0 0 10 18a11 11 0 0 0 7-13.5A11 11 0 0 0 10 2z" stroke="#ffffff" stroke-width="2" fill="none"/><path d="M10 6v5M10 13.5v.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>'),
             'cat-icon-lainnya': createCategorySvg('#64748b', '<path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM10 9v5M10 6h.01" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'),
         };
 
@@ -336,12 +342,18 @@
                 'circle-color': [
                     'match',
                     ['get', 'category'],
-                    'kebakaran', '#ef4444',
+                    'jalan_jembatan', '#f97316',
                     'infrastruktur', '#f97316',
-                    'bencana_alam', '#0284c7',
-                    'kelistrikan', '#eab308',
+                    'drainase_saluran', '#0284c7',
+                    'sampah_kebersihan', '#16a34a',
                     'lingkungan', '#16a34a',
+                    'lampu_pju', '#eab308',
+                    'kelistrikan', '#eab308',
+                    'rambu_lalulintas', '#ef4444',
+                    'trotoar_pedestrian', '#0d9488',
+                    'taman_fasum', '#8b5cf6',
                     'fasilitas_umum', '#8b5cf6',
+                    'ketertiban_umum', '#ec4899',
                     /* lainnya */ '#64748b'
                 ],
                 'circle-opacity': 0.25,
@@ -349,12 +361,18 @@
                 'circle-stroke-color': [
                     'match',
                     ['get', 'category'],
-                    'kebakaran', '#ef4444',
+                    'jalan_jembatan', '#f97316',
                     'infrastruktur', '#f97316',
-                    'bencana_alam', '#0284c7',
-                    'kelistrikan', '#eab308',
+                    'drainase_saluran', '#0284c7',
+                    'sampah_kebersihan', '#16a34a',
                     'lingkungan', '#16a34a',
+                    'lampu_pju', '#eab308',
+                    'kelistrikan', '#eab308',
+                    'rambu_lalulintas', '#ef4444',
+                    'trotoar_pedestrian', '#0d9488',
+                    'taman_fasum', '#8b5cf6',
                     'fasilitas_umum', '#8b5cf6',
+                    'ketertiban_umum', '#ec4899',
                     /* lainnya */ '#64748b'
                 ]
             }
@@ -405,12 +423,14 @@
 
         // SVG Icon Flux untuk Popup Informasi
         const fluxIconsSvg = {
-            'fire': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/></svg>',
             'wrench': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z"/></svg>',
             'cloud': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z"/></svg>',
             'bolt': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/></svg>',
             'trash': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>',
+            'exclamation-triangle': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>',
+            'shield-check': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>',
             'building-office': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>',
+            'shield-exclamation': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285ZM12 15.75h.007v.008H12v-.008Z"/></svg>',
             'tag': '<svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/></svg>'
         };
 
@@ -433,7 +453,7 @@
                     <div class="flex items-center justify-between gap-1.5 flex-wrap">
                         ${categoryBadge}
                         <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-                            ${props.rank_tier} TIER &bull; ${props.vote_score} Votes
+                            ${props.tier_label || 'Prioritas'} &bull; ${props.vote_score} Suara
                         </span>
                     </div>
                     <div class="text-xs font-bold text-slate-900 leading-snug">${escapeHtml(props.title)}</div>
@@ -511,7 +531,7 @@
                         <div class="flex items-center justify-between gap-1.5 flex-wrap">
                             ${categoryBadge}
                             <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-                                ${props.rank_tier} TIER &bull; ${props.vote_score} Votes
+                                ${props.tier_label || 'Prioritas'} &bull; ${props.vote_score} Suara
                             </span>
                         </div>
                         <div class="text-xs font-bold text-slate-900 leading-snug">${escapeHtml(props.title)}</div>
