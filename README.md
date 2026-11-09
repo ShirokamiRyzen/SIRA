@@ -1,58 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SIRA — Sistem Informasi Ruang Aman
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Platform pengaduan publik fasilitas wilayah dan infrastruktur berbasis GIS OpenMap, algoritma prioritas ranking Wilson Score, dan keterlibatan warga secara transparan.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🔐 Panduan Setup Google OAuth 2.0 (Google Login & Bind Account)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Aplikasi SIRA mendukung autentikasi Google untuk:
+- **Masuk dengan Google (1-Klik)**
+- **Daftar Akun Baru via Google** (input Nama dan Username, kata sandi opsional)
+- **Tautkan / Lepas Tautan Akun (Bind / Unbind Google)** di Menu Pengaturan Akun
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Berikut adalah panduan langkah demi langkah untuk mendapatkan kredensial `GOOGLE_CLIENT_ID` dan `GOOGLE_CLIENT_SECRET` dari Google Cloud Console.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Langkah 1: Akses Google Cloud Console
+1. Buka browser dan kunjungi [Google Cloud Console](https://console.cloud.google.com/).
+2. Masuk menggunakan akun Google Anda.
+3. Buat proyek baru atau pilih proyek yang sudah ada:
+   - Klik dropdown proyek di bagian kiri atas navbar.
+   - Klik **New Project**.
+   - Beri nama proyek (misal: `SIRA-App`) dan klik **Create**.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Langkah 2: Konfigurasi OAuth Consent Screen (Layar Persetujuan OAuth)
+Sebelum membuat Client ID, Google mewajibkan konfigurasi layar persetujuan:
+1. Pada menu navigasi sebelah kiri, buka **APIs & Services** > **OAuth consent screen** (atau cari *"OAuth consent screen"* di kotak pencarian).
+2. Pilih **User Type**:
+   - Pilih **External** (agar dapat diakses oleh akun Google publik), lalu klik **Create**.
+3. Lengkapi informasi aplikasi (**App information**):
+   - **App name**: `SIRA — Sistem Informasi Ruang Aman`
+   - **User support email**: Pilih email Google Anda.
+   - **Developer contact information**: Masukkan alamat email Anda.
+   - Klik **Save and Continue**.
+4. Bagian **Scopes**:
+   - Klik **Add or Remove Scopes**.
+   - Centang izin standar berikut:
+     - `.../auth/userinfo.email`
+     - `.../auth/userinfo.profile`
+     - `openid`
+   - Klik **Update** lalu klik **Save and Continue**.
+5. Bagian **Test Users** (Jika status aplikasi masih *Testing*):
+   - Tambahkan email Google Anda (dan email dosen/penguji) sebagai akun penguji.
+   - Klik **Save and Continue** hingga selesai.
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Langkah 3: Membuat OAuth 2.0 Client Credentials
+1. Pada menu navigasi sebelah kiri, buka **APIs & Services** > **Credentials**.
+2. Klik tombol **+ CREATE CREDENTIALS** di bagian atas, lalu pilih **OAuth client ID**.
+3. Isi formulir pembuatan kredensial:
+   - **Application type**: Pilih **Web application**.
+   - **Name**: `SIRA Web Client` (atau nama lain yang mudah dikenali).
+4. Bagian **Authorized JavaScript origins**:
+   - Tambahkan URI lokal:
+     ```text
+     http://localhost:8000
+     http://127.0.0.1:8000
+     ```
+   *(Jika dideploy ke server produksi, tambahkan juga URL domain Anda, misal: `https://sira.yourdomain.com`)*
+5. Bagian **Authorized redirect URIs** *(Sangat Penting)*:
+   - Tambahkan Callback URL aplikasi SIRA:
+     ```text
+     http://localhost:8000/auth/google/callback
+     http://127.0.0.1:8000/auth/google/callback
+     ```
+   *(Jika di server produksi, tambahkan: `https://sira.yourdomain.com/auth/google/callback`)*
+6. Klik tombol **CREATE**.
+7. Jendela pop-up akan menampilkan:
+   - **Client ID** (contoh: `xxxxxxxxxxxx-xxxxxxxxxxxxxxxx.apps.googleusercontent.com`)
+   - **Client Secret** (contoh: `GOCSPX-xxxxxxxxxxxxxxxxxxxxxxxx`)
+   - Salin kedua nilai tersebut.
 
-```bash
-composer require laravel/boost --dev
+---
 
-php artisan boost:install
+### Langkah 4: Simpan Kredensial ke File `.env`
+Buka file `.env` di direktori proyek SIRA Anda, lalu tambahkan atau sesuaikan konfigurasi berikut:
+
+```env
+# URL Aplikasi Utama (Pastikan port sesuai dengan server lokal Anda)
+APP_URL=http://localhost:8000
+
+# Kredensial Google OAuth 2.0
+GOOGLE_CLIENT_ID="MASUKKAN_CLIENT_ID_DARI_GOOGLE_CONSOLE"
+GOOGLE_CLIENT_SECRET="MASUKKAN_CLIENT_SECRET_DARI_GOOGLE_CONSOLE"
+GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+> **Catatan Penting**:
+> Jika Anda mengubah nilai di `.env`, jalankan pembersihan cache konfigurasi:
+> ```bash
+> php artisan config:clear
+> ```
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Langkah 5: Menjalankan Aplikasi & Pengujian Fitur
+1. Jalankan migrasi database (jika belum dijalankan):
+   ```bash
+   php artisan migrate
+   ```
+2. Jalankan server lokal:
+   ```bash
+   php artisan serve
+   ```
+3. Uji alur autentikasi di browser:
+   - **Masuk dengan Google**: Buka `http://localhost:8000/login` lalu klik tombol **Masuk dengan Google**.
+   - **Daftar Akun Baru via Google**: Pengguna baru akan diarahkan untuk memasukkan *Username* unik (nama otomatis terisi, kata sandi bersifat opsional).
+   - **Tautkan Akun (Bind Google)**: Masuk dengan akun yang sudah ada, kunjungi **Menu Akun** (`http://localhost:8000/account`), lalu klik **Hubungkan Akun Google (Bind)**.
+   - **Lepas Tautan (Unbind Google)**: Di Menu Akun, klik **Lepas Tautan (Unbind)**. *(Sistem akan meminta Anda membuat kata sandi terlebih dahulu jika akun belum memiliki kata sandi)*.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🧪 Menjalankan Automated Tests
 
-## Security Vulnerabilities
+Aplikasi SIRA dilengkapi dengan unit dan feature test otomatis menggunakan Pest PHP:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+# Menjalankan seluruh test suite
+php artisan test --compact
 
-## License
+# Menjalankan pengujian khusus Google Auth & Akun
+php artisan test tests/Feature/GoogleAuthAndAccountTest.php
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 📄 Lisensi
+SIRA didistribusikan di bawah lisensi [MIT License](LICENSE).

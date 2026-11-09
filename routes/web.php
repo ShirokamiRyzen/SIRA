@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\HeatmapController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OgImageController;
@@ -58,7 +60,15 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+
+    // Registrasi Lanjutan Akun Google
+    Route::get('/auth/google/register', [GoogleAuthController::class, 'showRegisterForm'])->name('auth.google.register');
+    Route::post('/auth/google/register', [GoogleAuthController::class, 'completeRegistration'])->name('auth.google.complete');
 });
+
+// Google OAuth Login & Bind (Bisa diakses oleh Guest maupun User yang sudah Login)
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google.redirect');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
@@ -70,6 +80,12 @@ Route::get('/og-image/default', [OgImageController::class, 'default'])->name('og
 
 // Fitur Laporan yang Membutuhkan Autentikasi
 Route::middleware('auth')->group(function () {
+    // Menu Pengaturan Akun & Bind/Unbind Google
+    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+    Route::put('/account/profile', [AccountController::class, 'updateProfile'])->name('account.updateProfile');
+    Route::put('/account/password', [AccountController::class, 'updatePassword'])->name('account.updatePassword');
+    Route::post('/account/google/unbind', [GoogleAuthController::class, 'unbindGoogle'])->name('account.google.unbind');
+
     Route::get('/report/new', [ReportController::class, 'create'])->name('reports.create');
     Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
     Route::post('/reports/{report}/vote', [ReportController::class, 'vote'])->name('reports.vote');

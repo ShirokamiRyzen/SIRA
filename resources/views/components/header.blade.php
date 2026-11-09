@@ -214,17 +214,21 @@
                     </div>
                 </div>
 
-                <div class="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
-                    <a href="{{ route('reports.index', ['my_reports' => 1]) }}"
-                       class="inline-flex items-center space-x-1 text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] text-[11px] hidden sm:inline-flex transition-colors group"
-                       title="Lihat Laporan Saya">
-                        <flux:icon name="user-circle" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
+                <div class="hidden md:flex items-center space-x-2 sm:space-x-2.5 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
+                    <a href="{{ route('account.index') }}"
+                       class="inline-flex items-center space-x-1.5 px-2 py-1 rounded-[6px] {{ request()->routeIs('account.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] text-[#111111] dark:text-[#EDEDEC] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }} text-[11px] transition-colors group"
+                       title="Menu Akun & Pengaturan Profil">
+                        @if (Auth::user()->avatar_url)
+                            <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}" class="w-4 h-4 rounded-full object-cover shrink-0">
+                        @else
+                            <flux:icon name="user-circle" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
+                        @endif
                         <span>@<span>{{ Auth::user()->username }}</span></span>
                         <x-verified-badge :user="Auth::user()" size="xs" />
                     </a>
                     <form action="{{ route('logout') }}" method="POST" class="inline-flex items-center">
                         @csrf
-                        <button type="submit" title="Keluar" class="text-[#787774] hover:text-[#9F2F2D] dark:hover:text-[#E88C8A] transition-colors cursor-pointer">
+                        <button type="submit" title="Keluar" class="text-[#787774] hover:text-[#9F2F2D] dark:hover:text-[#E88C8A] transition-colors cursor-pointer text-[11px]">
                             [Keluar]
                         </button>
                     </form>
@@ -710,10 +714,21 @@
             </a>
 
             @auth
+                <div class="space-y-1.5 pt-1">
+                    <a href="{{ route('account.index') }}"
+                       class="flex items-center justify-between px-3 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40 text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('account.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                        <span class="flex items-center space-x-2">
+                            <flux:icon name="user-circle" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                            <span>Menu Akun (@<span>{{ Auth::user()->username }}</span>)</span>
+                            <x-verified-badge :user="Auth::user()" size="xs" />
+                        </span>
+                        <span class="text-[10px] text-[#787774]">&rarr;</span>
+                    </a>
+                </div>
+
                 <div class="flex items-center justify-between px-2 pt-1 text-[#787774] dark:text-[#888888] text-xs">
-                    <span class="inline-flex items-center space-x-1">
-                        <span>Akun: <strong class="text-[#111111] dark:text-[#EDEDEC]">@<span>{{ Auth::user()->username }}</span></strong></span>
-                        <x-verified-badge :user="Auth::user()" size="xs" />
+                    <span class="inline-flex items-center space-x-1 truncate max-w-[200px]">
+                        <span>Masuk: <strong class="text-[#111111] dark:text-[#EDEDEC] truncate">{{ Auth::user()->name }}</strong></span>
                     </span>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
