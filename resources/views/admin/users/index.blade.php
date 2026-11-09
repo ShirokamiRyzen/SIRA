@@ -182,7 +182,7 @@
                                 @if ($user->isAdmin())
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-[11px] font-mono font-medium bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
                                         <flux:icon name="shield-check" class="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                                        <span>Admin (Gold)</span>
+                                        <span>Admin</span>
                                     </span>
                                 @elseif ($user->is_verified)
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-[11px] font-mono font-medium bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20">
