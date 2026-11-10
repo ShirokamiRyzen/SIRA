@@ -33,10 +33,10 @@
                 <label for="email" class="block text-[11px] font-mono uppercase tracking-wider text-[#787774] dark:text-[#888888] mb-1.5">
                     Alamat Email
                 </label>
-                <input type="email" id="email" name="email" value="{{ old('email', $email) }}" required
-                    placeholder="contoh@domain.com"
-                    class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] placeholder-[#999999] focus:outline-none focus:border-[#111111] dark:focus:border-[#EDEDEC] transition duration-150">
-                @error('email')
+<input type="email" id="email" value="{{ old('email', $email) }}" disabled
+ class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-[#F7F6F3] dark:bg-[#202020] text-xs font-mono text-[#787774] dark:text-[#888888] cursor-not-allowed select-none">
+ <input type="hidden" name="email" value="{{ old('email', $email) }}">
+ @error('email')
                     <p class="text-[11px] font-mono text-[#9F2F2D] mt-1.5">{{ $message }}</p>
                 @enderror
             </div>

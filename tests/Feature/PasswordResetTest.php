@@ -63,6 +63,17 @@ test('unregistered email cannot request password reset', function () {
     Notification::assertNothingSent();
 });
 
+test('reset password form disables the email field', function () {
+    $response = $this->get(route('password.reset', [
+        'token' => 'token-uji',
+        'email' => 'warga@gmail.com',
+    ]));
+
+    $response->assertOk();
+    $response->assertSee('id="email" value="warga@gmail.com" disabled', false);
+    $response->assertSee('<input type="hidden" name="email" value="warga@gmail.com">', false);
+});
+
 test('user can reset password with a valid token', function () {
     $user = User::factory()->create([
         'email' => 'warga@gmail.com',
