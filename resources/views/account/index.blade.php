@@ -171,9 +171,9 @@
                                 Lepas Tautan
                             </button>
                         </form>
-                    </div>
+                </div>
 
-                    @if (!$user->hasPassword())
+ @if (!$user->hasPassword())
                         <div class="p-3 rounded-[6px] bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 text-amber-800 dark:text-amber-300 text-xs">
                             <span class="font-bold font-mono">[CATATAN KEAMANAN]</span> Anda belum memiliki kata sandi. Sebelum melepas akun Google, buatlah kata sandi di bawah agar Anda tetap dapat login.
                         </div>
@@ -181,11 +181,18 @@
                 </div>
             @else
                 <div class="space-y-4">
-                    <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-relaxed font-sans">
-                        Tautkan akun Google Anda untuk kemudahan masuk cepat dengan 1-klik tanpa perlu mengingat atau memasukkan kata sandi setiap saat.
-                    </p>
+ <p class="text-xs text-[#787774] dark:text-[#9B9B97] leading-relaxed font-sans">
+ Tautkan akun Google Anda untuk kemudahan masuk cepat dengan 1-klik tanpa perlu mengingat atau memasukkan kata sandi setiap saat.
+ </p>
 
-                    <div>
+ <div class="p-3.5 rounded-[6px] bg-[#FDEBEC] dark:bg-[#311617] border border-[#9F2F2D]/20 text-xs text-[#9F2F2D] dark:text-[#E88C8A]">
+ <div class="font-bold font-mono mb-1">[PERINGATAN] Reset Kata Sandi Tidak Tersedia</div>
+ <p class="leading-relaxed">
+ Akun Anda belum menautkan <strong>Google Account</strong>. Fitur <strong>lupa kata sandi</strong> hanya dapat digunakan oleh akun yang sudah menautkan Google Account. Tautkan akun Google Anda terlebih dahulu agar Anda dapat mereset kata sandi saat lupa.
+ </p>
+ </div>
+
+ <div>
                         <a href="{{ route('auth.google.redirect') }}"
                            class="inline-flex items-center space-x-2.5 px-4 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] hover:bg-[#F7F6F3] dark:hover:bg-[#202020] text-xs font-medium text-[#111111] dark:text-[#EDEDEC] transition shadow-2xs">
                             <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">

@@ -62,9 +62,12 @@
 
             <div>
                 <div class="flex items-center justify-between mb-1.5">
-                    <label for="password" class="block text-[11px] font-mono uppercase tracking-wider text-[#787774] dark:text-[#888888]">
-                        Kata Sandi
-                    </label>
+                                        <label for="password" class="block text-[11px] font-mono uppercase tracking-wider text-[#787774] dark:text-[#888888]">
+                                            Kata Sandi
+                                        </label>
+                                        <a href="{{ route('password.request') }}" class="text-[10px] font-mono text-[#787774] dark:text-[#888888] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:underline underline-offset-2">
+                                            Lupa kata sandi?
+                                        </a>
                 </div>
                 <input type="password" id="password" name="password" required
                     placeholder="••••••••"

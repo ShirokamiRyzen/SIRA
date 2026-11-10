@@ -8,6 +8,7 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\HeatmapController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OgImageController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ReportController;
 use App\Models\Report;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+
+    // Lupa & Reset Kata Sandi (via tautan email)
+    Route::get('/forgot-password', [PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
 
     // Registrasi Lanjutan Akun Google
     Route::get('/auth/google/register', [GoogleAuthController::class, 'showRegisterForm'])->name('auth.google.register');

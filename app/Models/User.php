@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\ResetPasswordNotification;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -100,6 +101,14 @@ class User extends Authenticatable
     public function isGoogleBound(): bool
     {
         return ! empty($this->google_id);
+    }
+
+    /**
+     * Kirim notifikasi tautan reset kata sandi melalui email.
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification((string) $token));
     }
 
     /**
