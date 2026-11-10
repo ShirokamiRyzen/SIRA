@@ -100,439 +100,340 @@
 
 @section('content')
     <div class="max-w-5xl mx-auto space-y-8">
-        <!-- Breadcrumb & Aksi Bagikan Kartu -->
-        <div class="flex items-center justify-between">
+        <!-- Navigasi kembali & bagikan -->
+        <div class="flex items-center justify-between gap-3">
             <a href="{{ route('reports.index') }}"
-                class="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition space-x-1">
-                <span>&larr;</span>
-                <span>Kembali ke Semua Laporan</span>
+                class="inline-flex items-center gap-1 text-sm font-semibold text-sand-600 dark:text-sand-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition">
+                <span aria-hidden="true">&larr;</span>
+                <span>Semua laporan</span>
             </a>
             <button type="button" onclick="openOgCanvasModal()"
-                class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-[#282828] text-slate-700 dark:text-[#EDEDEC] hover:bg-slate-50 dark:hover:bg-[#222222] transition shadow-xs cursor-pointer">
-                <flux:icon name="share" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Bagikan Kartu (Canvas)</span>
+                class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-semibold bg-white dark:bg-sand-950 border border-sand-200 dark:border-sand-850 text-sand-800 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition cursor-pointer">
+                <flux:icon name="share" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>Bagikan</span>
             </button>
         </div>
 
-        <!-- Main Card Header & Grid -->
-        <div
-            class="bg-white dark:bg-[#141414] rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm overflow-hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
-                <!-- Kolom Kiri: Foto Bukti Base64 -->
-                <div class="lg:col-span-7 bg-slate-950 relative min-h-[380px] lg:min-h-[500px] overflow-hidden group flex items-center justify-center">
+        @php
+            // Varian badge prioritas: dirender sekali di server; JS hanya menukar mana yang tampil.
+            $tierOptions = [
+                'critical' => ['label' => 'Prioritas Kritis', 'class' => 'bg-danger text-white', 'icon' => 'fire'],
+                'urgent' => ['label' => 'Prioritas Mendesak', 'class' => 'bg-warning text-white', 'icon' => 'exclamation-triangle'],
+                'trending' => ['label' => 'Sedang Ramai', 'class' => 'bg-emerald-600 text-white', 'icon' => 'arrow-trending-up'],
+                'normal' => ['label' => 'Prioritas Reguler', 'class' => 'bg-sand-975/70 backdrop-blur-md text-white', 'icon' => null],
+            ];
+            $currentTier = array_key_exists($report->rank_tier, $tierOptions) ? $report->rank_tier : 'normal';
+            $isResolved = $report->status === 'resolved';
+            $voteBtnBase = 'h-10 px-4 rounded-xl text-sm font-semibold inline-flex items-center gap-1.5 transition cursor-pointer border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-800 dark:text-sand-200';
+        @endphp
+
+        <!-- Kartu utama: foto + detail -->
+        <div class="bg-white dark:bg-sand-950 rounded-2xl border border-sand-100 dark:border-sand-900 shadow-2xs overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12">
+                <!-- Foto bukti -->
+                <div class="lg:col-span-7 bg-sand-975 relative aspect-[4/3] lg:aspect-auto lg:min-h-[520px] overflow-hidden">
                     <img src="{{ $report->image_base64 }}" alt="{{ $report->title }}"
-                        class="w-full h-full min-h-[380px] lg:min-h-[500px] object-cover cursor-zoom-in hover:scale-[1.02] transition-transform duration-500"
+                        class="absolute inset-0 w-full h-full object-cover cursor-zoom-in hover:scale-[1.02] transition-transform duration-500"
                         onclick="openImageLightbox('{{ $report->image_base64 }}')"
-                        title="Klik untuk melihat pratinjau foto penuh">
+                        title="Klik untuk melihat foto penuh">
 
-                    <!-- Image Badges Overlay: Flex header so tier and pending duration never collide -->
-                    <div
-                        class="absolute top-3 inset-x-3 sm:top-4 sm:inset-x-4 flex items-center justify-between gap-2 pointer-events-none z-10">
-                        <div class="pointer-events-auto shrink-0" id="tierBadgeContainer">
-                            @if ($report->rank_tier === 'critical')
-                                <span
-                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black bg-rose-600 text-white shadow-lg">
-                                    <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white animate-ping"></span>
-                                    <span>TINGKAT KRITIS</span>
+                    <!-- Badge prioritas (satu-satunya overlay di foto) -->
+                    <div id="tierBadgeContainer" class="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 pointer-events-none">
+                        @foreach ($tierOptions as $tierKey => $tier)
+                            <span data-tier-option="{{ $tierKey }}" class="{{ $tierKey === $currentTier ? '' : 'hidden' }}">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold shadow-md {{ $tier['class'] }}">
+                                    @if ($tier['icon'])
+                                        <flux:icon name="{{ $tier['icon'] }}" class="w-3.5 h-3.5 shrink-0" />
+                                    @endif
+                                    <span>{{ $tier['label'] }}</span>
                                 </span>
-                            @elseif ($report->rank_tier === 'urgent')
-                                <span
-                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-amber-500 text-white shadow-md">
-                                    <flux:icon name="exclamation-triangle" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
-                                    <span>TINGKAT MENDESAK</span>
-                                </span>
-                            @elseif ($report->rank_tier === 'trending')
-                                <span
-                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-teal-600 text-white shadow-md">
-                                    <flux:icon name="arrow-trending-up" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
-                                    <span>TINGKAT TRENDING</span>
-                                </span>
-                            @else
-                                <span
-                                    class="inline-flex items-center px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">
-                                    TINGKAT REGULER
-                                </span>
-                            @endif
-                        </div>
-
-                        <!-- Pending Duration Badge Overlay on Image -->
-                        <div class="pointer-events-auto shrink-0 {{ $report->status === 'active' ? '' : 'hidden' }}"
-                            id="imagePendingBadge">
-                            <span
-                                class="inline-flex items-center space-x-1 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-semibold bg-[#FBF3DB]/95 dark:bg-[#2C2411]/95 text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-md backdrop-blur-xs"
-                                title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
-                                <flux:icon name="clock"
-                                    class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
-                                <span>{{ $report->pending_duration }} belum diproses</span>
                             </span>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
 
-                <!-- Kolom Kanan: Detail & Aksi Voting -->
-                <div class="lg:col-span-5 p-4 sm:p-6 lg:p-8 flex flex-col justify-between space-y-5 sm:space-y-6">
-                    <div class="space-y-4">
-                        <!-- Status & Waktu & Aksi Khusus Pembuat Laporan -->
-                        <div class="flex items-center justify-between text-xs flex-wrap gap-2 pb-1">
-                            <div class="flex items-center space-x-1.5 sm:space-x-2 flex-wrap gap-y-1.5 sm:gap-y-2">
-                                <span
-                                    class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full font-bold text-[11px] sm:text-xs {{ $report->category_meta['badge_class'] }}">
-                                    <flux:icon name="{{ $report->category_icon }}"
-                                        class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
-                                    <span>{{ $report->category_label }}</span>
-                                </span>
+                <!-- Detail -->
+                <div class="lg:col-span-5 p-5 sm:p-6 lg:p-8 flex flex-col gap-5">
+                    <!-- Kategori & status -->
+                    <div class="flex items-center flex-wrap gap-2">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-semibold text-xs {{ $report->category_meta['badge_class'] }}">
+                            <flux:icon name="{{ $report->category_icon }}" class="w-3.5 h-3.5 shrink-0" />
+                            <span>{{ $report->category_label }}</span>
+                        </span>
 
-                                <span id="reportStatusBadge"
-                                    class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs transition duration-200 {{ $report->status === 'resolved' ? 'bg-emerald-600 text-white shadow-xs' : ($report->status === 'in_progress' ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60') }}">
-                                    Status: {{ $report->status_label }}
-                                </span>
+                        <span id="reportStatusBadge" data-status="{{ $report->status }}"
+                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border transition
+                                   bg-sand-50 text-sand-700 border-sand-200 dark:bg-sand-925 dark:text-sand-300 dark:border-sand-850
+                                   data-[status=in_progress]:bg-warning-tint data-[status=in_progress]:text-warning data-[status=in_progress]:border-warning/30
+                                   dark:data-[status=in_progress]:bg-warning-deep dark:data-[status=in_progress]:text-warning-soft dark:data-[status=in_progress]:border-warning/30
+                                   data-[status=resolved]:bg-emerald-600 data-[status=resolved]:text-white data-[status=resolved]:border-emerald-600
+                                   dark:data-[status=resolved]:bg-emerald-600 dark:data-[status=resolved]:text-white dark:data-[status=resolved]:border-emerald-600">Status: {{ $report->status_label }}</span>
 
-                                <span id="reportPendingBadge"
-                                    class="inline-flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-medium bg-[#FBF3DB] dark:bg-[#2C2411] text-[#956400] dark:text-[#E9C369] border border-[#956400]/30 shadow-xs {{ $report->status === 'active' ? '' : 'hidden' }}"
-                                    title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
-                                    <flux:icon name="clock"
-                                        class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#956400] dark:text-[#E9C369] shrink-0" />
-                                    <span>{{ $report->pending_duration }} belum diproses</span>
-                                </span>
-
-                                @auth
-                                    @if (Auth::id() === $report->user_id || Auth::user()?->isAdmin())
-                                        <div id="creatorStatusActions" class="inline-flex items-center gap-1.5">
-                                            @if ($report->status === 'resolved')
-                                                <button type="button" onclick="updateReportStatus('active')"
-                                                    class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-slate-700 dark:text-[#EDEDEC] transition flex items-center space-x-1"
-                                                    title="Buka kembali laporan ini">
-                                                    <flux:icon name="arrow-path" class="w-3 h-3" />
-                                                    <span>Buka Kembali</span>
-                                                </button>
-                                            @else
-                                                <button type="button" onclick="updateReportStatus('resolved')"
-                                                    class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center space-x-1 shadow-xs"
-                                                    title="Tandai masalah telah terselesaikan">
-                                                    <flux:icon name="check" class="w-3 h-3 text-white" />
-                                                    <span>Tandai Selesai (Resolved)</span>
-                                                </button>
-                                            @endif
-
-                                            <form action="{{ route('reports.destroy', $report) }}" method="POST"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.');"
-                                                class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 transition flex items-center space-x-1 border border-rose-200/80 dark:border-rose-900/60"
-                                                    title="Hapus laporan ini">
-                                                    <flux:icon name="trash" class="w-3 h-3 text-rose-500" />
-                                                    <span>Hapus Laporan</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @endif
-                                @endauth
-                            </div>
+                        {{-- `hidden` dipasang di pembungkus: di build Tailwind v4, `.inline-flex` muncul setelah `.hidden` sehingga keduanya tidak boleh berada di elemen yang sama. --}}
+                        <span id="reportPendingBadge" class="{{ $report->status === 'active' ? '' : 'hidden' }}">
                             <span
-                                class="text-slate-400 dark:text-[#787774]">{{ $report->created_at->translatedFormat('d M Y, H:i') }}</span>
-                        </div>
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-warning-tint dark:bg-warning-deep text-warning dark:text-warning-soft border border-warning/30"
+                                title="Laporan belum diproses selama {{ $report->pending_duration }} sejak awal diunggah">
+                                <flux:icon name="clock" class="w-3.5 h-3.5 shrink-0" />
+                                <span>{{ $report->pending_duration }} belum diproses</span>
+                            </span>
+                        </span>
+                    </div>
 
-                        <!-- Judul Laporan -->
-                        <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-[#EDEDEC] leading-tight">
+                    <!-- Judul & pelapor -->
+                    <div class="space-y-2">
+                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-sand-975 dark:text-sand-100 leading-tight">
                             {{ $report->title }}
                         </h1>
-
-                        <!-- Pelapor -->
-                        <div
-                            class="flex items-center space-x-2 text-xs text-slate-500 dark:text-[#888888] pb-2 border-b border-slate-100 dark:border-[#222222] flex-wrap gap-y-1.5">
-                            <span>Dilaporkan oleh</span>
-                            <div class="inline-flex items-center space-x-1 font-bold text-slate-800 dark:text-[#EDEDEC]">
+                        <div class="flex items-center flex-wrap gap-x-2 gap-y-1 text-sm text-sand-600 dark:text-sand-500">
+                            <span>oleh</span>
+                            <span class="inline-flex items-center gap-1 font-semibold text-sand-900 dark:text-sand-100">
                                 <span>@<span>{{ $report->user->username ?? 'anon' }}</span></span>
                                 @if ($report->user)
                                     <x-verified-badge :user="$report->user" size="sm" />
                                 @endif
-                            </div>
+                            </span>
+                            <span aria-hidden="true">&middot;</span>
+                            <span>{{ $report->created_at->translatedFormat('d M Y, H:i') }}</span>
                             @auth
                                 @if (Auth::id() === $report->user_id)
-                                    <span
-                                        class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800/60">
+                                    <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-warning-tint text-warning dark:bg-warning-deep dark:text-warning-soft">
                                         Laporan Anda
                                     </span>
                                 @endif
                             @endauth
                         </div>
+                    </div>
 
-                        <!-- Deskripsi Lengkap (dengan Tag/Mention Formatting) -->
-                        @php
-                            $formattedDescription = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function ($m) {
-                                $u = $m[2];
-                                $isAi = strtolower($u) === 'sira';
-                                $targetUser = \App\Models\User::where('username', $u)->first();
-                                $badgeType = $isAi ? null : ($targetUser ? $targetUser->badgeType() : null);
+                    <!-- Deskripsi Lengkap (dengan Tag/Mention Formatting) -->
+                    @php
+                        $formattedDescription = preg_replace_callback('/(^|[^a-zA-Z0-9_])@([a-zA-Z0-9_]+)/', function ($m) {
+                            $u = $m[2];
+                            $isAi = strtolower($u) === 'sira';
+                            $targetUser = \App\Models\User::where('username', $u)->first();
+                            $badgeType = $isAi ? null : ($targetUser ? $targetUser->badgeType() : null);
 
-                                $badgeSvg = '';
-                                if ($badgeType === 'admin') {
-                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-amber-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
-                                } elseif ($badgeType === 'verified') {
-                                    $badgeSvg = '<svg class="w-3.5 h-3.5 text-sky-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
-                                }
+                            $badgeSvg = '';
+                            if ($badgeType === 'admin') {
+                                $badgeSvg = '<svg class="w-3.5 h-3.5 text-amber-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
+                            } elseif ($badgeType === 'verified') {
+                                $badgeSvg = '<svg class="w-3.5 h-3.5 text-sky-500 fill-current inline-block shrink-0 ml-0.5 align-baseline" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>';
+                            }
 
-                                return $m[1] . '<span class="font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-0.5">@' . $u . $badgeSvg . '</span>';
-                            }, e($report->description));
-                        @endphp
-                        <div
-                            class="text-xs sm:text-sm text-slate-700 dark:text-[#CCCCCC] leading-relaxed whitespace-pre-line">
-                            {!! $formattedDescription !!}
-                        </div>
+                            return $m[1] . '<span class="font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-0.5">@' . $u . $badgeSvg . '</span>';
+                        }, e($report->description));
+                    @endphp
+                    <div class="text-sm sm:text-base text-sand-800 dark:text-sand-300 leading-relaxed whitespace-pre-line">
+                        {!! $formattedDescription !!}
+                    </div>
 
-                        <!-- Lokasi Administratif -->
-                        <div
-                            class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-xs space-y-1">
-                            <div class="font-bold text-slate-800 dark:text-[#EDEDEC] flex items-center space-x-1.5">
-                                <flux:icon name="map-pin" class="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                                <span>{{ $report->district && strcasecmp($report->district, $report->city ?? '') !== 0 ? $report->district . ', ' : '' }}{{ $report->city ?? $report->district ?? 'Lokasi Terdaftar' }}</span>
+                    <!-- Lokasi -->
+                    <div class="flex gap-3 p-4 rounded-xl bg-sand-25 dark:bg-sand-975 border border-sand-100 dark:border-sand-900">
+                        <flux:icon name="map-pin" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                        <div class="min-w-0 space-y-0.5">
+                            <div class="text-sm font-semibold text-sand-900 dark:text-sand-100">
+                                {{ $report->district && strcasecmp($report->district, $report->city ?? '') !== 0 ? $report->district . ', ' : '' }}{{ $report->city ?? $report->district ?? 'Lokasi Terdaftar' }}
                             </div>
-                            <p class="text-slate-500 dark:text-[#888888] text-[11px] leading-relaxed">
+                            <p class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 leading-relaxed">
                                 {{ $report->formatted_address ?? 'Koordinat: ' . $report->latitude . ', ' . $report->longitude }}
                             </p>
                         </div>
                     </div>
 
-                    <!-- Box Voting (Like & Dislike) Interaktif -->
-                    <div
-                        class="p-4 rounded-2xl bg-slate-900 dark:bg-[#111111] dark:border dark:border-[#262626] text-white space-y-3">
-                        <div class="flex items-center justify-between">
+                    <!-- Dukungan warga -->
+                    <div class="p-4 sm:p-5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40 space-y-3">
+                        <div class="flex items-center justify-between gap-3">
                             <div>
-                                <div class="text-xs text-slate-400 dark:text-[#888888] font-medium">Skor Dukungan Warga
-                                </div>
-                                <div class="text-2xl font-extrabold text-emerald-400" id="voteScoreDisplay">
-                                    {{ $report->vote_score }} <span
-                                        class="text-xs text-slate-400 dark:text-[#888888] font-normal">poin</span>
+                                <div class="text-xs font-medium text-sand-600 dark:text-sand-400">Dukungan warga</div>
+                                <div class="text-3xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-400" id="voteScoreDisplay">
+                                    <span id="voteScoreValue">{{ $report->vote_score }}</span>
+                                    <span class="text-sm font-medium text-sand-600 dark:text-sand-400">poin</span>
                                 </div>
                             </div>
 
-                            <!-- Tombol Like & Dislike -->
                             @auth
-                                <div class="flex items-center space-x-2">
-                                    <!-- Tombol Like (Upvote) -->
-                                    <button type="button" onclick="castVote(1)" id="btnUpvote"
-                                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === 1) ? 'bg-emerald-500 text-slate-950' : 'bg-white/10 hover:bg-white/20 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-white' }}">
-                                        <flux:icon name="hand-thumb-up" class="w-3.5 h-3.5 shrink-0" />
+                                <div class="flex items-center gap-2">
+                                    <button type="button" onclick="castVote(1)" id="btnUpvote" aria-label="Dukung laporan ini"
+                                        data-active="{{ ($userVote && $userVote->value === 1) ? 'true' : 'false' }}"
+                                        class="{{ $voteBtnBase }} hover:border-emerald-400 data-[active=true]:bg-emerald-600 data-[active=true]:border-emerald-600 data-[active=true]:text-white dark:data-[active=true]:bg-emerald-600 dark:data-[active=true]:border-emerald-600 dark:data-[active=true]:text-white">
+                                        <flux:icon name="hand-thumb-up" class="w-4 h-4 shrink-0" />
                                         <span id="upvotesCount">{{ $report->upvotes_count }}</span>
                                     </button>
-
-                                    <!-- Tombol Dislike (Downvote) -->
-                                    <button type="button" onclick="castVote(-1)" id="btnDownvote"
-                                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 {{ ($userVote && $userVote->value === -1) ? 'bg-rose-500 text-white' : 'bg-white/10 hover:bg-white/20 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-white' }}">
-                                        <flux:icon name="hand-thumb-down" class="w-3.5 h-3.5 shrink-0" />
+                                    <button type="button" onclick="castVote(-1)" id="btnDownvote" aria-label="Tidak setuju dengan laporan ini"
+                                        data-active="{{ ($userVote && $userVote->value === -1) ? 'true' : 'false' }}"
+                                        class="{{ $voteBtnBase }} hover:border-danger/50 data-[active=true]:bg-danger data-[active=true]:border-danger data-[active=true]:text-white dark:data-[active=true]:bg-danger dark:data-[active=true]:border-danger dark:data-[active=true]:text-white">
+                                        <flux:icon name="hand-thumb-down" class="w-4 h-4 shrink-0" />
                                         <span id="downvotesCount">{{ $report->downvotes_count }}</span>
                                     </button>
                                 </div>
                             @else
-                                <div class="text-right">
-                                    <a href="{{ route('login') }}"
-                                        class="text-xs text-emerald-400 hover:underline font-semibold">
-                                        Masuk untuk bersuara &rarr;
-                                    </a>
-                                </div>
+                                <a href="{{ route('login') }}" class="text-sm font-semibold text-emerald-700 dark:text-emerald-400 hover:underline">
+                                    Masuk untuk mendukung &rarr;
+                                </a>
                             @endauth
                         </div>
-                        <p
-                            class="text-[11px] text-slate-400 dark:text-[#888888] border-t border-slate-800 dark:border-[#222222] pt-2">
-                            Dukungan warga (vote) berfungsi menaikkan prioritas laporan ke <strong>Tingkat Mendesak &amp;
-                                Kritis</strong> agar
-                            segera ditindaklanjuti oleh pemda.
+                        <p class="text-xs sm:text-sm text-sand-600 dark:text-sand-400 leading-relaxed">
+                            Semakin banyak dukungan, laporan naik ke prioritas <strong class="text-sand-800 dark:text-sand-200">Mendesak &amp; Kritis</strong> agar segera ditindaklanjuti pemda.
                         </p>
                     </div>
 
-                    <!-- Tombol Bagikan Kartu OpenGraph Canvas -->
-                    <button type="button" onclick="openOgCanvasModal()"
-                        class="w-full py-2.5 px-4 rounded-2xl text-xs font-bold border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:bg-slate-50 dark:hover:bg-[#202020] text-slate-800 dark:text-[#EDEDEC] transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer">
-                        <flux:icon name="share" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                        <span>Bagikan & Unduh Kartu (Canvas)</span>
-                    </button>
+                    <!-- Kelola laporan (khusus pembuat & admin) -->
+                    @auth
+                        @if (Auth::id() === $report->user_id || Auth::user()?->isAdmin())
+                            <div id="creatorStatusActions" class="pt-4 mt-auto border-t border-sand-100 dark:border-sand-900 flex items-center flex-wrap gap-2">
+                                <span class="text-xs font-medium text-sand-600 dark:text-sand-500 mr-auto">Kelola laporan</span>
+                                {{-- Kedua tombol dirender; JS hanya menukar pembungkus mana yang tampil. --}}
+                                <span data-when="open" class="{{ $isResolved ? 'hidden' : '' }}">
+                                    <button type="button" onclick="updateReportStatus('resolved')"
+                                        class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition cursor-pointer"
+                                        title="Tandai masalah telah terselesaikan">
+                                        <flux:icon name="check" class="w-4 h-4 shrink-0" />
+                                        <span>Tandai Selesai</span>
+                                    </button>
+                                </span>
+                                <span data-when="resolved" class="{{ $isResolved ? '' : 'hidden' }}">
+                                    <button type="button" onclick="updateReportStatus('active')"
+                                        class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-semibold border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-950 hover:bg-sand-50 dark:hover:bg-sand-925 text-sand-800 dark:text-sand-100 transition cursor-pointer"
+                                        title="Buka kembali laporan ini">
+                                        <flux:icon name="arrow-path" class="w-4 h-4 shrink-0" />
+                                        <span>Buka Kembali</span>
+                                    </button>
+                                </span>
+                                <form action="{{ route('reports.destroy', $report) }}" method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-semibold text-danger dark:text-danger-soft hover:bg-danger-tint dark:hover:bg-danger-deep transition cursor-pointer"
+                                        title="Hapus laporan ini">
+                                        <flux:icon name="trash" class="w-4 h-4 shrink-0" />
+                                        <span>Hapus</span>
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
                 </div>
             </div>
         </div>
 
+        @php
+            // Bingkai & pil filter yang sama untuk semua bagian bawah halaman detail
+            $sectionClass = 'bg-white dark:bg-sand-975 p-4 sm:p-6 rounded-2xl border border-sand-200 dark:border-sand-900 shadow-2xs';
+            $sectionTitle = 'text-lg font-bold tracking-tight text-sand-975 dark:text-sand-100';
+            $sectionSub = 'text-sm text-sand-600 dark:text-sand-500';
+            $pillBase = 'inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold border transition shrink-0';
+            $pillOn = 'bg-emerald-600 border-emerald-600 text-white';
+            $pillOff = 'bg-white dark:bg-sand-950 border-sand-200 dark:border-sand-850 text-sand-700 dark:text-sand-300 hover:bg-sand-50 dark:hover:bg-sand-925';
+            $coFilter = request('co_filter');
+        @endphp
+
         <!-- Bagian Khusus: Multi-Masalah di Titik Koordinat yang Sama -->
         @if (isset($totalCoLocatedCount) && $totalCoLocatedCount > 0)
-            <div id="multi-issues"
-                class="bg-white dark:bg-[#141414] p-4 sm:p-6 lg:p-8 rounded-3xl border border-violet-200/80 dark:border-violet-900/60 shadow-sm space-y-5 sm:space-y-6 scroll-mt-24">
-                <!-- Header Bagian Multi-Masalah -->
-                <div
-                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-slate-100 dark:border-[#222222]">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-semibold bg-violet-100 text-violet-900 dark:bg-violet-950/70 dark:text-violet-200 border border-violet-300/80 dark:border-violet-800/80 shadow-xs">
-                                <flux:icon name="squares-2x2"
-                                    class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-violet-700 dark:text-violet-300 shrink-0" />
-                                <span>Multi-Masalah Terdeteksi</span>
-                                <span
-                                    class="inline-flex items-center justify-center px-1.5 rounded-full text-[9px] sm:text-[10px] font-mono font-bold bg-violet-200 text-violet-900 dark:bg-violet-900 dark:text-violet-100">
-                                    {{ $report->total_location_issues }} Masalah
-                                </span>
-                            </span>
-                            <span class="text-[11px] sm:text-xs font-mono text-slate-400 dark:text-[#787774]">
-                                Titik: {{ $report->latitude }}, {{ $report->longitude }}
-                            </span>
-                        </div>
-                        <h3 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">
-                            Permasalahan Lain di Lokasi yang Sama
-                        </h3>
-                        <p class="text-xs text-slate-500 dark:text-[#888888]">
-                            Terdapat {{ $totalCoLocatedCount }} laporan publik lainnya yang tercatat pada titik koordinat yang
-                            sama persis.
-                        </p>
-                    </div>
-
-                    <!-- Filter Khusus Di-Scope untuk Lokasi Ini -->
-                    <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap font-mono text-xs">
-                        <span
-                            class="text-slate-400 dark:text-[#787774] text-[10px] sm:text-[11px] mr-0.5 sm:mr-1">Filter:</span>
-                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => null, 'co_page' => null]) }}#multi-issues"
-                            class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 {{ !request('co_filter') ? 'bg-[#111111] text-white dark:bg-[#EDEDEC] dark:text-[#111111] font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
-                            Semua ({{ $totalCoLocatedCount }})
-                        </a>
-                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'urgent', 'co_page' => null]) }}#multi-issues"
-                            class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'urgent' ? 'bg-amber-600 text-white font-bold' : 'text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 hover:bg-amber-100' }}">
-                            <flux:icon name="exclamation-triangle" class="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
-                            <span>Mendesak<span class="hidden sm:inline"> / Urgent</span></span>
-                        </a>
-                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'active', 'co_page' => null]) }}#multi-issues"
-                            class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 {{ request('co_filter') === 'active' ? 'bg-indigo-600 text-white font-bold' : 'text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#202020] hover:bg-slate-200' }}">
-                            ● Aktif
-                        </a>
-                        <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'resolved', 'co_page' => null]) }}#multi-issues"
-                            class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] transition shrink-0 inline-flex items-center gap-1 {{ request('co_filter') === 'resolved' ? 'bg-emerald-600 text-white font-bold' : 'text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100' }}">
-                            <flux:icon name="check" class="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
-                            <span>Selesai</span>
-                        </a>
-                    </div>
+            <section id="multi-issues" class="{{ $sectionClass }} space-y-5 scroll-mt-24">
+                <div class="space-y-1">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-warning dark:text-warning-soft">
+                        <flux:icon name="squares-2x2" class="w-3.5 h-3.5 shrink-0" />
+                        <span>Multi-Masalah Terdeteksi</span>
+                        <span class="normal-case tracking-normal font-semibold">· {{ $report->total_location_issues }} Masalah</span>
+                    </span>
+                    <h2 class="{{ $sectionTitle }}">Permasalahan Lain di Lokasi yang Sama</h2>
+                    <p class="{{ $sectionSub }}">
+                        Ada {{ $totalCoLocatedCount }} laporan lain di titik koordinat yang sama persis.
+                    </p>
                 </div>
 
-                <!-- Daftar Laporan Lain di Lokasi Ini -->
+                <!-- Filter khusus lokasi ini -->
+                <div class="-mx-4 px-4 sm:mx-0 sm:px-0 flex items-center gap-2 overflow-x-auto no-scrollbar">
+                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => null, 'co_page' => null]) }}#multi-issues"
+                        class="{{ $pillBase }} {{ !$coFilter ? $pillOn : $pillOff }}">
+                        Semua ({{ $totalCoLocatedCount }})
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'urgent', 'co_page' => null]) }}#multi-issues"
+                        class="{{ $pillBase }} {{ $coFilter === 'urgent' ? $pillOn : $pillOff }}">
+                        <flux:icon name="exclamation-triangle" class="w-3.5 h-3.5 shrink-0" />
+                        <span>Mendesak</span>
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'active', 'co_page' => null]) }}#multi-issues"
+                        class="{{ $pillBase }} {{ $coFilter === 'active' ? $pillOn : $pillOff }}">
+                        Belum selesai
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'resolved', 'co_page' => null]) }}#multi-issues"
+                        class="{{ $pillBase }} {{ $coFilter === 'resolved' ? $pillOn : $pillOff }}">
+                        <flux:icon name="check" class="w-3.5 h-3.5 shrink-0" />
+                        <span>Selesai</span>
+                    </a>
+                </div>
+
+                <!-- Daftar laporan lain di lokasi ini -->
                 @if ($coLocatedReports->isEmpty())
-                    <div class="py-8 text-center text-xs font-mono text-slate-400 dark:text-[#787774]">
-                        Tidak ada laporan lain dengan filter "{{ request('co_filter') }}" pada titik lokasi ini.
+                    <div class="py-8 text-center text-sm text-sand-500 dark:text-sand-600">
+                        Tidak ada laporan lain dengan filter ini di titik lokasi ini.
                     </div>
                 @else
-                    <!-- Paginasi Atas (Jika lebih dari 1 halaman) -->
-                    @if ($coLocatedReports->hasPages())
-                        <div class="pb-2 text-xs font-mono">
-                            {{ $coLocatedReports->links() }}
-                        </div>
-                    @endif
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         @foreach ($coLocatedReports as $coReport)
-                            <div
-                                class="p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-[#222222] bg-[#FBFBFA]/70 dark:bg-[#181818]/60 flex flex-col justify-between hover:border-violet-300 dark:hover:border-violet-700 transition space-y-2.5 sm:space-y-3 group">
-                                <div class="space-y-2">
-                                    <!-- Foto thumbnail & Badges -->
-                                    <div class="flex items-start gap-2.5 sm:gap-3">
-                                        <img src="{{ $coReport->image_base64 }}" alt="{{ $coReport->title }}"
-                                            class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover shrink-0 border border-slate-200 dark:border-[#282828] transition duration-200">
-                                        <div class="flex-1 min-w-0 space-y-1">
-                                            <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-                                                <span
-                                                    class="inline-flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium {{ $coReport->category_meta['badge_class'] }}">
-                                                    <flux:icon name="{{ $coReport->category_icon }}" class="w-2.5 h-2.5" />
-                                                    <span>{{ $coReport->category_label }}</span>
-                                                </span>
-                                                @if ($coReport->rank_tier === 'critical')
-                                                    <span
-                                                        class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300">
-                                                        Kritis
-                                                    </span>
-                                                @elseif ($coReport->rank_tier === 'urgent')
-                                                    <span
-                                                        class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
-                                                        Urgent
-                                                    </span>
-                                                @endif
-                                                @if ($coReport->status === 'resolved')
-                                                    <span
-                                                        class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
-                                                        Selesai
-                                                    </span>
-                                                @else
-                                                    <span
-                                                        class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono text-slate-500 dark:text-[#888888] bg-slate-100 dark:bg-[#252525]">
-                                                        Aktif
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <h4
-                                                class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] line-clamp-2 leading-snug group-hover:underline underline-offset-2">
-                                                <a href="{{ route('reports.show', $coReport) }}">
-                                                    {{ $coReport->title }}
-                                                </a>
-                                            </h4>
-                                        </div>
+                            <a href="{{ route('reports.show', $coReport) }}"
+                                class="group flex gap-3 p-3 rounded-xl border border-sand-200 dark:border-sand-850 bg-sand-25 dark:bg-sand-950 hover:border-emerald-300 dark:hover:border-emerald-800 transition">
+                                <img src="{{ $coReport->image_base64 }}" alt="{{ $coReport->title }}"
+                                    class="w-16 h-16 rounded-lg object-cover shrink-0 border border-sand-200 dark:border-sand-850">
+                                <div class="flex-1 min-w-0 space-y-1">
+                                    <div class="flex items-center gap-1.5 flex-wrap text-[11px] font-semibold">
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full {{ $coReport->category_meta['badge_class'] }}">
+                                            <flux:icon name="{{ $coReport->category_icon }}" class="w-3 h-3" />
+                                            <span>{{ $coReport->category_label }}</span>
+                                        </span>
+                                        @if ($coReport->rank_tier === 'critical')
+                                            <span class="px-2 py-0.5 rounded-full bg-danger-tint text-danger-deep dark:bg-danger-deep/40 dark:text-danger-soft">Kritis</span>
+                                        @elseif ($coReport->rank_tier === 'urgent')
+                                            <span class="px-2 py-0.5 rounded-full bg-warning-tint text-warning-deep dark:bg-warning-deep/40 dark:text-warning-soft">Mendesak</span>
+                                        @endif
+                                        @if ($coReport->status === 'resolved')
+                                            <span class="px-2 py-0.5 rounded-full bg-success-tint text-success-deep dark:bg-success-deep/40 dark:text-success-soft">Selesai</span>
+                                        @endif
                                     </div>
-                                    <p class="text-[11px] text-slate-500 dark:text-[#888888] line-clamp-2 leading-relaxed">
-                                        {{ $coReport->description }}
+                                    <h3 class="text-sm font-semibold text-sand-975 dark:text-sand-100 line-clamp-2 leading-snug group-hover:underline underline-offset-2">
+                                        {{ $coReport->title }}
+                                    </h3>
+                                    <p class="text-xs text-sand-500 dark:text-sand-500">
+                                        {{ $coReport->vote_score }} dukungan · {{ $coReport->comments_count }} komentar
                                     </p>
                                 </div>
-
-                                <div
-                                    class="pt-2 sm:pt-2.5 border-t border-slate-200/70 dark:border-[#282828] flex items-center justify-between text-[10px] sm:text-[11px] font-mono">
-                                    <div class="flex items-center space-x-2 sm:space-x-3 text-slate-500">
-                                        <span class="font-bold text-slate-800 dark:text-[#EDEDEC]">{{ $coReport->vote_score }}
-                                            suara</span>
-                                        <span>&bull;</span>
-                                        <span>{{ $coReport->comments_count }} komentar</span>
-                                    </div>
-                                    <a href="{{ route('reports.show', $coReport) }}"
-                                        class="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-violet-700 dark:text-violet-400 hover:underline">
-                                        <span>Buka</span>
-                                        <span>&rarr;</span>
-                                    </a>
-                                </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
 
-                    <!-- Paginasi Bawah (Jika lebih dari 1 halaman) -->
                     @if ($coLocatedReports->hasPages())
-                        <div class="pt-4 border-t border-slate-100 dark:border-[#222222] text-xs font-mono">
+                        <div class="pt-2 text-sm">
                             {{ $coLocatedReports->links() }}
                         </div>
                     @endif
                 @endif
-            </div>
+            </section>
         @endif
 
         <!-- Peta Lokasi Masalah (OpenFreeMap) -->
-        <div
-            class="bg-white dark:bg-[#141414] p-4 sm:p-6 lg:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">Titik Koordinat Peta</h3>
-                    <p class="text-xs text-slate-500 dark:text-[#888888]">Koordinat: {{ $report->latitude }},
-                        {{ $report->longitude }}
-                    </p>
+        <section class="{{ $sectionClass }} space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div class="space-y-0.5">
+                    <h2 class="{{ $sectionTitle }}">Titik Koordinat Peta</h2>
+                    <p class="{{ $sectionSub }} tabular-nums">{{ $report->latitude }}, {{ $report->longitude }}</p>
                 </div>
-                <div class="flex items-center gap-2 flex-wrap">
-                    <a href="{{ route('heatmap.index', ['lat' => $report->latitude, 'lng' => $report->longitude, 'report_id' => $report->id]) }}"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/50 transition shadow-2xs">
-                        <flux:icon name="fire" class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
-                        <span>Buka di Heatmap &rarr;</span>
-                    </a>
-                </div>
+                <a href="{{ route('heatmap.index', ['lat' => $report->latitude, 'lng' => $report->longitude, 'report_id' => $report->id]) }}"
+                    class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-800 dark:text-sand-200 hover:bg-sand-50 dark:hover:bg-sand-925 transition shrink-0">
+                    <flux:icon name="map" class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span>Buka di Heatmap &rarr;</span>
+                </a>
             </div>
             <div id="reportMap"
-                class="w-full h-72 rounded-2xl border border-slate-200 dark:border-[#282828] overflow-hidden"></div>
-        </div>
+                class="w-full h-64 sm:h-72 rounded-xl border border-sand-200 dark:border-sand-850 overflow-hidden"></div>
+        </section>
 
         <!-- Diskusi & Komentar Bertingkat (Nested Comments) -->
-        <div
-            class="bg-white dark:bg-[#141414] p-4 sm:p-6 lg:p-8 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm space-y-6">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-[#222222]">
-                <div>
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-[#EDEDEC]">Diskusi & Respon Warga</h3>
-                    <p class="text-xs text-slate-500 dark:text-[#888888]">Ada <span
-                            id="commentsCountDisplay">{{ $report->comments_count }}</span> komentar pada laporan ini</p>
-                </div>
+        <section class="{{ $sectionClass }} space-y-5">
+            <div class="space-y-0.5">
+                <h2 class="{{ $sectionTitle }}">Diskusi Warga</h2>
+                <p class="{{ $sectionSub }}"><span id="commentsCountDisplay">{{ $report->comments_count }}</span> komentar</p>
             </div>
 
             <!-- Form Tambah Komentar Utama -->
@@ -541,40 +442,39 @@
                     class="space-y-3" onsubmit="submitCommentAjax(event, this, null)">
                     @csrf
                     <div
-                        class="mention-highlighter-wrapper mention-highlighter-main relative w-full rounded-2xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden transition">
+                        class="mention-highlighter-wrapper mention-highlighter-main relative w-full rounded-xl border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden transition">
                         <div class="mention-backdrop absolute inset-0 pointer-events-none px-4 py-3 text-sm font-sans leading-relaxed text-transparent overflow-hidden select-none whitespace-pre-wrap break-words"
                             aria-hidden="true"></div>
                         <textarea name="content" rows="3" required
-                            placeholder="Tulis komentar atau tanggapan terkait masalah ini (Tag @Sira untuk meminta bantuan AI)..."
-                            class="mention-input relative z-10 w-full px-4 py-3 bg-transparent text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-sm font-sans leading-relaxed focus:outline-none resize-y block border-0 ring-0 focus:ring-0"></textarea>
+                            placeholder="Tulis tanggapan Anda tentang masalah ini..."
+                            class="mention-input relative z-10 w-full px-4 py-3 bg-transparent text-sand-975 dark:text-sand-100 placeholder-sand-400 dark:placeholder-sand-600 text-sm font-sans leading-relaxed focus:outline-none resize-y block border-0 ring-0 focus:ring-0"></textarea>
                     </div>
 
-                    <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
-                        <div
-                            class="flex items-center space-x-1.5 text-xs text-indigo-700 dark:text-indigo-300 font-medium bg-indigo-50 dark:bg-indigo-950/40 px-3 py-1.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50">
-                            <flux:icon name="sparkles" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                            <span>Tip: Tag <strong>@Sira</strong> di komentar untuk meminta bantuan atau ringkasan AI</span>
-                        </div>
+                    <div class="flex items-center justify-between gap-3">
+                        <p class="flex items-center gap-1.5 text-xs text-sand-600 dark:text-sand-500 min-w-0">
+                            <flux:icon name="sparkles" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                            <span>Tag <strong class="font-semibold text-sand-800 dark:text-sand-200">@Sira</strong> untuk minta bantuan AI</span>
+                        </p>
                         <button type="submit"
-                            class="submit-btn px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center space-x-1.5">
-                            <span>Kirim Komentar</span>
+                            class="submit-btn btn-primary shrink-0 px-4 py-2.5 font-semibold text-sm rounded-lg transition flex items-center gap-1.5">
+                            <span>Kirim</span>
                         </button>
                     </div>
                 </form>
             @else
                 <div
-                    class="p-4 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-center text-xs text-slate-600 dark:text-[#999999]">
-                    Silakan <a href="{{ route('login') }}"
-                        class="font-bold text-emerald-700 dark:text-emerald-400 hover:underline">Masuk</a> untuk ikut berdiskusi
-                    dan memberikan tanggapan.
+                    class="p-4 rounded-xl bg-sand-50 dark:bg-sand-950 border border-sand-200 dark:border-sand-850 text-center text-sm text-sand-600 dark:text-sand-500">
+                    <a href="{{ route('login') }}"
+                        class="font-semibold text-emerald-700 dark:text-emerald-400 hover:underline">Masuk</a> untuk ikut berdiskusi
+                    dan memberi tanggapan.
                 </div>
             @endauth
 
             <!-- Daftar Komentar (Pohon Bertingkat) -->
-            <div class="space-y-5 pt-4" id="commentsContainer">
+            <div class="space-y-5 pt-2" id="commentsContainer">
                 <p id="emptyCommentsMsg"
-                    class="text-xs text-slate-400 dark:text-[#787774] text-center py-6 {{ $report->rootComments->isEmpty() ? '' : 'hidden' }}">
-                    Belum ada komentar. Jadilah yang pertama berkomentar!
+                    class="text-sm text-sand-500 dark:text-sand-600 text-center py-6 {{ $report->rootComments->isEmpty() ? '' : 'hidden' }}">
+                    Belum ada komentar. Jadilah yang pertama menanggapi.
                 </p>
                 <div id="commentsList" class="space-y-5">
                     @foreach ($report->rootComments as $comment)
@@ -582,30 +482,30 @@
                     @endforeach
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Modal OpenGraph Canvas Generator & Export -->
         <div id="ogCanvasModal"
             class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/70 backdrop-blur-xs flex items-center justify-center p-4"
             onclick="if (event.target === this) closeOgCanvasModal();">
-            <div class="relative w-full max-w-4xl bg-white dark:bg-[#141414] rounded-3xl border border-slate-200 dark:border-[#262626] shadow-2xl p-6 sm:p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200"
+            <div class="relative w-full max-w-4xl bg-white dark:bg-sand-975 rounded-3xl border border-slate-200 dark:border-sand-900 shadow-2xl p-6 sm:p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200"
                 onclick="event.stopPropagation()">
                 <!-- Modal Header -->
-                <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-[#222222]">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-sand-900">
                     <div class="space-y-1">
                         <div class="flex items-center space-x-2">
                             <span
                                 class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
                                 Pratinjau Kartu OpenGraph
                             </span>
-                            <span class="text-xs text-slate-400 dark:text-[#777777] font-mono">1200 &times; 630 px</span>
+                            <span class="text-xs text-slate-400 dark:text-sand-600 font-mono">1200 &times; 630 px</span>
                         </div>
-                        <h3 class="text-lg font-extrabold text-slate-900 dark:text-[#EDEDEC]">
+                        <h3 class="text-lg font-extrabold text-slate-900 dark:text-sand-100">
                             Kartu Laporan Interaktif (HTML5 Canvas)
                         </h3>
                     </div>
                     <button type="button" onclick="closeOgCanvasModal()"
-                        class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white bg-slate-100 dark:bg-[#202020] transition cursor-pointer">
+                        class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white bg-slate-100 dark:bg-sand-925 transition cursor-pointer">
                         &times;
                     </button>
                 </div>
@@ -613,17 +513,17 @@
                 <!-- Canvas Container -->
                 <div class="space-y-3">
                     <div
-                        class="relative w-full bg-[#0E0E0E] rounded-2xl overflow-hidden border border-slate-200 dark:border-[#262626] shadow-inner flex items-center justify-center p-2 sm:p-4">
+                        class="relative w-full bg-sand-1000 rounded-2xl overflow-hidden border border-slate-200 dark:border-sand-900 shadow-inner flex items-center justify-center p-2 sm:p-4">
                         <canvas id="ogCardCanvas" width="1200" height="630"
                             class="w-full h-auto max-h-[480px] rounded-xl object-contain shadow-md"></canvas>
                         <div id="canvasLoadingOverlay"
-                            class="absolute inset-0 bg-[#0E0E0E]/80 flex flex-col items-center justify-center space-y-2 text-white text-xs font-mono">
+                            class="absolute inset-0 bg-sand-1000/80 flex flex-col items-center justify-center space-y-2 text-white text-xs font-mono">
                             <div class="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin">
                             </div>
                             <span>Merender Kartu Canvas...</span>
                         </div>
                     </div>
-                    <p class="text-[11px] text-slate-500 dark:text-[#888888] flex items-center justify-between">
+                    <p class="text-[11px] text-slate-500 dark:text-sand-500 flex items-center justify-between">
                         <span>Resolusi standar media sosial (1.91:1) siap dibagikan ke WhatsApp, Twitter/X, Telegram, atau
                             Instagram.</span>
                         <span id="canvasRenderStatus" class="text-emerald-600 dark:text-emerald-400 font-medium"></span>
@@ -631,7 +531,7 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-100 dark:border-[#222222]">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-100 dark:border-sand-900">
                     <!-- Unduh PNG -->
                     <button type="button" onclick="downloadOgCanvas()"
                         class="w-full py-3 px-4 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer">
@@ -641,14 +541,14 @@
 
                     <!-- Salin Gambar ke Clipboard -->
                     <button type="button" onclick="copyOgCanvasToClipboard()" id="btnCopyImage"
-                        class="w-full py-3 px-4 rounded-xl text-xs font-bold bg-slate-900 hover:bg-black dark:bg-[#202020] dark:hover:bg-[#282828] text-white transition flex items-center justify-center space-x-2 cursor-pointer">
+                        class="w-full py-3 px-4 rounded-xl text-xs font-bold bg-slate-900 hover:bg-black dark:bg-sand-925 dark:hover:bg-sand-850 text-white transition flex items-center justify-center space-x-2 cursor-pointer">
                         <flux:icon name="clipboard-document" class="w-4 h-4 text-white" />
                         <span id="copyImageText">Salin Gambar (Clipboard)</span>
                     </button>
 
                     <!-- Salin Tautan OpenGraph -->
                     <button type="button" onclick="copyReportUrl()" id="btnCopyUrl"
-                        class="w-full py-3 px-4 rounded-xl text-xs font-bold border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:bg-slate-50 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC] transition flex items-center justify-center space-x-2 cursor-pointer">
+                        class="w-full py-3 px-4 rounded-xl text-xs font-bold border border-slate-200 dark:border-sand-850 bg-white dark:bg-sand-950 hover:bg-slate-50 dark:hover:bg-sand-900 text-slate-800 dark:text-sand-100 transition flex items-center justify-center space-x-2 cursor-pointer">
                         <flux:icon name="share" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                         <span id="copyUrlText">Salin Tautan Laporan</span>
                     </button>
@@ -656,8 +556,8 @@
 
                 <!-- Direct URL Link & Crawler Info -->
                 <div
-                    class="p-3 rounded-xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#242424] flex items-center justify-between text-xs">
-                    <div class="flex items-center space-x-2 text-slate-600 dark:text-[#999999] truncate mr-2">
+                    class="p-3 rounded-xl bg-slate-50 dark:bg-sand-950 border border-slate-200 dark:border-sand-900 flex items-center justify-between text-xs">
+                    <div class="flex items-center space-x-2 text-slate-600 dark:text-sand-500 truncate mr-2">
                         <flux:icon name="photo" class="w-3.5 h-3.5 shrink-0 text-slate-400" />
                         <span class="font-mono text-[11px] truncate">URL Server:
                             {{ route('reports.ogImage', $report) }}</span>
@@ -761,7 +661,7 @@
         const heatmapUrl = "{{ route('heatmap.index', ['lat' => $report->latitude, 'lng' => $report->longitude, 'report_id' => $report->id]) }}";
         const popupContent = `
                     <div class="p-1 space-y-1 font-sans">
-                        <strong class="text-xs text-slate-900 dark:text-[#EDEDEC] block leading-tight">{{ addslashes($report->title) }}</strong>
+                        <strong class="text-xs text-slate-900 dark:text-sand-100 block leading-tight">{{ addslashes($report->title) }}</strong>
                         <a href="${heatmapUrl}" class="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 hover:text-rose-700 hover:underline">
                             Buka Titik di Heatmap &rarr;
                         </a>
@@ -799,6 +699,7 @@
 
         // -------------------------------------------------------------
         // Voting AJAX Interaktif (Like & Dislike)
+        // Gaya tombol ditentukan oleh atribut data-active (lihat markup); JS hanya mengubah state.
         // -------------------------------------------------------------
         function castVote(val) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -817,24 +718,13 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        // Perbarui angka counter
-                        document.getElementById('voteScoreDisplay').innerHTML = `${data.vote_score} <span class="text-xs text-slate-400 font-normal">poin</span>`;
+                        document.getElementById('voteScoreValue').innerText = data.vote_score;
                         document.getElementById('upvotesCount').innerText = data.upvotes_count;
                         document.getElementById('downvotesCount').innerText = data.downvotes_count;
 
-                        // Perbarui status warna tombol
-                        if (data.user_vote === 1) {
-                            btnUpvote.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-emerald-500 text-slate-950';
-                            btnDownvote.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 text-white';
-                        } else if (data.user_vote === -1) {
-                            btnUpvote.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 text-white';
-                            btnDownvote.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-rose-500 text-white';
-                        } else {
-                            btnUpvote.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 text-white';
-                            btnDownvote.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 text-white';
-                        }
+                        btnUpvote.dataset.active = String(data.user_vote === 1);
+                        btnDownvote.dataset.active = String(data.user_vote === -1);
 
-                        // Perbarui badge rank_tier jika naik/turun
                         updateTierBadge(data.rank_tier);
                     }
                 })
@@ -844,24 +734,22 @@
                 });
         }
 
+        // Semua varian badge prioritas sudah dirender server; tampilkan yang sesuai saja.
         function updateTierBadge(tier) {
             const container = document.getElementById('tierBadgeContainer');
             if (!container) return;
-
-            if (tier === 'critical') {
-                container.innerHTML = `<span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-rose-600 text-white shadow-lg"><span class="w-2 h-2 rounded-full bg-white animate-ping"></span><span>TINGKAT KRITIS</span></span>`;
-            } else if (tier === 'urgent') {
-                container.innerHTML = `<span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-white shadow-md"><svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M8 2l6.5 11.5H1.5L8 2zM8 6.5v3M8 12v.5"/></svg><span>TINGKAT MENDESAK</span></span>`;
-            } else if (tier === 'trending') {
-                container.innerHTML = `<span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-teal-600 text-white shadow-md"><svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M8 1.5c.8 2-1 3.5-1 5 0 2 1.5 3 2.5 2 0 2-1 4-3 5 4 0 6-3 6-6 0-3-2-5-3-6-1.5 2-1.5-1-1.5 0z"/></svg><span>TRENDING</span></span>`;
-            } else {
-                container.innerHTML = `<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-slate-800/80 backdrop-blur-md text-white">REGULER</span>`;
-            }
+            const options = container.querySelectorAll('[data-tier-option]');
+            const known = [...options].some(el => el.dataset.tierOption === tier);
+            const target = known ? tier : 'normal';
+            options.forEach(el => el.classList.toggle('hidden', el.dataset.tierOption !== target));
         }
 
         // -------------------------------------------------------------
-        // Update Status Laporan (Khusus Pembuat Post / Author)
+        // Update Status Laporan (Khusus Pembuat Post / Admin)
+        // Gaya badge ditentukan oleh data-status; label diambil dari Report::statusLabels().
         // -------------------------------------------------------------
+        const REPORT_STATUS_LABELS = @js(\App\Models\Report::statusLabels());
+
         function updateReportStatus(newStatus) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const badge = document.getElementById('reportStatusBadge');
@@ -879,58 +767,18 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
+                        const status = data.status || 'active';
+                        badge.dataset.status = status;
+                        badge.innerText = 'Status: ' + (REPORT_STATUS_LABELS[status] || REPORT_STATUS_LABELS.active);
+
                         const pendingBadge = document.getElementById('reportPendingBadge');
-                        const imgPending = document.getElementById('imagePendingBadge');
-                        const statusLabels = {
-                            'resolved': 'SELESAI',
-                            'in_progress': 'SEDANG DIPROSES',
-                            'active': 'MENUNGGU RESPON',
-                            'archived': 'DIARSIPKAN'
-                        };
-                        const statusLabel = statusLabels[data.status] || (data.status || 'MENUNGGU RESPON').toUpperCase();
-                        if (data.status === 'resolved') {
-                            badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-emerald-600 text-white shadow-xs';
-                            badge.innerText = 'Status: ' + statusLabel;
-                            if (pendingBadge) pendingBadge.classList.add('hidden');
-                            if (imgPending) imgPending.classList.add('hidden');
-                        } else if (data.status === 'in_progress') {
-                            badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800/60';
-                            badge.innerText = 'Status: ' + statusLabel;
-                            if (pendingBadge) pendingBadge.classList.remove('hidden');
-                            if (imgPending) imgPending.classList.remove('hidden');
-                        } else {
-                            badge.className = 'px-2.5 py-1 rounded-full font-bold uppercase tracking-wider transition duration-200 bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/60';
-                            badge.innerText = 'Status: ' + statusLabel;
-                            if (pendingBadge) pendingBadge.classList.remove('hidden');
-                            if (imgPending) imgPending.classList.remove('hidden');
-                        }
+                        if (pendingBadge) pendingBadge.classList.toggle('hidden', status !== 'active');
 
                         if (actionsContainer) {
-                            const deleteFormHtml = `
-                                        <form action="{{ route('reports.destroy', $report) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini secara permanen? Tindakan ini tidak dapat dibatalkan.');" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 transition flex items-center space-x-1 border border-rose-200/80 dark:border-rose-900/60" title="Hapus laporan ini">
-                                                <flux:icon name="trash" class="w-3 h-3 text-rose-500" />
-                                                <span>Hapus Laporan</span>
-                                            </button>
-                                        </form>
-                                    `;
-                            if (data.status === 'resolved') {
-                                actionsContainer.innerHTML = `
-                                        <button type="button" onclick="updateReportStatus('active')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] dark:text-[#EDEDEC] transition flex items-center space-x-1" title="Buka kembali laporan ini">
-                                            <flux:icon name="arrow-path" class="w-3 h-3" />
-                                            <span>Buka Kembali</span>
-                                        </button>
-                                        ` + deleteFormHtml;
-                            } else {
-                                actionsContainer.innerHTML = `
-                                        <button type="button" onclick="updateReportStatus('resolved')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center space-x-1 shadow-xs" title="Tandai masalah telah terselesaikan">
-                                            <flux:icon name="check" class="w-3 h-3" />
-                                            <span>Tandai Selesai (Resolved)</span>
-                                        </button>
-                                        ` + deleteFormHtml;
-                            }
+                            const isResolved = status === 'resolved';
+                            actionsContainer.querySelectorAll('[data-when]').forEach(el => {
+                                el.classList.toggle('hidden', (el.dataset.when === 'resolved') !== isResolved);
+                            });
                         }
                     } else {
                         alert(data.message || 'Gagal mengubah status laporan.');
@@ -1173,19 +1021,19 @@
                         if (data.has_ai_mention) {
                             const indicatorId = 'ai-typing-' + data.comment_id;
                             const indicatorHtml = `
-                                    <div id="${indicatorId}" class="flex items-start space-x-3 p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50/70 to-purple-50/70 border border-indigo-200/80 shadow-xs animate-pulse">
-                                        <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-8 h-8 rounded-full object-cover shrink-0 ring-2 ring-indigo-300">
+                                    <div id="${indicatorId}" class="flex items-start gap-3 p-3.5 rounded-xl border bg-emerald-50/70 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900/60 animate-pulse">
+                                        <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-8 h-8 rounded-full object-cover shrink-0 ring-2 ring-emerald-200 dark:ring-emerald-900">
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-center space-x-2">
-                                                <span class="text-xs font-bold text-slate-900">@Sira</span>
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-indigo-600 text-white">SIRA AI ASSISTANT</span>
-                                                <span class="text-[11px] text-indigo-500 font-medium">• Sedang membalas...</span>
+                                                <span class="text-sm font-semibold text-sand-975 dark:text-sand-100">@Sira</span>
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-600 text-white">Asisten AI</span>
+                                                <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium">• Sedang membalas...</span>
                                             </div>
-                                            <div class="mt-1.5 flex items-center space-x-2 text-xs text-indigo-800 font-medium">
-                                                <span class="inline-block w-2 h-2 rounded-full bg-indigo-600 animate-bounce"></span>
-                                                <span class="inline-block w-2 h-2 rounded-full bg-indigo-600 animate-bounce [animation-delay:0.2s]"></span>
-                                                <span class="inline-block w-2 h-2 rounded-full bg-indigo-600 animate-bounce [animation-delay:0.4s]"></span>
-                                                <span class="ml-1 text-slate-500">SIRA AI sedang menganalisis laporan dan menyiapkan respon...</span>
+                                            <div class="mt-1.5 flex items-center space-x-2 text-xs text-sand-600 dark:text-sand-400">
+                                                <span class="inline-block w-2 h-2 rounded-full bg-emerald-600 animate-bounce"></span>
+                                                <span class="inline-block w-2 h-2 rounded-full bg-emerald-600 animate-bounce [animation-delay:0.2s]"></span>
+                                                <span class="inline-block w-2 h-2 rounded-full bg-emerald-600 animate-bounce [animation-delay:0.4s]"></span>
+                                                <span class="ml-1">SIRA AI sedang menganalisis laporan dan menyiapkan respon...</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1316,11 +1164,11 @@
             const dropdown = document.createElement('div');
             dropdown.id = 'mentionDropdown';
             dropdown.style.zIndex = '99999';
-            dropdown.className = 'fixed hidden bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#262626] rounded-2xl shadow-2xl overflow-hidden w-72 max-w-[90vw] transition-opacity duration-150 text-left';
+            dropdown.className = 'fixed hidden bg-white dark:bg-sand-950 border border-slate-200 dark:border-sand-900 rounded-2xl shadow-2xl overflow-hidden w-72 max-w-[90vw] transition-opacity duration-150 text-left';
             dropdown.innerHTML = `
-                        <div class="px-3 py-2 bg-slate-50 dark:bg-[#1F1F1E] border-b border-slate-100 dark:border-[#282828] text-[10px] font-bold text-slate-400 dark:text-[#888888] uppercase tracking-wider flex items-center justify-between">
+                        <div class="px-3 py-2 bg-slate-50 dark:bg-sand-925 border-b border-slate-100 dark:border-sand-850 text-[10px] font-bold text-slate-400 dark:text-sand-500 uppercase tracking-wider flex items-center justify-between">
                             <span>Saran Akun & AI</span>
-                            <span class="text-[9px] font-normal lowercase text-slate-400 dark:text-[#777777]">Gunakan ↑↓ dan ↵</span>
+                            <span class="text-[9px] font-normal lowercase text-slate-400 dark:text-sand-600">Gunakan ↑↓ dan ↵</span>
                         </div>
                         <div id="mentionDropdownList" class="p-1 max-h-56 overflow-y-auto space-y-0.5"></div>
                     `;
@@ -1353,7 +1201,7 @@
                     const isSelected = (index === highlightedIndex);
                     item.className = isSelected
                         ? 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-600 text-white font-semibold shadow-xs'
-                        : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC]';
+                        : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-sand-900 text-slate-800 dark:text-sand-100';
 
                     const isAi = user.is_ai;
                     let badgeMarkup = '';
@@ -1371,8 +1219,8 @@
                                         ${isAi ? '<img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-6 h-6 rounded-full object-cover shrink-0">' : (user.username ? user.username.charAt(0).toUpperCase() : 'U')}
                                     </div>
                                     <div class="truncate">
-                                        <div class="truncate text-xs ${isSelected ? 'text-white' : (isAi ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium')}">${user.name}</div>
-                                        <div class="text-[11px] ${isSelected ? 'text-indigo-100' : 'text-slate-400 dark:text-[#888888]'} font-mono">@${user.username}</div>
+                                        <div class="truncate text-xs ${isSelected ? 'text-white' : (isAi ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-900 dark:text-sand-100 font-medium')}">${user.name}</div>
+                                        <div class="text-[11px] ${isSelected ? 'text-indigo-100' : 'text-slate-400 dark:text-sand-500'} font-mono">@${user.username}</div>
                                     </div>
                                 </div>
                                 ${badgeMarkup}
@@ -1402,7 +1250,7 @@
                     const isSelected = (i === highlightedIndex);
                     items[i].className = isSelected
                         ? 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-indigo-600 text-white font-semibold shadow-xs'
-                        : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC]';
+                        : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-sand-900 text-slate-800 dark:text-sand-100';
                 }
             }
 

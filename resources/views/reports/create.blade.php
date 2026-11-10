@@ -3,325 +3,290 @@
 @section('title', 'Buat Laporan Baru - SIRA')
 
 @section('content')
-    <div class="max-w-4xl mx-auto my-6 space-y-6">
-        <div
-            class="bg-white dark:bg-[#141414] p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm">
-            <div class="mb-8">
-                <a href="{{ route('reports.index') }}"
-                    class="inline-flex items-center text-xs font-semibold text-emerald-700 dark:text-emerald-400 hover:underline mb-2">
-                    &larr; Kembali ke Feed Laporan
-                </a>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#EDEDEC] tracking-tight">Laporkan
-                    Masalah Baru</h1>
-                <p class="text-sm text-slate-500 dark:text-[#888888] mt-1">
-                    Unggah bukti foto dan tandai titik lokasi pada peta. Sistem akan otomatis mendeteksi nama daerah via
-                    OpenFreeMap.
-                </p>
-            </div>
+    @php
+        // Bahasa visual form: satu kartu per langkah, label kalimat biasa, isian setinggi sama
+        $stepCard = 'bg-white dark:bg-sand-975 p-4 sm:p-6 rounded-2xl border border-sand-200 dark:border-sand-900 shadow-2xs space-y-4';
+        $stepNum = 'w-7 h-7 rounded-full bg-emerald-600 text-white text-sm font-bold flex items-center justify-center shrink-0';
+        $stepTitle = 'text-base sm:text-lg font-bold tracking-tight text-sand-975 dark:text-sand-100';
+        $label = 'block text-sm font-semibold text-sand-800 dark:text-sand-200 mb-1.5';
+        $field = 'w-full px-3.5 py-2.5 rounded-lg border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-975 dark:text-sand-100 placeholder-sand-400 dark:placeholder-sand-600 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:outline-none';
+        $error = 'text-sm text-danger dark:text-danger-soft mt-1.5';
+        $sourceBtn = 'flex flex-col items-center justify-center p-4 sm:p-5 rounded-xl border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-975 hover:border-emerald-500 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 active:scale-[0.98] transition cursor-pointer';
+    @endphp
 
-            <form id="reportForm" action="{{ route('reports.store') }}" method="POST" class="space-y-8">
-                @csrf
+    <div class="max-w-3xl mx-auto py-2 sm:py-4 space-y-5 sm:space-y-6">
+        <!-- Judul halaman -->
+        <div class="space-y-1">
+            <a href="{{ route('reports.index') }}"
+                class="inline-flex items-center gap-1 text-sm font-semibold text-sand-600 hover:text-sand-900 dark:text-sand-400 dark:hover:text-sand-100 transition mb-1">
+                &larr; Semua laporan
+            </a>
+            <h1 class="font-sans text-[1.75rem] leading-[1.15] sm:text-4xl font-extrabold tracking-tight text-sand-975 dark:text-sand-100">
+                Laporkan Masalah Baru
+            </h1>
+            <p class="text-sm sm:text-base text-sand-600 dark:text-sand-400 leading-relaxed">
+                Tiga langkah singkat: foto, ceritakan masalahnya, lalu kunci lokasinya dari tempat kejadian.
+            </p>
+        </div>
 
-                <!-- Hidden input untuk Base64 dan Data Koordinat / Wilayah -->
-                <input type="hidden" name="image_base64" id="imageBase64">
-                <input type="hidden" name="latitude" id="inputLatitude" value="{{ old('latitude', '') }}">
-                <input type="hidden" name="longitude" id="inputLongitude" value="{{ old('longitude', '') }}">
-                <input type="hidden" name="province" id="inputProvince" value="{{ old('province') }}">
-                <input type="hidden" name="city" id="inputCity" value="{{ old('city') }}">
-                <input type="hidden" name="district" id="inputDistrict" value="{{ old('district') }}">
-                <input type="hidden" name="subdistrict" id="inputSubdistrict" value="{{ old('subdistrict') }}">
-                <input type="hidden" name="formatted_address" id="inputAddress" value="{{ old('formatted_address') }}">
-                <input type="hidden" name="osm_place_id" id="inputOsmId" value="{{ old('osm_place_id') }}">
+        <form id="reportForm" action="{{ route('reports.store') }}" method="POST" class="space-y-4 sm:space-y-5">
+            @csrf
 
-                <!-- 1. Bagian Upload Foto dengan Kompresi 80% (Kamera / Galeri) -->
-                <div>
-                    <label class="block text-sm font-bold text-slate-900 dark:text-[#EDEDEC] mb-1">
-                        Foto Bukti Laporan <span class="text-rose-500">*</span>
-                    </label>
-                    <p class="text-xs text-slate-400 dark:text-[#787774] mb-3">
-                        Pilih foto dari galeri berkas atau ambil langsung menggunakan kamera.
-                    </p>
+            <!-- Hidden input untuk Base64 dan Data Koordinat / Wilayah -->
+            <input type="hidden" name="image_base64" id="imageBase64">
+            <input type="hidden" name="latitude" id="inputLatitude" value="{{ old('latitude', '') }}">
+            <input type="hidden" name="longitude" id="inputLongitude" value="{{ old('longitude', '') }}">
+            <input type="hidden" name="province" id="inputProvince" value="{{ old('province') }}">
+            <input type="hidden" name="city" id="inputCity" value="{{ old('city') }}">
+            <input type="hidden" name="district" id="inputDistrict" value="{{ old('district') }}">
+            <input type="hidden" name="subdistrict" id="inputSubdistrict" value="{{ old('subdistrict') }}">
+            <input type="hidden" name="formatted_address" id="inputAddress" value="{{ old('formatted_address') }}">
+            <input type="hidden" name="osm_place_id" id="inputOsmId" value="{{ old('osm_place_id') }}">
 
-                    <!-- Hidden Inputs: Galeri & Kamera Langsung -->
-                    <input type="file" id="galleryInput" accept="image/*" class="hidden">
-                    <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden">
+            <!-- Langkah 1: Foto bukti (dikompresi otomatis) -->
+            <section class="{{ $stepCard }}">
+                <div class="flex items-start gap-3">
+                    <span class="{{ $stepNum }}">1</span>
+                    <div>
+                        <h2 class="{{ $stepTitle }}">Foto bukti <span class="text-danger">*</span></h2>
+                        <p class="text-sm text-sand-600 dark:text-sand-500">Ambil langsung dengan kamera atau pilih dari galeri.</p>
+                    </div>
+                </div>
 
-                    <div class="border-2 border-dashed border-slate-300 dark:border-[#282828] hover:border-emerald-500 dark:hover:border-emerald-500 rounded-3xl p-6 sm:p-8 text-center transition relative bg-slate-50 dark:bg-[#181818]"
-                        id="dropZone">
+                <!-- Hidden Inputs: Galeri & Kamera Langsung -->
+                <input type="file" id="galleryInput" accept="image/*" class="hidden">
+                <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden">
 
-                        <!-- State 1: Tombol Pilihan Sumber Foto -->
-                        <div id="uploadPlaceholder" class="space-y-4">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
-                                <!-- Tombol Buka Kamera -->
-                                <button type="button" id="btnTriggerCamera"
-                                    class="flex flex-col items-center justify-center p-5 rounded-2xl border border-slate-200 dark:border-[#2A2A2A] bg-white dark:bg-[#141414] hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 active:scale-[0.98] transition cursor-pointer group shadow-xs">
-                                    <div
-                                        class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
-                                        <flux:icon name="camera" class="w-6 h-6" />
-                                    </div>
-                                    <span class="text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">Gunakan Kamera</span>
-                                    <span class="text-[11px] text-slate-400 dark:text-[#787774] mt-0.5">Ambil foto
-                                        langsung</span>
-                                </button>
+                <div class="border-2 border-dashed border-sand-300 dark:border-sand-850 hover:border-emerald-500 dark:hover:border-emerald-500 rounded-xl p-4 sm:p-6 text-center transition relative bg-sand-25 dark:bg-sand-950"
+                    id="dropZone">
 
-                                <!-- Tombol Buka Galeri -->
-                                <button type="button" id="btnTriggerGallery"
-                                    class="flex flex-col items-center justify-center p-5 rounded-2xl border border-slate-200 dark:border-[#2A2A2A] bg-white dark:bg-[#141414] hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50/40 dark:hover:bg-emerald-950/30 active:scale-[0.98] transition cursor-pointer group shadow-xs">
-                                    <div
-                                        class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
-                                        <flux:icon name="photo" class="w-6 h-6" />
-                                    </div>
-                                    <span class="text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">Pilih dari
-                                        Galeri</span>
-                                    <span class="text-[11px] text-slate-400 dark:text-[#787774] mt-0.5">Berkas JPG, PNG,
-                                        WebP</span>
-                                </button>
-                            </div>
+                    <!-- State 1: Tombol Pilihan Sumber Foto -->
+                    <div id="uploadPlaceholder" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-3 max-w-md mx-auto">
+                            <button type="button" id="btnTriggerCamera" class="{{ $sourceBtn }}">
+                                <span class="w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2">
+                                    <flux:icon name="camera" class="w-5 h-5" />
+                                </span>
+                                <span class="text-sm font-semibold text-sand-900 dark:text-sand-100">Kamera</span>
+                                <span class="text-xs text-sand-500 dark:text-sand-600 mt-0.5">Foto langsung</span>
+                            </button>
 
-                            <p class="text-xs text-slate-400 dark:text-[#787774] pt-1">
-                                Atau seret dan letakkan berkas foto langsung ke area ini
-                            </p>
+                            <button type="button" id="btnTriggerGallery" class="{{ $sourceBtn }}">
+                                <span class="w-11 h-11 rounded-full bg-sand-100 dark:bg-sand-900 text-sand-700 dark:text-sand-300 flex items-center justify-center mb-2">
+                                    <flux:icon name="photo" class="w-5 h-5" />
+                                </span>
+                                <span class="text-sm font-semibold text-sand-900 dark:text-sand-100">Galeri</span>
+                                <span class="text-xs text-sand-500 dark:text-sand-600 mt-0.5">JPG, PNG, WebP</span>
+                            </button>
                         </div>
 
-                        <!-- State 2: Preview Foto Terkompresi -->
-                        <div id="previewContainer" class="hidden space-y-3">
-                            <div class="relative inline-block max-w-full">
-                                <img id="imagePreview" src="" alt="Preview Bukti Laporan"
-                                    class="max-h-72 mx-auto rounded-2xl shadow-sm border border-slate-200 dark:border-[#282828] object-cover">
-                            </div>
+                        <p class="hidden sm:block text-xs text-sand-500 dark:text-sand-600">
+                            Atau seret dan letakkan foto ke area ini
+                        </p>
+                    </div>
 
-                            <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
-                                <button type="button" id="btnChangePhoto"
-                                    class="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-[#282828] dark:hover:bg-[#333333] text-slate-800 dark:text-[#EDEDEC] transition cursor-pointer inline-flex items-center gap-1.5">
-                                    <flux:icon name="arrow-path" class="w-3.5 h-3.5" />
-                                    <span>Ganti Foto</span>
-                                </button>
-                                <button type="button" id="btnRemovePhoto"
-                                    class="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/60 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 transition cursor-pointer inline-flex items-center gap-1.5">
-                                    <flux:icon name="trash" class="w-3.5 h-3.5" />
-                                    <span>Hapus</span>
-                                </button>
-                            </div>
+                    <!-- State 2: Preview Foto Terkompresi -->
+                    <div id="previewContainer" class="hidden space-y-3">
+                        <div class="relative inline-block max-w-full">
+                            <img id="imagePreview" src="" alt="Preview Bukti Laporan"
+                                class="max-h-72 mx-auto rounded-xl border border-sand-200 dark:border-sand-850 object-cover">
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-center gap-2">
+                            <button type="button" id="btnChangePhoto"
+                                class="px-3.5 py-1.5 text-sm font-semibold rounded-lg border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-975 hover:bg-sand-50 dark:hover:bg-sand-925 text-sand-800 dark:text-sand-100 transition cursor-pointer inline-flex items-center gap-1.5">
+                                <flux:icon name="arrow-path" class="w-4 h-4" />
+                                <span>Ganti</span>
+                            </button>
+                            <button type="button" id="btnRemovePhoto"
+                                class="px-3.5 py-1.5 text-sm font-semibold rounded-lg text-danger dark:text-danger-soft hover:bg-danger-tint dark:hover:bg-danger-deep/30 transition cursor-pointer inline-flex items-center gap-1.5">
+                                <flux:icon name="trash" class="w-4 h-4" />
+                                <span>Hapus</span>
+                            </button>
                         </div>
                     </div>
-                    @error('image_base64')
-                        <p class="text-xs text-rose-600 mt-1.5">{{ $message }}</p>
+                </div>
+                @error('image_base64')
+                    <p class="{{ $error }}">{{ $message }}</p>
+                @enderror
+            </section>
+
+            <!-- Langkah 2: Informasi pokok masalah -->
+            <section class="{{ $stepCard }}">
+                <div class="flex items-start gap-3">
+                    <span class="{{ $stepNum }}">2</span>
+                    <div>
+                        <h2 class="{{ $stepTitle }}">Apa masalahnya?</h2>
+                        <p class="text-sm text-sand-600 dark:text-sand-500">Pilih kategori dan jelaskan singkat apa yang terjadi.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="{{ $label }}">Kategori <span class="text-danger">*</span></span>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        @foreach($categories as $catKey => $cat)
+                            <label
+                                class="relative flex items-center gap-2 p-2.5 rounded-lg border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-950 hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-500 has-checked:bg-emerald-50 dark:has-checked:bg-emerald-950/40 has-checked:ring-1 has-checked:ring-emerald-600 min-w-0">
+                                <input type="radio" name="category" value="{{ $catKey }}" {{ old('category', 'jalan_jembatan') === $catKey ? 'checked' : '' }} class="sr-only">
+                                <span class="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                                    style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
+                                    <flux:icon name="{{ $cat['icon'] }}" class="w-4 h-4" />
+                                </span>
+                                <span class="min-w-0 flex-1 text-xs sm:text-sm font-medium text-sand-800 dark:text-sand-100 leading-tight break-words">{{ $cat['label'] }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('category')
+                        <p class="{{ $error }}">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- 2. Informasi Pokok Masalah -->
-                <div class="grid grid-cols-1 gap-6">
-                    <div>
-                        <label
-                            class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-2">
-                            Kategori Masalah <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2.5">
-                            @foreach($categories as $catKey => $cat)
-                                <label
-                                    class="relative flex items-center gap-2 p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-[#282828] bg-white dark:bg-[#181818] hover:border-emerald-500/60 dark:hover:border-emerald-500/60 cursor-pointer transition has-checked:border-emerald-600 dark:has-checked:border-emerald-400 has-checked:bg-emerald-50/50 dark:has-checked:bg-emerald-950/30 has-checked:ring-2 has-checked:ring-emerald-500/30 shadow-2xs min-w-0">
-                                    <input type="radio" name="category" value="{{ $catKey }}" {{ old('category', 'jalan_jembatan') === $catKey ? 'checked' : '' }} class="sr-only">
-                                    <div class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0"
-                                        style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
-                                        <flux:icon name="{{ $cat['icon'] }}" class="w-4 h-4" />
-                                    </div>
-                                    <div class="min-w-0 flex-1">
-                                        <span
-                                            class="block text-[11px] sm:text-xs font-bold text-slate-800 dark:text-[#EDEDEC] leading-tight whitespace-normal break-words">{{ $cat['label'] }}</span>
-                                    </div>
-                                </label>
-                            @endforeach
-                        </div>
-                        @error('category')
-                            <p class="text-xs text-rose-600 mt-1.5">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="title"
-                            class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC] mb-1.5">
-                            Judul Masalah <span class="text-rose-500">*</span>
-                        </label>
-                        <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                            placeholder="Contoh: Lubang jalan di Jl. Dago depan halte"
-                            class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-                        @error('title')
-                            <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <div class="flex items-center justify-between mb-1.5">
-                            <label for="description"
-                                class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-[#CCCCCC]">
-                                Deskripsi Lengkap <span class="text-rose-500">*</span>
-                            </label>
-                            <span id="descWordCounter" class="text-[11px] font-mono text-slate-400 dark:text-[#888888]">
-                                <span id="currentWordCount" class="font-bold text-rose-500">0</span> / 5 kata minimal
-                            </span>
-                        </div>
-                        <textarea id="description" name="description" rows="4" required
-                            placeholder="Jelaskan detail kerusakan dan dampaknya... (Ketik @ untuk menandai akun instansi/warga, minimal 5 kata)"
-                            class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-300 dark:border-[#282828] bg-white dark:bg-[#181818] text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-[#666666] text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">{{ old('description') }}</textarea>
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mt-1.5 text-[11px] text-slate-500 dark:text-[#888888]">
-                            <span class="inline-flex items-center gap-1.5 flex-wrap">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block shrink-0"></span>
-                                <span>Fitur Tag: Ketik <strong class="text-emerald-600 dark:text-emerald-400">@username</strong> untuk menandai dinas/warga</span>
-                            </span>
-                            <span class="font-mono text-[10px] text-slate-400 hidden sm:inline">Notifikasi Otomatis</span>
-                        </div>
-                        @error('description')
-                            <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <div>
+                    <label for="title" class="{{ $label }}">Judul <span class="text-danger">*</span></label>
+                    <input type="text" id="title" name="title" value="{{ old('title') }}" required
+                        placeholder="Contoh: Lubang jalan di Jl. Dago depan halte"
+                        class="{{ $field }}">
+                    @error('title')
+                        <p class="{{ $error }}">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <!-- 3. Titik Lokasi GPS Terverifikasi (GPS Only) -->
-                <div class="space-y-4">
-                    <!-- Label & Tombol Deteksi Lokasi GPS -->
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828]">
+                <div>
+                    <div class="flex items-baseline justify-between gap-2 mb-1.5">
+                        <label for="description" class="text-sm font-semibold text-sand-800 dark:text-sand-200">Ceritakan detailnya <span class="text-danger">*</span></label>
+                        <span id="descWordCounter" class="text-xs text-sand-500 dark:text-sand-500 tabular-nums shrink-0">
+                            <span id="currentWordCount" data-ok="false" class="font-semibold text-danger data-[ok=true]:text-emerald-600 dark:text-danger-soft dark:data-[ok=true]:text-emerald-400">0</span> / min. 5 kata
+                        </span>
+                    </div>
+                    <textarea id="description" name="description" rows="4" required
+                        placeholder="Apa yang rusak, sejak kapan, dan apa dampaknya bagi warga?"
+                        class="{{ $field }}">{{ old('description') }}</textarea>
+                    <p class="mt-1.5 text-xs text-sand-500 dark:text-sand-500">
+                        Ketik <strong class="font-semibold text-emerald-700 dark:text-emerald-400">@username</strong> untuk menandai dinas atau warga, mereka akan mendapat notifikasi.
+                    </p>
+                    @error('description')
+                        <p class="{{ $error }}">{{ $message }}</p>
+                    @enderror
+                </div>
+            </section>
+
+            <!-- Langkah 3: Titik lokasi GPS terverifikasi (GPS only) -->
+            <section class="{{ $stepCard }}">
+                <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                    <div class="flex items-start gap-3">
+                        <span class="{{ $stepNum }}">3</span>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <label class="block text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">
-                                    Titik Lokasi (GPS Only) <span class="text-rose-500">*</span>
-                                </label>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
-                                    Sensor Otomatis
-                                </span>
-                            </div>
-                            <p class="text-xs text-slate-400 dark:text-[#787774] mt-0.5">
-                                Lokasi wajib diambil langsung melalui sensor GPS perangkat saat berada di tempat kejadian. Pin lokasi manual dinonaktifkan.
-                            </p>
+                            <h2 class="{{ $stepTitle }}">Di mana lokasinya? <span class="text-danger">*</span></h2>
+                            <p class="text-sm text-sand-600 dark:text-sand-500">Lokasi diambil dari GPS perangkat, jadi lakukan saat Anda berada di tempat.</p>
                         </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2 shrink-0">
                         <button type="button" id="btnGeolocate"
-                            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer shrink-0">
-                            <flux:icon name="viewfinder-circle" class="w-4 h-4 text-white shrink-0" />
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 btn-primary font-semibold text-sm rounded-lg transition cursor-pointer">
+                            <flux:icon name="viewfinder-circle" class="w-4 h-4 shrink-0" />
                             <span id="btnGeolocateText">Ambil Titik Lokasi GPS</span>
                         </button>
                         @env('local')
                             <!-- Khusus mode test (APP_ENV=local): isi titik acak tanpa sensor GPS -->
                             <button type="button" id="btnRandomLocation"
-                                class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 border border-dashed border-amber-400 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 font-bold text-xs rounded-xl transition cursor-pointer shrink-0">
+                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-dashed border-warning text-warning dark:text-warning-soft hover:bg-warning-tint dark:hover:bg-warning-deep/30 font-semibold text-sm rounded-lg transition cursor-pointer">
                                 <flux:icon name="arrows-right-left" class="w-4 h-4 shrink-0" />
                                 <span>Acak Lokasi (Test)</span>
                             </button>
                         @endenv
                     </div>
+                </div>
 
-                    <!-- Kontainer Peta MapLibre (Read-Only GPS Visualization) -->
-                    <div class="relative">
-                        <div id="mapPicker"
-                            class="w-full h-80 rounded-2xl border border-slate-300 dark:border-[#282828] shadow-inner relative overflow-hidden">
-                            <div id="mapLoading"
-                                class="absolute inset-0 bg-white/70 dark:bg-[#141414]/80 backdrop-blur-sm z-10 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-[#CCCCCC]">
-                                Memuat peta OpenFreeMap...
-                            </div>
-                        </div>
-
-                        <!-- Overlay Badge: Pin Terkunci Sesuai GPS -->
-                        <div class="absolute top-3 left-3 z-10 pointer-events-none">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium bg-slate-900/90 text-white dark:bg-black/90 shadow-md backdrop-blur-xs">
-                                <flux:icon name="lock-closed" class="w-3 h-3 text-emerald-400" />
-                                <span>Pin Terkunci Sesuai GPS</span>
-                            </span>
+                <!-- Kontainer Peta MapLibre (Read-Only GPS Visualization) -->
+                <div class="relative">
+                    <div id="mapPicker"
+                        class="w-full h-64 sm:h-80 rounded-xl border border-sand-200 dark:border-sand-850 relative overflow-hidden">
+                        <div id="mapLoading"
+                            class="absolute inset-0 bg-white/70 dark:bg-sand-975/80 backdrop-blur-sm z-10 flex items-center justify-center text-sm font-medium text-sand-600 dark:text-sand-300">
+                            Memuat peta...
                         </div>
                     </div>
 
-                    <!-- Tampilan Alamat Terdeteksi Otomatis -->
-                    <div id="gpsStatusContainer"
-                        class="p-4 rounded-2xl bg-slate-50 dark:bg-[#181818] border border-slate-200 dark:border-[#282828] text-xs flex items-start space-x-3 transition">
-                        <div id="gpsStatusIcon" class="mt-0.5 shrink-0 text-slate-400 dark:text-[#787774]">
-                            <flux:icon name="map-pin" class="w-4 h-4" />
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="font-bold text-slate-800 dark:text-[#EDEDEC]" id="displayAddress">
-                                Sinyal GPS belum diambil. Klik tombol "Ambil Titik Lokasi GPS" di atas.
-                            </div>
-                            <div class="text-slate-500 dark:text-[#888888] text-[11px] mt-0.5 font-mono" id="displayCoordinates">
-                                Koordinat: Belum terkunci
-                            </div>
-                        </div>
+                    <!-- Overlay: pin mengikuti GPS, tidak bisa digeser manual -->
+                    <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-white/95 dark:bg-sand-975/95 text-sand-800 dark:text-sand-200 border border-sand-200 dark:border-sand-850 shadow-xs">
+                            <flux:icon name="lock-closed" class="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                            <span>Pin mengikuti GPS</span>
+                        </span>
                     </div>
                 </div>
 
-                <!-- Tombol Kirim Laporan -->
-                <div class="pt-4 border-t border-slate-200 dark:border-[#222222] flex items-center justify-end space-x-3">
-                    <a href="{{ route('reports.index') }}"
-                        class="px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 dark:text-[#888888] dark:hover:bg-[#222222] text-sm font-semibold transition">
-                        Batal
-                    </a>
-                    <button type="submit" id="submitBtn"
-                        class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-bold rounded-xl shadow-sm transition">
-                        Publikasikan Laporan
-                    </button>
+                <!-- Alamat terdeteksi otomatis. Gaya ditentukan data-locked; JS hanya mengubah atribut itu. -->
+                <div id="gpsStatusContainer" data-locked="false"
+                    class="group p-3.5 rounded-xl border text-sm flex items-start gap-3 transition bg-sand-25 border-sand-200 dark:bg-sand-950 dark:border-sand-850 data-[locked=true]:bg-emerald-50 data-[locked=true]:border-emerald-200 dark:data-[locked=true]:bg-emerald-950/40 dark:data-[locked=true]:border-emerald-900">
+                    <div id="gpsStatusIcon" class="mt-0.5 shrink-0 text-sand-400 dark:text-sand-600 group-data-[locked=true]:text-emerald-600 dark:group-data-[locked=true]:text-emerald-400">
+                        <flux:icon name="map-pin" class="w-4 h-4" />
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="font-semibold text-sand-800 dark:text-sand-100" id="displayAddress">
+                            Lokasi belum diambil. Tekan "Ambil Titik Lokasi GPS".
+                        </div>
+                        <div class="text-xs mt-0.5 tabular-nums text-sand-500 dark:text-sand-500 group-data-[locked=true]:text-emerald-800 dark:group-data-[locked=true]:text-emerald-300" id="displayCoordinates">
+                            Koordinat: belum terkunci
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
+            </section>
 
-        <!-- 3 Card Tutorial Singkat Alur Pelaporan SIRA -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-sans">
-            <!-- Bento 1 -->
-            <div
-                class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
-                <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span>01. OpenFreeMap &amp; Reverse Geocode</span>
-                </div>
-                <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Pilih titik lokasi pada peta terbuka. Nama jalan, kelurahan, dan kecamatan teridentifikasi otomatis
-                    tanpa dependensi API komersial berbayar.
-                </p>
+            <!-- Kirim laporan -->
+            <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 pt-1">
+                <a href="{{ route('reports.index') }}"
+                    class="text-center px-5 py-3 rounded-xl text-sand-600 hover:bg-sand-100 dark:text-sand-400 dark:hover:bg-sand-900 text-sm font-semibold transition">
+                    Batal
+                </a>
+                <button type="submit" id="submitBtn"
+                    class="px-6 py-3 btn-primary text-sm font-semibold rounded-xl transition">
+                    Publikasikan Laporan
+                </button>
             </div>
+        </form>
 
-            <!-- Bento 2 -->
-            <div
-                class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
-                <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-[#9F2F2D]"></span>
-                    <span>02. Crowdsourced Voting Tier</span>
-                </div>
-                <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Laporan diprioritaskan secara transparan. Dukungan suara warga yang menentukan apakah suatu
-                    masalah naik ke prioritas Trending, Mendesak, atau Kritis agar segera ditangani pemda.
-                </p>
-            </div>
-
-            <!-- Bento 3 -->
-            <div
-                class="p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-[#222222] bg-white dark:bg-[#141414] space-y-2 shadow-xs">
-                <div class="text-xs font-mono font-bold text-slate-900 dark:text-[#EDEDEC] flex items-center space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-[#1F6C9F]"></span>
-                    <span>03. WebGL Heatmap GPU</span>
-                </div>
-                <p class="text-xs text-slate-500 dark:text-[#9B9B97] leading-relaxed">
-                    Visualisasi titik-titik konsentrasi masalah kota secara menyeluruh. Semakin tinggi dukungan warga, semakin
-                    jelas intensitas titik masalah yang terpancar.
-                </p>
-            </div>
-        </div>
+        <!-- Tips agar laporan cepat ditindaklanjuti -->
+        <section class="rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 p-4 sm:p-6 space-y-3">
+            <h2 class="text-base font-bold text-sand-975 dark:text-sand-100">Agar laporan cepat ditangani</h2>
+            <ul class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-sm text-sand-700 dark:text-sand-300">
+                <li class="flex gap-2.5">
+                    <flux:icon name="camera" class="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span>Foto dari jarak yang memperlihatkan kerusakan <em>dan</em> sekitarnya.</span>
+                </li>
+                <li class="flex gap-2.5">
+                    <flux:icon name="map-pin" class="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span>Kunci lokasi di tempat. Nama jalan dan kelurahan terisi otomatis.</span>
+                </li>
+                <li class="flex gap-2.5">
+                    <flux:icon name="hand-thumb-up" class="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span>Ajak warga lain mendukung. Semakin banyak dukungan, semakin tinggi prioritasnya.</span>
+                </li>
+            </ul>
+        </section>
     </div>
 
     <!-- Modal Webcam Kamera Langsung (Desktop / Browser) -->
     <div id="webcamModal"
         class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
         <div
-            class="bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#282828] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl p-5 space-y-4">
+            class="bg-white dark:bg-sand-950 border border-sand-200 dark:border-sand-850 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl p-5 space-y-4">
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center gap-2">
                     <flux:icon name="camera" class="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                    <span class="text-sm font-bold text-slate-900 dark:text-[#EDEDEC]">Ambil Foto dari Kamera</span>
+                    <span class="text-base font-bold text-sand-975 dark:text-sand-100">Ambil foto</span>
                 </div>
                 <button type="button" id="closeWebcamBtn"
-                    class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer">
+                    class="text-sand-400 hover:text-sand-700 dark:hover:text-sand-200 p-1 cursor-pointer">
                     <flux:icon name="x-mark" class="w-5 h-5" />
                 </button>
             </div>
 
             <!-- Video Container -->
-            <div class="relative bg-black rounded-2xl overflow-hidden aspect-video flex items-center justify-center">
+            <div class="relative bg-black rounded-xl overflow-hidden aspect-video flex items-center justify-center">
                 <video id="webcamVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
                 <div id="webcamLoading"
-                    class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-xs space-x-2">
+                    class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-sm gap-2">
                     <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     <span>Menghubungkan ke kamera...</span>
                 </div>
@@ -330,12 +295,12 @@
             <!-- Shutter & Controls -->
             <div class="flex items-center justify-center gap-3 pt-1">
                 <button type="button" id="shutterBtn"
-                    class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-sm transition cursor-pointer">
+                    class="px-5 py-2.5 btn-primary text-sm font-semibold rounded-lg flex items-center gap-2 transition cursor-pointer">
                     <flux:icon name="camera" class="w-4 h-4" />
-                    <span>Jepret Foto</span>
+                    <span>Jepret</span>
                 </button>
                 <button type="button" id="cancelWebcamBtn"
-                    class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#282828] text-slate-700 dark:text-[#CCCCCC] text-xs font-semibold rounded-xl transition cursor-pointer">
+                    class="px-4 py-2.5 bg-sand-100 hover:bg-sand-200 dark:bg-sand-900 dark:hover:bg-sand-850 text-sand-700 dark:text-sand-300 text-sm font-semibold rounded-lg transition cursor-pointer">
                     Batal
                 </button>
             </div>
@@ -611,14 +576,11 @@
             const displayCoord = document.getElementById('displayCoordinates');
             const btnText = document.getElementById('btnGeolocateText');
 
+            // Gaya terkunci ditentukan data-locked (lihat markup #gpsStatusContainer)
             if (container) {
-                container.className = 'p-4 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300/80 dark:border-emerald-800/80 text-xs flex items-start space-x-3 transition';
-            }
-            if (icon) {
-                icon.className = 'mt-0.5 shrink-0 text-emerald-600 dark:text-emerald-400';
+                container.dataset.locked = 'true';
             }
             if (displayCoord) {
-                displayCoord.className = 'text-emerald-800 dark:text-emerald-300 text-[11px] mt-0.5 font-mono font-medium';
                 displayCoord.innerText = `GPS Terkunci: Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)}`;
             }
             if (btnText) {
@@ -767,11 +729,7 @@
             const words = descInput.value.trim().split(/\s+/).filter(Boolean);
             const count = words.length;
             wordCountDisplay.innerText = count;
-            if (count >= 5) {
-                wordCountDisplay.className = 'font-bold text-emerald-600 dark:text-emerald-400';
-            } else {
-                wordCountDisplay.className = 'font-bold text-rose-500';
-            }
+            wordCountDisplay.dataset.ok = String(count >= 5);
         }
         if (descInput) {
             descInput.addEventListener('input', updateWordCount);
@@ -815,11 +773,11 @@
             const dropdown = document.createElement('div');
             dropdown.id = 'createMentionDropdown';
             dropdown.style.zIndex = '99999';
-            dropdown.className = 'fixed hidden bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#262626] rounded-2xl shadow-2xl overflow-hidden w-72 max-w-[90vw] transition-opacity duration-150 text-left font-sans';
+            dropdown.className = 'fixed hidden bg-white dark:bg-sand-950 border border-slate-200 dark:border-sand-900 rounded-2xl shadow-2xl overflow-hidden w-72 max-w-[90vw] transition-opacity duration-150 text-left font-sans';
             dropdown.innerHTML = `
-                <div class="px-3 py-2 bg-slate-50 dark:bg-[#1F1F1E] border-b border-slate-100 dark:border-[#282828] text-[10px] font-bold text-slate-400 dark:text-[#888888] uppercase tracking-wider flex items-center justify-between">
+                <div class="px-3 py-2 bg-slate-50 dark:bg-sand-925 border-b border-slate-100 dark:border-sand-850 text-[10px] font-bold text-slate-400 dark:text-sand-500 uppercase tracking-wider flex items-center justify-between">
                     <span>Saran Tag Akun</span>
-                    <span class="text-[9px] font-normal lowercase text-slate-400 dark:text-[#777777]">↑↓ dan ↵</span>
+                    <span class="text-[9px] font-normal lowercase text-slate-400 dark:text-sand-600">↑↓ dan ↵</span>
                 </div>
                 <div id="createMentionDropdownList" class="p-1 max-h-56 overflow-y-auto space-y-0.5"></div>
             `;
@@ -860,7 +818,7 @@
                     const isSelected = (index === highlightedIndex);
                     item.className = isSelected
                         ? 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition bg-emerald-600 text-white font-semibold shadow-xs'
-                        : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-[#222222] text-slate-800 dark:text-[#EDEDEC]';
+                        : 'px-3 py-2 rounded-xl text-xs cursor-pointer flex items-center justify-between transition hover:bg-slate-100 dark:hover:bg-sand-900 text-slate-800 dark:text-sand-100';
 
                     const isAi = user.is_ai;
                     let badgeMarkup = '';
@@ -878,8 +836,8 @@
                                 ${isAi ? '<img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-6 h-6 rounded-full object-cover shrink-0">' : (user.username ? user.username.charAt(0).toUpperCase() : 'U')}
                             </div>
                             <div class="truncate">
-                                <div class="truncate text-xs ${isSelected ? 'text-white' : (isAi ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-900 dark:text-[#EDEDEC] font-medium')}">${user.name}</div>
-                                <div class="text-[11px] ${isSelected ? 'text-emerald-100' : 'text-slate-400 dark:text-[#888888]'} font-mono">@${user.username}</div>
+                                <div class="truncate text-xs ${isSelected ? 'text-white' : (isAi ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-900 dark:text-sand-100 font-medium')}">${user.name}</div>
+                                <div class="text-[11px] ${isSelected ? 'text-emerald-100' : 'text-slate-400 dark:text-sand-500'} font-mono">@${user.username}</div>
                             </div>
                         </div>
                         ${badgeMarkup}

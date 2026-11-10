@@ -40,7 +40,7 @@ test('halaman heatmap menampilkan filter kategori dan icon visual', function () 
     $response = $this->get(route('heatmap.index'));
 
     $response->assertOk();
-    $response->assertSee('Filter Kategori Masalah');
+    $response->assertSee('Saring kategori');
     $response->assertSee('Jalan & Jembatan');
     $response->assertSee('Drainase & Saluran Air');
     $response->assertSee('Sampah & Kebersihan');
@@ -49,7 +49,7 @@ test('halaman heatmap menampilkan filter kategori dan icon visual', function () 
     $response->assertSee('Trotoar & Fasilitas Difabel');
     $response->assertSee('Fasilitas Publik & Taman');
     $response->assertSee('cat-filter-btn');
-    $response->assertSee('Icon Kategori Pada Peta');
+    $response->assertSee('Ikon kategori');
 });
 
 test('endpoint heatmap geojson menyertakan metadata kategori dan icon id', function () {

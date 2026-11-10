@@ -3,121 +3,96 @@
 @section('title', 'Peta Heatmap Sebaran Masalah - SIRA')
 
 @section('content')
-<div class="space-y-6">
-    <!-- Header & Ringkasan Sebaran -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-[#141414] p-6 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm">
-        <div>
-            <div class="inline-flex items-center space-x-1.5 text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50 px-2.5 py-0.5 rounded-full mb-1">
-                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                <span>Visualisasi Kepadatan Geospasial</span>
-            </div>
-            <h1 class="text-2xl font-extrabold text-slate-900 dark:text-[#EDEDEC] tracking-tight">Peta Heatmap Laporan Komunitas</h1>
-            <p class="text-xs sm:text-sm text-slate-500 dark:text-[#888888] mt-0.5">
-                Area dengan warna merah membara menunjukkan konsentrasi laporan masalah dan dukungan voting yang tinggi.
+<div class="space-y-5 sm:space-y-6 py-2 sm:py-4">
+    <!-- Header: judul, penjelasan singkat, ringkasan angka -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-1">
+            <span class="text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">Peta Sebaran</span>
+            <h1 class="font-sans text-[1.75rem] leading-[1.15] sm:text-4xl font-extrabold tracking-tight text-sand-975 dark:text-sand-100">
+                Di mana masalahnya paling banyak?
+            </h1>
+            <p class="text-sm sm:text-base text-sand-600 dark:text-sand-400 leading-relaxed">
+                Semakin merah suatu area, semakin banyak laporan dan dukungan warga di sana.
             </p>
         </div>
 
-        <!-- Tier Stats Badges -->
-        <div class="flex flex-wrap items-center gap-2 text-xs">
-            <div class="px-3 py-1.5 rounded-xl bg-slate-900 dark:bg-[#222222] text-white font-bold">
-                Total: {{ $totalReports }} Laporan
-            </div>
-            <div class="px-3 py-1.5 rounded-xl bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 font-bold border border-rose-200 dark:border-rose-900/50">
-                Prioritas Kritis: {{ $tierCounts['critical'] }}
-            </div>
-            <div class="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 font-bold border border-amber-200 dark:border-amber-900/50">
-                Prioritas Mendesak: {{ $tierCounts['urgent'] }}
-            </div>
-            <div class="px-3 py-1.5 rounded-xl bg-teal-100 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 font-bold border border-teal-200 dark:border-teal-900/50">
-                Trending: {{ $tierCounts['trending'] }}
-            </div>
+        <!-- Ringkasan: satu baris angka ringkas -->
+        <div class="flex items-center gap-4 sm:gap-6 text-sm shrink-0">
+            <div><span class="text-xl font-bold tabular-nums text-sand-975 dark:text-sand-100">{{ $totalReports }}</span> <span class="text-sand-600 dark:text-sand-500">laporan</span></div>
+            <div><span class="text-xl font-bold tabular-nums text-danger dark:text-danger-soft">{{ $tierCounts['critical'] }}</span> <span class="text-sand-600 dark:text-sand-500">kritis</span></div>
+            <div><span class="text-xl font-bold tabular-nums text-warning dark:text-warning-soft">{{ $tierCounts['urgent'] }}</span> <span class="text-sand-600 dark:text-sand-500">mendesak</span></div>
         </div>
     </div>
 
-    <!-- Filter Kategori Masalah Interaktif -->
-    <div class="bg-white dark:bg-[#141414] p-4 sm:p-5 rounded-3xl border border-slate-200 dark:border-[#222222] shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-            <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                <h2 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-[#EDEDEC] tracking-tight">
-                    Filter Kategori Laporan
-                </h2>
-                <span id="activeFilterBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
-                    Semua Kategori ({{ $totalReports }})
-                </span>
-            </div>
-            <div class="text-[11px] text-slate-400 dark:text-[#888888]">
-                Klik kategori untuk memfilter titik panas dan icon visual pada peta
-            </div>
+    <!-- Filter kategori: satu baris geser di ponsel, membungkus di layar lebar -->
+    @php
+        // Gaya tombol filter ditentukan oleh data-active; JS hanya mengubah atribut itu.
+        $catBtnClass = 'cat-filter-btn shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition cursor-pointer border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-700 dark:text-sand-300 hover:bg-sand-50 dark:hover:bg-sand-925 data-[active=true]:bg-emerald-600 data-[active=true]:border-emerald-600 data-[active=true]:text-white dark:data-[active=true]:bg-emerald-600 dark:data-[active=true]:border-emerald-600 dark:data-[active=true]:text-white';
+        $catCountClass = 'text-xs tabular-nums opacity-70';
+    @endphp
+    <div class="space-y-2">
+        <div class="flex items-center justify-between gap-2">
+            <h2 class="text-sm font-semibold text-sand-800 dark:text-sand-200">Saring kategori</h2>
+            <span id="activeFilterBadge" class="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                Semua Kategori ({{ $totalReports }})
+            </span>
         </div>
-
-        <!-- Tombol Filter Kategori -->
-        <div class="flex flex-wrap items-center gap-2" id="categoryFilterContainer">
-            <button
-                type="button"
-                data-category="all"
-                class="cat-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer bg-slate-900 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs ring-2 ring-slate-900/20 dark:ring-emerald-400/30"
-            >
-                <flux:icon name="squares-2x2" class="w-3.5 h-3.5" />
+        <div class="-mx-4 px-4 sm:mx-0 sm:px-0 flex sm:flex-wrap items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="categoryFilterContainer">
+            <button type="button" data-category="all" data-active="true" class="{{ $catBtnClass }}">
+                <flux:icon name="squares-2x2" class="w-4 h-4 shrink-0" />
                 <span>Semua</span>
-                <span class="ml-0.5 text-[10px] px-1.5 py-0.5 rounded-full bg-white/20 dark:bg-slate-950/20 font-mono">{{ $totalReports }}</span>
+                <span class="{{ $catCountClass }}">{{ $totalReports }}</span>
             </button>
 
             @foreach($categories as $key => $cat)
-                <button
-                    type="button"
-                    data-category="{{ $key }}"
-                    class="cat-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer border border-slate-200 dark:border-[#282828] bg-slate-50 hover:bg-slate-100 dark:bg-[#1C1C1C] dark:hover:bg-[#252525] text-slate-700 dark:text-[#CCCCCC]"
-                >
-                    <flux:icon name="{{ $cat['icon'] }}" class="w-3.5 h-3.5 shrink-0" style="color: {{ $cat['color'] }}" />
+                <button type="button" data-category="{{ $key }}" data-active="false" class="{{ $catBtnClass }}">
+                    <flux:icon name="{{ $cat['icon'] }}" class="w-4 h-4 shrink-0" style="color: {{ $cat['color'] }}" />
                     <span>{{ $cat['label'] }}</span>
-                    <span class="ml-0.5 text-[10px] px-1.5 py-0.5 rounded-full bg-slate-200 dark:bg-[#2C2C2C] text-slate-700 dark:text-[#AAAAAA] font-mono">
-                        {{ $categoryCounts[$key] ?? 0 }}
-                    </span>
+                    <span class="{{ $catCountClass }}">{{ $categoryCounts[$key] ?? 0 }}</span>
                 </button>
             @endforeach
         </div>
     </div>
 
     <!-- Peta Heatmap Kontainer -->
-    <div class="relative w-full h-[650px] rounded-3xl border border-slate-300 dark:border-[#282828] shadow-md overflow-hidden bg-slate-100 dark:bg-[#181818]">
+    <div class="relative w-full h-[72vh] min-h-[440px] sm:h-[650px] rounded-2xl border border-sand-200 dark:border-sand-850 shadow-2xs overflow-hidden bg-sand-100 dark:bg-sand-950">
         <div id="heatmapMap" class="w-full h-full"></div>
 
         <!-- Overlay Loading -->
-        <div id="heatmapLoading" class="absolute inset-0 bg-white/70 dark:bg-[#141414]/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center space-y-2">
+        <div id="heatmapLoading" class="absolute inset-0 bg-white/70 dark:bg-sand-975/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center space-y-2">
             <div class="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-            <span class="text-xs font-bold text-slate-700 dark:text-[#CCCCCC]">Mengambil data titik sebaran OpenFreeMap...</span>
+            <span class="text-xs font-bold text-slate-700 dark:text-sand-300">Memuat titik laporan...</span>
         </div>
 
         <!-- Legend Panas & Kategori Icon (Pojok Kiri Bawah) -->
-        <div class="absolute bottom-6 left-6 z-10 bg-white/95 dark:bg-[#141414]/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 dark:border-[#282828] shadow-lg text-xs space-y-3 max-w-[280px] sm:max-w-xs">
+        <div class="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 z-10 bg-white/95 dark:bg-sand-975/95 backdrop-blur-md p-3 sm:p-3.5 rounded-xl border border-sand-200/80 dark:border-sand-850 shadow-md text-xs space-y-2.5 max-w-[240px] sm:max-w-xs">
             <!-- Heatmap Gradient -->
             <div>
-                <div class="font-extrabold text-slate-900 dark:text-[#EDEDEC] text-xs mb-1">Intensitas Panas Masalah</div>
+                <div class="font-extrabold text-slate-900 dark:text-sand-100 text-xs mb-1">Kepadatan masalah</div>
                 <div class="h-2.5 w-full rounded-full bg-gradient-to-r from-blue-400 via-yellow-400 via-orange-500 to-rose-600 shadow-inner"></div>
-                <div class="flex justify-between text-[10px] font-bold text-slate-500 dark:text-[#888888] mt-1">
+                <div class="flex justify-between text-[10px] font-bold text-slate-500 dark:text-sand-500 mt-1">
                     <span>Rendah (0-9)</span>
                     <span>Sedang (10-49)</span>
                     <span>Kritis (100+)</span>
                 </div>
             </div>
 
-            <div class="border-t border-slate-200/80 dark:border-[#262626]"></div>
+            <div class="border-t border-slate-200/80 dark:border-sand-900"></div>
 
             <!-- Category Icons Legend -->
             <div>
                 <div class="flex items-center justify-between gap-2">
-                    <span class="font-extrabold text-slate-900 dark:text-[#EDEDEC] text-xs">Icon Kategori Pada Peta</span>
+                    <span class="font-extrabold text-slate-900 dark:text-sand-100 text-xs">Ikon kategori</span>
                     <div class="flex items-center gap-1 shrink-0">
-                        <span class="text-[9px] font-semibold text-slate-400 bg-slate-100 dark:bg-[#202020] px-1.5 py-0.5 rounded">Zoom &ge; 12</span>
-                        <button type="button" id="btnToggleCategoryLegend" title="Sembunyikan icon kategori" aria-expanded="true" aria-controls="categoryLegendList" class="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-md hover:bg-slate-100 dark:hover:bg-[#202020] transition cursor-pointer">
+                        <span class="text-[9px] font-semibold text-slate-400 bg-slate-100 dark:bg-sand-925 px-1.5 py-0.5 rounded">Zoom &ge; 12</span>
+                        <button type="button" id="btnToggleCategoryLegend" title="Sembunyikan icon kategori" aria-expanded="true" aria-controls="categoryLegendList" class="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-md hover:bg-slate-100 dark:hover:bg-sand-925 transition cursor-pointer">
                             <flux:icon name="chevron-down" id="categoryLegendChevron" class="w-3.5 h-3.5 transition-transform" />
                         </button>
                     </div>
                 </div>
                 <div id="categoryLegendList" class="grid grid-cols-2 gap-x-2 gap-y-2 text-[11px] mt-1.5">
                     @foreach($categories as $key => $cat)
-                        <div class="flex items-center gap-1.5 text-slate-700 dark:text-[#CCCCCC]">
+                        <div class="flex items-center gap-1.5 text-slate-700 dark:text-sand-300">
                             <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
                                 <flux:icon name="{{ $cat['icon'] }}" class="w-3 h-3" />
                             </span>
@@ -130,15 +105,15 @@
 
         <!-- Banner Fokus Titik Laporan Terpilih -->
         <div id="focusReportBanner" class="hidden absolute top-4 left-14 sm:left-16 z-10 font-sans text-xs">
-            <div class="flex items-center gap-2 bg-white/95 dark:bg-[#161615]/95 backdrop-blur-md rounded-2xl border border-rose-200 dark:border-rose-900/60 shadow-lg px-3 py-2">
+            <div class="flex items-center gap-2 bg-white/95 dark:bg-sand-950/95 backdrop-blur-md rounded-2xl border border-rose-200 dark:border-rose-900/60 shadow-lg px-3 py-2">
                 <span class="relative flex h-2.5 w-2.5 shrink-0">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
                 </span>
-                <span class="font-bold text-slate-900 dark:text-[#EDEDEC] truncate max-w-[140px] sm:max-w-xs" id="focusReportTitle">
+                <span class="font-bold text-slate-900 dark:text-sand-100 truncate max-w-[140px] sm:max-w-xs" id="focusReportTitle">
                     Fokus Titik Laporan
                 </span>
-                <button type="button" id="btnResetFocus" title="Tampilkan Seluruh Titik Sebaran" class="ml-1 text-[10px] font-bold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#252525] dark:hover:bg-[#303030] transition cursor-pointer shrink-0">
+                <button type="button" id="btnResetFocus" title="Tampilkan Seluruh Titik Sebaran" class="ml-1 text-[10px] font-bold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-sand-900 dark:hover:bg-sand-850 transition cursor-pointer shrink-0">
                     Lihat Semua
                 </button>
             </div>
@@ -146,7 +121,7 @@
 
         <!-- Kontrol Pencarian Lokasi & GPS (Pojok Kanan Atas) -->
         <div class="absolute top-4 right-4 left-14 sm:left-auto sm:w-96 max-w-[calc(100%-4.5rem)] z-10 font-sans text-xs">
-            <div class="relative flex items-center bg-white/95 dark:bg-[#161615]/95 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-[#282828] shadow-lg p-1.5 gap-1.5 transition-all focus-within:ring-2 focus-within:ring-emerald-500/30 dark:focus-within:ring-emerald-400/20">
+            <div class="relative flex items-center bg-white/95 dark:bg-sand-950/95 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-sand-850 shadow-lg p-1.5 gap-1.5 transition-all focus-within:ring-2 focus-within:ring-emerald-500/30 dark:focus-within:ring-emerald-400/20">
                 <!-- Search Input Group -->
                 <div class="flex items-center flex-1 min-w-0 pl-2.5 pr-1 gap-2">
                     <flux:icon name="magnifying-glass" class="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />
@@ -155,7 +130,7 @@
                         id="locationSearchInput"
                         placeholder="Cari kota, kecamatan, jalan..."
                         autocomplete="off"
-                        class="w-full bg-transparent text-xs text-slate-900 dark:text-[#EDEDEC] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden py-1"
+                        class="w-full bg-transparent text-xs text-slate-900 dark:text-sand-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden py-1"
                     >
                     <!-- Clear Button -->
                     <button type="button" id="clearSearchBtn" title="Hapus pencarian" class="hidden p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-md cursor-pointer transition">
@@ -166,14 +141,14 @@
                 </div>
 
                 <!-- Separator -->
-                <div class="w-px h-5 bg-slate-200 dark:bg-[#282828] shrink-0"></div>
+                <div class="w-px h-5 bg-slate-200 dark:bg-sand-850 shrink-0"></div>
 
                 <!-- GPS Button -->
                 <button
                     type="button"
                     id="btnMyLoc"
                     title="Pusatkan ke Lokasi GPS Saya"
-                    class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#222222] dark:hover:bg-[#2A2A2A] text-slate-800 dark:text-[#EDEDEC] text-xs font-semibold shrink-0 cursor-pointer transition active:scale-95"
+                    class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-sand-900 dark:hover:bg-sand-850 text-slate-800 dark:text-sand-100 text-xs font-semibold shrink-0 cursor-pointer transition active:scale-95"
                 >
                     <flux:icon id="gpsIcon" name="viewfinder-circle" class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <div id="gpsLoading" class="hidden w-3.5 h-3.5 border-2 border-emerald-600 dark:border-emerald-400 border-t-transparent rounded-full animate-spin shrink-0"></div>
@@ -184,7 +159,7 @@
             <!-- Dropdown Hasil Pencarian -->
             <div
                 id="searchResultsDropdown"
-                class="hidden absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-[#161615] border border-slate-200 dark:border-[#282828] rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-[#222222] overscroll-contain font-sans"
+                class="hidden absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-sand-950 border border-slate-200 dark:border-sand-850 rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-30 divide-y divide-slate-100 dark:divide-sand-900 overscroll-contain font-sans"
             >
             </div>
         </div>
@@ -613,22 +588,19 @@
         const categoryButtons = document.querySelectorAll('.cat-filter-btn');
         const activeFilterBadge = document.getElementById('activeFilterBadge');
 
-        const categoryLabels = {
-            'all': 'Semua Kategori ({{ $totalReports }})',
-            @foreach($categories as $k => $c)
-                '{{ $k }}': '{{ $c['label'] }} ({{ $categoryCounts[$k] ?? 0 }})',
-            @endforeach
-        };
+        // Dikirim sebagai JSON agar label tampil apa adanya (bukan ter-escape HTML) karena dipakai lewat textContent
+        @php
+            $categoryLabels = ['all' => 'Semua Kategori ('.$totalReports.')'];
+            foreach ($categories as $k => $c) {
+                $categoryLabels[$k] = $c['label'].' ('.($categoryCounts[$k] ?? 0).')';
+            }
+        @endphp
+        const categoryLabels = @js($categoryLabels);
 
         function applyCategoryFilter(cat) {
-            // Update tampilan tombol aktif
+            // Gaya tombol aktif ditentukan oleh data-active (lihat $catBtnClass di markup)
             categoryButtons.forEach(btn => {
-                const bCat = btn.getAttribute('data-category');
-                if (bCat === cat) {
-                    btn.className = 'cat-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer bg-slate-900 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs ring-2 ring-slate-900/20 dark:ring-emerald-400/30';
-                } else {
-                    btn.className = 'cat-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer border border-slate-200 dark:border-[#282828] bg-slate-50 hover:bg-slate-100 dark:bg-[#1C1C1C] dark:hover:bg-[#252525] text-slate-700 dark:text-[#CCCCCC]';
-                }
+                btn.dataset.active = String(btn.getAttribute('data-category') === cat);
             });
 
             if (activeFilterBadge) {
@@ -659,11 +631,16 @@
     const categoryLegendChevron = document.getElementById('categoryLegendChevron');
 
     if (btnToggleCategoryLegend && categoryLegendList) {
-        btnToggleCategoryLegend.addEventListener('click', () => {
-            const isHidden = categoryLegendList.classList.toggle('hidden');
+        const setCategoryLegend = (isHidden) => {
+            categoryLegendList.classList.toggle('hidden', isHidden);
             btnToggleCategoryLegend.setAttribute('aria-expanded', String(!isHidden));
             btnToggleCategoryLegend.title = isHidden ? 'Tampilkan icon kategori' : 'Sembunyikan icon kategori';
             if (categoryLegendChevron) categoryLegendChevron.classList.toggle('-rotate-90', isHidden);
+        };
+        // Di ponsel legenda ikon dilipat dulu agar tidak menutupi separuh peta
+        if (window.matchMedia('(max-width: 639px)').matches) setCategoryLegend(true);
+        btnToggleCategoryLegend.addEventListener('click', () => {
+            setCategoryLegend(!categoryLegendList.classList.contains('hidden'));
         });
     }
 
@@ -752,7 +729,7 @@
 
                 if (!results || results.length === 0) {
                     searchDropdown.innerHTML = `
-                        <div class="p-3 text-center text-xs text-slate-500 dark:text-[#888888]">
+                        <div class="p-3 text-center text-xs text-slate-500 dark:text-sand-500">
                             Lokasi tidak ditemukan. Coba gunakan nama kota, jalan, atau daerah lain.
                         </div>
                     `;
@@ -765,15 +742,15 @@
                     const btn = document.createElement('button');
                     btn.type = 'button';
                     btn.setAttribute('data-index', index);
-                    btn.className = 'w-full text-left p-2.5 sm:p-3 hover:bg-slate-50 dark:hover:bg-[#1E1E1E] transition flex items-start gap-2.5 cursor-pointer search-item-btn';
+                    btn.className = 'w-full text-left p-2.5 sm:p-3 hover:bg-slate-50 dark:hover:bg-sand-925 transition flex items-start gap-2.5 cursor-pointer search-item-btn';
                     btn.innerHTML = `
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 21s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 7.2c0 7.3-8 11.8-8 11.8z" stroke-linecap="round" stroke-linejoin="round"/>
                             <circle cx="12" cy="10" r="3"/>
                         </svg>
                         <div class="flex-1 min-w-0">
-                            <div class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] truncate">${escapeHtml(item.name)}</div>
-                            <div class="text-[11px] text-slate-500 dark:text-[#888888] truncate">${escapeHtml(item.display_name)}</div>
+                            <div class="text-xs font-bold text-slate-900 dark:text-sand-100 truncate">${escapeHtml(item.name)}</div>
+                            <div class="text-[11px] text-slate-500 dark:text-sand-500 truncate">${escapeHtml(item.display_name)}</div>
                         </div>
                     `;
                     btn.addEventListener('click', () => selectSearchResult(item));

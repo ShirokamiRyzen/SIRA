@@ -3,65 +3,47 @@
 @section('title', 'SIRA — Sistem Informasi Ruang Aman')
 
 @section('content')
-<div class="space-y-6 sm:space-y-8 py-2">
-    <!-- Header Dasbor Ringkas & Boomer-Proof -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#EAEAEA] dark:border-[#222222] pb-5">
-        <div>
-            <div class="inline-flex items-center gap-2 mb-1">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-semibold">
-                    Pengawasan Warga
-                </span>
-                <span class="font-mono text-xs text-[#787774] dark:text-[#8E8D8A]">
-                    Sistem Terbuka
-                </span>
-            </div>
-            <h1 class="font-sans text-2xl sm:text-3xl text-[#111111] dark:text-[#EDEDEC] font-bold tracking-tight">
+<div class="space-y-6 sm:space-y-8 py-2 sm:py-4">
+    <!-- Header Dasbor: judul, penjelasan singkat, dan aksi utama -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-5">
+        <div class="space-y-1">
+            <span class="text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-bold">Pengawasan Warga</span>
+            <h1 class="font-sans text-[1.75rem] leading-[1.15] sm:text-4xl text-sand-975 dark:text-sand-100 font-extrabold tracking-tight">
                 Daftar Laporan Fasilitas
             </h1>
-            <p class="text-xs sm:text-sm text-[#787774] dark:text-[#9B9B97] font-sans mt-0.5">
-                Pantau perkembangan perbaikan fasilitas publik atau berikan dukungan suara Anda.
+            <p class="text-sm sm:text-base text-sand-600 dark:text-sand-400 leading-relaxed">
+                Pantau perbaikan fasilitas publik dan dukung laporan warga di sekitar Anda.
             </p>
         </div>
 
-        <div class="flex items-center gap-2.5 sm:gap-3 shrink-0 flex-wrap">
-            @auth
-                <a href="{{ request('my_reports') ? route('reports.index') : route('reports.index', ['my_reports' => 1]) }}#dashboard"
-                   class="px-3.5 py-2.5 border {{ request('my_reports') ? 'bg-emerald-600 border-emerald-600 text-white font-bold' : 'border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] text-[#111111] dark:text-[#EDEDEC]' }} text-xs font-mono font-medium rounded-[6px] transition inline-flex items-center gap-1.5 shadow-2xs">
-                    <flux:icon name="user" class="w-3.5 h-3.5 {{ request('my_reports') ? 'text-white' : 'text-emerald-600 dark:text-emerald-400' }}" />
-                    <span>Laporan Saya ({{ $myReportsCount }})</span>
-                </a>
-            @endauth
-            <a href="{{ route('reports.create') }}" class="px-5 py-2.5 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-mono font-medium rounded-[6px] transition inline-flex items-center gap-1.5 shadow-xs">
-                <span>+ Buat Laporan Baru</span>
-            </a>
-            <a href="{{ route('heatmap.index') }}" class="px-4 py-2.5 border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] text-[#111111] dark:text-[#EDEDEC] text-xs font-mono font-medium rounded-[6px] transition inline-flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
+        <!-- Aksi: lebar sama di ponsel, berdampingan di layar lebar -->
+        <div class="grid grid-cols-2 sm:flex gap-3 shrink-0">
+            <x-report-cta />
+            <a href="{{ route('heatmap.index') }}"
+               class="inline-flex items-center justify-center gap-1.5 px-3 sm:px-5 py-3 rounded-xl whitespace-nowrap border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-950 hover:bg-sand-50 dark:hover:bg-sand-925 text-sand-975 dark:text-sand-100 font-semibold text-sm transition">
+                <flux:icon name="map" class="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
                 <span>Peta Sebaran</span>
             </a>
         </div>
     </div>
 
-    <!-- Ringkasan Angka Status (4 Kotak Rapi & Kontras Tinggi) -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 font-mono">
-        <a href="{{ route('reports.index') }}#dashboard"
-            class="p-3 sm:p-3.5 rounded-[8px] border border-[#EAEAEA] dark:border-[#262626] bg-white dark:bg-[#161615] hover:border-[#BBBBBB] dark:hover:border-[#444444] transition flex flex-col justify-between shadow-xs">
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#787774] dark:text-[#8E8D8A]">Semua Laporan</div>
-            <div class="text-lg sm:text-2xl font-bold text-[#111111] dark:text-[#EDEDEC] mt-1">{{ number_format($totalReports) }}</div>
+    <!-- Ringkasan status: satu permukaan, angka di depan label, tiap angka adalah filter -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-px rounded-2xl border border-sand-100 dark:border-sand-900 bg-sand-100 dark:bg-sand-900 shadow-2xs overflow-hidden">
+        <a href="{{ route('reports.index') }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
+            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-sand-975 dark:text-sand-100">{{ number_format($totalReports) }}</div>
+            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Semua laporan</div>
         </a>
-        <a href="{{ route('reports.index', ['rank_tier' => 'critical']) }}#dashboard"
-            class="p-3 sm:p-3.5 rounded-[8px] border border-[#EAEAEA] dark:border-[#262626] bg-white dark:bg-[#161615] hover:border-[#9F2F2D]/50 transition flex flex-col justify-between shadow-xs">
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#9F2F2D]">Prioritas Kritis</div>
-            <div class="text-lg sm:text-2xl font-bold text-[#9F2F2D] mt-1">{{ number_format($criticalCount) }}</div>
+        <a href="{{ route('reports.index', ['rank_tier' => 'critical']) }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
+            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-danger dark:text-danger-soft">{{ number_format($criticalCount) }}</div>
+            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Prioritas kritis</div>
         </a>
-        <a href="{{ route('reports.index', ['rank_tier' => 'urgent']) }}#dashboard"
-            class="p-3 sm:p-3.5 rounded-[8px] border border-[#EAEAEA] dark:border-[#262626] bg-white dark:bg-[#161615] hover:border-[#956400]/50 transition flex flex-col justify-between shadow-xs">
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#956400] dark:text-[#E0BE69]">Prioritas Mendesak</div>
-            <div class="text-lg sm:text-2xl font-bold text-[#956400] dark:text-[#E0BE69] mt-1">{{ number_format($urgentCount) }}</div>
+        <a href="{{ route('reports.index', ['rank_tier' => 'urgent']) }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
+            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-warning dark:text-warning-soft">{{ number_format($urgentCount) }}</div>
+            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Prioritas mendesak</div>
         </a>
-        <a href="{{ route('reports.index', ['status' => 'resolved']) }}#dashboard"
-            class="p-3 sm:p-3.5 rounded-[8px] border border-[#EAEAEA] dark:border-[#262626] bg-white dark:bg-[#161615] hover:border-emerald-500/50 transition flex flex-col justify-between shadow-xs">
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Tuntas Selesai</div>
-            <div class="text-lg sm:text-2xl font-bold text-emerald-700 dark:text-emerald-400 mt-1">{{ number_format($resolvedCount) }}</div>
+        <a href="{{ route('reports.index', ['status' => 'resolved']) }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
+            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-emerald-700 dark:text-emerald-400">{{ number_format($resolvedCount) }}</div>
+            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Sudah selesai</div>
         </a>
     </div>
 

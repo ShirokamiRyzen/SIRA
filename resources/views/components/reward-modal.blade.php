@@ -43,7 +43,7 @@
     <div id="rewardPosterBackdrop" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeRewardModal()"></div>
 
     <!-- Kontainer Kartu Poster Interaktif -->
-    <div id="rewardPosterCard" class="relative w-full max-w-lg bg-[#FAFAFA] dark:bg-[#141414] border border-slate-200/90 dark:border-[#282828] rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 transform scale-95 opacity-0 z-10 my-auto text-left font-sans">
+    <div id="rewardPosterCard" class="relative w-full max-w-lg bg-sand-25 dark:bg-sand-975 border border-slate-200/90 dark:border-sand-850 rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 transform scale-95 opacity-0 z-10 my-auto text-left font-sans">
         <!-- Banner Header Poster Berwarna Dinamis -->
         <div class="relative bg-gradient-to-br from-amber-500 via-amber-600 to-emerald-700 dark:from-amber-600 dark:via-amber-700 dark:to-emerald-900 p-6 sm:p-7 text-white overflow-hidden select-none">
             <!-- Ornamen Pola Latar Belakang -->
@@ -59,7 +59,7 @@
             </button>
 
             <!-- Badge Kategori -->
-            <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[11px] font-mono uppercase tracking-widest font-bold mb-3 shadow-xs">
+            <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs uppercase tracking-widest font-bold mb-3 shadow-xs">
                 <flux:icon name="trophy" class="w-3.5 h-3.5 text-white shrink-0" />
                 <span>Program Apresiasi Warga</span>
             </div>
@@ -80,10 +80,10 @@
                     <flux:icon name="chart-bar" class="w-4 h-4 text-slate-950" />
                 </div>
                 <div class="text-xs">
-                    <div class="font-bold text-slate-900 dark:text-[#EDEDEC]">
+                    <div class="font-bold text-slate-900 dark:text-sand-100">
 Parameter Penilaian: <span class="text-amber-600 dark:text-amber-400">Laporan Valid</span>
 </div>
-<p class="text-slate-600 dark:text-[#A0A0A0] text-[11px] mt-0.5 leading-relaxed">
+<p class="text-slate-600 dark:text-sand-400 text-xs mt-0.5 leading-relaxed">
 Setiap laporan kerusakan fasilitas umum yang valid meningkatkan peluang Anda mendapatkan hadiah voucher bulanan. Makin aktif Anda melapor, makin besar peluangnya!
 </p>
                 </div>
@@ -92,11 +92,11 @@ Setiap laporan kerusakan fasilitas umum yang valid meningkatkan peluang Anda men
 <!-- Hadiah Voucher Bulanan -->
 <div class="space-y-2.5">
 <div class="flex items-center justify-between">
-<span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#EDEDEC] flex items-center space-x-1.5">
+<span class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-sand-100 flex items-center space-x-1.5">
 <flux:icon name="gift" class="w-4 h-4 text-amber-500 shrink-0" />
 <span>Hadiah Voucher Bulanan</span>
 </span>
-<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold">
+<span class="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold">
 Periode Setiap Bulan
 </span>
 </div>
@@ -107,26 +107,26 @@ Periode Setiap Bulan
 </div>
 <div class="min-w-0">
 <div class="font-bold text-amber-900 dark:text-amber-300">Hadiah Voucher Hingga Rp 50.000</div>
-<div class="text-[11px] text-slate-600 dark:text-[#A0A0A0] leading-relaxed">Tanpa peringkat. Diberikan kepada pelapor terpilih setiap bulan.</div>
+<div class="text-xs text-slate-600 dark:text-sand-400 leading-relaxed">Tanpa peringkat. Diberikan kepada pelapor terpilih setiap bulan.</div>
 </div>
 </div>
 </div>
 
             <!-- Live Leaderboard Saat Ini (Top 5 Pelapor Teraktif) -->
-            <div class="space-y-2 pt-1 border-t border-slate-200/80 dark:border-[#242424]">
+            <div class="space-y-2 pt-1 border-t border-slate-200/80 dark:border-sand-900">
                 <div class="flex items-center justify-between text-xs">
-                    <span class="font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#EDEDEC] flex items-center space-x-1.5">
+                    <span class="font-bold uppercase tracking-wider text-slate-700 dark:text-sand-100 flex items-center space-x-1.5">
                         <flux:icon name="sparkles" class="w-3.5 h-3.5 text-amber-500 shrink-0" />
                         <span>Klasemen Terkini (Top 5 Pelapor)</span>
                     </span>
-                    <span class="text-[10px] font-mono text-slate-400 dark:text-[#777777]">Live Update</span>
+                    <span class="text-xs text-slate-400 dark:text-sand-600">Live Update</span>
                 </div>
 
                 <div class="space-y-1.5">
                     @forelse ($topReporters as $reporter)
-                        <div class="flex items-center justify-between p-2.5 rounded-xl {{ $loop->first ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-white dark:bg-[#1A1A19] border border-slate-200/70 dark:border-[#282828]' }}">
+                        <div class="flex items-center justify-between p-2.5 rounded-xl {{ $loop->first ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-white dark:bg-sand-950 border border-slate-200/70 dark:border-sand-850' }}">
                             <div class="flex items-center space-x-2.5 min-w-0">
-                                <span class="font-mono text-xs font-bold w-5 flex items-center justify-center shrink-0 {{ $loop->index === 0 ? 'text-amber-500' : ($loop->index === 1 ? 'text-slate-400' : ($loop->index === 2 ? 'text-amber-700' : 'text-slate-500')) }}">
+                                <span class="tabular-nums text-xs font-bold w-5 flex items-center justify-center shrink-0 {{ $loop->index === 0 ? 'text-amber-500' : ($loop->index === 1 ? 'text-slate-400' : ($loop->index === 2 ? 'text-amber-700' : 'text-slate-500')) }}">
                                     @if ($loop->index === 0)
                                         <flux:icon name="trophy" class="w-3.5 h-3.5 text-amber-500" />
                                     @elseif ($loop->index === 1)
@@ -138,35 +138,33 @@ Periode Setiap Bulan
                                     @endif
                                 </span>
                                 <div class="inline-flex items-center space-x-1 min-w-0">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-[#EDEDEC] truncate">@<span>{{ $reporter['username'] ?? '' }}</span></span>
+                                    <span class="text-xs font-bold text-slate-900 dark:text-sand-100 truncate">@<span>{{ $reporter['username'] ?? '' }}</span></span>
                                     <x-verified-badge :type="$reporter['badge_type'] ?? null" size="xs" />
                                 </div>
                             </div>
-                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
-                                {{ $reporter['reports_count'] ?? 0 }} <span class="text-[10px] font-normal text-slate-500 dark:text-[#888888]">Laporan</span>
+                            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
+                                {{ $reporter['reports_count'] ?? 0 }} <span class="text-xs font-normal text-slate-500 dark:text-sand-500">Laporan</span>
                             </span>
                         </div>
                     @empty
-                        <p class="text-center py-3 text-xs text-slate-400 font-mono">Belum ada data pelapor.</p>
+                        <p class="text-center py-3 text-xs text-slate-400">Belum ada data pelapor.</p>
                     @endforelse
                 </div>
             </div>
         </div>
 
         <!-- Footer Aksi & CTA -->
-        <div class="p-4 sm:p-5 bg-slate-100 dark:bg-[#181818] border-t border-slate-200 dark:border-[#262626] flex flex-col sm:flex-row items-center justify-between gap-3">
-            <label class="flex items-center space-x-2 text-[11px] font-mono text-slate-500 dark:text-[#888888] select-none cursor-pointer">
+        <div class="p-4 sm:p-5 bg-slate-100 dark:bg-sand-950 border-t border-slate-200 dark:border-sand-900 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <label class="flex items-center space-x-2 text-xs text-slate-500 dark:text-sand-500 select-none cursor-pointer">
                 <input type="checkbox" id="dontShowAgainCheck" onchange="toggleRewardModalPreference(this)" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
                 <span>Jangan tampilkan lagi hari ini</span>
             </label>
 
             <div class="flex items-center space-x-2 w-full sm:w-auto">
-                <button type="button" onclick="closeRewardModal()" class="w-1/2 sm:w-auto px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 dark:text-[#CCCCCC] dark:hover:bg-[#252525] transition cursor-pointer">
+                <button type="button" onclick="closeRewardModal()" class="w-1/2 sm:w-auto px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 dark:text-sand-300 dark:hover:bg-sand-900 transition cursor-pointer">
                     Tutup
                 </button>
-                <a href="{{ route('reports.create') }}" class="w-1/2 sm:w-auto px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition flex items-center justify-center space-x-1.5 shadow-sm active:scale-95">
-                    <span>Lapor Sekarang &rarr;</span>
-                </a>
+                <x-report-cta size="sm" label="Lapor Sekarang" class="w-1/2 sm:w-auto" />
             </div>
         </div>
     </div>

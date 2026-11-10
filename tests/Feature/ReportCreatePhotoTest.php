@@ -13,9 +13,9 @@ test('report create page renders camera and gallery options', function () {
     $response->assertSee('galleryInput');
     $response->assertSee('cameraInput');
     $response->assertSee('webcamModal');
-    $response->assertSee('OpenFreeMap &amp; Reverse Geocode', false);
-    $response->assertSee('Crowdsourced Voting Tier');
-    $response->assertSee('WebGL Heatmap GPU');
+    $response->assertSee('Agar laporan cepat ditangani');
+    $response->assertSee('currentWordCount');
+    $response->assertSee('gpsStatusContainer');
 });
 
 test('landing hero in index page no longer renders tutorial bento grid cards', function () {

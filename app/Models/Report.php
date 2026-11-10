@@ -256,14 +256,25 @@ class Report extends Model
         return $this->category_meta['symbol'];
     }
 
+    /**
+     * Label tampilan untuk setiap status. Satu sumber untuk server (accessor) dan
+     * klien (JS di halaman detail yang memperbarui badge status tanpa reload).
+     *
+     * @return array<string, string>
+     */
+    public static function statusLabels(): array
+    {
+        return [
+            'active' => 'Menunggu Respon',
+            'in_progress' => 'Sedang Diproses',
+            'resolved' => 'Selesai',
+            'archived' => 'Diarsipkan',
+        ];
+    }
+
     public function getStatusLabelAttribute(): string
     {
-        return match ($this->status) {
-            'resolved' => 'Selesai',
-            'in_progress' => 'Sedang Diproses',
-            'archived' => 'Diarsipkan',
-            default => 'Menunggu Respon',
-        };
+        return self::statusLabels()[$this->status] ?? self::statusLabels()['active'];
     }
 
     public function getTierLabelAttribute(): string

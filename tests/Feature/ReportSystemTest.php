@@ -623,6 +623,29 @@ test('laporan yang masih aktif menampilkan badge waktu berapa lama belum diprose
     $showResponse->assertSee('3 hari belum diproses');
 });
 
+test('badge belum diproses tersembunyi pada laporan yang sudah selesai di halaman detail', function () {
+    $user = User::factory()->create();
+
+    $resolvedReport = Report::create([
+        'user_id' => $user->id,
+        'title' => 'Jalan Sudah Diperbaiki',
+        'description' => 'Aspal sudah ditambal.',
+        'image_base64' => 'data:image/jpeg;base64,dummy',
+        'latitude' => -6.914744,
+        'longitude' => 107.609810,
+        'city' => 'Kota Bandung',
+        'district' => 'Sumur Bandung',
+        'rank_tier' => 'normal',
+        'status' => 'resolved',
+    ]);
+
+    $html = $this->get(route('reports.show', $resolvedReport))->assertOk()->getContent();
+
+    // Elemen yang membawa `hidden` tidak boleh sekaligus membawa utilitas display lain
+    // (mis. `inline-flex`), karena di build Tailwind v4 utilitas itu menimpa `hidden`.
+    expect($html)->toMatch('/id="reportPendingBadge" class="hidden"/');
+});
+
 test('dasbor laporan menampilkan pagination di bagian atas dan bawah daftar laporan ketika data melebihi batas per halaman', function () {
     $user = User::factory()->create();
 

@@ -3,24 +3,22 @@
 @section('title', 'Daftar Akun Baru — SIRA')
 
 @section('content')
-<div class="max-w-md mx-auto py-16 sm:py-24 px-4 relative">
-    <!-- Subtle Ambient Warm Depth -->
-    <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-amber-500/[0.03] blur-[80px] pointer-events-none -z-10"></div>
+<div class="max-w-md mx-auto py-6 sm:py-16 relative">
 
-    <div class="bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#222222] rounded-[8px] p-8 sm:p-10">
+    <div class="bg-white dark:bg-sand-975 border border-sand-200 dark:border-sand-900 rounded-2xl shadow-2xs p-6 sm:p-10">
         <!-- Header -->
         <div class="mb-8">
             <div class="flex items-center gap-2 mb-4">
-                <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-6 h-6 rounded-[4px] object-contain shrink-0">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-[#EDF3EC] text-[#346538] dark:bg-[#1C281E] dark:text-[#82C78A]">
+                <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-6 h-6 rounded-md object-contain shrink-0">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     Registrasi
                 </span>
             </div>
 
-            <h1 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-[#111111] dark:text-[#EDEDEC] leading-tight">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-sand-975 dark:text-sand-100 leading-tight">
                 Buat akun warga
             </h1>
-            <p class="text-xs text-[#787774] dark:text-[#9B9B97] mt-1.5 leading-relaxed font-sans">
+            <p class="text-sm text-sand-600 dark:text-sand-400 mt-1.5 leading-relaxed">
                 Daftar via Google atau buat akun manual untuk mulai mendokumentasikan laporan fasilitas publik.
             </p>
         </div>
@@ -28,7 +26,7 @@
         <!-- Tombol Daftar dengan Google -->
         <div class="space-y-4">
             <a href="{{ route('auth.google.redirect') }}"
-               class="w-full py-2.5 px-4 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] hover:bg-[#F7F6F3] dark:hover:bg-[#202020] text-xs font-medium text-[#111111] dark:text-[#EDEDEC] transition duration-150 flex items-center justify-center space-x-2.5 shadow-2xs active:scale-[0.99]">
+               class="w-full py-3 px-4 rounded-lg border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 hover:bg-sand-50 dark:hover:bg-sand-925 text-sm font-semibold text-sand-975 dark:text-sand-100 transition duration-150 flex items-center justify-center space-x-2.5 shadow-2xs active:scale-[0.99]">
                 <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -39,8 +37,8 @@
             </a>
 
             <div class="relative flex items-center justify-center my-4">
-                <div class="w-full border-t border-[#EAEAEA] dark:border-[#242424]"></div>
-                <span class="relative px-3 bg-white dark:bg-[#141414] text-[10px] font-mono uppercase tracking-widest text-[#999999]">atau daftar manual</span>
+                <div class="absolute inset-x-0 top-1/2 border-t border-sand-200 dark:border-sand-900"></div>
+                <span class="relative px-3 bg-white dark:bg-sand-975 text-xs text-sand-500 whitespace-nowrap">atau daftar manual</span>
             </div>
         </div>
 
@@ -49,67 +47,66 @@
             @csrf
 
             <div>
-                <label for="name" class="block text-[11px] font-mono uppercase tracking-wider text-[#787774] dark:text-[#888888] mb-1.5">
+                <label for="name" class="block text-sm font-semibold text-sand-800 dark:text-sand-200 mb-1.5">
                     Nama Lengkap
                 </label>
                 <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus
                     placeholder="Nama Lengkap Anda"
-                    class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] placeholder-[#999999] focus:outline-none focus:border-[#111111] dark:focus:border-[#EDEDEC] transition duration-150">
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 text-sm text-sand-975 dark:text-sand-100 placeholder-sand-400 dark:placeholder-sand-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150">
                 @error('name')
-                    <p class="text-[11px] font-mono text-[#9F2F2D] mt-1.5">{{ $message }}</p>
+                    <p class="text-sm text-danger dark:text-danger-soft mt-1.5">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
                 <div class="flex items-center justify-between mb-1.5">
-                    <label for="username" class="block text-[11px] font-mono uppercase tracking-wider text-[#787774] dark:text-[#888888]">
+                    <label for="username" class="block text-sm font-semibold text-sand-800 dark:text-sand-200">
                         Username
                     </label>
-                    <span class="text-[10px] font-mono text-[#999999]">min. 3 karakter</span>
+                    <span class="text-xs text-sand-500">min. 3 karakter</span>
                 </div>
                 <input type="text" id="username" name="username" value="{{ old('username') }}" required
                     placeholder="username_unik"
-                    class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] placeholder-[#999999] focus:outline-none focus:border-[#111111] dark:focus:border-[#EDEDEC] transition duration-150">
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 text-sm text-sand-975 dark:text-sand-100 placeholder-sand-400 dark:placeholder-sand-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150">
                 @error('username')
-                    <p class="text-[11px] font-mono text-[#9F2F2D] mt-1.5">{{ $message }}</p>
+                    <p class="text-sm text-danger dark:text-danger-soft mt-1.5">{{ $message }}</p>
                 @enderror
             </div>
 
 
             <div>
-                <label for="password" class="block text-[11px] font-mono uppercase tracking-wider text-[#787774] dark:text-[#888888] mb-1.5">
+                <label for="password" class="block text-sm font-semibold text-sand-800 dark:text-sand-200 mb-1.5">
                     Kata Sandi
                 </label>
                 <input type="password" id="password" name="password" required
                     placeholder="Minimal 6 karakter"
-                    class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] placeholder-[#999999] focus:outline-none focus:border-[#111111] dark:focus:border-[#EDEDEC] transition duration-150">
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 text-sm text-sand-975 dark:text-sand-100 placeholder-sand-400 dark:placeholder-sand-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150">
                 @error('password')
-                    <p class="text-[11px] font-mono text-[#9F2F2D] mt-1.5">{{ $message }}</p>
+                    <p class="text-sm text-danger dark:text-danger-soft mt-1.5">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
-                <label for="password_confirmation" class="block text-[11px] font-mono uppercase tracking-wider text-[#787774] dark:text-[#888888] mb-1.5">
+                <label for="password_confirmation" class="block text-sm font-semibold text-sand-800 dark:text-sand-200 mb-1.5">
                     Konfirmasi Kata Sandi
                 </label>
                 <input type="password" id="password_confirmation" name="password_confirmation" required
                     placeholder="Ulangi kata sandi"
-                    class="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#181818] text-xs font-mono text-[#111111] dark:text-[#EDEDEC] placeholder-[#999999] focus:outline-none focus:border-[#111111] dark:focus:border-[#EDEDEC] transition duration-150">
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 text-sm text-sand-975 dark:text-sand-100 placeholder-sand-400 dark:placeholder-sand-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150">
             </div>
 
             <div class="pt-2">
                 <button type="submit"
-                    class="w-full py-2.5 px-4 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-[#FFFFFF] font-sans font-medium rounded-[6px] text-xs transition duration-150 flex items-center justify-center space-x-2">
+                    class="w-full py-3 px-4 btn-primary font-semibold rounded-lg text-sm transition duration-150 flex items-center justify-center space-x-2">
                     <span>Daftarkan Akun</span>
-                    <kbd class="border border-[#333333] dark:border-[#CCCCCC] rounded-[3px] bg-[#222222] dark:bg-[#E0E0E0] px-1 py-0.2 text-[9px] font-mono text-white dark:text-[#111111]">↵</kbd>
                 </button>
             </div>
         </form>
 
         <!-- Footer Card -->
-        <div class="mt-8 pt-6 border-t border-[#EAEAEA] dark:border-[#222222] flex items-center justify-between text-xs text-[#787774] dark:text-[#888888] font-sans">
+        <div class="mt-8 pt-6 border-t border-sand-200 dark:border-sand-900 flex items-center justify-between gap-3 text-sm text-sand-600 dark:text-sand-500">
             <span>Sudah memiliki akun?</span>
-            <a href="{{ route('login') }}" class="font-medium text-[#111111] dark:text-[#EDEDEC] hover:underline underline-offset-4">
+            <a href="{{ route('login') }}" class="font-semibold text-emerald-700 dark:text-emerald-400 hover:underline underline-offset-4">
                 Masuk ke akun &rarr;
             </a>
         </div>

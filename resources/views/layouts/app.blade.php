@@ -83,30 +83,30 @@
     @livewireStyles
     @stack('styles')
 </head>
-<body class="bg-[#FBFBFA] dark:bg-[#0E0E0E] text-[#111111] dark:text-[#EDEDEC] antialiased min-h-screen flex flex-col font-sans selection:bg-[#EAEAEA] dark:selection:bg-[#2A2A2A]">
+<body class="bg-sand-25 dark:bg-sand-1000 text-sand-975 dark:text-sand-100 antialiased min-h-screen flex flex-col font-sans selection:bg-sand-100 dark:selection:bg-sand-850">
     <!-- Navbar Header Component -->
     <x-header />
 
     <!-- Global Alerts -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full font-mono text-xs">
         @if (session('success'))
-            <div class="flex items-center justify-between p-3.5 mb-4 rounded-[6px] bg-[#EDF3EC] text-[#346538] dark:bg-[#1C281E] dark:text-[#82C78A] border border-[#346538]/20" role="alert">
+            <div class="flex items-center justify-between p-3.5 mb-4 rounded-md bg-success-tint text-success dark:bg-success-deep dark:text-success-soft border border-success/20" role="alert">
                 <div class="flex items-center space-x-2">
                     <span class="font-bold">[SUKSES]</span>
                     <span class="font-sans text-xs">{{ session('success') }}</span>
                 </div>
-                <button type="button" onclick="this.parentElement.remove()" class="text-[#346538] dark:text-[#82C78A] hover:opacity-75 text-sm">&times;</button>
+                <button type="button" onclick="this.parentElement.remove()" class="text-success dark:text-success-soft hover:opacity-75 text-sm">&times;</button>
             </div>
         @endif
 
         @if (session('error') || $errors->any())
-            <div class="p-3.5 mb-4 rounded-[6px] bg-[#FDEBEC] text-[#9F2F2D] dark:bg-[#311617] dark:text-[#E88C8A] border border-[#9F2F2D]/20" role="alert">
+            <div class="p-3.5 mb-4 rounded-md bg-danger-tint text-danger dark:bg-danger-deep dark:text-danger-soft border border-danger/20" role="alert">
                 <div class="flex items-center space-x-2 font-bold mb-1">
                     <span>[PERINGATAN]</span>
                     <span class="font-sans text-xs">{{ session('error') ?? 'Terjadi kesalahan pada data input:' }}</span>
                 </div>
                 @if ($errors->any())
-                    <ul class="list-disc list-inside text-[11px] space-y-0.5 text-[#9F2F2D] dark:text-[#E88C8A]">
+                    <ul class="list-disc list-inside text-[11px] space-y-0.5 text-danger dark:text-danger-soft">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach

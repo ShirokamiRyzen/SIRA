@@ -1,11 +1,11 @@
 <!-- Component: Header Navigation (Minimalist Utilitarian) -->
-<header class="bg-[#FBFBFA]/85 dark:bg-[#0E0E0E]/85 backdrop-blur-md border-b border-[#EAEAEA] dark:border-[#202020] sticky top-0 z-50">
+<header class="bg-sand-25/85 dark:bg-sand-1000/85 backdrop-blur-md border-b border-sand-100 dark:border-sand-925 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <!-- Brand Logo -->
         <div class="flex items-center space-x-6">
             <a href="{{ url('/') }}" class="flex items-center space-x-2.5 group" title="SIRA — Sistem Informasi Ruang Aman">
-                <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-7 h-7 rounded-[4px] object-contain shrink-0">
-                <span class="text-sm font-semibold tracking-tight text-[#111111] dark:text-[#EDEDEC]">SIRA</span>
+                <img src="{{ asset('android-chrome-512x512.png') }}" alt="SIRA Logo" class="w-7 h-7 rounded-md object-contain shrink-0">
+                <span class="text-sm font-semibold tracking-tight text-sand-975 dark:text-sand-100">SIRA</span>
             </a>
 
             <!-- Navigation Links -->
@@ -16,26 +16,26 @@
                         type="button"
                         id="reportsNavDropdownBtn"
                         aria-expanded="false"
-                        class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 cursor-pointer {{ request()->routeIs('reports.index') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}"
+                        class="px-3 py-1.5 rounded-md transition-colors flex items-center space-x-1.5 cursor-pointer {{ request()->routeIs('reports.index') ? 'text-sand-975 dark:text-sand-100 bg-sand-100/80 dark:bg-sand-900 font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/40 dark:hover:bg-sand-925' }}"
                     >
-                        <flux:icon name="document-text" class="w-3.5 h-3.5 shrink-0 text-[#787774] dark:text-[#9B9B97]" />
+                        <flux:icon name="document-text" class="w-3.5 h-3.5 shrink-0 text-sand-600 dark:text-sand-500" />
                         <span>Laporan</span>
-                        <flux:icon name="chevron-down" id="reportsNavChevron" class="w-3 h-3 text-[#787774] dark:text-[#9B9B97] transition-transform duration-200" />
+                        <flux:icon name="chevron-down" id="reportsNavChevron" class="w-3 h-3 text-sand-600 dark:text-sand-500 transition-transform duration-200" />
                     </button>
 
                     <div
                         id="reportsNavDropdownMenu"
-                        class="hidden absolute left-0 mt-1.5 w-48 rounded-xl bg-white dark:bg-[#161615] border border-[#EAEAEA] dark:border-[#282828] shadow-lg py-1 z-50 transition-all font-mono"
+                        class="hidden absolute left-0 mt-1.5 w-48 rounded-xl bg-white dark:bg-sand-950 border border-sand-100 dark:border-sand-850 shadow-lg py-1 z-50 transition-all font-mono"
                     >
                         <a href="{{ route('reports.index') }}"
-                           class="flex items-center space-x-2 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold' : '' }}">
-                            <flux:icon name="queue-list" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97] shrink-0" />
+                           class="flex items-center space-x-2 px-3 py-2 text-xs text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-sand-50 dark:bg-sand-925 font-bold' : '' }}">
+                            <flux:icon name="queue-list" class="w-3.5 h-3.5 text-sand-600 dark:text-sand-500 shrink-0" />
                             <span>Semua Laporan</span>
                         </a>
 
                         @auth
                             <a href="{{ route('reports.index', ['my_reports' => 1]) }}"
-                               class="flex items-center space-x-2 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold text-emerald-600 dark:text-emerald-400' : '' }}">
+                               class="flex items-center space-x-2 px-3 py-2 text-xs text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-sand-50 dark:bg-sand-925 font-bold text-emerald-600 dark:text-emerald-400' : '' }}">
                                 <flux:icon name="user" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                                 <span class="text-emerald-700 dark:text-emerald-400 font-medium">Laporan Saya</span>
                             </a>
@@ -44,8 +44,8 @@
                 </div>
 
                 <!-- Peta Sebaran Masalah -->
-                <a href="{{ route('heatmap.index') }}" class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 {{ request()->routeIs('heatmap.index') ? 'text-[#111111] dark:text-[#EDEDEC] bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}">
-                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#9F2F2D]"></span>
+                <a href="{{ route('heatmap.index') }}" class="px-3 py-1.5 rounded-md transition-colors flex items-center space-x-1.5 {{ request()->routeIs('heatmap.index') ? 'text-sand-975 dark:text-sand-100 bg-sand-100/80 dark:bg-sand-900 font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/40 dark:hover:bg-sand-925' }}">
+                    <flux:icon name="map" class="w-3.5 h-3.5 shrink-0 text-sand-600 dark:text-sand-500" />
                     <span>Peta Sebaran</span>
                 </a>
 
@@ -57,7 +57,7 @@
                                 type="button"
                                 id="adminNavDropdownBtn"
                                 aria-expanded="false"
-                                class="px-3 py-1.5 rounded-[6px] transition-colors flex items-center space-x-1.5 cursor-pointer {{ request()->routeIs('admin.*') ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-amber-600 dark:hover:text-amber-400 hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }}"
+                                class="px-3 py-1.5 rounded-md transition-colors flex items-center space-x-1.5 cursor-pointer {{ request()->routeIs('admin.*') ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-sand-100/40 dark:hover:bg-sand-925' }}"
                             >
                                 <flux:icon name="shield-check" class="w-3.5 h-3.5 shrink-0 text-amber-500" />
                                 <span>Manajemen</span>
@@ -66,15 +66,15 @@
 
                             <div
                                 id="adminNavDropdownMenu"
-                                class="hidden absolute left-0 mt-1.5 w-52 rounded-xl bg-white dark:bg-[#161615] border border-[#EAEAEA] dark:border-[#282828] shadow-lg py-1 z-50 transition-all font-mono"
+                                class="hidden absolute left-0 mt-1.5 w-52 rounded-xl bg-white dark:bg-sand-950 border border-sand-100 dark:border-sand-850 shadow-lg py-1 z-50 transition-all font-mono"
                             >
                                 <a href="{{ route('admin.reports.index') }}"
-                                   class="flex items-center space-x-2.5 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('admin.reports.*') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold text-amber-600 dark:text-amber-400' : '' }}">
+                                   class="flex items-center space-x-2.5 px-3 py-2 text-xs text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition {{ request()->routeIs('admin.reports.*') ? 'bg-sand-50 dark:bg-sand-925 font-bold text-amber-600 dark:text-amber-400' : '' }}">
                                     <flux:icon name="clipboard-document-list" class="w-4 h-4 text-amber-500 shrink-0" />
                                     <span>Manajemen Laporan</span>
                                 </a>
                                 <a href="{{ route('admin.users.index') }}"
-                                   class="flex items-center space-x-2.5 px-3 py-2 text-xs text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1E1E1E] transition {{ request()->routeIs('admin.users.*') ? 'bg-[#F7F6F3] dark:bg-[#1E1E1E] font-bold text-amber-600 dark:text-amber-400' : '' }}">
+                                   class="flex items-center space-x-2.5 px-3 py-2 text-xs text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition {{ request()->routeIs('admin.users.*') ? 'bg-sand-50 dark:bg-sand-925 font-bold text-amber-600 dark:text-amber-400' : '' }}">
                                     <flux:icon name="users" class="w-4 h-4 text-amber-500 shrink-0" />
                                     <span>Manajemen User</span>
                                 </a>
@@ -84,7 +84,7 @@
                 @endauth
 
                 @if (request()->routeIs('home'))
-                    <a href="#cara-kerja-fitur" class="px-3 py-1.5 rounded-[6px] transition-colors text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E] hidden xl:inline-block">
+                    <a href="#cara-kerja-fitur" class="px-3 py-1.5 rounded-md transition-colors text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/40 dark:hover:bg-sand-925 hidden xl:inline-block">
                         Cara Kerja &amp; Fitur
                     </a>
                 @endif
@@ -99,15 +99,15 @@
                 type="button"
                 aria-label="Ganti tema warna"
                 title="Ganti tema warna"
-                class="w-9 h-9 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] cursor-pointer inline-flex items-center justify-center shrink-0"
+                class="w-9 h-9 rounded-lg border border-sand-100 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition-all active:scale-[0.98] cursor-pointer inline-flex items-center justify-center shrink-0"
             >
                 <flux:icon id="theme-toggle-light-icon" name="sun" class="w-4 h-4 hidden" />
                 <flux:icon id="theme-toggle-dark-icon" name="moon" class="w-4 h-4 hidden" />
             </button>
 
-            <a href="{{ route('reports.create') }}" class="hidden md:inline-flex items-center justify-center space-x-1.5 bg-[#111111] hover:bg-[#2A2A2A] active:scale-[0.98] text-white dark:bg-[#EDEDEC] dark:text-[#111111] dark:hover:bg-white text-xs font-medium h-9 px-3.5 rounded-[6px] transition duration-150 shrink-0">
-                <span>+ Buat Laporan</span>
-            </a>
+            <div class="hidden md:block shrink-0">
+                <x-report-cta size="sm" />
+            </div>
 
             @auth
                 <!-- Notification Bell & Dropdown Panel -->
@@ -122,38 +122,38 @@
                         type="button"
                         id="notificationBellBtn"
                         aria-label="Lihat notifikasi"
-                        class="relative w-9 h-9 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center shrink-0"
+                        class="relative w-9 h-9 rounded-lg border border-sand-100 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center shrink-0"
                     >
                         <flux:icon name="bell" class="w-4 h-4" />
 
                         <!-- Notification Count Badge -->
-                        <span id="notificationBadge" class="{{ $unreadCount > 0 ? '' : 'hidden' }} absolute -top-1.5 -right-1.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-[#9F2F2D] text-[9px] font-bold text-white shadow-xs font-mono">
+                        <span id="notificationBadge" class="{{ $unreadCount > 0 ? '' : 'hidden' }} absolute -top-1.5 -right-1.5 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-danger text-[9px] font-bold text-white shadow-xs font-mono">
                             {{ $unreadCount > 99 ? '99+' : $unreadCount }}
                         </span>
                     </button>
 
                     <!-- Dropdown Menu -->
-                    <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 sm:w-92 max-w-[92vw] bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#262626] rounded-[8px] shadow-2xl z-50 overflow-hidden font-sans text-xs overscroll-contain">
-                        <div class="px-4 py-3 border-b border-[#EAEAEA] dark:border-[#262626] flex items-center justify-between bg-[#FBFBFA] dark:bg-[#181818]">
+                    <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 sm:w-92 max-w-[92vw] bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-900 rounded-xl shadow-2xl z-50 overflow-hidden font-sans text-xs overscroll-contain">
+                        <div class="px-4 py-3 border-b border-sand-100 dark:border-sand-900 flex items-center justify-between bg-sand-25 dark:bg-sand-950">
                             <div class="flex items-center space-x-2">
-                                <span class="font-semibold text-[#111111] dark:text-[#EDEDEC]">Notifikasi</span>
-                                <span id="notificationUnreadPill" class="{{ $unreadCount > 0 ? '' : 'hidden' }} px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-[#FDEBEC] text-[#9F2F2D] dark:bg-[#311617] dark:text-[#E88C8A]">
+                                <span class="font-semibold text-sand-975 dark:text-sand-100">Notifikasi</span>
+                                <span id="notificationUnreadPill" class="{{ $unreadCount > 0 ? '' : 'hidden' }} px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-danger-tint text-danger dark:bg-danger-deep dark:text-danger-soft">
                                     <span id="notificationUnreadCount">{{ $unreadCount }}</span> baru
                                 </span>
                             </div>
 
                             <div class="flex items-center space-x-2.5 text-[11px] font-mono">
-                                <button type="button" id="markAllReadBtn" title="Tandai semua notifikasi telah dibaca" class="text-[#787774] hover:text-[#111111] dark:text-[#9B9B97] dark:hover:text-[#EDEDEC] transition-colors {{ $unreadCount > 0 ? '' : 'hidden' }}">
+                                <button type="button" id="markAllReadBtn" title="Tandai semua notifikasi telah dibaca" class="text-sand-600 hover:text-sand-975 dark:text-sand-500 dark:hover:text-sand-100 transition-colors {{ $unreadCount > 0 ? '' : 'hidden' }}">
                                     Tandai dibaca
                                 </button>
-                                <button type="button" id="clearAllNotificationsBtn" title="Bersihkan semua riwayat notifikasi" class="text-[#787774] hover:text-[#9F2F2D] dark:text-[#9B9B97] dark:hover:text-[#E88C8A] transition-colors {{ $recentNotifications->isNotEmpty() ? '' : 'hidden' }}">
+                                <button type="button" id="clearAllNotificationsBtn" title="Bersihkan semua riwayat notifikasi" class="text-sand-600 hover:text-danger dark:text-sand-500 dark:hover:text-danger-soft transition-colors {{ $recentNotifications->isNotEmpty() ? '' : 'hidden' }}">
                                     Hapus semua
                                 </button>
                             </div>
                         </div>
 
                         <!-- Notification List Items -->
-                        <div id="notificationList" class="max-h-80 overflow-y-auto overscroll-contain divide-y divide-[#EAEAEA]/70 dark:divide-[#262626]/70">
+                        <div id="notificationList" class="max-h-80 overflow-y-auto overscroll-contain divide-y divide-sand-100/70 dark:divide-sand-900/70">
                             @forelse ($recentNotifications as $notification)
                                 @php
                                     $data = $notification->data;
@@ -163,7 +163,7 @@
                                 @endphp
                                 <div id="notif-item-{{ $notification->id }}"
                                      data-unread="{{ $isUnread ? '1' : '0' }}"
-                                     class="group relative flex items-start justify-between p-3 hover:bg-[#F7F6F3] dark:hover:bg-[#1C1C1C] transition duration-150 {{ $isUnread ? 'bg-[#F9F9F8] dark:bg-[#191918]' : '' }}">
+                                     class="group relative flex items-start justify-between p-3 hover:bg-sand-50 dark:hover:bg-sand-925 transition duration-150 {{ $isUnread ? 'bg-sand-25 dark:bg-sand-950' : '' }}">
                                     <a href="{{ route('notifications.markAsRead', ['id' => $notification->id, 'redirect' => 1]) }}"
                                        class="flex items-start space-x-2.5 flex-1 min-w-0 pr-2">
                                         <div class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[10px] {{ $isAi ? 'overflow-hidden' : (in_array($type, ['mention', 'post_mention']) ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300') }}">
@@ -176,21 +176,21 @@
                                             @endif
                                         </div>
                                         <div class="flex-1 min-w-0 space-y-0.5">
-                                            <p class="text-xs text-[#111111] dark:text-[#EDEDEC] leading-snug">
+                                            <p class="text-xs text-sand-975 dark:text-sand-100 leading-snug">
                                                 {{ $data['message'] ?? 'Pembaruan pada laporan' }}
                                             </p>
                                             @if (!empty($data['snippet']))
-                                                <p class="text-[11px] text-[#787774] dark:text-[#888888] truncate italic">
+                                                <p class="text-[11px] text-sand-600 dark:text-sand-500 truncate italic">
                                                     "{{ $data['snippet'] }}"
                                                 </p>
                                             @endif
-                                            <div class="flex items-center justify-between text-[10px] font-mono text-[#999999] pt-0.5">
+                                            <div class="flex items-center justify-between text-[10px] font-mono text-sand-500 pt-0.5">
                                                 <span class="truncate max-w-[150px] sm:max-w-[180px]">{{ $data['report_title'] ?? '' }}</span>
                                                 <span>{{ $notification->created_at->diffForHumans() }}</span>
                                             </div>
                                         </div>
                                         @if ($isUnread)
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#9F2F2D] shrink-0 mt-1.5 notif-unread-dot"></span>
+                                            <span class="w-1.5 h-1.5 rounded-full bg-danger shrink-0 mt-1.5 notif-unread-dot"></span>
                                         @endif
                                     </a>
 
@@ -198,25 +198,25 @@
                                     <button type="button"
                                             onclick="deleteSingleNotification(event, '{{ $notification->id }}')"
                                             title="Hapus notifikasi ini"
-                                            class="opacity-0 group-hover:opacity-100 focus:opacity-100 p-1 text-[#999999] hover:text-[#9F2F2D] dark:text-[#666666] dark:hover:text-[#E88C8A] rounded transition-all shrink-0">
+                                            class="opacity-0 group-hover:opacity-100 focus:opacity-100 p-1 text-sand-500 hover:text-danger dark:text-sand-600 dark:hover:text-danger-soft rounded transition-all shrink-0">
                                         <flux:icon name="trash" class="w-3.5 h-3.5" />
                                     </button>
                                 </div>
                             @empty
-                                <div id="notificationEmptyNotice" class="p-6 text-center text-xs text-[#787774] dark:text-[#888888] font-mono">
+                                <div id="notificationEmptyNotice" class="p-6 text-center text-xs text-sand-600 dark:text-sand-500 font-mono">
                                     Belum ada notifikasi baru.
                                 </div>
                             @endforelse
-                            <div id="notificationEmptyNoticeFallback" class="hidden p-6 text-center text-xs text-[#787774] dark:text-[#888888] font-mono">
+                            <div id="notificationEmptyNoticeFallback" class="hidden p-6 text-center text-xs text-sand-600 dark:text-sand-500 font-mono">
                                 Belum ada notifikasi baru.
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="hidden md:flex items-center space-x-2 sm:space-x-2.5 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
+                <div class="hidden md:flex items-center space-x-2 sm:space-x-2.5 pl-2 sm:pl-3 border-l border-sand-100 dark:border-sand-850 h-9">
                     <a href="{{ route('account.index') }}"
-                       class="inline-flex items-center space-x-1.5 px-2 py-1 rounded-[6px] {{ request()->routeIs('account.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] text-[#111111] dark:text-[#EDEDEC] font-semibold' : 'text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]' }} text-[11px] transition-colors group"
+                       class="inline-flex items-center space-x-1.5 px-2 py-1 rounded-md {{ request()->routeIs('account.*') ? 'bg-sand-100/80 dark:bg-sand-900 text-sand-975 dark:text-sand-100 font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/40 dark:hover:bg-sand-925' }} text-[11px] transition-colors group"
                        title="Menu Akun & Pengaturan Profil">
                         @if (Auth::user()->avatar_url)
                             <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}" class="w-4 h-4 rounded-full object-cover shrink-0">
@@ -228,7 +228,7 @@
                     </a>
                     <form action="{{ route('logout') }}" method="POST" class="inline-flex items-center">
                         @csrf
-                        <button type="submit" title="Keluar" class="text-[#787774] hover:text-[#9F2F2D] dark:hover:text-[#E88C8A] transition-colors cursor-pointer text-[11px]">
+                        <button type="submit" title="Keluar" class="text-sand-600 hover:text-danger dark:hover:text-danger-soft transition-colors cursor-pointer text-[11px]">
                             [Keluar]
                         </button>
                     </form>
@@ -380,7 +380,7 @@
                                 .then(data => {
                                     if (data.success) {
                                         document.querySelectorAll('#notificationList .bg-\\[\\#F9F9F8\\], #notificationList .dark\\:bg-\\[\\#191918\\]').forEach(el => {
-                                            el.classList.remove('bg-[#F9F9F8]', 'dark:bg-[#191918]');
+                                            el.classList.remove('bg-sand-25', 'dark:bg-sand-950');
                                         });
                                         document.querySelectorAll('#notificationList .notif-unread-dot').forEach(dot => dot.remove());
                                         window.syncNotificationBadges(0);
@@ -430,9 +430,9 @@
                         function ringBellAnimation() {
                             const bell = document.getElementById('notificationBellBtn');
                             if (!bell) return;
-                            bell.classList.add('ring-2', 'ring-[#9F2F2D]', 'scale-110');
+                            bell.classList.add('ring-2', 'ring-danger', 'scale-110');
                             setTimeout(() => {
-                                bell.classList.remove('ring-2', 'ring-[#9F2F2D]', 'scale-110');
+                                bell.classList.remove('ring-2', 'ring-danger', 'scale-110');
                             }, 800);
                         }
 
@@ -461,7 +461,7 @@
                             const div = document.createElement('div');
                             div.id = 'notif-item-' + item.id;
                             div.setAttribute('data-unread', '1');
-                            div.className = 'group relative flex items-start justify-between p-3 hover:bg-[#F7F6F3] dark:hover:bg-[#1C1C1C] transition duration-200 bg-[#F9F9F8] dark:bg-[#191918]';
+                            div.className = 'group relative flex items-start justify-between p-3 hover:bg-sand-50 dark:hover:bg-sand-925 transition duration-200 bg-sand-25 dark:bg-sand-950';
 
                             div.innerHTML = `
                                 <a href="/notifications/${item.id}/read?redirect=1" class="flex items-start space-x-2.5 flex-1 min-w-0 pr-2">
@@ -469,21 +469,21 @@
                                         ${iconSvg}
                                     </div>
                                     <div class="flex-1 min-w-0 space-y-0.5">
-                                        <p class="text-xs text-[#111111] dark:text-[#EDEDEC] leading-snug font-medium">
+                                        <p class="text-xs text-sand-975 dark:text-sand-100 leading-snug font-medium">
                                             ${escapeHtml(d.message || 'Pembaruan pada laporan')}
                                         </p>
-                                        ${d.snippet ? `<p class="text-[11px] text-[#787774] dark:text-[#888888] truncate italic">"${escapeHtml(d.snippet)}"</p>` : ''}
-                                        <div class="flex items-center justify-between text-[10px] font-mono text-[#999999] pt-0.5">
+                                        ${d.snippet ? `<p class="text-[11px] text-sand-600 dark:text-sand-500 truncate italic">"${escapeHtml(d.snippet)}"</p>` : ''}
+                                        <div class="flex items-center justify-between text-[10px] font-mono text-sand-500 pt-0.5">
                                             <span class="truncate max-w-[150px] sm:max-w-[180px]">${escapeHtml(d.report_title || '')}</span>
                                             <span>Baru saja</span>
                                         </div>
                                     </div>
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#9F2F2D] shrink-0 mt-1.5 notif-unread-dot"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-danger shrink-0 mt-1.5 notif-unread-dot"></span>
                                 </a>
                                 <button type="button"
                                         onclick="deleteSingleNotification(event, '${item.id}')"
                                         title="Hapus notifikasi ini"
-                                        class="opacity-0 group-hover:opacity-100 focus:opacity-100 p-1 text-[#999999] hover:text-[#9F2F2D] dark:text-[#666666] dark:hover:text-[#E88C8A] rounded transition-all shrink-0">
+                                        class="opacity-0 group-hover:opacity-100 focus:opacity-100 p-1 text-sand-500 hover:text-danger dark:text-sand-600 dark:hover:text-danger-soft rounded transition-all shrink-0">
                                     <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75">
                                         <path d="M3 4.5h10M6 7v4.5M10 7v4.5M4.5 4.5V13a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V4.5M5.5 4.5V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
@@ -518,7 +518,7 @@
                                 : ((type === 'mention' || type === 'post_mention') ? '<span class="font-bold text-xs">@</span>' : '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h8a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 12 11H5.5L2.5 13.5V3.5z"/></svg>');
 
                             const toast = document.createElement('div');
-                            toast.className = 'pointer-events-auto flex items-start space-x-3 p-3.5 rounded-[8px] bg-white dark:bg-[#141414] border border-[#EAEAEA] dark:border-[#282828] shadow-xl text-xs transform translate-y-4 opacity-0 transition-all duration-300 max-w-sm';
+                            toast.className = 'pointer-events-auto flex items-start space-x-3 p-3.5 rounded-xl bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-850 shadow-xl text-xs transform translate-y-4 opacity-0 transition-all duration-300 max-w-sm';
 
                             toast.innerHTML = `
                                 <div class="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${isAi ? 'overflow-hidden' : ((type === 'mention' || type === 'post_mention') ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300')}">
@@ -526,13 +526,13 @@
                                 </div>
                                 <div class="flex-1 min-w-0 space-y-0.5">
                                     <div class="flex items-center justify-between">
-                                        <span class="font-mono text-[10px] uppercase font-bold tracking-wider text-[#9F2F2D]">Notifikasi Baru</span>
-                                        <button type="button" class="text-[#999999] hover:text-[#111111] dark:hover:text-white toast-close-btn">&times;</button>
+                                        <span class="font-mono text-[10px] uppercase font-bold tracking-wider text-danger">Notifikasi Baru</span>
+                                        <button type="button" class="text-sand-500 hover:text-sand-975 dark:hover:text-white toast-close-btn">&times;</button>
                                     </div>
-                                    <a href="/notifications/${item.id}/read?redirect=1" class="block font-medium text-[#111111] dark:text-[#EDEDEC] hover:underline leading-snug">
+                                    <a href="/notifications/${item.id}/read?redirect=1" class="block font-medium text-sand-975 dark:text-sand-100 hover:underline leading-snug">
                                         ${escapeHtml(d.message || 'Pembaruan baru')}
                                     </a>
-                                    ${d.snippet ? `<p class="text-[11px] text-[#787774] dark:text-[#888888] truncate italic">"${escapeHtml(d.snippet)}"</p>` : ''}
+                                    ${d.snippet ? `<p class="text-[11px] text-sand-600 dark:text-sand-500 truncate italic">"${escapeHtml(d.snippet)}"</p>` : ''}
                                 </div>
                             `;
 
@@ -602,11 +602,11 @@
                     })();
                 </script>
             @else
-                <div class="hidden md:flex items-center space-x-1.5 sm:space-x-2 pl-2 sm:pl-3 border-l border-[#EAEAEA] dark:border-[#282828] h-9">
-                    <a href="{{ route('login') }}" class="h-9 inline-flex items-center justify-center text-slate-950 font-bold bg-amber-400 hover:bg-amber-500 border border-amber-500/60 px-3 rounded-[6px] shadow-xs transition-all">
+                <div class="hidden md:flex items-center space-x-1.5 sm:space-x-2 pl-2 sm:pl-3 border-l border-sand-100 dark:border-sand-850 h-9">
+                    <a href="{{ route('login') }}" class="h-9 inline-flex items-center justify-center text-slate-950 font-bold bg-amber-400 hover:bg-amber-500 border border-amber-500/60 px-3 rounded-lg shadow-xs transition-all">
                         Masuk
                     </a>
-                    <a href="{{ route('register') }}" class="h-9 inline-flex items-center justify-center text-[#111111] dark:text-[#111111] bg-[#EAEAEA] hover:bg-[#E0E0E0] dark:bg-[#EDEDEC] dark:hover:bg-white px-3 rounded-[6px] font-medium transition-colors">
+                    <a href="{{ route('register') }}" class="h-9 inline-flex items-center justify-center text-sand-975 dark:text-sand-975 bg-sand-100 hover:bg-sand-200 dark:bg-sand-100 dark:hover:bg-white px-3 rounded-lg font-medium transition-colors">
                         Daftar
                     </a>
                 </div>
@@ -618,7 +618,7 @@
                 type="button"
                 aria-label="Menu navigasi utama"
                 aria-expanded="false"
-                class="md:hidden relative w-9 h-9 rounded-[6px] border border-[#EAEAEA] dark:border-[#282828] bg-white dark:bg-[#161615] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#F7F6F3] dark:hover:bg-[#1F1F1E] active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
+                class="md:hidden relative w-9 h-9 rounded-lg border border-sand-100 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
             >
                 <flux:icon id="mobileMenuOpenIcon" name="bars-3" class="w-4 h-4 transition-all duration-200" />
                 <flux:icon id="mobileMenuCloseIcon" name="x-mark" class="w-4 h-4 transition-all duration-200 hidden" />
@@ -633,38 +633,38 @@
 
     <!-- Panel Menu Navigasi Mobile (Floating Overlay - Tidak menggeser layout halaman) -->
     <div id="mobileMenu"
-         class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-[#EAEAEA] dark:border-[#222222] bg-[#FBFBFA]/98 dark:bg-[#111111]/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
+         class="absolute top-full left-0 right-0 w-full z-50 md:hidden border-b border-sand-100 dark:border-sand-900 bg-sand-25/98 dark:bg-sand-975/98 backdrop-blur-xl shadow-xl px-4 py-4 space-y-3 font-mono text-xs transition-all duration-300 ease-out transform -translate-y-2 opacity-0 pointer-events-none max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
         <div class="space-y-1.5">
             <!-- Accordion Kategori Mobile: Laporan -->
-            <div class="rounded-[6px] overflow-hidden border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40">
+            <div class="rounded-md overflow-hidden border border-sand-100 dark:border-sand-900 bg-white/40 dark:bg-sand-950/40">
                 <button type="button" id="mobileReportsAccordionBtn"
-                    class="w-full flex items-center justify-between px-3 py-2.5 text-[#111111] dark:text-[#EDEDEC] font-semibold transition cursor-pointer hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]">
+                    class="w-full flex items-center justify-between px-3 py-2.5 text-sand-975 dark:text-sand-100 font-semibold transition cursor-pointer hover:bg-sand-100/40 dark:hover:bg-sand-925">
                     <span class="flex items-center space-x-2">
-                        <flux:icon name="document-text" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
+                        <flux:icon name="document-text" class="w-3.5 h-3.5 text-sand-600 dark:text-sand-500" />
                         <span>Laporan</span>
                     </span>
                     <flux:icon name="chevron-down" id="mobileReportsChevron"
-                        class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97] transition-transform duration-200 {{ request()->routeIs('reports.*') ? 'rotate-180' : '' }}" />
+                        class="w-3.5 h-3.5 text-sand-600 dark:text-sand-500 transition-transform duration-200 {{ request()->routeIs('reports.*') ? 'rotate-180' : '' }}" />
                 </button>
 
                 <!-- Sub-menu Laporan -->
-                <div id="mobileReportsSubmenu" class="px-2 pb-2 pt-0.5 space-y-1 border-t border-[#EAEAEA]/60 dark:border-[#262626]/60 {{ request()->routeIs('reports.*') ? '' : 'hidden' }}">
+                <div id="mobileReportsSubmenu" class="px-2 pb-2 pt-0.5 space-y-1 border-t border-sand-100/60 dark:border-sand-900/60 {{ request()->routeIs('reports.*') ? '' : 'hidden' }}">
                     <a href="{{ route('reports.index') }}"
-                       class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                       class="flex items-center justify-between px-3 py-2 rounded-md text-sand-975 dark:text-sand-100 {{ request()->routeIs('reports.index') && !request('my_reports') ? 'bg-sand-100/80 dark:bg-sand-900 font-semibold' : 'hover:bg-sand-100/30 dark:hover:bg-sand-925' }} transition">
                         <span class="flex items-center space-x-2">
-                            <flux:icon name="queue-list" class="w-3.5 h-3.5 text-[#787774] dark:text-[#9B9B97]" />
+                            <flux:icon name="queue-list" class="w-3.5 h-3.5 text-sand-600 dark:text-sand-500" />
                             <span>Semua Laporan</span>
                         </span>
-                        <span class="text-[10px] text-[#787774]">&rarr;</span>
+                        <span class="text-[10px] text-sand-600">&rarr;</span>
                     </a>
                     @auth
                         <a href="{{ route('reports.index', ['my_reports' => 1]) }}"
-                           class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold text-emerald-600 dark:text-emerald-400' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                           class="flex items-center justify-between px-3 py-2 rounded-md text-sand-975 dark:text-sand-100 {{ request()->routeIs('reports.index') && request('my_reports') ? 'bg-sand-100/80 dark:bg-sand-900 font-semibold text-emerald-600 dark:text-emerald-400' : 'hover:bg-sand-100/30 dark:hover:bg-sand-925' }} transition">
                             <span class="flex items-center space-x-2">
                                 <flux:icon name="user" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                                 <span class="text-emerald-700 dark:text-emerald-400 font-medium">Laporan Saya</span>
                             </span>
-                            <span class="text-[10px] text-[#787774]">&rarr;</span>
+                            <span class="text-[10px] text-sand-600">&rarr;</span>
                         </a>
                     @endauth
                 </div>
@@ -672,20 +672,20 @@
 
             <!-- Tautan Peta Sebaran Masalah -->
             <a href="{{ route('heatmap.index') }}"
-               class="flex items-center justify-between px-3 py-2.5 rounded-[6px] border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40 text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('heatmap.index') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C]' }} transition">
+               class="flex items-center justify-between px-3 py-2.5 rounded-md border border-sand-100 dark:border-sand-900 bg-white/40 dark:bg-sand-950/40 text-sand-975 dark:text-sand-100 {{ request()->routeIs('heatmap.index') ? 'bg-sand-100/80 dark:bg-sand-900 font-semibold' : 'hover:bg-sand-100/40 dark:hover:bg-sand-925' }} transition">
                 <span class="flex items-center space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-[#9F2F2D]"></span>
+                    <flux:icon name="map" class="w-3.5 h-3.5 text-sand-600 dark:text-sand-500" />
                     <span>Peta Sebaran Masalah</span>
                 </span>
-                <span class="text-[11px] text-[#787774]">&rarr;</span>
+                <span class="text-[11px] text-sand-600">&rarr;</span>
             </a>
 
             <!-- Accordion Kategori Mobile: Manajemen Admin -->
             @auth
                 @if (Auth::user()->isAdmin())
-                    <div class="rounded-[6px] overflow-hidden border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40">
+                    <div class="rounded-md overflow-hidden border border-sand-100 dark:border-sand-900 bg-white/40 dark:bg-sand-950/40">
                         <button type="button" id="mobileAdminAccordionBtn"
-                            class="w-full flex items-center justify-between px-3 py-2.5 text-amber-600 dark:text-amber-400 font-semibold transition cursor-pointer hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1E1E1E]">
+                            class="w-full flex items-center justify-between px-3 py-2.5 text-amber-600 dark:text-amber-400 font-semibold transition cursor-pointer hover:bg-sand-100/40 dark:hover:bg-sand-925">
                             <span class="flex items-center space-x-2">
                                 <flux:icon name="shield-check" class="w-3.5 h-3.5 text-amber-500" />
                                 <span>Manajemen Admin</span>
@@ -695,22 +695,22 @@
                         </button>
 
                         <!-- Sub-menu Manajemen Admin -->
-                        <div id="mobileAdminSubmenu" class="px-2 pb-2 pt-0.5 space-y-1 border-t border-[#EAEAEA]/60 dark:border-[#262626]/60 {{ request()->routeIs('admin.*') ? '' : 'hidden' }}">
+                        <div id="mobileAdminSubmenu" class="px-2 pb-2 pt-0.5 space-y-1 border-t border-sand-100/60 dark:border-sand-900/60 {{ request()->routeIs('admin.*') ? '' : 'hidden' }}">
                             <a href="{{ route('admin.reports.index') }}"
-                               class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.reports.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold text-amber-600 dark:text-amber-400' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                               class="flex items-center justify-between px-3 py-2 rounded-md text-sand-975 dark:text-sand-100 {{ request()->routeIs('admin.reports.*') ? 'bg-sand-100/80 dark:bg-sand-900 font-semibold text-amber-600 dark:text-amber-400' : 'hover:bg-sand-100/30 dark:hover:bg-sand-925' }} transition">
                                 <span class="flex items-center space-x-2">
                                     <flux:icon name="clipboard-document-list" class="w-3.5 h-3.5 text-amber-500" />
                                     <span>Manajemen Laporan</span>
                                 </span>
-                                <span class="text-[10px] text-[#787774]">&rarr;</span>
+                                <span class="text-[10px] text-sand-600">&rarr;</span>
                             </a>
                             <a href="{{ route('admin.users.index') }}"
-                               class="flex items-center justify-between px-3 py-2 rounded-[4px] text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('admin.users.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold text-amber-600 dark:text-amber-400' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                               class="flex items-center justify-between px-3 py-2 rounded-md text-sand-975 dark:text-sand-100 {{ request()->routeIs('admin.users.*') ? 'bg-sand-100/80 dark:bg-sand-900 font-semibold text-amber-600 dark:text-amber-400' : 'hover:bg-sand-100/30 dark:hover:bg-sand-925' }} transition">
                                 <span class="flex items-center space-x-2">
                                     <flux:icon name="users" class="w-3.5 h-3.5 text-amber-500" />
                                     <span>Manajemen User</span>
                                 </span>
-                                <span class="text-[10px] text-[#787774]">&rarr;</span>
+                                <span class="text-[10px] text-sand-600">&rarr;</span>
                             </a>
                         </div>
                     </div>
@@ -718,48 +718,46 @@
             @endauth
 
             @if (request()->routeIs('home'))
-                <a href="#cara-kerja-fitur" class="flex items-center justify-between px-3 py-2.5 rounded-[6px] text-[#787774] dark:text-[#9B9B97] hover:text-[#111111] dark:hover:text-[#EDEDEC] hover:bg-[#EAEAEA]/40 dark:hover:bg-[#1C1C1C] transition">
+                <a href="#cara-kerja-fitur" class="flex items-center justify-between px-3 py-2.5 rounded-md text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/40 dark:hover:bg-sand-925 transition">
                     <span>Cara Kerja &amp; Fitur</span>
-                    <span class="text-[11px] text-[#787774]">&rarr;</span>
+                    <span class="text-[11px] text-sand-600">&rarr;</span>
                 </a>
             @endif
         </div>
 
-        <div class="pt-2 border-t border-[#EAEAEA] dark:border-[#222222] space-y-2">
-            <a href="{{ route('reports.create') }}" class="w-full py-2.5 px-3 rounded-[6px] bg-[#111111] dark:bg-[#EDEDEC] text-white dark:text-[#111111] font-medium flex items-center justify-center space-x-1.5 shadow-xs">
-                <span>+ Buat Laporan Baru</span>
-            </a>
+        <div class="pt-2 border-t border-sand-100 dark:border-sand-900 space-y-2">
+            <x-report-cta class="w-full" />
 
             @auth
                 <div class="space-y-1.5 pt-1">
                     <a href="{{ route('account.index') }}"
-                       class="flex items-center justify-between px-3 py-2 rounded-[6px] border border-[#EAEAEA] dark:border-[#222222] bg-white/40 dark:bg-[#161615]/40 text-[#111111] dark:text-[#EDEDEC] {{ request()->routeIs('account.*') ? 'bg-[#EAEAEA]/80 dark:bg-[#222222] font-semibold' : 'hover:bg-[#EAEAEA]/30 dark:hover:bg-[#1E1E1E]' }} transition">
+                       class="flex items-center justify-between px-3 py-2 rounded-md border border-sand-100 dark:border-sand-900 bg-white/40 dark:bg-sand-950/40 text-sand-975 dark:text-sand-100 {{ request()->routeIs('account.*') ? 'bg-sand-100/80 dark:bg-sand-900 font-semibold' : 'hover:bg-sand-100/30 dark:hover:bg-sand-925' }} transition">
                         <span class="flex items-center space-x-2">
                             <flux:icon name="user-circle" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                             <span>Menu Akun (@<span>{{ Auth::user()->username }}</span>)</span>
                             <x-verified-badge :user="Auth::user()" size="xs" />
                         </span>
-                        <span class="text-[10px] text-[#787774]">&rarr;</span>
+                        <span class="text-[10px] text-sand-600">&rarr;</span>
                     </a>
                 </div>
 
-                <div class="flex items-center justify-between px-2 pt-1 text-[#787774] dark:text-[#888888] text-xs">
+                <div class="flex items-center justify-between px-2 pt-1 text-sand-600 dark:text-sand-500 text-xs">
                     <span class="inline-flex items-center space-x-1 truncate max-w-[200px]">
-                        <span>Masuk: <strong class="text-[#111111] dark:text-[#EDEDEC] truncate">{{ Auth::user()->name }}</strong></span>
+                        <span>Masuk: <strong class="text-sand-975 dark:text-sand-100 truncate">{{ Auth::user()->name }}</strong></span>
                     </span>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="text-[#9F2F2D] dark:text-[#E88C8A] hover:underline font-medium">
+                        <button type="submit" class="text-danger dark:text-danger-soft hover:underline font-medium">
                             [Keluar]
                         </button>
                     </form>
                 </div>
             @else
                 <div class="grid grid-cols-2 gap-2 pt-1">
-                    <a href="{{ route('login') }}" class="py-2.5 text-center rounded-[6px] bg-amber-400 hover:bg-amber-500 border border-amber-500/60 text-slate-950 font-bold shadow-xs transition-colors">
+                    <a href="{{ route('login') }}" class="py-2.5 text-center rounded-xl bg-amber-400 hover:bg-amber-500 border border-amber-500/60 text-slate-950 font-bold shadow-xs transition-colors">
                         Masuk
                     </a>
-                    <a href="{{ route('register') }}" class="py-2.5 text-center rounded-[6px] bg-[#EAEAEA] dark:bg-[#2A2A2A] text-[#111111] dark:text-[#EDEDEC] hover:bg-[#DFDFDF] dark:hover:bg-[#333333] font-medium">
+                    <a href="{{ route('register') }}" class="py-2.5 text-center rounded-xl bg-sand-100 dark:bg-sand-850 text-sand-975 dark:text-sand-100 hover:bg-sand-200 dark:hover:bg-sand-800 font-medium">
                         Daftar
                     </a>
                 </div>
