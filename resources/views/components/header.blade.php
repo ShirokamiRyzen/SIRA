@@ -132,8 +132,11 @@
                         </span>
                     </button>
 
-                    <!-- Dropdown Menu -->
-                    <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-80 sm:w-92 max-w-[92vw] bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-900 rounded-xl shadow-2xl z-50 overflow-hidden font-sans text-xs overscroll-contain">
+                    <!-- Dropdown Menu.
+                         Ponsel: `fixed` relatif ke <header> (backdrop-blur menjadikannya containing block),
+                         jadi panel selebar layar dengan jarak sama di kiri-kanan, tepat di bawah header.
+                         sm+: tertambat ke tombol lonceng. -->
+                    <div id="notificationMenu" class="hidden fixed inset-x-3 top-full mt-2 sm:absolute sm:inset-x-auto sm:top-auto sm:right-0 sm:w-92 bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-900 rounded-xl shadow-2xl z-50 overflow-hidden font-sans text-xs overscroll-contain">
                         <div class="px-4 py-3 border-b border-sand-100 dark:border-sand-900 flex items-center justify-between bg-sand-25 dark:bg-sand-950">
                             <div class="flex items-center space-x-2">
                                 <span class="font-semibold text-sand-975 dark:text-sand-100">Notifikasi</span>

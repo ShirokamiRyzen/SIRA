@@ -28,24 +28,12 @@
     </div>
 
     <!-- Ringkasan status: satu permukaan, angka di depan label, tiap angka adalah filter -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-px rounded-2xl border border-sand-100 dark:border-sand-900 bg-sand-100 dark:bg-sand-900 shadow-2xs overflow-hidden">
-        <a href="{{ route('reports.index') }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
-            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-sand-975 dark:text-sand-100">{{ number_format($totalReports) }}</div>
-            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Semua laporan</div>
-        </a>
-        <a href="{{ route('reports.index', ['rank_tier' => 'critical']) }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
-            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-danger dark:text-danger-soft">{{ number_format($criticalCount) }}</div>
-            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Prioritas kritis</div>
-        </a>
-        <a href="{{ route('reports.index', ['rank_tier' => 'urgent']) }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
-            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-warning dark:text-warning-soft">{{ number_format($urgentCount) }}</div>
-            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Prioritas mendesak</div>
-        </a>
-        <a href="{{ route('reports.index', ['status' => 'resolved']) }}#dashboard" class="px-4 py-4 sm:px-6 sm:py-5 bg-white dark:bg-sand-950 hover:bg-sand-25 dark:hover:bg-sand-925 transition">
-            <div class="text-2xl sm:text-3xl font-bold tabular-nums text-emerald-700 dark:text-emerald-400">{{ number_format($resolvedCount) }}</div>
-            <div class="text-xs sm:text-sm text-sand-600 dark:text-sand-500 mt-1">Sudah selesai</div>
-        </a>
-    </div>
+    <x-stat-strip class="grid-cols-2 sm:grid-cols-4">
+        <x-stat :value="number_format($totalReports)" label="Semua laporan" :href="route('reports.index').'#dashboard'" />
+        <x-stat :value="number_format($criticalCount)" label="Prioritas kritis" tone="danger" :href="route('reports.index', ['rank_tier' => 'critical']).'#dashboard'" />
+        <x-stat :value="number_format($urgentCount)" label="Prioritas mendesak" tone="warning" :href="route('reports.index', ['rank_tier' => 'urgent']).'#dashboard'" />
+        <x-stat :value="number_format($resolvedCount)" label="Sudah selesai" tone="success" :href="route('reports.index', ['status' => 'resolved']).'#dashboard'" />
+    </x-stat-strip>
 
     <!-- Feed Laporan & Filter yang Disederhanakan -->
     <x-dashboard

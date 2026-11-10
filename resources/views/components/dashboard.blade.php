@@ -95,24 +95,20 @@
                 </div>
             </div>
 
-            <!-- Baris 3: Filter cepat (satu gaya: netral saat mati, hijau saat aktif) -->
-            @php
-                $pillOn = 'bg-emerald-600 border-emerald-600 text-white';
-                $pillOff = 'border-sand-200 dark:border-sand-850 text-sand-700 dark:text-sand-300 hover:bg-sand-50 dark:hover:bg-sand-925';
-            @endphp
+            <!-- Baris 3: Filter cepat (gaya dari x-filter-pill) -->
             <div class="pt-4 border-t border-sand-100 dark:border-sand-900 flex items-center gap-2 flex-wrap">
-                <a href="{{ request()->fullUrlWithQuery(['issue_type' => request('issue_type') === 'multi' ? null : 'multi']) }}#dashboard"
-                   class="px-3 py-1.5 rounded-full border text-xs font-semibold inline-flex items-center gap-1.5 transition {{ request('issue_type') === 'multi' ? $pillOn : $pillOff }}">
-                   <flux:icon name="squares-2x2" class="w-3.5 h-3.5 shrink-0" />
-                   <span>Multi Masalah ({{ $multiIssueCount }})</span>
-                </a>
+                <x-filter-pill :href="request()->fullUrlWithQuery(['issue_type' => request('issue_type') === 'multi' ? null : 'multi']).'#dashboard'"
+                               :active="request('issue_type') === 'multi'">
+                    <flux:icon name="squares-2x2" class="w-3.5 h-3.5 shrink-0" />
+                    <span>Multi Masalah ({{ $multiIssueCount }})</span>
+                </x-filter-pill>
 
                 @auth
-                    <a href="{{ request()->fullUrlWithQuery(['my_reports' => request('my_reports') ? null : 1]) }}#dashboard"
-                       class="px-3 py-1.5 rounded-full border text-xs font-semibold inline-flex items-center gap-1.5 transition {{ request('my_reports') ? $pillOn : $pillOff }}">
-                       <flux:icon name="user" class="w-3.5 h-3.5 shrink-0" />
-                       <span>Laporan Saya ({{ $myReportsCount }})</span>
-                    </a>
+                    <x-filter-pill :href="request()->fullUrlWithQuery(['my_reports' => request('my_reports') ? null : 1]).'#dashboard'"
+                                   :active="(bool) request('my_reports')">
+                        <flux:icon name="user" class="w-3.5 h-3.5 shrink-0" />
+                        <span>Laporan Saya ({{ $myReportsCount }})</span>
+                    </x-filter-pill>
                 @endauth
 
                 @if ($hasFilter)

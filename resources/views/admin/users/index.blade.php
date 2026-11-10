@@ -3,276 +3,180 @@
 @section('title', 'Manajemen Pengguna - SIRA Admin')
 
 @section('content')
-<div class="max-w-7xl mx-auto space-y-6">
-    <!-- Header Halaman Admin -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-sand-100 dark:border-sand-900">
-        <div>
-            <div class="flex items-center space-x-2">
-                <span class="px-2 py-0.5 rounded-md text-xs font-semibold uppercase tracking-wider bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
-                    Administrator
-                </span>
-                <span class="text-xs text-sand-600 dark:text-sand-500">Panel Kontrol</span>
-            </div>
-            <h1 class="text-xl sm:text-2xl font-bold text-sand-975 dark:text-sand-100 tracking-tight mt-1.5">
-                Manajemen Akun Pengguna
-            </h1>
-            <p class="text-xs text-sand-600 dark:text-sand-500 mt-0.5">
-                Kelola hak akses pengguna, lencana verifikasi pemda/tokoh resmi, dan moderasi akun platform.
-            </p>
+@php
+    $filterUrl = fn (string $key) => route('admin.users.index', ['filter' => $key, 'q' => $search]);
+    $filters = [
+        'all' => 'Semua',
+        'verified' => 'Terverifikasi',
+        'unverified' => 'Belum verifikasi',
+        'admin' => 'Admin',
+    ];
+    $badge = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold';
+    $actionBtn = 'w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold transition cursor-pointer';
+@endphp
+
+<div class="max-w-7xl mx-auto py-2 sm:py-4 space-y-5 sm:space-y-6">
+    @include('admin._header', [
+        'title' => 'Manajemen Akun Pengguna',
+        'subtitle' => 'Kelola lencana verifikasi untuk pemda dan tokoh resmi, serta moderasi akun.',
+        'active' => 'users',
+    ])
+
+    <!-- Ringkasan angka; tiap angka sekaligus filter -->
+    <x-stat-strip class="grid-cols-3">
+        <x-stat :value="number_format($totalUsers)" label="Total pengguna" :href="$filterUrl('all')" />
+        <x-stat :value="number_format($totalVerified)" label="Terverifikasi" tone="info" :href="$filterUrl('verified')" />
+        <x-stat :value="number_format($totalAdmins)" label="Admin" tone="admin" :href="$filterUrl('admin')" />
+    </x-stat-strip>
+
+    <!-- Filter & pencarian -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="-mx-4 px-4 sm:mx-0 sm:px-0 flex items-center gap-2 overflow-x-auto no-scrollbar">
+            @foreach ($filters as $key => $label)
+                <x-filter-pill :href="$filterUrl($key)" :active="$filter === $key">{{ $label }}</x-filter-pill>
+            @endforeach
         </div>
 
-        <div class="flex items-center gap-2 flex-wrap">
-            <a href="{{ route('admin.reports.index') }}"
-               class="inline-flex items-center space-x-1.5 px-3 py-2 rounded-md text-xs font-medium border border-sand-100 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition shadow-2xs">
-                <flux:icon name="clipboard-document-list" class="w-3.5 h-3.5 text-amber-500" />
-                <span>Manajemen Laporan</span>
-            </a>
-            <a href="{{ route('reports.index') }}"
-               class="inline-flex items-center space-x-1.5 px-3 py-2 rounded-md text-xs font-medium border border-sand-100 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-975 dark:text-sand-100 hover:bg-sand-50 dark:hover:bg-sand-925 transition shadow-2xs">
-                <flux:icon name="document-text" class="w-3.5 h-3.5 text-sand-600 dark:text-sand-500" />
-                <span>Lihat Feed Publik</span>
-            </a>
-            <x-report-cta size="sm" />
-        </div>
-    </div>
-
-    <!-- Navigasi Tab Admin Sub-Menu -->
-    <div class="flex items-center space-x-2 border-b border-sand-100 dark:border-sand-900 text-xs">
-        <a href="{{ route('admin.reports.index') }}"
-           class="pb-2.5 px-3 text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 transition flex items-center gap-1.5">
-            <flux:icon name="clipboard-document-list" class="w-4 h-4 text-sand-600 dark:text-sand-500" />
-            <span>Manajemen Laporan</span>
-        </a>
-        <a href="{{ route('admin.users.index') }}"
-           class="pb-2.5 px-1 border-b-2 border-sand-975 dark:border-sand-100 text-sand-975 dark:text-sand-100 font-bold flex items-center gap-1.5">
-            <flux:icon name="users" class="w-4 h-4 text-amber-500" />
-            <span>Manajemen Pengguna ({{ number_format($totalUsers) }})</span>
-        </a>
-    </div>
-
-    <!-- Ringkasan Statistik Kartu (Utilitarian Minimalist) -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-        <div class="p-4 sm:p-5 rounded-xl bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-900 shadow-xs space-y-1.5">
-            <div class="flex items-center justify-between text-xs text-sand-600 dark:text-sand-500">
-                <span>Total Pengguna</span>
-                <flux:icon name="users" class="w-4 h-4 text-sand-500 dark:text-sand-600" />
-            </div>
-            <div class="text-2xl font-bold text-sand-975 dark:text-sand-100">
-                {{ number_format($totalUsers) }}
-            </div>
-            <p class="text-xs text-sand-600 dark:text-sand-500">Terdaftar di platform SIRA</p>
-        </div>
-
-        <div class="p-4 sm:p-5 rounded-xl bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-900 shadow-xs space-y-1.5">
-            <div class="flex items-center justify-between text-xs text-sky-600 dark:text-sky-400">
-                <span>Akun Terverifikasi</span>
-                <flux:icon name="check-badge" class="w-4 h-4 text-sky-500" />
-            </div>
-            <div class="text-2xl font-bold text-sky-600 dark:text-sky-400">
-                {{ number_format($totalVerified) }}
-            </div>
-            <p class="text-xs text-sand-600 dark:text-sand-500">Lembaga Pemda &amp; Tokoh Resmi</p>
-        </div>
-
-        <div class="p-4 sm:p-5 rounded-xl bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-900 shadow-xs space-y-1.5">
-            <div class="flex items-center justify-between text-xs text-amber-600 dark:text-amber-400">
-                <span>Administrator</span>
-                <flux:icon name="shield-check" class="w-4 h-4 text-amber-500" />
-            </div>
-            <div class="text-2xl font-bold text-amber-600 dark:text-amber-400">
-                {{ number_format($totalAdmins) }}
-            </div>
-            <p class="text-xs text-sand-600 dark:text-sand-500">Hak akses sistem penuh</p>
-        </div>
-    </div>
-
-    <!-- Filter & Pencarian -->
-    <div class="p-3 sm:p-4 rounded-xl bg-white dark:bg-sand-975 border border-sand-100 dark:border-sand-900 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-        <!-- Filter Tabs -->
-        <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 md:pb-0">
-            <a href="{{ route('admin.users.index', ['filter' => 'all', 'q' => $search]) }}"
-               class="px-3 py-1.5 rounded-md transition {{ $filter === 'all' ? 'bg-emerald-600 text-white font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/50 dark:hover:bg-sand-925' }}">
-                Semua
-            </a>
-            <a href="{{ route('admin.users.index', ['filter' => 'verified', 'q' => $search]) }}"
-               class="px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 {{ $filter === 'verified' ? 'bg-sky-600 text-white font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/50 dark:hover:bg-sand-925' }}">
-                <flux:icon name="check-badge" class="w-3.5 h-3.5 text-sky-500 {{ $filter === 'verified' ? 'text-white' : '' }}" />
-                <span>Terverifikasi</span>
-            </a>
-            <a href="{{ route('admin.users.index', ['filter' => 'unverified', 'q' => $search]) }}"
-               class="px-3 py-1.5 rounded-md transition {{ $filter === 'unverified' ? 'bg-sand-850 text-white dark:bg-sand-100 dark:text-sand-975 font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/50 dark:hover:bg-sand-925' }}">
-                Belum Verifikasi
-            </a>
-            <a href="{{ route('admin.users.index', ['filter' => 'admin', 'q' => $search]) }}"
-               class="px-3 py-1.5 rounded-md transition flex items-center space-x-1.5 {{ $filter === 'admin' ? 'bg-amber-600 text-white font-semibold' : 'text-sand-600 dark:text-sand-500 hover:text-sand-975 dark:hover:text-sand-100 hover:bg-sand-100/50 dark:hover:bg-sand-925' }}">
-                <flux:icon name="shield-check" class="w-3.5 h-3.5 text-amber-500 {{ $filter === 'admin' ? 'text-white' : '' }}" />
-                <span>Admin</span>
-            </a>
-        </div>
-
-        <!-- Form Pencarian -->
-        <form action="{{ route('admin.users.index') }}" method="GET" class="relative max-w-sm w-full">
+        <form action="{{ route('admin.users.index') }}" method="GET" class="relative w-full md:max-w-sm">
             <input type="hidden" name="filter" value="{{ $filter }}">
-            <input type="text"
-                   name="q"
-                   value="{{ $search }}"
-                   placeholder="Cari nama, @username, email..."
-                   class="w-full pl-9 pr-8 py-2 rounded-md text-xs border border-sand-100 dark:border-sand-850 bg-sand-25 dark:bg-sand-950 text-sand-975 dark:text-sand-100 focus:outline-none focus:border-sand-975 dark:focus:border-sand-100">
-            <div class="absolute left-3 top-2.5 text-sand-600 pointer-events-none">
-                <flux:icon name="magnifying-glass" class="w-3.5 h-3.5" />
-            </div>
+            <flux:icon name="magnifying-glass" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-sand-400 pointer-events-none" />
+            <input type="text" name="q" value="{{ $search }}" placeholder="Cari nama, @username, email..."
+                   class="w-full pl-9 pr-8 py-2 rounded-lg border border-sand-300 dark:border-sand-850 bg-white dark:bg-sand-950 text-sm text-sand-975 dark:text-sand-100 placeholder-sand-400 dark:placeholder-sand-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
             @if (!empty($search))
                 <a href="{{ route('admin.users.index', ['filter' => $filter]) }}"
-                   class="absolute right-2.5 top-2.5 text-sand-600 hover:text-sand-975 dark:hover:text-white text-xs">
-                    &times;
-                </a>
+                   class="absolute right-3 top-1/2 -translate-y-1/2 text-sand-500 hover:text-sand-975 dark:hover:text-white"
+                   title="Hapus pencarian">&times;</a>
             @endif
         </form>
     </div>
 
-    <!-- Tabel Daftar Pengguna (Refined Minimalist Editorial) -->
-    <div class="rounded-xl border border-sand-100 dark:border-sand-900 bg-white dark:bg-sand-975 overflow-hidden shadow-xs">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
-                <thead class="bg-sand-25 dark:bg-sand-950 border-b border-sand-100 dark:border-sand-900 text-sand-600 dark:text-sand-500 uppercase tracking-wider text-xs">
-                    <tr>
-                        <th scope="col" class="px-5 py-3.5">Pengguna</th>
-                        <th scope="col" class="px-4 py-3.5">Role &amp; Lencana</th>
-                        <th scope="col" class="px-4 py-3.5 text-center">Aktivitas</th>
-                        <th scope="col" class="px-4 py-3.5">Terdaftar</th>
-                        <th scope="col" class="px-5 py-3.5 text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-sand-100/80 dark:divide-sand-925 text-sand-975 dark:text-sand-100">
-                    @forelse ($users as $user)
-                        <tr class="hover:bg-sand-25/70 dark:hover:bg-sand-950 transition-colors">
-                            <!-- Kolom Pengguna (Avatar, Nama, Username, Email) -->
-                            <td class="px-5 py-3.5">
-                                <div class="flex items-center space-x-3">
-                                    @if (strtolower($user->username) === 'sira')
-                                        <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-9 h-9 rounded-md object-cover shrink-0 border border-indigo-500/30">
-                                    @else
-                                        <div class="w-9 h-9 rounded-md flex items-center justify-center text-xs font-bold shrink-0 {{ $user->isAdmin() ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20' : ($user->is_verified ? 'bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20' : 'bg-sand-50 dark:bg-sand-925 text-sand-700 dark:text-sand-400 border border-sand-100 dark:border-sand-850') }}">
-                                            {{ strtoupper(substr($user->username ?? 'U', 0, 1)) }}
-                                        </div>
-                                    @endif
-                                    <div class="min-w-0">
-                                        <div class="flex items-center space-x-1.5 flex-wrap">
-                                            <span class="font-semibold text-sm text-sand-975 dark:text-sand-100 truncate">
-                                                {{ $user->name }}
-                                            </span>
-                                            <x-verified-badge :user="$user" size="xs" />
-                                        </div>
-                                        <div class="text-xs text-sand-600 dark:text-sand-500 flex items-center space-x-2 mt-0.5">
-                                            <span>{{ '@' . $user->username }}</span>
-                                            @if ($user->email && !str_ends_with($user->email, '@sira.local'))
-                                                <span>&bull;</span>
-                                                <span class="truncate max-w-[200px]" title="{{ $user->email }}">{{ $user->email }}</span>
-                                            @endif
-                                        </div>
+    <!-- Daftar pengguna: tabel di layar lebar, kartu bertumpuk di ponsel -->
+    <div class="rounded-2xl border border-sand-200 dark:border-sand-900 bg-white dark:bg-sand-975 shadow-2xs overflow-hidden">
+        <table class="w-full text-left text-sm">
+            <thead class="hidden md:table-header-group bg-sand-25 dark:bg-sand-950 border-b border-sand-200 dark:border-sand-900 text-xs text-sand-600 dark:text-sand-500">
+                <tr>
+                    <th scope="col" class="py-3 px-4 font-semibold">Pengguna</th>
+                    <th scope="col" class="py-3 px-4 font-semibold">Peran</th>
+                    <th scope="col" class="py-3 px-4 font-semibold">Aktivitas</th>
+                    <th scope="col" class="py-3 px-4 font-semibold">Terdaftar</th>
+                    <th scope="col" class="py-3 px-4 font-semibold text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-sand-200 dark:divide-sand-900">
+                @forelse ($users as $user)
+                    @php $isSystem = strtolower($user->username) === 'sira'; @endphp
+                    <tr class="grid grid-cols-1 gap-3 p-4 md:table-row md:p-0 hover:bg-sand-25 dark:hover:bg-sand-950 transition">
+                        <!-- Pengguna: avatar, nama, username, email -->
+                        <td class="md:py-3.5 md:px-4">
+                            <div class="flex items-center gap-3 min-w-0">
+                                @if ($isSystem)
+                                    <img src="{{ asset('android-chrome-192x192.png') }}" alt="SIRA AI" class="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-emerald-200 dark:ring-emerald-900">
+                                @else
+                                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shrink-0 {{ $user->isAdmin() ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300' : ($user->is_verified ? 'bg-info-tint text-info-deep dark:bg-info-deep/40 dark:text-info-soft' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300') }}">
+                                        {{ strtoupper(substr($user->username ?? 'U', 0, 1)) }}
+                                    </div>
+                                @endif
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-semibold text-sand-975 dark:text-sand-100 truncate">{{ $user->name }}</span>
+                                        <x-verified-badge :user="$user" size="xs" />
+                                    </div>
+                                    <div class="text-xs text-sand-600 dark:text-sand-500 truncate">
+                                        <span>{{ '@' . $user->username }}</span>
+                                        @if ($user->email && !str_ends_with($user->email, '@sira.local'))
+                                            <span title="{{ $user->email }}"> · {{ $user->email }}</span>
+                                        @endif
                                     </div>
                                 </div>
-                            </td>
+                            </div>
+                        </td>
 
-                            <!-- Kolom Role & Lencana -->
-                            <td class="px-4 py-3.5 whitespace-nowrap">
-                                @if ($user->isAdmin())
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
-                                        <flux:icon name="shield-check" class="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                                        <span>Admin</span>
+                        <!-- Peran -->
+                        <td class="md:py-3.5 md:px-4 whitespace-nowrap">
+                            <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                @if ($isSystem)
+                                    <span class="{{ $badge }} bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Asisten AI</span>
+                                @elseif ($user->isAdmin())
+                                    <span class="{{ $badge }} bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
+                                        <flux:icon name="shield-check" class="w-3.5 h-3.5 shrink-0" /> Admin
                                     </span>
                                 @elseif ($user->is_verified)
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20">
-                                        <flux:icon name="check-badge" class="w-3.5 h-3.5 text-sky-500 shrink-0" />
-                                        <span>Terverifikasi</span>
+                                    <span class="{{ $badge }} bg-info-tint text-info-deep dark:bg-info-deep/40 dark:text-info-soft">
+                                        <flux:icon name="check-badge" class="w-3.5 h-3.5 shrink-0" /> Terverifikasi
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs text-sand-600 dark:text-sand-500 bg-sand-50 dark:bg-sand-925">
-                                        Warga
-                                    </span>
+                                    <span class="{{ $badge }} bg-sand-100 text-sand-700 dark:bg-sand-900 dark:text-sand-300">Warga</span>
                                 @endif
-                            </td>
 
-                            <!-- Kolom Aktivitas -->
-                            <td class="px-4 py-3.5 text-center whitespace-nowrap">
-                                <div class="inline-flex items-center justify-center gap-2.5 text-xs text-sand-600 dark:text-sand-500">
-                                    <span class="inline-flex items-center gap-1" title="{{ $user->reports_count }} laporan dibuat">
-                                        <flux:icon name="document-text" class="w-3.5 h-3.5 text-sand-500 dark:text-sand-600" />
-                                        <span class="font-medium text-sand-975 dark:text-sand-100">{{ $user->reports_count }}</span>
-                                    </span>
-                                    <span class="text-sand-300 dark:text-sand-800">&bull;</span>
-                                    <span class="inline-flex items-center gap-1" title="{{ $user->comments_count }} komentar ditulis">
-                                        <flux:icon name="chat-bubble-left" class="w-3.5 h-3.5 text-sand-500 dark:text-sand-600" />
-                                        <span class="font-medium text-sand-975 dark:text-sand-100">{{ $user->comments_count }}</span>
-                                    </span>
-                                </div>
-                            </td>
+                                <!-- Aktivitas & tanggal versi ponsel (kolom terpisah di layar lebar) -->
+                                <span class="md:hidden text-xs text-sand-600 dark:text-sand-500">
+                                    {{ $user->reports_count }} laporan · {{ $user->comments_count }} komentar · sejak {{ $user->created_at?->translatedFormat('M Y') ?? '-' }}
+                                </span>
+                            </div>
+                        </td>
 
-                            <!-- Kolom Tanggal Terdaftar -->
-                            <td class="px-4 py-3.5 text-sand-600 dark:text-sand-500 text-xs whitespace-nowrap">
-                                {{ $user->created_at ? $user->created_at->translatedFormat('d M Y') : '-' }}
-                            </td>
+                        <!-- Aktivitas -->
+                        <td class="hidden md:table-cell py-3.5 px-4 whitespace-nowrap text-xs text-sand-600 dark:text-sand-500">
+                            <div><span class="font-semibold text-sand-975 dark:text-sand-100 tabular-nums">{{ $user->reports_count }}</span> laporan</div>
+                            <div><span class="font-semibold text-sand-975 dark:text-sand-100 tabular-nums">{{ $user->comments_count }}</span> komentar</div>
+                        </td>
 
-                            <!-- Kolom Aksi -->
-                            <td class="px-5 py-3.5 text-right space-x-1 whitespace-nowrap text-xs">
-                                @if (! $user->isAdmin() && strtolower($user->username) !== 'sira')
-                                    <!-- Toggle Verifikasi -->
-                                    <form action="{{ route('admin.users.toggleVerify', $user) }}" method="POST" class="inline">
+                        <!-- Terdaftar -->
+                        <td class="hidden md:table-cell py-3.5 px-4 whitespace-nowrap text-xs text-sand-600 dark:text-sand-500">
+                            {{ $user->created_at ? $user->created_at->translatedFormat('d M Y') : '-' }}
+                        </td>
+
+                        <!-- Aksi -->
+                        <td class="md:py-3.5 md:px-4 md:text-right whitespace-nowrap">
+                            @if (! $user->isAdmin() && ! $isSystem)
+                                <div class="flex md:justify-end gap-2">
+                                    <form action="{{ route('admin.users.toggleVerify', $user) }}" method="POST" class="flex-1 md:flex-none flex">
                                         @csrf
                                         @if ($user->is_verified)
-                                            <button type="submit"
-                                                    class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-500/10 border border-amber-500/20 hover:border-amber-500/40 transition active:scale-95 cursor-pointer"
-                                                    title="Cabut status verifikasi akun ini">
-                                                <flux:icon name="x-mark" class="w-3.5 h-3.5 text-amber-500" />
+                                            <button type="submit" title="Cabut status verifikasi akun ini"
+                                                    class="{{ $actionBtn }} border border-sand-200 dark:border-sand-850 bg-white dark:bg-sand-950 text-sand-800 dark:text-sand-200 hover:bg-sand-50 dark:hover:bg-sand-925">
+                                                <flux:icon name="x-mark" class="w-4 h-4" />
                                                 <span>Cabut Badge</span>
                                             </button>
                                         @else
-                                            <button type="submit"
-                                                    class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-sand-600 dark:text-sand-500 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-500/10 border border-sand-100 dark:border-sand-850 hover:border-sky-500/30 transition active:scale-95 cursor-pointer"
-                                                    title="Berikan lencana verifikasi biru resmi">
-                                                <flux:icon name="check-badge" class="w-3.5 h-3.5 text-sky-500" />
+                                            <button type="submit" title="Berikan lencana verifikasi"
+                                                    class="{{ $actionBtn }} border border-info/30 bg-info-tint text-info-deep hover:bg-info-soft/40 dark:border-info/40 dark:bg-info-deep/30 dark:text-info-soft dark:hover:bg-info-deep/50">
+                                                <flux:icon name="check-badge" class="w-4 h-4" />
                                                 <span>Beri Badge</span>
                                             </button>
                                         @endif
                                     </form>
 
-                                    <!-- Hapus Akun -->
-                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline"
-                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun @<span>{{ $user->username }}</span> secara permanen? Seluruh postingan dan komentar pengguna ini akan ikut terhapus.');">
+                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="flex-1 md:flex-none flex"
+                                          onsubmit="return confirm(@js('Hapus akun @' . $user->username . ' secara permanen? Semua laporan dan komentarnya ikut terhapus.'));">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
-                                                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-sand-600 dark:text-sand-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition active:scale-95 cursor-pointer"
-                                                title="Hapus akun ini secara permanen">
-                                            <flux:icon name="trash" class="w-3.5 h-3.5 text-rose-500" />
+                                        <button type="submit" title="Hapus akun ini secara permanen"
+                                                class="{{ $actionBtn }} text-danger dark:text-danger-soft hover:bg-danger-tint dark:hover:bg-danger-deep/30">
+                                            <flux:icon name="trash" class="w-4 h-4" />
                                             <span>Hapus</span>
                                         </button>
                                     </form>
-                                @elseif ($user->id === Auth::id())
-                                    <span class="inline-block text-xs text-emerald-600 dark:text-emerald-400 font-medium px-2 py-1">
-                                        Akun Anda
-                                    </span>
-                                @else
-                                    <span class="inline-block text-xs text-sand-600 dark:text-sand-600 px-2 py-1">
-                                        Sistem
-                                    </span>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-sand-600 dark:text-sand-500 text-xs">
-                                Tidak ada akun pengguna yang sesuai dengan kriteria pencarian.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                                </div>
+                            @elseif ($user->id === Auth::id())
+                                <span class="text-xs font-semibold text-emerald-700 dark:text-emerald-400">Akun Anda</span>
+                            @else
+                                <span class="text-xs text-sand-500 dark:text-sand-600">Akun sistem</span>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="block md:table-cell py-12 px-4 text-center text-sm text-sand-600 dark:text-sand-500">
+                            Tidak ada akun yang cocok dengan pencarian ini.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-        <!-- Pagination -->
         @if ($users->hasPages())
-            <div class="px-5 py-3.5 border-t border-sand-100 dark:border-sand-900 bg-sand-25 dark:bg-sand-950">
+            <div class="p-4 border-t border-sand-200 dark:border-sand-900 text-sm">
                 {{ $users->links() }}
             </div>
         @endif

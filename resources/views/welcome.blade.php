@@ -58,7 +58,7 @@
     <section class="relative rounded-2xl overflow-hidden shadow-md border border-slate-200 dark:border-sand-900 bg-slate-950 text-white select-none" id="komdigi-hero-banner">
         @if ($criticalReports->isNotEmpty())
             <!-- Slide Track -->
-            <div class="relative min-h-[340px] sm:min-h-[400px] md:min-h-[440px] lg:min-h-[460px] w-full overflow-hidden" id="gov-carousel-track">
+            <div class="relative min-h-[460px] sm:min-h-[520px] md:min-h-[560px] lg:min-h-[600px] w-full overflow-hidden" id="gov-carousel-track">
                 @foreach ($criticalReports as $index => $report)
                     <div class="gov-slide absolute inset-0 transition-opacity duration-500 ease-in-out flex flex-col justify-end p-4 sm:p-8 md:p-10 pb-16 sm:pb-8 {{ $index === 0 ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0' }}"
                          data-index="{{ $index }}">
@@ -66,10 +66,10 @@
                         <div class="absolute inset-0 z-0">
                             <img src="{{ $report->image_base64 }}"
                                  alt="{{ $report->title }}"
-                                 class="w-full h-full object-cover object-center filter brightness-[0.78] scale-100 transition-transform duration-700 ease-out">
-                            <!-- Gradient Overlay Khas Portal Berita Pemerintah (Gelap di bawah & kiri) -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/20"></div>
-                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/45 to-transparent"></div>
+                                 class="w-full h-full object-cover object-center scale-100 transition-transform duration-700 ease-out">
+                            <!-- Gradasi hanya di bagian bawah, cukup untuk keterbacaan teks; foto tetap jelas -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 via-35% to-transparent to-70%"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/50 to-transparent to-60%"></div>
                         </div>
 
                         <!-- Konten Slide (Teks, Badge, & Headline Besar) -->

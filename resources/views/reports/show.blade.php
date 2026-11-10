@@ -318,13 +318,10 @@
         </div>
 
         @php
-            // Bingkai & pil filter yang sama untuk semua bagian bawah halaman detail
+            // Bingkai yang sama untuk semua bagian bawah halaman detail
             $sectionClass = 'bg-white dark:bg-sand-975 p-4 sm:p-6 rounded-2xl border border-sand-200 dark:border-sand-900 shadow-2xs';
             $sectionTitle = 'text-lg font-bold tracking-tight text-sand-975 dark:text-sand-100';
             $sectionSub = 'text-sm text-sand-600 dark:text-sand-500';
-            $pillBase = 'inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold border transition shrink-0';
-            $pillOn = 'bg-emerald-600 border-emerald-600 text-white';
-            $pillOff = 'bg-white dark:bg-sand-950 border-sand-200 dark:border-sand-850 text-sand-700 dark:text-sand-300 hover:bg-sand-50 dark:hover:bg-sand-925';
             $coFilter = request('co_filter');
         @endphp
 
@@ -345,24 +342,17 @@
 
                 <!-- Filter khusus lokasi ini -->
                 <div class="-mx-4 px-4 sm:mx-0 sm:px-0 flex items-center gap-2 overflow-x-auto no-scrollbar">
-                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => null, 'co_page' => null]) }}#multi-issues"
-                        class="{{ $pillBase }} {{ !$coFilter ? $pillOn : $pillOff }}">
-                        Semua ({{ $totalCoLocatedCount }})
-                    </a>
-                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'urgent', 'co_page' => null]) }}#multi-issues"
-                        class="{{ $pillBase }} {{ $coFilter === 'urgent' ? $pillOn : $pillOff }}">
+                    @php $coUrl = fn ($f) => request()->fullUrlWithQuery(['co_filter' => $f, 'co_page' => null]).'#multi-issues'; @endphp
+                    <x-filter-pill :href="$coUrl(null)" :active="! $coFilter">Semua ({{ $totalCoLocatedCount }})</x-filter-pill>
+                    <x-filter-pill :href="$coUrl('urgent')" :active="$coFilter === 'urgent'">
                         <flux:icon name="exclamation-triangle" class="w-3.5 h-3.5 shrink-0" />
                         <span>Mendesak</span>
-                    </a>
-                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'active', 'co_page' => null]) }}#multi-issues"
-                        class="{{ $pillBase }} {{ $coFilter === 'active' ? $pillOn : $pillOff }}">
-                        Belum selesai
-                    </a>
-                    <a href="{{ request()->fullUrlWithQuery(['co_filter' => 'resolved', 'co_page' => null]) }}#multi-issues"
-                        class="{{ $pillBase }} {{ $coFilter === 'resolved' ? $pillOn : $pillOff }}">
+                    </x-filter-pill>
+                    <x-filter-pill :href="$coUrl('active')" :active="$coFilter === 'active'">Belum selesai</x-filter-pill>
+                    <x-filter-pill :href="$coUrl('resolved')" :active="$coFilter === 'resolved'">
                         <flux:icon name="check" class="w-3.5 h-3.5 shrink-0" />
                         <span>Selesai</span>
-                    </a>
+                    </x-filter-pill>
                 </div>
 
                 <!-- Daftar laporan lain di lokasi ini -->
