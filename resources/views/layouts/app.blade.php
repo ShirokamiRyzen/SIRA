@@ -124,7 +124,7 @@
     <!-- Footer Component -->
     <x-footer />
 
-    <!-- Pop Up Poster Reward Top 5 Bulanan -->
+    <!-- Pop Up Poster Reward Bulanan -->
     <x-reward-modal />
 
     @livewireScripts

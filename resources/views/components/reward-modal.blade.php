@@ -37,7 +37,7 @@
     }
 @endphp
 
-<!-- Komponen Pop-up Poster Reward Top 5 Bulanan SIRA -->
+<!-- Komponen Pop-up Poster Reward Bulanan SIRA -->
 <div id="rewardPosterModal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="rewardPosterTitle">
     <!-- Backdrop Gelap dengan Efek Blur Halus -->
     <div id="rewardPosterBackdrop" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeRewardModal()"></div>
@@ -81,74 +81,36 @@
                 </div>
                 <div class="text-xs">
                     <div class="font-bold text-slate-900 dark:text-[#EDEDEC]">
-                        Parameter Penilaian: <span class="text-amber-600 dark:text-amber-400">Jumlah Laporan User</span>
-                    </div>
-                    <p class="text-slate-600 dark:text-[#A0A0A0] text-[11px] mt-0.5 leading-relaxed">
-                        Peringkat dihitung berdasarkan total partisipasi laporan kerusakan fasilitas umum yang Anda kirimkan. Makin aktif Anda melapor, makin tinggi peringkat Anda!
-                    </p>
+Parameter Penilaian: <span class="text-amber-600 dark:text-amber-400">Laporan Valid</span>
+</div>
+<p class="text-slate-600 dark:text-[#A0A0A0] text-[11px] mt-0.5 leading-relaxed">
+Setiap laporan kerusakan fasilitas umum yang valid meningkatkan peluang Anda mendapatkan hadiah voucher bulanan. Makin aktif Anda melapor, makin besar peluangnya!
+</p>
                 </div>
             </div>
 
-            <!-- Daftar Hadiah Reward Top 5 -->
-            <div class="space-y-2.5">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#EDEDEC] flex items-center space-x-1.5">
-                        <flux:icon name="gift" class="w-4 h-4 text-amber-500 shrink-0" />
-                        <span>Reward Top 5 Bulanan</span>
-                    </span>
-                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold">
-                        Periode Setiap Bulan
-                    </span>
-                </div>
+<!-- Hadiah Voucher Bulanan -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#EDEDEC] flex items-center space-x-1.5">
+<flux:icon name="gift" class="w-4 h-4 text-amber-500 shrink-0" />
+<span>Hadiah Voucher Bulanan</span>
+</span>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold">
+Periode Setiap Bulan
+</span>
+</div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <div class="p-3 rounded-xl bg-gradient-to-r from-amber-500/15 to-amber-600/5 border border-amber-400/40 dark:border-amber-700/50 flex items-center space-x-2.5 sm:col-span-2">
-                        <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
-                            <flux:icon name="trophy" class="w-4 h-4 text-amber-500" />
-                        </div>
-                        <div class="min-w-0">
-                            <div class="font-bold text-amber-900 dark:text-amber-300">Juara 1: E-Wallet Rp 500.000</div>
-                            <div class="text-[11px] text-slate-600 dark:text-[#A0A0A0] truncate">+ Lencana Eksklusif Warga Teladan Gold</div>
-                        </div>
-                    </div>
-
-                    <div class="p-2.5 rounded-xl bg-slate-100/90 dark:bg-[#1F1F1E] border border-slate-200 dark:border-[#2C2C2B] flex items-center space-x-2">
-                        <div class="w-7 h-7 rounded-full bg-slate-200 dark:bg-[#282828] text-slate-500 flex items-center justify-center shrink-0">
-                            <flux:icon name="trophy" class="w-3.5 h-3.5 text-slate-400" />
-                        </div>
-                        <div class="min-w-0">
-                            <div class="font-semibold text-slate-900 dark:text-[#EDEDEC] truncate">Juara 2: Rp 300.000</div>
-                            <div class="text-[10px] text-slate-500 dark:text-[#888888] truncate">+ Merchandise SIRA</div>
-                        </div>
-                    </div>
-
-                    <div class="p-2.5 rounded-xl bg-slate-100/90 dark:bg-[#1F1F1E] border border-slate-200 dark:border-[#2C2C2B] flex items-center space-x-2">
-                        <div class="w-7 h-7 rounded-full bg-amber-700/20 text-amber-700 flex items-center justify-center shrink-0">
-                            <flux:icon name="trophy" class="w-3.5 h-3.5 text-amber-700" />
-                        </div>
-                        <div class="min-w-0">
-                            <div class="font-semibold text-slate-900 dark:text-[#EDEDEC] truncate">Juara 3: Rp 200.000</div>
-                            <div class="text-[10px] text-slate-500 dark:text-[#888888] truncate">+ Merchandise SIRA</div>
-                        </div>
-                    </div>
-
-                    <div class="p-2.5 rounded-xl bg-slate-100/90 dark:bg-[#1F1F1E] border border-slate-200 dark:border-[#2C2C2B] flex items-center space-x-2">
-                        <span class="text-xs font-bold text-sky-600 dark:text-sky-400 px-1.5 shrink-0 font-mono">#4</span>
-                        <div class="min-w-0">
-                            <div class="font-medium text-slate-800 dark:text-[#D4D4D4] truncate">Juara 4: Rp 100.000</div>
-                            <div class="text-[10px] text-slate-500 dark:text-[#888888]">Saldo E-Wallet</div>
-                        </div>
-                    </div>
-
-                    <div class="p-2.5 rounded-xl bg-slate-100/90 dark:bg-[#1F1F1E] border border-slate-200 dark:border-[#2C2C2B] flex items-center space-x-2">
-                        <span class="text-xs font-bold text-sky-600 dark:text-sky-400 px-1.5 shrink-0 font-mono">#5</span>
-                        <div class="min-w-0">
-                            <div class="font-medium text-slate-800 dark:text-[#D4D4D4] truncate">Juara 5: Rp 100.000</div>
-                            <div class="text-[10px] text-slate-500 dark:text-[#888888]">Saldo E-Wallet</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="p-3 rounded-xl bg-gradient-to-r from-amber-500/15 to-amber-600/5 border border-amber-400/40 dark:border-amber-700/50 flex items-center space-x-3">
+<div class="w-9 h-9 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+<flux:icon name="gift" class="w-4 h-4 text-amber-500" />
+</div>
+<div class="min-w-0">
+<div class="font-bold text-amber-900 dark:text-amber-300">Hadiah Voucher Hingga Rp 50.000</div>
+<div class="text-[11px] text-slate-600 dark:text-[#A0A0A0] leading-relaxed">Tanpa peringkat. Diberikan kepada pelapor terpilih setiap bulan.</div>
+</div>
+</div>
+</div>
 
             <!-- Live Leaderboard Saat Ini (Top 5 Pelapor Teraktif) -->
             <div class="space-y-2 pt-1 border-t border-slate-200/80 dark:border-[#242424]">
@@ -215,7 +177,7 @@
 <div class="fixed bottom-5 right-5 z-[9990] select-none">
     <button type="button" onclick="openRewardModal(true)"
         class="group flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer border border-amber-300/40 active:scale-95 hover:scale-105"
-        title="Info Reward Top 5" aria-label="Info Reward">
+        title="Info Reward" aria-label="Info Reward">
         <flux:icon name="gift" class="w-5 h-5 text-white shrink-0 group-hover:scale-110 transition-transform duration-200" />
     </button>
 </div>
