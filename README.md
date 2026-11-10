@@ -174,11 +174,22 @@ Pastikan lingkungan Anda memenuhi spesifikasi berikut:
    php artisan migrate
    ```
 
-6. **Pasang Dependensi Frontend & Build Aset**
-   ```bash
-   npm install
-   npm run build
-   ```
+6. **Buat Akun Pertama (Interaktif)**
+ ```bash
+ php artisan app:add-user
+ ```
+ Perintah akan menanyakan **username**, **nama lengkap**, **password** (minimal 6 karakter), dan **role** (`admin`, `verified`, atau `user`). Role `admin` otomatis mendapatkan akses administrator sekaligus status terverifikasi.
+
+ Bisa juga dijalankan non-interaktif dengan opsi:
+ ```bash
+ php artisan app:add-user --username=admin --name="Administrator" --password=rahasia123 --role=admin
+ ```
+
+7. **Pasang Dependensi Frontend & Build Aset**
+ ```bash
+ npm install
+ npm run build
+ ```
 
 ---
 
