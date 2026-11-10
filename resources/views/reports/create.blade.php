@@ -198,6 +198,14 @@
                             <flux:icon name="viewfinder-circle" class="w-4 h-4 text-white shrink-0" />
                             <span id="btnGeolocateText">Ambil Titik Lokasi GPS</span>
                         </button>
+                        @env('local')
+                            <!-- Khusus mode test (APP_ENV=local): isi titik acak tanpa sensor GPS -->
+                            <button type="button" id="btnRandomLocation"
+                                class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 border border-dashed border-amber-400 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 font-bold text-xs rounded-xl transition cursor-pointer shrink-0">
+                                <flux:icon name="arrows-right-left" class="w-4 h-4 shrink-0" />
+                                <span>Acak Lokasi (Test)</span>
+                            </button>
+                        @endenv
                     </div>
 
                     <!-- Kontainer Peta MapLibre (Read-Only GPS Visualization) -->
@@ -736,6 +744,19 @@
 
         document.getElementById('btnGeolocate').addEventListener('click', function () {
             requestGpsLocation(false);
+        });
+
+        // Mode test: titik acak dalam radius ~5 km dari pusat Bandung
+        document.getElementById('btnRandomLocation')?.addEventListener('click', function () {
+            const lat = -6.914744 + (Math.random() - 0.5) * 0.09;
+            const lng = 107.609810 + (Math.random() - 0.5) * 0.09;
+
+            marker.setLngLat([lng, lat]);
+            if (!marker.getElement().parentElement) {
+                marker.addTo(map);
+            }
+            map.flyTo({ center: [lng, lat], zoom: 16 });
+            updateCoordinates(lat, lng);
         });
 
         // Live counter kata untuk deskripsi

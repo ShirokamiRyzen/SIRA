@@ -230,25 +230,42 @@
                     </form>
                 </div>
 
+                <!-- Backdrop Overlay Notifikasi (dipindah ke <body> oleh script di bawah) -->
+                <div id="notificationBackdrop"
+                     class="fixed inset-0 top-16 bg-black/40 backdrop-blur-[2px] z-40 transition-opacity duration-300 opacity-0 pointer-events-none"
+                     aria-hidden="true"></div>
+
                 <!-- Script Dropdown Notifikasi, Delete, & Clear All -->
                 <script>
                     (function () {
                         const btn = document.getElementById('notificationBellBtn');
                         const menu = document.getElementById('notificationMenu');
                         const container = document.getElementById('notificationDropdownContainer');
+                        const backdrop = document.getElementById('notificationBackdrop');
                         const markAllBtn = document.getElementById('markAllReadBtn');
                         const clearAllBtn = document.getElementById('clearAllNotificationsBtn');
                         const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
 
                         if (btn && menu) {
+                            // backdrop-blur pada <header> menjadikannya containing block untuk elemen fixed
+                            if (backdrop) document.body.appendChild(backdrop);
+
+                            function setNotificationOpen(open) {
+                                menu.classList.toggle('hidden', !open);
+                                if (backdrop) {
+                                    backdrop.classList.toggle('opacity-0', !open);
+                                    backdrop.classList.toggle('pointer-events-none', !open);
+                                }
+                            }
+
                             btn.addEventListener('click', function (e) {
                                 e.stopPropagation();
-                                menu.classList.toggle('hidden');
+                                setNotificationOpen(menu.classList.contains('hidden'));
                             });
 
                             document.addEventListener('click', function (e) {
                                 if (container && !container.contains(e.target)) {
-                                    menu.classList.add('hidden');
+                                    setNotificationOpen(false);
                                 }
                             });
 
@@ -744,6 +761,10 @@
             const closeIcon = document.getElementById('mobileMenuCloseIcon');
 
             if (!mobileBtn || !mobileMenu) return;
+
+            // backdrop-blur pada <header> menjadikannya containing block untuk elemen fixed,
+            // sehingga backdrop harus dipindah ke <body> agar menutupi seluruh layar
+            if (mobileBackdrop) document.body.appendChild(mobileBackdrop);
 
             let isOpen = false;
 

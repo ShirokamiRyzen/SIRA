@@ -168,6 +168,60 @@
         });
     </script>
 
+    <!-- Indikator Loading Global Saat Submit Form (Progress Bar Atas + Spinner Tombol) -->
+    <style>
+        @keyframes form-loading-slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(400%); }
+        }
+    </style>
+    <div id="formLoadingBar" class="hidden fixed top-0 inset-x-0 h-0.5 z-[99999] overflow-hidden bg-emerald-500/20 pointer-events-none" aria-hidden="true">
+        <div class="h-full w-1/4 bg-emerald-500" style="animation: form-loading-slide 1s ease-in-out infinite;"></div>
+    </div>
+    <script>
+        (function () {
+            const loadingBar = document.getElementById('formLoadingBar');
+            const spinnerSvg = '<svg class="animate-spin h-3.5 w-3.5 shrink-0 inline-block" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>';
+            const busyButtons = [];
+
+            document.addEventListener('submit', function (e) {
+                const form = e.target;
+                if (form.target === '_blank' || form.hasAttribute('data-no-loading')) return;
+
+                // Ditunda agar handler lain (validasi, confirm) selesai memutuskan preventDefault,
+                // dan agar name/value tombol submitter sudah ikut terkirim sebelum tombol di-disable
+                setTimeout(function () {
+                    if (e.defaultPrevented) return;
+
+                    if (loadingBar) loadingBar.classList.remove('hidden');
+
+                    form.querySelectorAll('button[type="submit"], button:not([type]), input[type="submit"]').forEach(function (btn) {
+                        if (btn.disabled) return;
+                        busyButtons.push({ btn: btn, html: btn.innerHTML });
+                        btn.disabled = true;
+                        btn.setAttribute('aria-busy', 'true');
+                        btn.classList.add('opacity-70', 'cursor-wait');
+                        if (btn === e.submitter && btn.tagName === 'BUTTON') {
+                            btn.insertAdjacentHTML('afterbegin', spinnerSvg + ' ');
+                        }
+                    });
+                }, 0);
+            });
+
+            // Pulihkan tombol saat halaman dikembalikan dari back-forward cache
+            window.addEventListener('pageshow', function (e) {
+                if (!e.persisted) return;
+                if (loadingBar) loadingBar.classList.add('hidden');
+                busyButtons.splice(0).forEach(function (item) {
+                    item.btn.disabled = false;
+                    item.btn.removeAttribute('aria-busy');
+                    item.btn.classList.remove('opacity-70', 'cursor-wait');
+                    item.btn.innerHTML = item.html;
+                });
+            });
+        })();
+    </script>
+
     @stack('scripts')
 
     <!-- Wadah Toast Notifikasi Realtime Melayang -->

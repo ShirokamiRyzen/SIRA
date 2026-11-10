@@ -106,11 +106,16 @@
 
             <!-- Category Icons Legend -->
             <div>
-                <div class="flex items-center justify-between mb-1.5">
+                <div class="flex items-center justify-between gap-2">
                     <span class="font-extrabold text-slate-900 dark:text-[#EDEDEC] text-xs">Icon Kategori Pada Peta</span>
-                    <span class="text-[9px] font-semibold text-slate-400 bg-slate-100 dark:bg-[#202020] px-1.5 py-0.5 rounded">Zoom &ge; 12</span>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <span class="text-[9px] font-semibold text-slate-400 bg-slate-100 dark:bg-[#202020] px-1.5 py-0.5 rounded">Zoom &ge; 12</span>
+                        <button type="button" id="btnToggleCategoryLegend" title="Sembunyikan icon kategori" aria-expanded="true" aria-controls="categoryLegendList" class="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-md hover:bg-slate-100 dark:hover:bg-[#202020] transition cursor-pointer">
+                            <flux:icon name="chevron-down" id="categoryLegendChevron" class="w-3.5 h-3.5 transition-transform" />
+                        </button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-x-2 gap-y-2 text-[11px]">
+                <div id="categoryLegendList" class="grid grid-cols-2 gap-x-2 gap-y-2 text-[11px] mt-1.5">
                     @foreach($categories as $key => $cat)
                         <div class="flex items-center gap-1.5 text-slate-700 dark:text-[#CCCCCC]">
                             <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style="background-color: {{ $cat['color'] }}20; color: {{ $cat['color'] }};">
@@ -645,6 +650,22 @@
             });
         });
     });
+
+    // -------------------------------------------------------------
+    // Toggle Legenda Icon Kategori
+    // -------------------------------------------------------------
+    const btnToggleCategoryLegend = document.getElementById('btnToggleCategoryLegend');
+    const categoryLegendList = document.getElementById('categoryLegendList');
+    const categoryLegendChevron = document.getElementById('categoryLegendChevron');
+
+    if (btnToggleCategoryLegend && categoryLegendList) {
+        btnToggleCategoryLegend.addEventListener('click', () => {
+            const isHidden = categoryLegendList.classList.toggle('hidden');
+            btnToggleCategoryLegend.setAttribute('aria-expanded', String(!isHidden));
+            btnToggleCategoryLegend.title = isHidden ? 'Tampilkan icon kategori' : 'Sembunyikan icon kategori';
+            if (categoryLegendChevron) categoryLegendChevron.classList.toggle('-rotate-90', isHidden);
+        });
+    }
 
     // -------------------------------------------------------------
     // Kontrol Pencarian Lokasi & GPS Pengguna
