@@ -21,7 +21,7 @@
 
 @if ($badgeType === 'admin')
     <span class="inline-flex items-center text-amber-500 dark:text-amber-400 shrink-0 select-none align-middle"
-        title="Akun Administrator Resmi" aria-label="Admin Terverifikasi Gold">
+        title="Akun Administrator Resmi" aria-label="Admin Terverifikasi">
         <flux:icon name="shield-check" variant="solid" class="{{ $sizeClass }}" />
     </span>
 @elseif ($badgeType === 'verified')

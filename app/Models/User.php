@@ -17,12 +17,14 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property string $username
  * @property string|null $email
+ * @property string|null $google_id
+ * @property string|null $google_avatar
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
  * @mixin Notifiable
  */
-#[Fillable(['name', 'username', 'email', 'password', 'is_admin', 'is_verified'])]
+#[Fillable(['name', 'username', 'email', 'password', 'is_admin', 'is_verified', 'google_id', 'google_avatar'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -85,12 +87,32 @@ class User extends Authenticatable
     }
 
     /**
+     * Determine if the user has a password set.
+     */
+    public function hasPassword(): bool
+    {
+        return ! empty($this->password);
+    }
+
+    /**
+     * Determine if the user has a linked Google account.
+     */
+    public function isGoogleBound(): bool
+    {
+        return ! empty($this->google_id);
+    }
+
+    /**
      * Get the avatar URL for the user.
      */
     public function getAvatarUrlAttribute(): ?string
     {
         if ($this->isAi()) {
             return asset('android-chrome-192x192.png');
+        }
+
+        if (! empty($this->google_avatar)) {
+            return $this->google_avatar;
         }
 
         return null;

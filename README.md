@@ -32,6 +32,7 @@
    - [Pengujian Otomatis (Testing)](#pengujian-otomatis-testing)
    - [Format Kode (Pint)](#format-kode-lint-dan-format)
    - [Konfigurasi Lingkungan (.env)](#konfigurasi-lingkungan-env)
+   - [Panduan Setup Google OAuth 2.0](#-panduan-setup-google-oauth-20-google-login--bind-account)
    - [Struktur Direktori Utama](#struktur-direktori-utama)
    - [Endpoint API & Integrasi](#endpoint-api--integrasi)
 6. [Optimasi SEO & Metadata](#-optimasi-seo--metadata)
@@ -82,48 +83,40 @@ Aplikasi SIRA dilengkapi dengan bundel ikon resmi beresolusi tinggi yang diranca
         <img src="public/favicon-32x32.png" width="32" height="32" alt="32x32px Icon" /><br>
         <strong>32 x 32 px</strong><br>
         <code>favicon-32x32.png</code><br>
-        <em>(Browser Tab)</em>
+        <em>(Browser Tab HD)</em>
       </td>
       <td align="center">
         <img src="public/favicon-16x16.png" width="16" height="16" alt="16x16px Icon" /><br>
         <strong>16 x 16 px</strong><br>
         <code>favicon-16x16.png</code><br>
-        <em>(Taskbar / Tab)</em>
+        <em>(Browser Tab Favicon)</em>
       </td>
     </tr>
   </table>
 </div>
 
-- **Ukuran Master**: 512 × 512 piksel (format PNG, maskable, latar transparan dengan rasio kontras editorial).
-- **Lokasi Berkas**: [`public/android-chrome-512x512.png`](file:///c:/Users/xredz/Projects/SIRA/public/android-chrome-512x512.png)
-- **Manifest PWA**: Terdaftar di [`public/site.webmanifest`](file:///c:/Users/xredz/Projects/SIRA/public/site.webmanifest) dengan konfigurasi `display: standalone` dan `orientation: portrait-primary`.
-
 ---
 
-## ⚡ Fitur Unggulan
+## 🚀 Fitur Unggulan
 
-- **📸 Multi-mode Capture & Visual Proof**  
-  Unggah bukti foto dari penyimpanan perangkat atau rekam langsung melalui kamera/webcam di peramban secara *real-time*. Kompresi otomatis berbasis Canvas untuk efisiensi transfer data.
-- **⚖️ Algoritma Perangkingan Wilson Score**  
-  Menghitung tingkat urgensi perbaikan secara matematis menggunakan *Wilson Score Interval* berdasarkan rasio suara dukung (*upvotes*), penolakan (*downvotes*), dan volume partisipasi. Mengeliminasi bias manipulasi suara dan otomatis mengelompokkan laporan ke dalam tier **Critical**, **Urgent**, **Trending**, atau **Normal**.
-- **🗺️ Pemetaan Geospasial & Heatmap Bebas Biaya (OpenFreeMap + MapLibre GL)**  
-  Integrasi visualisasi peta interaktif berbasis OpenFreeMap dan MapLibre GL JS tanpa ketergantungan API key berbayar. Menyediakan *Geocoding reverse address*, radar deteksi radius multi-isu sejenis di sekitar lokasi, serta layer *density heatmap*.
-- **🤖 Asisten Cerdas Terintegrasi (@Sira)**  
-  Bot asisten AI `@Sira` yang dapat di-mention pada komentar laporan untuk memberikan analisis kelayakan teknis, rujukan regulasi keselamatan, maupun ringkasan eksekutif secara otomatis. Dilengkapi mekanisme *auto-fallback model pipeline*.
-- **💬 Diskusi Warga & Real-Time SSE Notification**  
-  Komentar bertingkat (*nested replies*), pelengkapan otomatis mention (`@username`), dan streaming notifikasi langsung di bilah navigasi tanpa perlu *reload* halaman melalui Server-Sent Events (SSE).
-- **🛡️ Moderasi Terbuka & Verifikasi Lencana Warga**  
-  Panel admin untuk memverifikasi akun warga terpercaya (*Verified Badge*), memantau siklus hidup status laporan (`Pending`, `In Progress`, `Resolved`, `Archived`), serta sistem audit publik yang transparan.
+- **Pemetaan Geospasial Heatmap (OpenFreeMap + MapLibre GL)**: Visualisasi titik koordinat laporan interaktif dengan gradasi warna berdasarkan tingkat urgensi.
+- **Sistem Prioritas Wilson Score**: Algoritma statistik batas bawah interval kepercayaan binomial 95% untuk menyaring laporan paling mendesak secara objektif.
+- **Autentikasi Fleksibel (Google OAuth & Manual)**: Mendukung login sekali klik dengan Google, registrasi cepat via Google, serta fitur bind/unbind akun Google di Menu Akun.
+- **Kamera & Dokumentasi Cepat**: Pengambilan bukti foto langsung via kamera perangkat (Webcam API) dengan kompresi sisi klien otomatis.
+- **Diskusi & Urun Rembug Warga**: Kolom komentar bertingkat (nested replies) dengan dukungan mention `@username` otomatis dan asisten AI responsif (`@Sira`).
+- **Dashboard Manajemen Admin**: Panel verifikasi lencana warga terpercaya (*Verified Citizen*), moderasi status laporan (*In Review, Processed, Resolved, Rejected*), dan pengelolaan pengguna.
+- **Notifikasi Real-time**: Menggunakan Server-Sent Events (SSE) untuk pembaruan instan pada mention, reply, dan status laporan.
+- **Desain Minimalis Notion-style & Responsif Penuh**: Mendukung tema gelap (*dark mode*) dan tema terang (*light mode*) dengan palet monokrom bersih.
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Bahasa**: PHP 8.3+ (Fitur PHP 8 modern, Typed properties, Match expressions)
 - **Framework**: [Laravel 13.x](https://laravel.com)
 - **Reaktivitas**: [Livewire 4.x](https://livewire.laravel.com), [Livewire Volt](https://livewire.laravel.com/docs/volt), [Flux UI](https://flux.laravel.com)
-- **Database**: SQLite (default untuk fleksibilitas lokal) / MySQL / PostgreSQL dengan pengindeksan geospasial (`latitude`, `longitude`, `geohash`)
+- **Database**: SQLite (default untuk fleksibilitas lokal) / MySQL / MariaDB / PostgreSQL dengan pengindeksan geospasial (`latitude`, `longitude`, `geohash`)
+- **Autentikasi Sosial**: [Laravel Socialite](https://laravel.com/docs/socialite) untuk Google OAuth 2.0
 - **CLI & Formatting**: [Laravel Boost](https://laravel.com/docs/ai), [Laravel Pint](https://laravel.com/docs/pint)
 - **Testing**: [Pest PHP 5](https://pestphp.com) & [PHPUnit](https://phpunit.de)
 
@@ -144,8 +137,8 @@ Aplikasi SIRA dilengkapi dengan bundel ikon resmi beresolusi tinggi yang diranca
 
 ### Persyaratan Sistem
 Pastikan lingkungan Anda memenuhi spesifikasi berikut:
-- **PHP** >= 8.3
-- **Ekstensi PHP**: `ext-gd`, `ext-mbstring`, `ext-curl`, `ext-sqlite3`, `ext-pdo`, `ext-xml`, `ext-zip`
+- **PHP** >= 8.3 (Disarankan PHP 8.4)
+- **Ekstensi PHP**: `ext-gd`, `ext-mbstring`, `ext-curl`, `ext-sqlite3` (atau driver database yang digunakan), `ext-pdo`, `ext-xml`, `ext-zip`
 - **Composer** >= 2.6
 - **Node.js** >= 18.x & **NPM** >= 9.x
 - **Git**
@@ -177,18 +170,26 @@ Pastikan lingkungan Anda memenuhi spesifikasi berikut:
 
 5. **Inisialisasi Database & Migrasi**
    ```bash
-   # Untuk SQLite (default)
-   touch database/database.sqlite
-   
    # Jalankan migrasi tabel
-   php artisan migrate --seed
+   php artisan migrate
    ```
 
-6. **Pasang Dependensi Frontend & Build Aset**
-   ```bash
-   npm install
-   npm run build
-   ```
+6. **Buat Akun Pertama (Interaktif)**
+ ```bash
+ php artisan app:add-user
+ ```
+ Perintah akan menanyakan **username**, **nama lengkap**, **password** (minimal 6 karakter), dan **role** (`admin`, `verified`, atau `user`). Role `admin` otomatis mendapatkan akses administrator sekaligus status terverifikasi.
+
+ Bisa juga dijalankan non-interaktif dengan opsi:
+ ```bash
+ php artisan app:add-user --username=admin --name="Administrator" --password=rahasia123 --role=admin
+ ```
+
+7. **Pasang Dependensi Frontend & Build Aset**
+ ```bash
+ npm install
+ npm run build
+ ```
 
 ---
 
@@ -218,12 +219,15 @@ npm run dev
 
 ### Pengujian Otomatis (Testing)
 
-Proyek ini memiliki cakupan pengujian komprehensif (fitur pembuatan laporan, webcam, perankingan Wilson Score, komentar bertingkat, dan notifikasi).
+Proyek ini memiliki cakupan pengujian komprehensif (fitur pembuatan laporan, webcam, perankingan Wilson Score, komentar bertingkat, notifikasi, serta Google OAuth & Account Management).
 
 Jalankan pengujian menggunakan runner Pest atau Artisan:
 ```bash
-# Menjalankan suite pengujian ringkas
+# Menjalankan seluruh test suite ringkas
 php artisan test --compact
+
+# Menjalankan pengujian khusus Google Auth & Akun
+php artisan test tests/Feature/GoogleAuthAndAccountTest.php
 
 # Atau jalankan Pest langsung
 vendor/bin/pest
@@ -249,16 +253,117 @@ APP_NAME=SIRA
 APP_ENV=local
 APP_KEY=base64:...
 APP_DEBUG=true
-APP_URL=http://127.0.0.1:8000
+APP_URL=http://localhost:8000
 
-# Pengaturan Database (Default SQLite)
-DB_CONNECTION=sqlite
+# Pengaturan Database
+DB_CONNECTION=mariadb
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sira
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Kredensial Google OAuth 2.0 (Google Login & Bind Account)
+GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
 
 # Pengaturan AI Assistant (@Sira)
-OPENAI_API_KEY=your_api_key_here
-OPENAI_BASE_URL=https://api.deepseek.com/v1   # atau provider OpenAI-compatible lainnya
-OPENAI_MODEL=deepseek-chat
+OPENAI_API=https://ai.rizuu.id/v1
+OPENAI_KEY=your_api_key_here
+OPENAI_MODEL=deepseek-v4-pro
 ```
+
+---
+
+### 🔐 Panduan Setup Google OAuth 2.0 (Google Login & Bind Account)
+
+Aplikasi SIRA mendukung autentikasi Google untuk:
+- **Masuk dengan Google (1-Klik)**
+- **Daftar Akun Baru via Google** (input Nama dan Username, kata sandi opsional)
+- **Tautkan / Lepas Tautan Akun (Bind / Unbind Google)** di Menu Pengaturan Akun
+
+Berikut adalah panduan langkah demi langkah untuk mendapatkan kredensial `GOOGLE_CLIENT_ID` dan `GOOGLE_CLIENT_SECRET` dari Google Cloud Console.
+
+#### Langkah 1: Akses Google Cloud Console
+1. Kunjungi [Google Cloud Console](https://console.cloud.google.com/).
+2. Masuk menggunakan akun Google Anda.
+3. Buat proyek baru atau pilih proyek yang sudah ada:
+   - Klik dropdown proyek di bagian kiri atas navbar.
+   - Klik **New Project**.
+   - Beri nama proyek (misal: `SIRA-App`) dan klik **Create**.
+
+#### Langkah 2: Konfigurasi OAuth Consent Screen (Layar Persetujuan OAuth)
+Sebelum membuat Client ID, Google mewajibkan konfigurasi layar persetujuan:
+1. Pada menu navigasi sebelah kiri, buka **APIs & Services** > **OAuth consent screen** (atau cari *"OAuth consent screen"* di kotak pencarian).
+2. Pilih **User Type**:
+   - Pilih **External** (agar dapat diakses oleh akun Google publik), lalu klik **Create**.
+3. Lengkapi informasi aplikasi (**App information**):
+   - **App name**: `SIRA — Sistem Informasi Ruang Aman`
+   - **User support email**: Pilih email Google Anda.
+   - **Developer contact information**: Masukkan alamat email Anda.
+   - Klik **Save and Continue**.
+4. Bagian **Scopes**:
+   - Klik **Add or Remove Scopes**.
+   - Centang izin standar berikut:
+     - `.../auth/userinfo.email`
+     - `.../auth/userinfo.profile`
+     - `openid`
+   - Klik **Update** lalu klik **Save and Continue**.
+5. Bagian **Test Users** (Jika status aplikasi masih *Testing*):
+   - Tambahkan email Google Anda (dan email dosen/penguji) sebagai akun penguji.
+   - Klik **Save and Continue** hingga selesai.
+
+#### Langkah 3: Membuat OAuth 2.0 Client Credentials
+1. Pada menu navigasi sebelah kiri, buka **APIs & Services** > **Credentials**.
+2. Klik tombol **+ CREATE CREDENTIALS** di bagian atas, lalu pilih **OAuth client ID**.
+3. Isi formulir pembuatan kredensial:
+   - **Application type**: Pilih **Web application**.
+   - **Name**: `SIRA Web Client` (atau nama lain yang mudah dikenali).
+4. Bagian **Authorized JavaScript origins**:
+   - Tambahkan URI lokal:
+     ```text
+     http://localhost:8000
+     http://127.0.0.1:8000
+     ```
+   *(Jika dideploy ke server produksi, tambahkan juga URL domain publik Anda, misal: `https://sira.yourdomain.com`)*
+5. Bagian **Authorized redirect URIs** *(Sangat Penting)*:
+   - Tambahkan Callback URL aplikasi SIRA:
+     ```text
+     http://localhost:8000/auth/google/callback
+     http://127.0.0.1:8000/auth/google/callback
+     ```
+   *(Jika di server produksi, tambahkan: `https://sira.yourdomain.com/auth/google/callback`)*
+6. Klik tombol **CREATE**.
+7. Jendela pop-up akan menampilkan:
+   - **Client ID** (contoh: `xxxxxxxxxxxx-xxxxxxxxxxxxxxxx.apps.googleusercontent.com`)
+   - **Client Secret** (contoh: `GOCSPX-xxxxxxxxxxxxxxxxxxxxxxxx`)
+   - Salin kedua nilai tersebut ke file `.env` Anda.
+
+#### Langkah 4: Simpan Kredensial ke File `.env`
+Buka file `.env` di direktori proyek SIRA Anda, lalu tambahkan atau sesuaikan konfigurasi berikut:
+
+```env
+# URL Aplikasi Utama (Pastikan port sesuai dengan server lokal Anda)
+APP_URL=http://localhost:8000
+
+# Kredensial Google OAuth 2.0
+GOOGLE_CLIENT_ID="MASUKKAN_CLIENT_ID_DARI_GOOGLE_CONSOLE"
+GOOGLE_CLIENT_SECRET="MASUKKAN_CLIENT_SECRET_DARI_GOOGLE_CONSOLE"
+GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
+```
+
+> **Catatan**: Jika Anda mengubah nilai di `.env`, jalankan pembersihan cache konfigurasi:
+> ```bash
+> php artisan config:clear
+> ```
+
+#### Langkah 5: Pengujian Fitur Google Auth
+1. Pastikan migrasi database telah berjalan (`php artisan migrate`).
+2. Jalankan server lokal (`php artisan serve`).
+3. Buka halaman masuk di `http://localhost:8000/login` lalu klik tombol **Masuk dengan Google**.
+4. Akun baru yang belum terdaftar akan diarahkan untuk melengkapi *Username* unik (nama otomatis terisi dari Google, kata sandi bersifat opsional).
+5. Pada akun yang sudah terdaftar, Anda dapat menautkan atau melepas akun Google kapan saja melalui **Menu Akun** (`/account`).
 
 ---
 
@@ -267,23 +372,23 @@ OPENAI_MODEL=deepseek-chat
 ```
 SIRA/
 ├── app/
-│   ├── Http/Controllers/       # Logika controller (Report, Comment, Heatmap, OgImage, Admin, Auth)
+│   ├── Http/Controllers/       # Logika controller (Report, Comment, Heatmap, OgImage, Admin, Auth, GoogleAuth, Account)
 │   ├── Models/                 # Model Eloquent (Report, Comment, ReportVote, User, Notification)
 │   ├── Services/               # Layanan bisnis (AiSummaryService, dsb.)
 │   └── View/Components/        # Blade Component classes
 ├── config/                     # Konfigurasi aplikasi Laravel
 ├── database/
 │   ├── factories/              # Factory data uji
-│   ├── migrations/             # Skema tabel database (Reports, Votes, Comments, Geohash Indexes)
+│   ├── migrations/             # Skema tabel database (Reports, Votes, Comments, Users, Geohash Indexes)
 │   └── seeders/                # Pengisian data dummy awal
 ├── public/                     # Aset publik, favicon, manifest, dan master icon (512x512px)
 ├── resources/
 │   ├── css/                    # Tailwind CSS v4 entrypoint
 │   ├── fonts/                  # TrueType Fonts (Plus Jakarta Sans, Roboto untuk banner OG)
 │   ├── js/                     # Skrip interaktif & inisialisasi MapLibre GL
-│   └── views/                  # Tampilan Blade (reports, heatmap, admin, layouts, components)
+│   └── views/                  # Tampilan Blade (reports, heatmap, admin, layouts, components, auth, account)
 ├── routes/
-│   ├── web.php                 # Rute web utama & sitemap XML
+│   ├── web.php                 # Rute web utama, otentikasi Google, dan sitemap XML
 │   └── console.php             # Rute artisan command
 └── tests/                      # Suite pengujian Pest PHP (Unit & Feature tests)
 ```
@@ -296,6 +401,8 @@ SIRA menyediakan beberapa endpoint REST & GeoJSON publik untuk integrasi ekstern
 
 | Method | Endpoint | Deskripsi |
 | :--- | :--- | :--- |
+| `GET` | `/auth/google` | Pengalihan ke Google OAuth 2.0 untuk login / bind akun |
+| `GET` | `/auth/google/callback` | Callback penanganan autentikasi dari Google OAuth 2.0 |
 | `GET` | `/api/reports/heatmap` | Menghasilkan FeatureCollection GeoJSON untuk visualisasi heatmap peta |
 | `GET` | `/api/geocode/search?q={query}` | Pencarian lokasi berbasis OpenStreetMap Nominatim |
 | `GET` | `/api/users/mention?q={query}` | Rekomendasi nama pengguna untuk autocomplete mention `@username` |
@@ -325,7 +432,7 @@ Dukungan penuh tag metadata Twitter Card (`summary_large_image`) dengan judul, d
 ```
 
 ### 3. PWA Manifest & Multiresolution Icons
-Dikonfigurasi pada [`public/site.webmanifest`](file:///c:/Users/xredz/Projects/SIRA/public/site.webmanifest) dan termuat otomatis pada layout utama:
+Dikonfigurasi pada `public/site.webmanifest` dan termuat otomatis pada layout utama:
 - `favicon-16x16.png` & `favicon-32x32.png` untuk tab peramban.
 - `apple-touch-icon.png` (180x180px) untuk iOS Safari Add to Home Screen.
 - `android-chrome-192x192.png` & `android-chrome-512x512.png` (any maskable) untuk Android Splash Screen dan instalasi PWA desktop.
